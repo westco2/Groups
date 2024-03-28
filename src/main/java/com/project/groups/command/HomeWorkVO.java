@@ -10,4 +10,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class HomeWorkVO {
+    private Integer homework_no;
 }
