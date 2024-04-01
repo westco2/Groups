@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 인터페이스 위치, 인터페이스 위에는 @Mapper명시 -->
+<mapper namespace="com.project.groups.membersZ.service.MembersZMapper">
+
+    <insert id="memberreg" parameterType="com.project.groups.command.MemberVO">
+        INSERT INTO MEMBERS (ROLE, LOGIN_ID, PSWD, KORN_FLNM, IDFR_TELNO, DATE_BIRTH, ADM_EML_ADDR, LOTNO_DADDR, DATE_SUBSCRIPTION, DATE_DEL, USER_NICKNAME)
+        VALUES(#{role}, #{login_id}, #{pswd}, #{korn_flnm}, #{idfr_telno}, #{date_birth}, #{adm_eml_addr}, #{lotno_daddr}, NOW(), #{date_del}, #{user_nickname});
+    </insert>
+
+    <select id="memberidcheck" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM MEMBERS WHERE LOGIN_ID = #{memberidcheck};
+    </select>
+    <select id="membernickcheck" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM MEMBERS WHERE USER_NICKNAME = #{membernickcheck};
+    </select>
+</mapper>
