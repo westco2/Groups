@@ -1,0 +1,237 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+<!-- content -->
+<th:block th:replace="~{./include/baselayout :: setContent( ~{ :: .bon-wrap } )}">
+    <div class="bon-wrap">
+        <div class="page-title">
+            <p>그룹</p>
+        </div>
+        <div class="route-wrap">
+            <a href="#">그룹</a><p>/</p><a href="#">내 학습그룹</a><p>/</p><a style="color: black;">강남인재개발원 백엔드 교육과정</a>
+        </div>
+        <div class="bon-content-wrap">
+            <div class="box-title-wrap">
+                <h3>학습 그룹 상세</h3>
+            </div>
+            <div class="content-box handle-h3">
+                <h3 style="margin-bottom: 10px;">강남인재개발원 백엔드 교육과정</h3>
+                <div class="reg-title-wrap" style="margin-bottom: 15px;">
+                    <div class="like-table-wrap">
+                        <div class="sinfo-wrap-m">
+                            <p>교육자명</p>
+                            <h4 class="name-m"><i class="ri-user-star-line"></i>&nbsp;홍길동</h4>
+                        </div>
+                        <div class="sinfo-wrap-m">
+                            <p>구독등급</p>
+                            <h4 class="name-m"><i class="ri-file-user-line"></i> &nbsp;free tier</h4>
+                        </div>
+                        <div class="sinfo-wrap-m">
+                            <p>기간</p>
+                            <h4 class="name-m"><i class="ri-calendar-check-line"></i> &nbsp;2023.03.12~2023.10.11</h4>
+                        </div>
+                        <div class="sinfo-wrap-m">
+                            <p>그룹원</p>
+                            <h4 class="name-m"><i class="ri-group-line"></i> &nbsp;27</h4>
+                        </div>
+                        <div class="sinfo-wrap-m">
+                            <p>질문</p>
+                            <h4 class="name-m"><i class="ri-questionnaire-line"></i> &nbsp;57</h4>
+                        </div>
+                        <div class="sinfo-wrap-m">
+                            <p>수업자료</p>
+                            <h4 class="name-m"><i class="ri-file-line"></i> &nbsp;10</h4>
+                        </div>
+                    </div>
+                </div>
+                <h3 style="margin-bottom: 10px;">학생정보 <i class="ri-arrow-down-s-fill"></i></h3>
+                <div class="reg-title-wrap">
+                    <div class="content-box">
+                        <div class="top-line-btn-wrap">
+                            <input type="text" placeholder="학생이름을 검색해주세요">
+                            <i class="ri-search-line"></i>
+                            <button type="button">방출</button>
+                        </div>
+                        <div class="wr-m">
+                            <p><i class="ri-error-warning-line"></i>학생이 회원탈퇴를 하면 자동으로 목록에서 삭제가 됩니다</p>
+                        </div>
+                        <div class="table-wrap">
+                            <table class="table-content">
+                                <thead class="co-head">
+                                <tr class="co-flex">
+                                    <th class="coco crcr-0">#</th>
+                                    <th class="coco srsc-1 lis-left desc-tr">이름 <i class="ri-arrow-down-s-fill i-col"></i></th>
+                                    <th class="coco srsc-2 lis-left desc-tr">연락처<i class="ri-arrow-down-s-fill"></i></th>
+                                    <th class="coco srsc-3 lis-left desc-tr">이메일<i class="ri-arrow-down-s-fill"></i></th>
+                                    <th class="coco srsc-4 lis-left desc-tr">학습레벨<i class="ri-arrow-down-s-fill"></i></th>
+                                    <th class="coco srsc-5 lis-left desc-tr">숙제제출<i class="ri-arrow-down-s-fill"></i></th>
+                                </tr>
+                                </thead>
+                                <tbody class="co-body">
+                                <tr class="co-flex">
+                                    <td class="coco crcr-0 center-flex"><input type="checkbox"></td>
+                                    <td class="coco srsc-1 lis-left">이순신</td>
+                                    <td class="coco srsc-2 lis-left">010-1234-5678</td>
+                                    <td class="coco srsc-3 lis-left">abc123@naver.com</td>
+                                    <td class="coco srsc-4 lis-left">0LV</td>
+                                    <td class="coco srsc-5 lis-left">5</td>
+                                </tr>
+                                <tr class="co-flex">
+                                    <td class="coco crcr-0 center-flex"><input type="checkbox"></td>
+                                    <td class="coco srsc-1 lis-left">이순신</td>
+                                    <td class="coco srsc-2 lis-left">010-1234-5678</td>
+                                    <td class="coco srsc-3 lis-left">abc123@naver.com</td>
+                                    <td class="coco srsc-4 lis-left">0LV</td>
+                                    <td class="coco srsc-5 lis-left">5</td>
+                                </tr>
+                                <tr class="co-flex">
+                                    <td class="coco crcr-0 center-flex"><input type="checkbox"></td>
+                                    <td class="coco srsc-1 lis-left">이순신</td>
+                                    <td class="coco srsc-2 lis-left">010-1234-5678</td>
+                                    <td class="coco srsc-3 lis-left">abc123@naver.com</td>
+                                    <td class="coco srsc-4 lis-left">0LV</td>
+                                    <td class="coco srsc-5 lis-left">5</td>
+                                </tr>
+                                <tr class="co-flex">
+                                    <td class="coco crcr-0 center-flex"><input type="checkbox"></td>
+                                    <td class="coco srsc-1 lis-left">이순신</td>
+                                    <td class="coco srsc-2 lis-left">010-1234-5678</td>
+                                    <td class="coco srsc-3 lis-left">abc123@naver.com</td>
+                                    <td class="coco srsc-4 lis-left">0LV</td>
+                                    <td class="coco srsc-5 lis-left">5</td>
+                                </tr>
+                                <tr class="co-flex">
+                                    <td class="coco crcr-0 center-flex"><input type="checkbox"></td>
+                                    <td class="coco srsc-1 lis-left">이순신</td>
+                                    <td class="coco srsc-2 lis-left">010-1234-5678</td>
+                                    <td class="coco srsc-3 lis-left">abc123@naver.com</td>
+                                    <td class="coco srsc-4 lis-left">0LV</td>
+                                    <td class="coco srsc-5 lis-left">5</td>
+                                </tr>
+
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="page-wrap right-p">
+                            <div class="pagination">
+                                <a href="#">&laquo;</a>
+                                <a href="#">1</a>
+                                <a href="#" class="act">2</a>
+                                <a href="#">3</a>
+                                <a href="#">4</a>
+                                <a href="#">5</a>
+                                <a href="#">6</a>
+                                <a href="#">&raquo;</a>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <h3 style="margin-bottom: 10px;">수업자료 <i class="ri-arrow-down-s-fill"></i></h3>
+                <div class="reg-title-wrap">
+                    <div class="content-box">
+                        <div class="top-line-btn-wrap">
+                            <input type="text" placeholder="제목을 검색해주세요">
+                            <i class="ri-search-line"></i>
+                        </div>
+                        <div class="wr-m">
+                            <p><i class="ri-error-warning-line"></i>수업자료 페이지에서 수업자료를 업로드 할 수 있습니다.</p>
+                        </div>
+                        <div class="table-wrap">
+                            <table class="table-content">
+                                <thead class="co-head">
+                                <tr class="co-flex">
+                                    <th class="coco crcr-0">#</th>
+                                    <th class="coco mrmr-1 lis-left desc-tr">제목<i class="ri-arrow-down-s-fill i-col"></i></th>
+                                    <th class="coco mrmr-2 lis-left desc-tr">등록일시<i class="ri-arrow-down-s-fill"></i></th>
+                                    <th class="coco mrmr-3 lis-left desc-tr">조회수<i class="ri-arrow-down-s-fill"></i></th>
+                                </tr>
+                                </thead>
+                                <tbody class="co-body">
+                                <tr class="co-flex">
+                                    <td class="coco crcr-0 center-flex">1</td>
+                                    <td class="coco mrmr-1 lis-left">10월 2주차 학습자료</td>
+                                    <td class="coco mrmr-2 lis-left">2023.10.01</td>
+                                    <td class="coco mrmr-3 lis-left">2</td>
+                                </tr>
+                                <tr class="co-flex">
+                                    <td class="coco crcr-0 center-flex">2</td>
+                                    <td class="coco mrmr-1 lis-left">for문 정리자료</td>
+                                    <td class="coco mrmr-2 lis-left">2023.10.01</td>
+                                    <td class="coco mrmr-3 lis-left">3</td>
+                                </tr>
+                                <tr class="co-flex">
+                                    <td class="coco crcr-0 center-flex">3</td>
+                                    <td class="coco mrmr-1 lis-left">for문 정리자료2</td>
+                                    <td class="coco mrmr-2 lis-left">2023.10.01</td>
+                                    <td class="coco mrmr-3 lis-left">10</td>
+                                </tr>
+                                <tr class="co-flex">
+                                    <td class="coco crcr-0 center-flex">4</td>
+                                    <td class="coco mrmr-1 lis-left">이순신</td>
+                                    <td class="coco mrmr-2 lis-left">2023.10.01</td>
+                                    <td class="coco mrmr-3 lis-left">0</td>
+                                </tr>
+                                <tr class="co-flex">
+                                    <td class="coco crcr-0 center-flex">5</td>
+                                    <td class="coco mrmr-1 lis-left">이순신</td>
+                                    <td class="coco mrmr-2 lis-left">2023.10.01</td>
+                                    <td class="coco mrmr-3 lis-left">1</td>
+                                </tr>
+                                <tr class="co-flex">
+                                    <td class="coco crcr-0 center-flex">6</td>
+                                    <td class="coco mrmr-1 lis-left">이순신</td>
+                                    <td class="coco mrmr-2 lis-left">2023.10.01</td>
+                                    <td class="coco mrmr-3 lis-left">5</td>
+                                </tr>
+
+
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="page-wrap right-p">
+                            <div class="pagination">
+                                <a href="#">&laquo;</a>
+                                <a href="#">1</a>
+                                <a href="#" class="act">2</a>
+                                <a href="#">3</a>
+                                <a href="#">4</a>
+                                <a href="#">5</a>
+                                <a href="#">6</a>
+                                <a href="#">&raquo;</a>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</th:block>
+
+<script>
+
+    $(document).ready(function() {
+        $(".handle-h3").on('click', "h3", function(e){
+
+            var result = $(this).next().find(".content-box").css("display");
+            if(result == "flex") {
+                $(this).next().find(".content-box").slideUp();
+            } else {
+                $(this).next().find(".content-box").slideDown();
+            }
+
+        });
+    });
+</script>
+</body>
+</html>

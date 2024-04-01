@@ -1,0 +1,167 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+<!-- content -->
+<th:block th:replace="~{./include/baselayout :: setContent( ~{ :: .bon-wrap } )}">
+    <div class="bon-wrap">
+        <div class="page-title">
+            <p>그룹</p>
+        </div>
+        <div class="route-wrap">
+            <a href="#">my groups </a><p>/</p><a href="#">학습그룹조회</a>
+        </div>
+        <div class="bon-content-wrap">
+            <div class="box-title-wrap">
+                <h3>내 학습그룹</h3>
+            </div>
+            <div class="content-box">
+                <div class="top-inp">
+                    <p>group(5)</p>
+                    <div class="inp-wrap" style="margin-right: 10px; justify-content: end; ">
+                        <button type="button" class="regbtn-des del-bt-des" style="margin-right: 10px;">삭제</button>
+                        <button type="button" class="regbtn-des">그룹 생성</button>
+                    </div>
+                </div>
+                <div class="search-wrap-m">
+                    <div class="inp-wrap">
+                        <label>교육자</label>
+                        <select class="sel-des">
+                            <option>전체</option>
+                            <option>홍길동</option>
+                            <option>홍길동</option>
+                        </select>
+                        <input type="submit" class="sub-des" value="조회하기">
+                    </div>
+
+                </div>
+                <div class="table-wrap">
+                    <table class="table-content">
+                        <thead class="co-head">
+                        <tr class="co-flex">
+                            <th class="coco crcr-0">#</th>
+                            <th class="coco crcr-1">그룹이름</th>
+                            <th class="coco crcr-2">강사명</th>
+                            <th class="coco crcr-3">교육시작일</th>
+                            <th class="coco crcr-4">교육종료일</th>
+                            <th class="coco crcr-5">인원</th>
+                            <th class="coco crcr-6">가입</th>
+                        </tr>
+                        </thead>
+                        <tbody class="co-body">
+                        <tr class="co-flex">
+                            <td class="coco crcr-0 center-flex"><input type="checkbox"></td>
+                            <td class="coco crcr-1"><a href="#">강남인재개발원 백엔드 교육과정</a></td>
+                            <td class="coco crcr-2">홍길동</td>
+                            <td class="coco crcr-3">2023.03.10</td>
+                            <td class="coco crcr-4">2023.10.24</td>
+                            <td class="coco crcr-5">3/30</td>
+                            <td class="coco crcr-6"><button type="button" class="join-btn">신청자 확인</button></td>
+                        </tr>
+                        <tr class="co-flex">
+                            <td class="coco crcr-0 center-flex"><input type="checkbox"></td>
+                            <td class="coco crcr-1">강남인재개발원 백엔드 교육과정</td>
+                            <td class="coco crcr-2">홍길동</td>
+                            <td class="coco crcr-3">2023.03.10</td>
+                            <td class="coco crcr-4">2023.10.24</td>
+                            <td class="coco crcr-5">30/30</td>
+                            <td class="coco crcr-6">마감</td>
+                        </tr>
+                        <tr class="co-flex">
+                            <td class="coco crcr-0 center-flex"><input type="checkbox"></td>
+                            <td class="coco crcr-1">강남인재개발원 백엔드 교육과정</td>
+                            <td class="coco crcr-2">홍길동</td>
+                            <td class="coco crcr-3">2023.03.10</td>
+                            <td class="coco crcr-4">2023.10.24</td>
+                            <td class="coco crcr-5">30</td>
+                            <td class="coco crcr-6"><button type="button" id="medbtn-m" class="join-btn">신청자 확인</button></td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+            <div id="modalfour" class="hidden">
+                <div id="modalcontentt">
+                    <div class="modal-wrap-m">
+                        <div class="join-wrap-mm">
+                            <div class="top-inp">
+                                <h3><i class="ri-checkbox-circle-line"></i>그룹 신청자</h3>
+                            </div>
+                        </div>
+
+                        <div class="content-box">
+                            <div class="wr-m">
+                                <p><i class="ri-error-warning-line"></i>거절을 누르면 자동으로 목록에서 삭제가 됩니다</p>
+                            </div>
+                            <div class="table-wrap">
+                                <table class="table-content">
+                                    <thead class="co-head">
+                                    <tr class="co-flex">
+                                        <th class="coco crcr-0">#</th>
+                                        <th class="coco crc-1">학생 이름</th>
+                                        <th class="coco crc-2">학생 연락처</th>
+                                        <th class="coco crc-3">승인요청일자</th>
+                                        <th class="coco crc-4">승인</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody class="co-body">
+                                    <tr class="co-flex">
+                                        <td class="coco crcr-0 center-flex">1</td>
+                                        <td class="coco crc-1">이순신</td>
+                                        <td class="coco crc-2">010-1234-5678</td>
+                                        <td class="coco crc-3">2023.03.10</td>
+                                        <td class="coco crc-4"><input type="checkbox"><button type="button">거절</button></td>
+                                    </tr>
+                                    <tr class="co-flex">
+                                        <td class="coco crcr-0 center-flex">2</td>
+                                        <td class="coco crc-1">이순신</td>
+                                        <td class="coco crc-2">010-1234-5678</td>
+                                        <td class="coco crc-3">2023.03.10</td>
+                                        <td class="coco crc-4"><input type="checkbox"><button type="button">거절</button></td>
+                                    </tr>
+                                    <tr class="co-flex">
+                                        <td class="coco crcr-0 center-flex">3</td>
+                                        <td class="coco crc-1">이순신</td>
+                                        <td class="coco crc-2">010-1234-5678</td>
+                                        <td class="coco crc-3">2023.03.10</td>
+                                        <td class="coco crc-4"><input type="checkbox"><button type="button">거절</button></td>
+                                    </tr>
+                                    <tr class="co-flex">
+                                        <td class="coco crcr-0 center-flex">2</td>
+                                        <td class="coco crc-1">이순신</td>
+                                        <td class="coco crc-2">010-1234-5678</td>
+                                        <td class="coco crc-3">2023.03.10</td>
+                                        <td class="coco crc-4"><input type="checkbox"><button type="button">거절</button></td>
+                                    </tr>
+                                    <tr class="co-flex">
+                                        <td class="coco crcr-0 center-flex">2</td>
+                                        <td class="coco crc-1">이순신</td>
+                                        <td class="coco crc-2">010-1234-5678</td>
+                                        <td class="coco crc-3">2023.03.10</td>
+                                        <td class="coco crc-4"><input type="checkbox"><button type="button">거절</button></td>
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="bot-sub-m">
+                                <button id="join-m" type="button">승인</button>
+                                <button id="close-m" type="button">닫기</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</th:block>
+
+
+</body>
+</html>

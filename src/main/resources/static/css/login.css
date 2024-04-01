@@ -1,0 +1,12 @@
+.login-wrap{display: flex; justify-content: start; align-items: center; flex-direction: column; margin-top: 100px; gap: 30px;}
+.login-logo-wrap{ font-size: 50px; color: #2f4050;}
+.login-form-wrap{border-radius: 10px; display: flex; flex-direction: column; justify-content: start; align-items: center; padding: 40px 6% 60px; background-color: #ffffff; gap: 18px;}
+
+.login-inp-wrap{border-radius: 5px;display: flex; flex-direction: column; gap: 10px;}
+.login-inp-wrap input{padding: 10px; font-size: 15px; width: 250px;}
+.login-btn{background-color: #2f4050; color: #ffffff; font-size: 13px; padding: 11px 117px; border: none; cursor: pointer;}
+
+
+.remember-wrap{display: flex; justify-content: space-between; align-items: center; font-size: 12px; width: 100%; padding: 0 20px;}
+.id-remember{display: flex; justify-content: start; align-items: center; gap: 3px;}
+.find-id a{color: #2f4050;}
