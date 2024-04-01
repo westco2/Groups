@@ -1,6 +1,7 @@
 package com.project.groups.controller;
 
 import com.project.groups.command.MemberVO;
+
 import com.project.groups.membersZ.service.MembersZService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -37,15 +38,11 @@ public class MemberZController {
     }
     @PostMapping("/memberreg") //회원가입에서 입력된 값을 받음
     public String memberreg(MemberVO memberVO){
-
         String pswd = passwordEncoder.encode(memberVO.getPswd());
         memberVO.setPswd(pswd);
-        boolean checking = membersZService.memberreg(memberVO); //boolean 으로 회원가입 성공 확인
-        System.out.println("memberVO = " + memberVO);
-        System.out.println("checking = " + checking);
+//        boolean checking = membersZService.memberreg(memberVO); //boolean 으로 회원가입 성공 확인
         return "redirect:/";
     }
-
 
     @ResponseBody
     @PostMapping("/memberidcheck")
