@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.groups.qnaW.service.QnaWMapper">
+	
+	 <!-- 셀렉트 구문이 맞는지와, left join 방향이 맞는지 확인필요 -->
+	 <!-- WHERE절이 필요한지 파악이 안됨 -->
+	<select id="getList" resultType="QnaWVO">
+		SELECT Q.QNUMBER, Q.QTITLE, Q.QREGDATE, Q.QVIEWS, Q.QCONTENT,
+			   M.USER_NO, M.LOGIN_ID, M.KORN_FLNM
+		FROM MEMBERS AS M
+		LEFT JOIN QNABOARD AS Q
+		ON M.USER_NO = Q.USER_NO
+		<if test="searchLogin_id != '' and searchLogin_id != null">
+			and M.LOGIN_ID LIKE CONCAT('%', #{searchLogin_id}, '%')
+		</if>
+		
+		<if test="searchKorn_flnm != '' and searchKorn_flnm != null">
+			and M.KORN_FLNM LIKE CONCAT('%', #{searchKorn_flnm}, '%')
+		</if>
+		
+		<if test="searchQtitle != '' and searchQtitle != null">
+			and Q.QTITLE LIKE CONCAT('%', #{searchQtitle}, '%')
+		</if>
+		LIMIT 0, 10
+	</select>
+	
+	<select id="getTotal" resultType="QnaWVO">
+		SELECT COUNT(*) AS TOTAL
+		FROM QNABOARD
+		<if test="searchLogin_id != '' and searchLogin_id != null">
+			and M.LOGIN_ID LIKE CONCAT('%', #{searchLogin_id}, '%')
+		</if>
+		
+		<if test="searchKorn_flnm != '' and searchKorn_flnm != null">
+			and M.KORN_FLNM LIKE CONCAT('%', #{searchKorn_flnm}, '%')
+		</if>
+		
+		<if test="searchQtitle != '' and searchQtitle != null">
+			and Q.QTITLE LIKE CONCAT('%', #{searchQtitle}, '%')
+		</if>
+		LIMIT 0, 10
+	</select>
+		
+	<insert id="regist">
+		INSERT INTO QNABOARD(QTITLE,
+							 QCONTENT,
+							 QATTA,
+							 QATTAURL
+							 )
+		VALUES(#{QTITLE},
+			   #{QCONTENT},
+			   #{QATTA},
+			   #{QATTAURL}
+			   )
+	</insert>
+	
+	<insert id="reply">
+		INSERT INTO COMMENT(CCONTENT,
+							CREGDATE,
+							CUPDDATE
+							)
+		VALUES(#{CCONTENT},
+			   #{CREGDATE},
+		 	   #{CUPDDATE},
+			   )
+	</insert>
+
+</mapper>

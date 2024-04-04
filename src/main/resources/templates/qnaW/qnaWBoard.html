@@ -1,0 +1,124 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+	<!-- content -->
+	<th:block
+		th:replace="~{./include/baselayout :: setContent( ~{ :: .bon-wrap } )}">
+		<div class="bon-wrap">
+			<div class="page-title">
+				<p>질문</p>
+			</div>
+			<div class="route-wrap">
+				<a href="/qnaW/qnaWBoard">질문</a><p>/</p><a href="/qnaW/qnaWBoard">질문게시판</a>
+			</div>
+			<div class="bon-content-wrap">
+				<div class="box-title-wrap">
+					<h3>질문게시판</h3>
+				</div>
+				<div class="content-box">
+					<div class="top-inp">
+						<p>질문 내용 조회</p>
+						<div class="inp-wrap"
+							style="margin-right: 10px; justify-content: end;">
+							<button type="button" class="regbtn-des del-bt-des"
+								style="margin-right: 10px;">삭제</button>
+							<button type="button" class="regbtn-des" onclick="qnaWRegist()">질문등록</button> <!-- qnaW/Detail 로 경로이동필요 -->
+						</div>
+					</div>
+					<div class="search-wrap-m"
+						style="margin-bottom: 0; padding-bottom: 0; padding-left: 0;">
+						<div class="top-line-btn-wrap" style="margin-bottom: 15px">
+							<input type="text" placeholder="검색해주세요" style="width: 300px">
+							<i class="ri-search-line"></i> <select class="sel-des"
+								style="width: 120px; padding: 0px;">
+								<option>그룹검색</option>
+								<option>이름검색</option>
+								<option>제목검색</option>
+							</select>
+							<button type="button" class="wj-button">검색</button>
+						</div>
+					</div>
+					<div class="table-wrap">
+						<table class="table-content">
+							<thead class="co-head">
+								<tr class="co-flex">
+									<th class="coco crcr-0"><input type="checkbox"></th>
+									<th class="coco crcr-0">No</th>
+									<th class="coco w-1">제목</th>
+									<th class="coco w-2">그룹명</th>
+									<th class="coco w-3">이름</th>
+									<th class="coco w-4">등록일자</th>
+									<th class="coco w-5">수신상태</th>
+								</tr>
+							</thead>
+							<tbody class="co-body">
+								<tr class="co-flex">
+									<td class="coco crcr-0 center-flex"><input type="checkbox"></td>
+									<td class="coco crcr-0 center-flex">1</td>
+									<td class="coco w-1"><a href="#">JAVA개발</a></td>
+									<td class="coco w-2">중앙인재교육개발원그룹</td>
+									<td class="coco w-3">홍길동</td>
+									<td class="coco w-4">2024.04.01</td>
+									<td class="coco w-5">대기중</td>
+								</tr>
+								<tr class="co-flex">
+									<td class="coco crcr-0 center-flex"><input type="checkbox"></td>
+									<td class="coco crcr-0 center-flex">2</td>
+									<td class="coco w-1"><a href="#">JAVA개발</a></td>
+									<td class="coco w-2">중앙인재교육개발원그룹</td>
+									<td class="coco w-3">홍길동</td>
+									<td class="coco w-4">2024.04.01</td>
+									<td class="coco w-5">대기중</td>
+								</tr>
+								<tr class="co-flex">
+									<td class="coco crcr-0 center-flex"><input type="checkbox"></td>
+									<td class="coco crcr-0 center-flex">3</td>
+									<td class="coco w-1"><a href="#">JAVA개발</a></td>
+									<td class="coco w-2">중앙인재교육개발원그룹</td>
+									<td class="coco w-3">홍길동</td>
+									<td class="coco w-4">2024.04.01</td>
+									<td class="coco w-5"><i class="ri-checkbox-circle-line"></i>답변완료</td>
+								</tr>
+								<tr class="co-flex">
+									<td class="coco crcr-0 center-flex"><input type="checkbox"></td>
+									<td class="coco crcr-0 center-flex">4</td>
+									<td class="coco w-1"><a href="#">JAVA개발</a></td>
+									<td class="coco w-2">중앙인재교육개발원그룹</td>
+									<td class="coco w-3">홍길동</td>
+									<td class="coco w-4">2024.04.01</td>
+									<td class="coco w-5"><i class="ri-checkbox-circle-line"></i>답변완료</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+
+					<div class="page-wrap right-p">
+						<div class="pagination">
+							<a href="#">&laquo;</a>
+							<a href="#">1</a>
+							<a href="#" class="act">2</a>
+							<a href="#">3</a>
+							<a href="#">4</a>
+							<a href="#">5</a>
+							<a href="#">6</a>
+							<a href="#">&raquo;</a>
+						</div>
+					</div>
+
+				</div>
+
+			</div>
+		</div>
+
+	</th:block>
+	
+	<script>
+	function qnaWRegist(){
+		window.location.href="/qnaW/qnaWRegist";
+	}
+	</script>
+
+</body>
+</html>
