@@ -1,0 +1,123 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+<!-- content -->
+<th:block th:replace="~{./include/baselayout :: setContent( ~{ :: .bon-wrap } )}">
+    <div class="bon-wrap">
+        <div class="page-title">
+            <p>숙제</p>
+        </div>
+        <div class="route-wrap">
+            <a href="#">숙제 </a><p>/</p><a href="#">내 숙제리스트</a>
+        </div>
+        <div class="bon-content-wrap">
+            <div class="box-title-wrap">
+                <h3>내 숙제리스트</h3>
+            </div>
+            <div class="content-box">
+                <div class="top-inp">
+                    <p>숙제(3)</p>
+                    <div class="inp-wrap fle-center" style="margin-right: 10px; justify-content: end; ">
+                        <div class="select-box">
+                            <div class="select-box__current" tabindex="1">
+                                <div class="select-box__value">
+                                    <input class="select-box__input" type="radio" id="0" value="1" name="Ben" checked="checked"/>
+                                    <p class="select-box__input-text">작업</p>
+                                </div>
+                                <div class="select-box__value">
+                                    <input class="select-box__input" type="radio" id="1" value="2" name="Ben"/>
+                                    <p class="select-box__input-text">숙제전송</p>
+                                </div>
+                                <div class="select-box__value">
+                                    <input class="select-box__input" type="radio" id="2" value="3" name="Ben"/>
+                                    <p class="select-box__input-text">삭제</p>
+                                </div>
+                                <i class="ri-arrow-down-s-fill select-box__icon"></i>
+                            </div>
+                            <ul class="select-box__list">
+                                <li>
+                                    <label class="select-box__option" for="1" aria-hidden="aria-hidden">숙제 전송</label>
+                                </li>
+                                <li>
+                                    <label class="select-box__option" for="2" aria-hidden="aria-hidden">삭제</label>
+                                </li>
+                            </ul>
+                        </div>
+                        <button type="button" class="regbtn-des">숙제 생성</button>
+                    </div>
+                </div>
+                <div class="search-wrap-m" style="margin-bottom: 0; padding-bottom: 0; padding-left: 0;">
+                    <div class="top-line-btn-wrap" style="margin-bottom: 15px">
+                        <input type="text" placeholder="제목을 검색해주세요" style="width: 300px">
+                        <i class="ri-search-line"></i>
+
+                    </div>
+
+                </div>
+                <div class="table-wrap">
+                    <table class="table-content" >
+                        <thead class="co-head">
+                        <tr class="co-flex">
+                            <th class="coco crcr-0">#</th>
+                            <th class="coco work-1 lis-left desc-tr">제목 <i class="ri-arrow-down-s-fill"></i></th>
+                            <th class="coco work-2 lis-left desc-tr">언어<i class="ri-arrow-down-s-fill"></i></th>
+                            <th class="coco work-3 lis-left desc-tr">레벨<i class="ri-arrow-down-s-fill"></i></th>
+                            <th class="coco work-4 lis-left desc-tr">등록일자<i class="ri-arrow-down-s-fill i-col"></i></th>
+                        </tr>
+                        </thead>
+                        <tbody class="co-body">
+                        <tr class="co-flex">
+                            <td class="coco crcr-0 center-flex"><input type="checkbox"></td>
+                            <td class="coco work-1 lis-left"><a href="#">for문으로 별찍기</a></td>
+                            <td class="coco work-2 lis-left">JAVA</td>
+                            <td class="coco work-3 lis-left">0LV</td>
+                            <td class="coco work-4 lis-left">2023.01.13</td>
+                        </tr>
+                        <tr class="co-flex">
+                            <td class="coco crcr-0 center-flex"><input type="checkbox"></td>
+                            <td class="coco work-1 lis-left"><a href="#">for문으로 별찍기</a></td>
+                            <td class="coco work-2 lis-left">JAVA</td>
+                            <td class="coco work-3 lis-left">0LV</td>
+                            <td class="coco work-4 lis-left">2023.01.13</td>
+                        </tr>
+                        <tr class="co-flex">
+                            <td class="coco crcr-0 center-flex"><input type="checkbox"></td>
+                            <td class="coco work-1 lis-left"><a href="#">for문으로 별찍기</a></td>
+                            <td class="coco work-2 lis-left">JAVA</td>
+                            <td class="coco work-3 lis-left">0LV</td>
+                            <td class="coco work-4 lis-left">2023.01.13</td>
+                        </tr>
+
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="page-wrap right-p">
+                    <div class="pagination">
+                        <a href="#">&laquo;</a>
+                        <a href="#">1</a>
+                        <a href="#" class="act">2</a>
+                        <a href="#">3</a>
+                        <a href="#">4</a>
+                        <a href="#">5</a>
+                        <a href="#">6</a>
+                        <a href="#">&raquo;</a>
+                    </div>
+                </div>
+
+
+
+
+
+            </div>
+
+        </div>
+    </div>
+
+</th:block>
+
+
+</body>
+</html>

@@ -20,19 +20,46 @@
                 <div class="top-inp">
                     <p>group(5)</p>
                     <div class="inp-wrap" style="margin-right: 10px; justify-content: end; ">
-                        <button type="button" class="regbtn-des del-bt-des" style="margin-right: 10px;">삭제</button>
+                        <div class="select-box">
+                            <div class="select-box__current" tabindex="1">
+                                <div class="select-box__value">
+                                    <input class="select-box__input" type="radio" id="0" value="1" name="Ben" checked="checked"/>
+                                    <p class="select-box__input-text">작업</p>
+                                </div>
+                                <div class="select-box__value">
+                                    <input class="select-box__input" type="radio" id="1" value="2" name="Ben"/>
+                                    <p class="select-box__input-text">그룹 활성화</p>
+                                </div>
+                                <div class="select-box__value">
+                                    <input class="select-box__input" type="radio" id="2" value="3" name="Ben"/>
+                                    <p class="select-box__input-text">그룹 비활성화</p>
+                                </div>
+                                <div class="select-box__value">
+                                    <input class="select-box__input" type="radio" id="3" value="4" name="Ben"/>
+                                    <p class="select-box__input-text">종료</p>
+                                </div>
+                                <i class="ri-arrow-down-s-fill select-box__icon"></i>
+                            </div>
+                            <ul class="select-box__list">
+
+                                <li>
+                                    <label class="select-box__option" for="1" aria-hidden="aria-hidden">그룹 활성화</label>
+                                </li>
+                                <li>
+                                    <label class="select-box__option" for="2" aria-hidden="aria-hidden">그룹 비활성화</label>
+                                </li>
+                                <li>
+                                    <label class="select-box__option" for="3" aria-hidden="aria-hidden">삭제</label>
+                                </li>
+                            </ul>
+                        </div>
                         <button type="button" class="regbtn-des">그룹 생성</button>
                     </div>
                 </div>
-                <div class="search-wrap-m">
-                    <div class="inp-wrap">
-                        <label>교육자</label>
-                        <select class="sel-des">
-                            <option>전체</option>
-                            <option>홍길동</option>
-                            <option>홍길동</option>
-                        </select>
-                        <input type="submit" class="sub-des" value="조회하기">
+                <div class="search-wrap-m" style="margin-bottom: 0; padding-bottom: 0; padding-left: 0;">
+                    <div class="top-line-btn-wrap" style="margin-bottom: 15px">
+                        <input type="text" placeholder="제목을 검색해주세요" style="width: 300px">
+                        <i class="ri-search-line"></i>
                     </div>
 
                 </div>
@@ -46,7 +73,7 @@
                             <th class="coco crcr-3">교육시작일</th>
                             <th class="coco crcr-4">교육종료일</th>
                             <th class="coco crcr-5">인원</th>
-                            <th class="coco crcr-6">가입</th>
+                            <th class="coco crcr-6">상태</th>
                         </tr>
                         </thead>
                         <tbody class="co-body">
@@ -57,7 +84,7 @@
                             <td class="coco crcr-3">2023.03.10</td>
                             <td class="coco crcr-4">2023.10.24</td>
                             <td class="coco crcr-5">3/30</td>
-                            <td class="coco crcr-6"><button type="button" class="join-btn">신청자 확인</button></td>
+                            <td class="coco crcr-6">종료</td>
                         </tr>
                         <tr class="co-flex">
                             <td class="coco crcr-0 center-flex"><input type="checkbox"></td>
@@ -80,6 +107,18 @@
 
                         </tbody>
                     </table>
+                </div>
+                <div class="page-wrap right-p">
+                    <div class="pagination">
+                        <a href="#">&laquo;</a>
+                        <a href="#">1</a>
+                        <a href="#" class="act">2</a>
+                        <a href="#">3</a>
+                        <a href="#">4</a>
+                        <a href="#">5</a>
+                        <a href="#">6</a>
+                        <a href="#">&raquo;</a>
+                    </div>
                 </div>
 
             </div>
@@ -162,6 +201,12 @@
 
 </th:block>
 
+
+<script>
+  /*  $(".select-box").on('click',function (e){
+        $(".select-box__list").css("display","block");
+    })*/
+</script>
 
 </body>
 </html>

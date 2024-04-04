@@ -7,6 +7,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/group")
 public class GroupController {
+    @GetMapping("/groupdetail")
+    public String groupdetail(){
+
+        return "group/groupdetail";
+    }
+
     @GetMapping("/groupList")
     public String groupList(){
 
@@ -19,10 +25,9 @@ public class GroupController {
         return "group/groupreg";
     }
 
-    @GetMapping("/groupdetail")
-    public String groupdetail(){
-
-        return "group/groupdetail";
+    @GetMapping("/userGroupList")
+    public String userGroupList(){
+        return "group/userGroupList";
     }
 
 

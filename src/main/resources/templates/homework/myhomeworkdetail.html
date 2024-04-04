@@ -1,0 +1,127 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+<!-- content -->
+<th:block th:replace="~{./include/baselayout :: setContent( ~{ :: .bon-wrap } )}">
+    <div class="bon-wrap">
+        <div class="page-title">
+            <p>숙제</p>
+        </div>
+        <div class="route-wrap">
+            <a href="#">숙제</a><p>/</p><a href="#">내 숙제리스트</a><p>/</p><a href="#">for문으로 별찍기</a>
+        </div>
+        <div class="bon-content-wrap">
+            <div class="two-m">
+                <div class="content-box fl-row-m">
+                    <h3 style="margin-bottom: 10px;">for문으로 별찍기</h3>
+
+                    <div class="reg-title-wrap">
+                        <div class="group-naming-wrap-m">
+                            <div class="reg-title-wrap" style="margin-bottom: 15px;">
+                                <div class="like-table-wrap">
+                                    <div class="sinfo-wrap-m">
+                                        <p>레벨</p>
+                                        <h4 class="name-m">0LV</h4>
+                                    </div>
+                                    <div class="sinfo-wrap-m">
+                                        <p>제한시간</p>
+                                        <h4 class="name-m"><i class="ri-timer-line"></i> &nbsp;1초</h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="group-name">
+                                <label>숙제내용</label>
+                                <p><i class="ri-alert-line"></i>생성 후에는 이름을 변경할수 없습니다.</p>
+                            </div>
+                            <div class="group-name">
+                                <label>숙제힌트</label>
+                                <p><i class="ri-alert-line"></i>수용인원은 최대 30명 까지 입니다.</p>
+                            </div>
+                            <div class="group-name">
+                                <label>입출력 예시</label>
+
+                                <div class="inout-m ex-inp-m">
+                                    <div class="h-ex-wrap flc-center-mm" style="margin-bottom: 0">
+                                        <label>입력값</label>
+                                        <label>결과값</label>
+                                    </div>
+                                    <div class="h-ex-wrap flc-center-mm" style="margin-bottom: 30px; text-align: center;">
+                                        <label><div>2 3</div></label>
+                                        <label><div>[2,3,4,5]</div></label>
+                                    </div>
+                                </div>
+                                <label>설명</label>
+                                <p>이렇게 입력해서 저렇게 출력하세요</p>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="content-box fl-row-m2" >
+                    <h3 style="margin-bottom: 10px;">solution</h3>
+                    <div class="reg-title-wrap">
+                        <div class="code-editor">
+                            <div class="line-numbers"></div>
+                            <textarea id="code" oninput="updateLineNumbers()"></textarea>
+                        </div>
+                    </div>
+                    <div class="reg-title-wrap result-m"  >
+                        <div class="test-m">
+                            <h4>테스트1</h4>
+                            <p class="st-mm"><i class="ri-checkbox-circle-line"></i>통과</p>
+                            <span class="sec-mm">0.12ms</span>
+                        </div>
+                        <div class="test-m">
+                            <h4>테스트2</h4>
+                            <p class="fail-m st-mm">실패</p>
+                            <span class="sec-mm">0.12ms</span>
+                        </div>
+                        <div class="test-m">
+                            <h4>테스트3</h4>
+                            <p class="fail-m st-mm">실패</p>
+                            <span class="sec-mm">0.12ms</span>
+                        </div>
+                        <div class="test-m">
+                            <h4>테스트4</h4>
+                            <p class="fail-m st-mm">실패</p>
+                            <span class="sec-mm">0.12ms</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="reg-btn-wrap">
+                <button type="button" id="sub-btn">체점하기</button>
+            </div>
+        </div>
+    </div>
+
+</th:block>
+
+
+<script>
+
+    $("#sub-btn").on('click', function (e){
+        console.log(1);
+        console.log($("#code").val());
+    })
+
+    function updateLineNumbers() {
+        var textarea = document.getElementById("code");
+        var lineNumbersDiv = document.querySelector(".line-numbers");
+        var lines = textarea.value.split("\n");
+        var lineNumbersHTML = "";
+        for (var i = 0; i < lines.length; i++) {
+            lineNumbersHTML += (i + 1) + "<br>";
+        }
+        lineNumbersDiv.innerHTML = lineNumbersHTML;
+    }
+    updateLineNumbers(); // 초기화
+</script>
+</body>
+</html>

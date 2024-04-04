@@ -73,7 +73,8 @@ body {
 }
 .sidebar {
     width: 240px;
-    height: 900px;
+    min-height: 900px;
+    height: auto;
     background: #232f3e;
     flex-basis: 12%;
     -webkit-transition: all 0.3s ease-in-out;
@@ -255,7 +256,7 @@ input[type="checkbox"] {width: 15px; height: 15px; background-color: #afaeae; cu
 .group-name{display: flex; flex-direction: column; justify-content: start; gap: 10px;}
 .group-name p{ font-size: 12px; margin: 0;}
 .group-name label{font-size: 15px; font-weight: 600;}
-.group-name input{width: 400px; font-size: 14px; padding: 5px;}
+.group-name input{width: 400px; font-size: 14px; padding: 5px 10px;}
 .group-name input.inp-reg-m:focus {
     outline: none;
 }
@@ -477,4 +478,16 @@ tbody .sub-tr{border-bottom: 1px solid rgb(237, 239, 242);}
 .sub-bas{background-color: #278dd1; color: #fff;}
 .sub-pre{background-color: #232f3e; color: #fff;}
 .sub-bas, .sub-pre, .sub-free{border-radius: 5px;}
+
+.detail-btw{display: flex; justify-content: space-between; gap: 20px;}
+.rp-m{margin-right: 10px}
+
+
+.hm-mm-1{flex-basis: 25%;}
+.hm-mm-2{flex-basis: 10%;}
+.hm-mm-22{flex-basis: 8%;}
+.hm-mm-3{flex-basis: 15%;}
+.hm-mm-4{flex-basis: 15%;}
+.hm-mm-5{flex-basis: 11%;}
+.hm-mm-6{flex-basis: 11%;}
 
