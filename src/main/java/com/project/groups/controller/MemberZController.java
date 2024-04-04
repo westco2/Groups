@@ -39,15 +39,16 @@ public class MemberZController {
     @PostMapping("/memberreg") //회원가입에서 입력된 값을 받음
     public String memberreg(MemberVO memberVO){
         String pswd = passwordEncoder.encode(memberVO.getPswd());
+        System.out.println("pswd = " + pswd);
         memberVO.setPswd(pswd);
-//        boolean checking = membersZService.memberreg(memberVO); //boolean 으로 회원가입 성공 확인
+        boolean checking = membersZService.memberreg(memberVO); //boolean 으로 회원가입 성공 확인
+        System.out.println("checking = " + checking);
         return "redirect:/";
     }
 
     @ResponseBody
     @PostMapping("/memberidcheck")
-    public int memberidcheck(
-            @RequestParam("id") String memberidcheck){
+    public int memberidcheck(@RequestParam("id") String memberidcheck){
         System.out.println("memberidcheck = " + memberidcheck);
         int checkingid = membersZService.memberidcheck(memberidcheck);
         System.out.println("checkingid = " + checkingid);
@@ -62,5 +63,10 @@ public class MemberZController {
         int checkingnick = membersZService.membernickcheck(membernickcheck);
         System.out.println("checkingnick = " + checkingnick);
         return checkingnick;
+    }
+
+    @GetMapping("/javacompilerZ/CompilerTestZ")
+    public String CompilerTestZ(){
+        return ("/javacompilerZ/CompilerTestZ");
     }
 }
