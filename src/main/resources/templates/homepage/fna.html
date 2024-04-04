@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<link rel="stylesheet" href="css/jy.css">
+<title>FAQ</title>
+</head>
+<body>
+    <h1>자주 묻는 질문</h1>
+    <div class="faq-container">
+        <div class="faq">
+            <h3 class="faq-title">자주 묻는 질문 1</h3>
+            <p class="faq-text">대답 1</p>
+            <button class="faq-toggle">
+                <i class="fas fa-chevron-down"></i>
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="faq">
+            <h3 class="faq-title">자주 묻는 질문 2</h3>
+            <p class="faq-text">대답 2</p>
+            <button class="faq-toggle">
+                <i class="fas fa-chevron-down"></i>
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="faq">
+            <h3 class="faq-title">자주 묻는 질문 3</h3>
+            <p class="faq-text">대답 3</p>
+            <button class="faq-toggle">
+                <i class="fas fa-chevron-down"></i>
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="faq">
+            <h3 class="faq-title">자주 묻는 질문 4</h3>
+            <p class="faq-text">대답 4</p>
+            <button class="faq-toggle">
+                <i class="fas fa-chevron-down"></i>
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </div>
+    <script>
+        const toggles = document.querySelectorAll(".faq-toggle");
+
+        toggles.forEach((toggle) => {
+            toggle.addEventListener("click", () => {
+                toggle.parentNode.classList.toggle("active");
+            });
+        });
+    </script>
+</body>
+</html>
