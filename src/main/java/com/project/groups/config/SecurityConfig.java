@@ -18,10 +18,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter { //시큐리�
     }
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception{
-        httpSecurity.authorizeRequests()
-//                .antMatchers("/main").authenticated() //모든 경로에 인증이 필요함
-//                .antMatchers("/").access("hasRole('ROLE_ADMIN')") //admin 경로는 ROLE ADMIN 이 필요하다
+        httpSecurity.csrf().disable()
+                .authorizeRequests()
+                .antMatchers("/user/**").authenticated() //user 경로에 인증이 필요함
+                .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')") //admin 경로는 ROLE ADMIN 이 필요하다
                 .anyRequest().permitAll()
-                .and().formLogin().loginPage("/login"); //이를 통해서 강제로 로그인페이지를 설정함
+                .and()
+                .formLogin().loginPage("/login"); //이를 통해서 강제로 로그인페이지를 설정함
     }
 }
