@@ -1,0 +1,31 @@
+.w-1{flex-basis: 25%;}
+.w-2{flex-basis: 35%;}
+.w-3{flex-basis: 10%;}
+.w-4{flex-basis: 15%;}
+.w-5{flex-basis: 10%;}
+.w-5 i{color: #85cf7c; font-size: 16px;margin-right:5px;}
+
+.w2-1{flex-basis: 20%;}
+.w2-2{flex-basis: 20%;}
+.w2-3{flex-basis: 20%;}
+.w2-4{flex-basis: 25%;}
+.w2-5{flex-basis: 10%;}
+
+.wj-button{padding: 5px 15px;
+    font-size: 13px;
+    background-color: #404979;
+    cursor: pointer;
+    border: 1px solid #ffffff;
+    color: #fff;
+    border-radius: 3px;
+    margin: 0 10px;
+	}
+	
+.wj-textarea{
+	width: 1000px;
+	height: 180px;
+	resize: none;
+	overflow: hidden;
+	font-size: 15px;
+	padding: 10px;
+	}

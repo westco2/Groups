@@ -1,0 +1,68 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+	<!-- content -->
+	<th:block th:replace="~{./include/baselayout :: setContent( ~{ :: .bon-wrap } )}">
+		<div class="bon-wrap">
+			<div class="page-title">
+				<p>질문</p>
+			</div>
+			<div class="route-wrap">
+				<a href="/qnaW/qnaWBoard">질문</a><p>/</p><a href="/qnaW/qnaWRegist">질문등록</a><p>/</p><a href="/qnaW/qnaWDetail">질문상세</a>
+			</div>
+			<div class="bon-content-wrap">
+            <div class="box-title-wrap">
+                <h3>질문 등록</h3>
+            </div>
+            <form class="content-box">
+                <h3 style="margin-bottom: 10px;">기본 정보</h3>
+                <div class="reg-title-wrap" style="margin-bottom: 15px;">
+                    <div class="like-table-wrap">
+							<div class="sinfo-wrap-m">
+								<p>교육자명</p>
+								<h4 class="name-m">
+									<i class="ri-user-star-line"></i>&nbsp;교육자
+								</h4>
+							</div>
+							<div class="sinfo-wrap-m">
+								<p>그룹명</p>
+								<h4 class="name-m">
+									<i class="ri-file-user-line"></i>&nbsp;JAVA입문반
+								</h4>
+							</div>
+							<div class="sinfo-wrap-m">
+								<p>학생명</p>
+								<h4 class="name-m">
+									<i class="ri-file-user-line"></i>&nbsp;홍길동
+								</h4>
+							</div>
+						</div>
+					</div>
+					<h3 style="margin-bottom: 10px;">질문 내용</h3>
+					<div class="reg-title-wrap">
+						<div class="group-naming-wrap-m">
+							<div class="group-name">
+								<label>제목</label> <input class="inp-reg-m" type="text" readonly value="안녕하세요!">
+							</div>
+							<div class="group-name">
+								<label>내용</label>
+								<textarea class="wj-textarea" readonly>반복문에 대해 자세히 알고 싶어요!</textarea>
+							</div>
+							<div class="group-name">
+								<label>답변</label>
+								<textarea class="wj-textarea"></textarea>
+							</div>
+						</div>
+					</div>
+					<div class="reg-btn-wrap">
+						<button type="submit">답변등록</button>
+					</div>
+				</form>
+			</div>
+		</div>
+
+	</th:block>
+</body>
+</html>
