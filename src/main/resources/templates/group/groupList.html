@@ -43,13 +43,13 @@
                             <ul class="select-box__list">
 
                                 <li>
-                                    <label class="select-box__option" for="1" aria-hidden="aria-hidden">그룹 활성화</label>
+                                    <label class="select-box__option f-t1" for="1" aria-hidden="aria-hidden">그룹 활성화</label>
                                 </li>
                                 <li>
-                                    <label class="select-box__option" for="2" aria-hidden="aria-hidden">그룹 비활성화</label>
+                                    <label class="select-box__option f-t2" for="2" aria-hidden="aria-hidden">그룹 비활성화</label>
                                 </li>
                                 <li>
-                                    <label class="select-box__option" for="3" aria-hidden="aria-hidden">삭제</label>
+                                    <label class="select-box__option f-t3" for="3" aria-hidden="aria-hidden">삭제</label>
                                 </li>
                             </ul>
                         </div>
@@ -63,13 +63,13 @@
                     </div>
 
                 </div>
-                <div class="table-wrap">
+                <form class="table-wrap" action="#" name="grouplistForm" method="post">
                     <table class="table-content">
                         <thead class="co-head">
                         <tr class="co-flex">
                             <th class="coco crcr-0">#</th>
                             <th class="coco crcr-1">그룹이름</th>
-                            <th class="coco crcr-2">강사명</th>
+                            <th class="coco crcr-2">유형</th>
                             <th class="coco crcr-3">교육시작일</th>
                             <th class="coco crcr-4">교육종료일</th>
                             <th class="coco crcr-5">인원</th>
@@ -77,37 +77,30 @@
                         </tr>
                         </thead>
                         <tbody class="co-body">
-                        <tr class="co-flex">
-                            <td class="coco crcr-0 center-flex"><input type="checkbox"></td>
-                            <td class="coco crcr-1"><a href="#">강남인재개발원 백엔드 교육과정</a></td>
-                            <td class="coco crcr-2">홍길동</td>
-                            <td class="coco crcr-3">2023.03.10</td>
-                            <td class="coco crcr-4">2023.10.24</td>
-                            <td class="coco crcr-5">3/30</td>
-                            <td class="coco crcr-6">종료</td>
-                        </tr>
-                        <tr class="co-flex">
-                            <td class="coco crcr-0 center-flex"><input type="checkbox"></td>
-                            <td class="coco crcr-1">강남인재개발원 백엔드 교육과정</td>
-                            <td class="coco crcr-2">홍길동</td>
-                            <td class="coco crcr-3">2023.03.10</td>
-                            <td class="coco crcr-4">2023.10.24</td>
-                            <td class="coco crcr-5">30/30</td>
-                            <td class="coco crcr-6">마감</td>
-                        </tr>
-                        <tr class="co-flex">
-                            <td class="coco crcr-0 center-flex"><input type="checkbox"></td>
-                            <td class="coco crcr-1">강남인재개발원 백엔드 교육과정</td>
-                            <td class="coco crcr-2">홍길동</td>
-                            <td class="coco crcr-3">2023.03.10</td>
-                            <td class="coco crcr-4">2023.10.24</td>
-                            <td class="coco crcr-5">30</td>
-                            <td class="coco crcr-6"><button type="button" id="medbtn-m" class="join-btn">신청자 확인</button></td>
-                        </tr>
+                       <th:block th:each="i, iterStat : ${list}">
+                           <tr class="co-flex">
+                               <td class="coco crcr-0 center-flex"><input type="checkbox" name="group_non" th:value="${i.group_no}"><input type="hidden"  class="hi-mmm" th:value="${i.group_no}"></td>
+                               <td class="coco crcr-1">
+
+                                   <input type="hidden" name="group_no" th:value="${i.group_no}">
+                                   <a href="#">[[${i.group_nm}]]</a>
+
+                               </td>
+                               <td class="coco crcr-2">국비</td>
+                               <td class="coco crcr-3">[[${i.group_start}]]</td>
+                               <td class="coco crcr-4">[[${i.group_end}]]</td>
+                               <td class="coco crcr-5">[[${i.group_pp}]]/[[${i.student_count}]]</td>
+                               <td class="coco crcr-6">
+                                   <button type="button" id="medbtn-m" class="join-btn" th:if="${i.group_st == '활성화'}">신청자 확인</button>
+                                   <span th:unless="${i.group_st == '활성화'}">비활성화</span>
+                               </td>
+                           </tr>
+                       </th:block>
+
 
                         </tbody>
                     </table>
-                </div>
+                </form>
                 <div class="page-wrap right-p">
                     <div class="pagination">
                         <a href="#">&laquo;</a>
@@ -146,42 +139,7 @@
                                         <th class="coco crc-4">승인</th>
                                     </tr>
                                     </thead>
-                                    <tbody class="co-body">
-                                    <tr class="co-flex">
-                                        <td class="coco crcr-0 center-flex">1</td>
-                                        <td class="coco crc-1">이순신</td>
-                                        <td class="coco crc-2">010-1234-5678</td>
-                                        <td class="coco crc-3">2023.03.10</td>
-                                        <td class="coco crc-4"><input type="checkbox"><button type="button">거절</button></td>
-                                    </tr>
-                                    <tr class="co-flex">
-                                        <td class="coco crcr-0 center-flex">2</td>
-                                        <td class="coco crc-1">이순신</td>
-                                        <td class="coco crc-2">010-1234-5678</td>
-                                        <td class="coco crc-3">2023.03.10</td>
-                                        <td class="coco crc-4"><input type="checkbox"><button type="button">거절</button></td>
-                                    </tr>
-                                    <tr class="co-flex">
-                                        <td class="coco crcr-0 center-flex">3</td>
-                                        <td class="coco crc-1">이순신</td>
-                                        <td class="coco crc-2">010-1234-5678</td>
-                                        <td class="coco crc-3">2023.03.10</td>
-                                        <td class="coco crc-4"><input type="checkbox"><button type="button">거절</button></td>
-                                    </tr>
-                                    <tr class="co-flex">
-                                        <td class="coco crcr-0 center-flex">2</td>
-                                        <td class="coco crc-1">이순신</td>
-                                        <td class="coco crc-2">010-1234-5678</td>
-                                        <td class="coco crc-3">2023.03.10</td>
-                                        <td class="coco crc-4"><input type="checkbox"><button type="button">거절</button></td>
-                                    </tr>
-                                    <tr class="co-flex">
-                                        <td class="coco crcr-0 center-flex">2</td>
-                                        <td class="coco crc-1">이순신</td>
-                                        <td class="coco crc-2">010-1234-5678</td>
-                                        <td class="coco crc-3">2023.03.10</td>
-                                        <td class="coco crc-4"><input type="checkbox"><button type="button">거절</button></td>
-                                    </tr>
+                                    <tbody class="co-body sms-m">
 
                                     </tbody>
                                 </table>
@@ -200,12 +158,106 @@
     </div>
 
 </th:block>
+<script th:inline="javascript">
+    var msg = `[[${msg}]]`;
+    msg = JSON.parse(msg)
+    if(msg !== null) {
+        alert(msg);
+    }
 
+</script>
 
 <script>
-  /*  $(".select-box").on('click',function (e){
-        $(".select-box__list").css("display","block");
-    })*/
+
+    function getinfo(group_no){
+        $.ajax({
+            type: "post",
+            url: "/getstdInfo",
+            dataType: "json",
+            data: JSON.stringify({
+                group_no: group_no
+            }),
+            contentType: "application/json",
+            success: function(data) {
+                console.log(data);
+                for (let i in data){
+                    var tr = document.createElement("tr");
+                    tr.classList.add("co-flex");
+                    tr.innerHTML = `<td class="coco crcr-0 center-flex">${parseInt(i)+1}</td>
+                                        <td class="coco crc-1">${data[i].korn_flnm}</td>
+                                        <td class="coco crc-2">${data[i].idfr_telno}</td>
+                                        <td class="coco crc-3">2023.03.10</td>
+                                        <td class="coco crc-4"><input type="checkbox"><button type="button">거절</button></td>`;
+                    $(".sms-m").append(tr);
+
+                }
+            },
+            error: function(err, status) {
+                console.log(err, status);
+                alert("정보를 불러올 수 없습니다.");
+            }
+        });
+
+    }
+
+
+    $(".join-btn").on('click', function (e){
+
+        console.log( $(this).closest(".co-flex").find(".hi-mmm").val());
+        getinfo( $(this).closest(".co-flex").find(".hi-mmm").val());
+        $("#modalfour").removeClass('hidden');
+    })
+    document.getElementById("close-m").addEventListener('click', ()=>{
+        $(".sms-m").empty();
+        $("#modalfour").addClass('hidden');
+
+    })
+
+
+    $(".regbtn-des").on('click', function(e) {
+        location.href = "/group/groupreg";
+    });
+
+    $(".f-t1").on('click', function (e){
+        var form = $("form[name='grouplistForm']");
+        form.attr("action", "groupstupdate");
+        form.submit();
+    });
+
+    $(".f-t2").on('click', function (e){
+        var form = $("form[name='grouplistForm']");
+        form.attr("action", "groupstbupdate");
+        form.submit();
+    });
+
+    $(".f-t3").on('click', function (e){
+        var form = $("form[name='grouplistForm']");
+        form.attr("action", "groupdelete");
+        form.submit();
+    });
+
+    document.addEventListener("DOMContentLoaded", function() {
+        var groupLinks = document.querySelectorAll(".crcr-1 a");
+        groupLinks.forEach(function(link) {
+            link.addEventListener("click", function(event) {
+                event.preventDefault(); // 기본 동작 방지
+
+                var groupNo = this.previousElementSibling.value; // 해당 그룹의 group_no 가져오기
+                var form = document.createElement("form"); // 폼 동적 생성
+                form.action = "groupdetail"; // 액션 설정
+                form.method = "POST"; // 메소드 설정
+                var input = document.createElement("input"); // input 동적 생성
+                input.type = "hidden"; // hidden 타입 설정
+                input.name = "group_no"; // 이름 설정
+                input.value = groupNo; // 값 설정
+                form.appendChild(input); // 폼에 input 추가
+                document.body.appendChild(form); // body에 폼 추가
+                form.submit(); // 폼 제출
+            });
+        });
+    });
+
+
 </script>
 
 </body>

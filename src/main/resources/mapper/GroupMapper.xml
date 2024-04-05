@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.groups.group.GroupMapper">
+    <!-- 예시 파일입니다  namespace에 com.project.groups 까지는 동일하고 뒤에는 Mapper경로 넣어주면 됩니다. -->
+
+    <insert id="groupregForm">
+        insert into GROUP_LIST (user_no, group_nm, group_start, group_end, group_pp, group_st )
+        values (#{user_no},#{group_nm}, #{group_start}, #{group_end}, #{group_pp}, "활성화")
+    </insert>
+
+
+    <select id="getgrouplist" resultType="GroupVO">
+        SELECT
+            a1.*,
+            COUNT(a2.user_no) AS student_count
+        FROM
+                (select * from group_list where user_no = 123) a1
+                    LEFT JOIN
+                (select * from group_join where APRV_YN = "Y" )a2
+                ON
+                    a1.group_no = a2.group_no
+        GROUP BY
+            a1.group_no;
+    </select>
+
+
+
+    <select id="getstdInfo" resultType="MemberVO">
+        select m1.* from (select * from group_join where group_no = #{group_no} and aprv_yn = "N") a1
+        left join members m1
+        on a1.user_no = m1.user_no;
+    </select>
+
+
+    <update id="groupstupdate">
+        update GROUP_LIST set group_st = "활성화" where group_no = #{group_non}
+    </update>
+
+    <update id="groupstbupdate">
+        update GROUP_LIST set group_st = "비활성화" where group_no = #{group_non}
+    </update>
+
+    <delete id="groupdelete">
+        delete from GROUP_LIST where group_no = #{group_non}
+    </delete>
+
+    <select id="getgroupstdTotal" resultType="int">
+        select count(*) as total
+        from PRODUCT
+        where prod_writer =#{prod_writer}
+        <if test="cri.searchName != '' and cri.searchName != null">
+            and prod_name like concat('%',#{cri.searchName},'%')
+        </if>
+        <if test="cri.searchContent != '' and cri.searchContent != null">
+            and prod_content like concat('%',#{cri.searchContent},'%')
+        </if>
+        <if test="cri.startDate != '' and cri.startDate != null">
+            <![CDATA[ and str_to_date(prod_enddate, '%Y-%m-%d') >= str_to_date(#{cri.startDate}, '%Y-%m-%d') ]]>
+        </if>
+        <if test="cri.endDate != '' and cri.endDate != null">
+            <![CDATA[ and str_to_date(prod_enddate, '%Y-%m-%d') <= str_to_date(#{cri.endDate}, '%Y-%m-%d') ]]>
+        </if>
+    </select>
+
+
+    <select id="getallgrouplist" resultType="GroupVO">
+        select * from (select a.*, m1.KORN_FLNM from
+                (select * from group_list where group_st = "활성화") a
+                    left join members m1
+                              on a.user_no = m1.user_no) t
+                          left join  (select a1.group_no,
+                                             COUNT(a2.user_no) AS student_count
+                                      FROM
+                                              (select * from group_list) a1
+                                                  LEFT JOIN
+                                              (select * from group_join where APRV_YN = "Y" )a2
+                                              ON
+                                                  a1.group_no = a2.group_no
+                                      GROUP BY
+                                          a1.group_no) n
+                                     on t.group_no = n.group_no
+    </select>
+
+
+    <insert id="groupjoin">
+        insert into GROUP_JOIN (user_no, group_no, aprv_yn)
+        values (#{user_no}, #{group_no}, "N")
+    </insert>
+</mapper>
+
