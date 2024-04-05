@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UploadWVO {
+public class UploadVO {
 	private Integer UPLOAD_NO; //자료번호
 	private String	FILENAME; //실제첨부파일명
 	private String  FILEPATH; //업로드 될 날짜폴더

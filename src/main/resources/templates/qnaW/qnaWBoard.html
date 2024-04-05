@@ -27,7 +27,7 @@
 							<button type="button" class="regbtn-des" onclick="qnaWRegist()">질문등록</button> <!-- qnaW/Detail 로 경로이동필요 -->
 						</div>
 					</div>
-					<div class="search-wrap-m"
+					<div class="search-wrap-w"
 						style="margin-bottom: 0; padding-bottom: 0; padding-left: 0;">
 						<div class="top-line-btn-wrap" style="margin-bottom: 15px">
 							<input type="text" placeholder="검색해주세요" style="width: 300px">
@@ -54,41 +54,18 @@
 								</tr>
 							</thead>
 							<tbody class="co-body">
-								<tr class="co-flex">
+								<tr class="co-flex" th:each="qnawvo : ${qnawvo}">
 									<td class="coco crcr-0 center-flex"><input type="checkbox"></td>
-									<td class="coco crcr-0 center-flex">1</td>
-									<td class="coco w-1"><a href="#">JAVA개발</a></td>
-									<td class="coco w-2">중앙인재교육개발원그룹</td>
-									<td class="coco w-3">홍길동</td>
-									<td class="coco w-4">2024.04.01</td>
-									<td class="coco w-5">대기중</td>
-								</tr>
-								<tr class="co-flex">
-									<td class="coco crcr-0 center-flex"><input type="checkbox"></td>
-									<td class="coco crcr-0 center-flex">2</td>
-									<td class="coco w-1"><a href="#">JAVA개발</a></td>
-									<td class="coco w-2">중앙인재교육개발원그룹</td>
-									<td class="coco w-3">홍길동</td>
-									<td class="coco w-4">2024.04.01</td>
-									<td class="coco w-5">대기중</td>
-								</tr>
-								<tr class="co-flex">
-									<td class="coco crcr-0 center-flex"><input type="checkbox"></td>
-									<td class="coco crcr-0 center-flex">3</td>
-									<td class="coco w-1"><a href="#">JAVA개발</a></td>
-									<td class="coco w-2">중앙인재교육개발원그룹</td>
-									<td class="coco w-3">홍길동</td>
-									<td class="coco w-4">2024.04.01</td>
-									<td class="coco w-5"><i class="ri-checkbox-circle-line"></i>답변완료</td>
-								</tr>
-								<tr class="co-flex">
-									<td class="coco crcr-0 center-flex"><input type="checkbox"></td>
-									<td class="coco crcr-0 center-flex">4</td>
-									<td class="coco w-1"><a href="#">JAVA개발</a></td>
-									<td class="coco w-2">중앙인재교육개발원그룹</td>
-									<td class="coco w-3">홍길동</td>
-									<td class="coco w-4">2024.04.01</td>
-									<td class="coco w-5"><i class="ri-checkbox-circle-line"></i>답변완료</td>
+									<td class="coco crcr-0 center-flex" th:text="${qnawvo.USER_NO}"></td>
+									<td class="coco w-1"><a href="#" th:each="qnavo : ${qnawvo.list}" th:text="${qnavo.QTITLE}"></a></td>
+									<td class="coco w-2" th:text="${qnawvo.GROUP_NM}"></td>
+									<td class="coco w-3" th:text="${qnawvo.KORN_FLNM}"></td>
+									<td class="coco w-4" th:each="qnavo : ${qnawvo.list}" th:text="${qnavo.QREGDATE}"></td>
+									<td class="coco w-5">
+										<span th:if="${qnawvo.CCONTENT != null}">
+										<i class="ri-checkbox-circle-line"></i>답변완료</span>
+										<span th:unless="${qnawvo.CCONTENT != null}">대기중</span>
+									</td>
 								</tr>
 							</tbody>
 						</table>

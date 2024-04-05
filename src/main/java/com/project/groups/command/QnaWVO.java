@@ -1,6 +1,7 @@
 package com.project.groups.command;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,22 +13,24 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class QnaWVO {
+	private Integer USER_NO;
+	private String LOGIN_ID; //아이디
+	private String KORN_FLNM; //이름
 	
-	//QNABOARD
-	private Integer qnumber; //글번호
-	private Integer user_no; //회원번호 //MEMBERS FK
-	private Integer group_no;
-	private String qtitle; //글제목
-	private String qcontent; //글내용
-	private Timestamp qregdate; //등록일자
-	private Timestamp qupddate; //수정일자
-	private String qviews; //조회수
-	private String qatta; //첨부파일명
-	private String qattaurl; //첨부파일경로
+	private String GROUP_NM;
 	
-	//COMMENT
-	private Integer cnumber; //답변번호
-	private String ccontent; //답변내용
-	private Timestamp cregdate; //등록일자
-	private Timestamp cupddate; //수정일자
+	private String CCONTENT;
+	
+//    private String ROLE; //회원권한 회원가입 후 관리자가 UserDetails 로 부여함
+//    private String PSWD; //비밀번호
+//    private String IDFR_TELNO; //연락처
+//    private String DATE_BIRTH; //생년월일
+//    private String ADM_EML_ADDR; //이메일
+//    private String LOTNO_DADDR; //주소
+//    private Timestamp DATE_SUBSCRIPTION; //가입일자 처음엔 null로 받고 DB에 넣을 때
+//    private Timestamp DATE_DEL; //탈퇴일자 처음엔 null로 받고 DB에 넣을 때
+//    private String USER_NICKNAME; //닉네임
+    
+    private List<QnaVO> list;
+    
 }
