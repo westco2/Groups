@@ -1,12 +1,7 @@
 <!DOCTYPE HTML>
-
 <html xmlns:th="http://www.thymeleaf.org">
 
-
-
 <body>
-
-
 
 <!-- content -->
 
@@ -22,7 +17,7 @@
 
         <div class="route-wrap">
 
-            <a href="#">공지사항</a><p>/</p><a href="#">공지사항 등록</a>
+            <a href="#">공지사항</a><p>/</p><a href="#">공지사항 조회</a>
 
         </div>
 
@@ -30,7 +25,7 @@
 
             <div class="box-title-wrap">
 
-                <h3>공지사항 등록</h3>
+                <h3>공지사항 조회</h3>
 
             </div>
 
@@ -42,7 +37,7 @@
 
                             <label>제목</label>
 
-                            <input class="inp-reg-mheight 400px;" type="text">
+                            <p class="inp-reg-mheight">여기에 공지사항 제목이 표시됩니다.</p>
 
                             
 
@@ -50,11 +45,11 @@
 
                         
 
-                        <div >
+                        <div>
 
                             <label>내용</label>
 
-                            <textarea id="mytextarea"></textarea>
+                            <div class="content-display">여기에 공지사항 내용이 표시됩니다.</div>
 
                             
 
@@ -66,26 +61,18 @@
 
                 </div>
 
-               <div class="reg-btn-wrap">
-
-				  <button type="submit">등록</button>
-
-				  <button type="submit" class="list-button">목록</button>
+                <div class="reg-btn-wrap">
 
 
-				</div>
+                    <button type="button" onclick="location.href='#'" class="list-button">목록</button>
 
-
-
-
+                </div>
 
             </div>
 
         </div>
 
     </div>
-
-
 
 </th:block>
 
