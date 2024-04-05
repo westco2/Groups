@@ -1,10 +1,12 @@
 package com.project.groups.qnaW.service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.project.groups.command.QnaVO;
 import com.project.groups.command.QnaWVO;
 import com.project.groups.util.Criteria;
 
@@ -15,22 +17,22 @@ public class QnaWServiceImpl implements QnaWService{
 	private QnaWMapper qnaWMapper;
 	
 	@Override
-	public ArrayList<QnaWVO> getList(Criteria cri) {
+	public List<QnaWVO> getList(Criteria cri) {
 		return qnaWMapper.getList(cri);
 	}
 	
 	@Override
-	public int getTotal() {
+	public Integer getTotal() {
 		return qnaWMapper.getTotal();
 	}
 	
 	@Override	
-	public int regist(QnaWVO vo) {
+	public int regist(QnaVO vo) {
 		return qnaWMapper.regist(vo);
 	}
 	
 	@Override
-	public int reply(QnaWVO vo) {
+	public int reply(QnaVO vo) {
 		return qnaWMapper.reply(vo);
 	}
 }

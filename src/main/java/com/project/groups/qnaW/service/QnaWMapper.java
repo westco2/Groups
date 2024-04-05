@@ -1,17 +1,13 @@
 package com.project.groups.qnaW.service;
-
-import java.util.ArrayList;
-
+import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
-
+import com.project.groups.command.QnaVO;
 import com.project.groups.command.QnaWVO;
 import com.project.groups.util.Criteria;
-
 @Mapper
 public interface QnaWMapper {
-
-	public int regist(QnaWVO vo);
-	public int reply(QnaWVO vo);
-	public ArrayList<QnaWVO> getList(Criteria cri);
-	public int getTotal();
+	public List<QnaWVO> getList(Criteria cri);
+	public int regist(QnaVO vo);
+	public int reply(QnaVO vo);
+	public Integer getTotal();
 }

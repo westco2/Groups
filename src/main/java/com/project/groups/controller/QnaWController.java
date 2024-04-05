@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.project.groups.command.QnaVO;
 import com.project.groups.command.QnaWVO;
 //import com.project.groups.qnaW.service.QnaWService;
 //import com.project.groups.util.Criteria;
@@ -33,12 +34,11 @@ public class QnaWController {
 	
 	@GetMapping("/qnaWBoard")
 	public String qnaWBoard(Model model, Criteria cri) {
-		ArrayList<QnaWVO> list = qnaWService.getList(cri);
-		 
-		
+		List<QnaWVO> qnawvo = qnaWService.getList(cri);
+		System.out.println(qnawvo.toString());
 //		int total = qnaWService.getTotal();
 //		PageVO pageVO = new PageVO(cri, total);
-//		model.addAttribute("list", list);
+		model.addAttribute("qnawvo", qnawvo);
 //		model.addAttribute("pageVO", pageVO);
 		
 		return "qnaW/qnaWBoard";
@@ -51,7 +51,7 @@ public class QnaWController {
 	}
 	
 	@PostMapping("/ReplyWForm")
-	public String ReplyWForm(QnaWVO vo, RedirectAttributes re) {
+	public String ReplyWForm(QnaVO vo, RedirectAttributes re) {
 //		int result = qnaWService.reply(vo);
 //		if(result == 1) {
 //			re.addFlashAttribute("msg", "등록완료");
@@ -70,7 +70,7 @@ public class QnaWController {
 	}
 	
 	@PostMapping("/InsertWForm")
-	public String InsertWForm(QnaWVO vo, RedirectAttributes re) {
+	public String InsertWForm(QnaVO vo, RedirectAttributes re) {
 //		int result = qnaWService.regist(vo);
 //		if(result == 1) {
 //			re.addFlashAttribute("msg", "등록완료");

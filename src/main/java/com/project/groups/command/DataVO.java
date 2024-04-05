@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class DataWVO {
+public class DataVO {
 	//GROUPFILE
 	private Integer gnumber; //자료번호
 	private Integer user_no; //회원번호 //MEMBERS FK
