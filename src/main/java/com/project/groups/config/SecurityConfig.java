@@ -32,7 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter { //시큐리�
     protected void configure(HttpSecurity httpSecurity) throws Exception{
         httpSecurity.csrf().disable()
                 .authorizeRequests()
-                    .antMatchers("/css/**", "/js/**", "/img/**", "/fonts/**").permitAll() //css등 import를 위해
+                    .antMatchers("/css/**", "/js/**", "/img/**", "/fonts/**", "/homepageimg/**").permitAll() //css등 import를 위해
                     .antMatchers("/main","/login", "/joinFormHJ" ).permitAll() //기본 3대장 페이지
                     .antMatchers("/member*").permitAll() //회원가입페이지에서ㅠㅠ
                     .anyRequest().authenticated()

@@ -4,8 +4,6 @@ import com.project.groups.command.MemberVO;
 
 import com.project.groups.membersZ.service.MembersZService;
 import com.project.groups.membersZ.service.UserDetailsServiceImpl;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -46,8 +44,8 @@ public class MemberZController {
     @PostMapping("/memberreg") //회원가입에서 입력된 값을 받음
     public String memberreg(MemberVO memberVO){
         String pswd = passwordEncoder.encode(memberVO.getPswd());
-        System.out.println("pswd = " + pswd);
         memberVO.setPswd(pswd);
+        System.out.println("memberVO = " + memberVO);
         boolean checking = membersZService.memberreg(memberVO); //boolean 으로 회원가입 성공 확인
         System.out.println("checking = " + checking);
         return "redirect:/login";
