@@ -12,7 +12,7 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MemberVO { //회원 테이블 정보
-    private String role; //회원권한 회원가입 후 관리자가 UserDetails 로 부여함
+    private String role; //회원권한 회원가입 후 관리자가 부여함
     private String login_id; //아이디
     private String pswd; //비밀번호
     private String korn_flnm; //이름

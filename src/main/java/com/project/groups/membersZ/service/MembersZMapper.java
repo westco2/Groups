@@ -10,4 +10,6 @@ public interface MembersZMapper {
     public Integer memberidcheck(String memberidcheck);
 
     public Integer membernickcheck(String membernickcheck);
+    public String memberlogin(String login_id);
+    public MemberVO memberinf(String login_id);
 }

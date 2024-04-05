@@ -27,7 +27,12 @@ public class MembersZServiceImpl implements MembersZService {
     }
 
     @Override
-    public boolean memberlog(MemberVO memberVO) {
-        return false;
+    public String memberlogin(String login_id) {
+        return membersZMapper.memberlogin(login_id);
+    }
+
+    @Override
+    public MemberVO memberinf(String login_id) {
+        return membersZMapper.memberinf(login_id);
     }
 }

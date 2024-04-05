@@ -20,4 +20,9 @@ public class HomeController {
         return "homepage/main";
     }
 
+    @GetMapping("/main2")
+    public String main2(){
+        return "homepage/main2";
+    }
+
 }
