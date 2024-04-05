@@ -29,10 +29,10 @@ public class NotiController {
     	
     	return "noti/notiupdate";
     }
-    @GetMapping("/notidelete")
+    @GetMapping("/noticheck")
     public String notidelete(){
     	
-    	return "noti/notidelete";
+    	return "noti/noticheck";
     }
 
 
