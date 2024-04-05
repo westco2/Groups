@@ -1,99 +1,207 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"> <!--타임리프-->
-
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>joinForm페이지</title>
-    <script th:src="@{/js/jquery-3.7.1.min.js}"></script> <!--제이쿼리-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/jy.css"> 
 </head>
-
-
 <body>
-    <h1>회원가입</h1>
-    <hr>
-    <form action="/memberreg" method="post">
-        <input type="text" name="login_id" id="user_id" placeholder="아이디는 4글자 이상입니다" minlength="4" maxlength="15">
-        <button id="overlappedID" type="button">중복확인</button><br>
-        <input type="password" name="pswd" minlength="6" placeholder="비밀번호는 6글자 이상입니다"><br>
-        <input type="text" name="korn_flnm" placeholder="이름 입력하세요"><br>
-        <input type="text" name="idfr_telno" placeholder="연락처 입력하세요"><br>
-        <input type="text" name="date_birth" placeholder="생년월일 입력하세요"><br>
-        <input type="text" name="adm_eml_addr" placeholder="이메일 입력하세요"><br>
-        <input type="text" name="lotno_daddr" placeholder="주소 입력하세요"><br>
-        <input type="text" name="user_nickname" id="user_nick" placeholder="닉네임 입력하세요">
-        <button id="overlappedNick" type="button">중복확인</button><br>
-        <button id="teacherBtn" type="button">교육자</button>
-        <button id="studentBtn" type="button">학생</button><br>
-        <button id="signup" type="button">회원가입</button>
-    </form>
 
+<!-- content -->
+<th:block th:replace="~{./include/homelayout :: homeContent( ~{ :: .main-wrap } )}">
+
+
+    <div class="main-wrap">
+    <div class="container">
+        <h2>회원가입</h2>
+        <form action="/joinFormHJ" method="post"> 
+            <label for="username">아이디:</label>
+            <input type="text" id="username" name="username" required>
+            <button type="button" id="checkDuplicateBtn">중복확인</button><br>
+
+            <label for="password">비밀번호:</label>
+            <input type="password" id="password" name="password" required><br>
+
+            <label for="name">이름:</label>
+            <input type="text" id="name" name="name" required><br>
+
+            <label for="nickname">닉네임:</label>
+            <input type="text" id="nickname" name="nickname" required>
+            <button type="button" id="namebtn">중복확인</button><br>
+
+            <label for="birthdate">생년월일:</label>
+            <div class="info" id="info__birth">
+			  <select class="box" id="birth-year">
+			    <option disabled selected>출생 연도</option>
+			  </select>
+			  <select class="box" id="birth-month">
+			    <option disabled selected>월</option>
+			  </select>
+			  <select class="box" id="birth-day">
+			    <option disabled selected>일</option>
+			  </select>
+			</div>
+ 
+            <label for="phone">연락처:</label>
+            <select id="carrier" name="carrier">
+                <option value="SKT">SKT</option>
+                <option value="KT">KT</option>
+                <option value="LGU+">LG U+</option>
+            </select> 
+            <input type="tel" id="phone" name="phone" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" placeholder="000-0000-0000" required>
+            <button type="button" class="phone-container" onclick="sendVerificationCode()">인증번호 받기</button>
+            <input type="text" id="verifi" name="verificationCode" placeholder="인증번호" required>
+            <button type="button" class="verification" onclick="sendVerificationCode()">인증</button><br>
+
+            <label for="postalCode">우편번호:</label>
+            <input type="text" id="postalCode" name="postalCode" required>
+            <button type="button" id="findZipCodeBtn" onclick="findZipCode()">우편번호 찾기</button><br>
+
+            <label for="address">주소:</label>
+            <input type="text" id="address" name="address" required><br>
+
+            <label for="email">이메일:</label>
+            <input type="email" id="email" name="email" required>
+            <span>@</span>
+            <select class="box" id="domain-list" name="domain">
+                <option value="type">직접 입력</option>
+                <option value="naver.com">naver.com</option>
+                <option value="google.com">google.com</option>
+                <option value="hanmail.net">hanmail.net</option>
+                <option value="nate.com">nate.com</option>
+                <option value="kakao.com">kakao.com</option>
+            </select>
+
+            <input type="submit" name="userType" value="학생">
+            <input type="submit" name="userType1" value="강사">
+        </form>
+    </div>
+    </div>
+    </th:block>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        // 우편번호 찾기 함수
+        function findZipCode() {
+            daum.postcode.load(function(){
+                new daum.Postcode({
+                    oncomplete: function(data) {
+                        document.getElementById('postalCode').value = data.zonecode;
+                        document.getElementById('address').value = data.address;
+                    }
+                }).open();
+            });
+        }
+        /*]]>*/
+    </script>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        // 인증번호를 요청하는 함수
+        function sendVerificationCode() {
+            const phoneNumber = document.getElementById('phone').value;
+            const carrier = document.getElementById('carrier').value;
+
+            console.log('전화번호:', phoneNumber);
+            console.log('통신사:', carrier);
+        }
+
+        // 인증번호 확인 함수
+        function verifyCode() {
+            const verificationCode = document.getElementById('verifi').value;
+            console.log('인증번호:', verificationCode);
+        }
+        /*]]>*/
+    </script>
     <script>
-    $("#overlappedID").click(function(){ //아이디 중복 확인
-        $("#signup").attr("type", "button");
-        const id = $("#user_id").val();
-        $.ajax({
-            type: "post",
-            async: false,
-            url: "http://localhost:8989/memberidcheck",
-            data: {id: id},
-            success: function (data) {
-                if(data > 0) {
-                    alert('중복된 아이디입니다')
-                }else {
-                    alert('가입이 가능한 아이디입니다')
-                    // $("#signup").attr("type", "submit");
-                }
-            }
-        })
-    });
+		 // '출생 연도' 셀렉트 박스 option 목록 동적 생성
+		    const birthYearEl = document.querySelector('#birth-year')
+		    // option 목록 생성 여부 확인
+		    isYearOptionExisted = false;
+		    birthYearEl.addEventListener('focus', function () {
+		      // year 목록 생성되지 않았을 때 (최초 클릭 시)
+		      if(!isYearOptionExisted) {
+		        isYearOptionExisted = true
+		        for(var i = 1960; i <= 2024; i++) {
+		          // option element 생성
+		          const YearOption = document.createElement('option')
+		          YearOption.setAttribute('value', i)
+		          YearOption.innerText = i
+		          // birthYearEl의 자식 요소로 추가
+		          this.appendChild(YearOption);
+		        }
+		      }
+		    });
+		 // '출생 월' 셀렉트 박스 option 목록 동적 생성
+		    const birthMonthEl = document.querySelector('#birth-month');
+		    let isMonthOptionExisted = false;
+		    birthMonthEl.addEventListener('focus', function () {
+		      if (!isMonthOptionExisted) {
+		        isMonthOptionExisted = true;
+		        for (let i = 1; i <= 12; i++) {
+		          const monthOption = document.createElement('option');
+		          monthOption.setAttribute('value', i);
+		          monthOption.innerText = i;
+		          this.appendChild(monthOption);
+		        }
+		      }
+		    });
 
-    $("#overlappedNick").click(function(){ //닉네임중복 확인
-        $("#signup").attr("type", "button");
-        const nick = $("#user_nick").val();
-        $.ajax({
-            type: "post",
-            async: false,
-            url: "http://localhost:8989/membernickcheck",
-            data: {nick: nick},
-            success: function (data) {
-                if(data > 0) {
-                    alert('중복된 닉네임입니다')
-                }else {
-                    alert('가입이 가능한 닉네임입니다')
-                    $("#signup").attr("type", "submit");
-                }
-            }
-        })
-    });
+		    // '출생 일' 셀렉트 박스 option 목록 동적 생성
+		    const birthDayEl = document.querySelector('#birth-day');
+		    let isDayOptionExisted = false;
+		    birthDayEl.addEventListener('focus', function () {
+		      if (!isDayOptionExisted) {
+		        isDayOptionExisted = true;
+		        for (let i = 1; i <= 31; i++) {
+		          const dayOption = document.createElement('option');
+		          dayOption.setAttribute('value', i);
+		          dayOption.innerText = i;
+		          this.appendChild(dayOption);
+		        }
+		      }
+		    });
+		 // 아이디 중복 확인 버튼 이벤트 리스너 등록
+		    document.getElementById('checkDuplicateBtn').addEventListener('click', function() {
+		        // 아이디 입력값 가져오기
+		        const username = document.getElementById('username').value;
 
+		        // 아이디 입력값이 비어 있는지 확인
+		        if (username.trim() === '') {
+		            alert('아이디를 입력해주세요.');
+		            return; // 입력값이 없으면 중복 확인 로직을 실행하지 않고 함수 종료
+		        }
 
-        let selectedRole = null;
-    $(document).ready(function () {
-        // 교육자 버튼 클릭 시
-        $('#teacherBtn').click(function () {
-            selectedRole = 'ROLE_TEACHER';
-            $('#teacherBtn').addClass('selected');
-            $('#studentBtn').removeClass('selected');
-        });
+		        // 여기서는 아이디가 중복되었다고 가정하고 간단히 처리합니다.
+		        const isDuplicate = true; // 여기에 실제 중복 확인 로직을 구현하면 됩니다.
 
-        // 학생 버튼 클릭 시
-        $('#studentBtn').click(function () {
-            selectedRole = 'ROLE_STUDENT';
-            $('#studentBtn').addClass('selected');
-            $('#teacherBtn').removeClass('selected');
-        });
+		        // 중복되는 아이디가 있을 경우 알람 표시
+		        if (isDuplicate) {
+		            alert('아이디가 중복됩니다.');
+		        } else {
+		            alert('사용 가능합니다.');
+		        }
+		    });
 
-        // 회원가입 버튼 클릭 시
-        $('#signup').click(function () {
-            // 선택된 역할을 폼 데이터에 추가
-            $('<input>').attr({
-                type: 'hidden', //hidden 으로 화면에 보이지 않고 정보를 전달할 수 있다
-                name: 'role',
-                value: selectedRole
-            }).appendTo('form');
-        });
+		    // 닉네임 중복 확인 버튼 이벤트 리스너 등록
+		    document.getElementById('namebtn').addEventListener('click', function() {
+		        // 닉네임 입력값 가져오기
+		        const nickname = document.getElementById('nickname').value;
 
-    });
+		        // 닉네임 입력값이 비어 있는지 확인
+		        if (nickname.trim() === '') {
+		            alert('닉네임을 입력해주세요.');
+		            return; // 입력값이 없으면 중복 확인 로직을 실행하지 않고 함수 종료
+		        }
+
+		        // 여기서는 닉네임이 중복되었다고 가정하고 간단히 처리합니다.
+		        const isDuplicate = true; // 여기에 실제 중복 확인 로직을 구현하면 됩니다.
+
+		        // 중복되는 닉네임이 있을 경우 알람 표시
+		        if (isDuplicate) {
+		            alert('닉네임이 중복됩니다.');
+		        } else {
+		            alert('사용 가능합니다.');
+		        }
+		    });
     </script>
 </body>
 </html>
