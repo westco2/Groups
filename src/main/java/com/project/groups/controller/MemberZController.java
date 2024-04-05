@@ -41,7 +41,7 @@ public class MemberZController {
 
     @GetMapping("/joinFormHJ") //회원가입하는 페이지
     public String joinForm(){
-        return "/memberZ/joinFormHJ";
+        return "memberZ/joinFormHJ";
     }
     @PostMapping("/memberreg") //회원가입에서 입력된 값을 받음
     public String memberreg(MemberVO memberVO){
@@ -58,7 +58,7 @@ public class MemberZController {
     public int memberidcheck(@RequestParam("id") String memberidcheck){
         int checkingid = membersZService.memberidcheck(memberidcheck);
         return checkingid;
-    }
+                          }
 
     @ResponseBody
     @PostMapping("/membernickcheck") //회원가입 닉네임 중복 체크

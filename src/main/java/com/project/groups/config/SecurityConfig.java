@@ -1,6 +1,5 @@
 package com.project.groups.config;
 
-import com.project.groups.membersZ.MyLoginSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

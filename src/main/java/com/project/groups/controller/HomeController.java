@@ -25,4 +25,30 @@ public class HomeController {
         return "homepage/main2";
     }
 
+
+    
+    @GetMapping("/payment")
+    public String payment(){
+        return "homepage/subscription/payment"; 
+    }
+    
+    @GetMapping("/account")
+    public String account(){
+        return "homepage/subscription/account"; 
+    }
+    
+    @GetMapping("/kakaopay")
+    public String kakaopay(){
+        return "homepage/subscription/kakaopay"; 
+    }
+    
+    @GetMapping("/card")
+    public String card(){
+        return "homepage/subscription/card"; 
+    }
+    
+    @GetMapping("/fna")
+    public String fna(){
+        return "homepage/fna"; 
+    }
 }
