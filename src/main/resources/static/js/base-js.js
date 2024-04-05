@@ -24,14 +24,7 @@ $(".co-flex").on('click',".desc-tr" ,function(e) {
     $(e.currentTarget).find("i").addClass("i-col");
 });
 
-document.getElementById("medbtn-m").addEventListener('click', ()=>{
 
-    $("#modalfour").removeClass('hidden');
-})
-document.getElementById("close-m").addEventListener('click', ()=>{
-    $("#modalfour").addClass('hidden');
-
-})
 
 /*
 var swiper = new Swiper(".mySwiper", {
