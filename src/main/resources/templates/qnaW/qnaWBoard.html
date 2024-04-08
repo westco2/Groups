@@ -54,9 +54,9 @@
 								</tr>
 							</thead>
 							<tbody class="co-body">
-								<tr class="co-flex" th:each="qnawvo : ${qnawvo}">
+								<tr class="co-flex" th:each="qnawvo, status : ${qnawvo}">
 									<td class="coco crcr-0 center-flex"><input type="checkbox"></td>
-									<td class="coco crcr-0 center-flex" th:text="${qnawvo.USER_NO}"></td>
+									<td class="coco crcr-0 center-flex">[[${status.count}]]</td>
 									<td class="coco w-1"><a href="#" th:each="qnavo : ${qnawvo.list}" th:text="${qnavo.QTITLE}"></a></td>
 									<td class="coco w-2" th:text="${qnawvo.GROUP_NM}"></td>
 									<td class="coco w-3" th:text="${qnawvo.KORN_FLNM}"></td>
@@ -91,7 +91,14 @@
 
 	</th:block>
 	
-	<script>
+	<script th:inline="javascript">
+		var msg = '[[${msg}]]';
+		msg = JSON.parse(msg);
+				
+		if(msg != null) {
+			alert(msg);
+		}
+	
 	function qnaWRegist(){
 		window.location.href="/qnaW/qnaWRegist";
 	}

@@ -13,14 +13,12 @@ import lombok.NoArgsConstructor;
 @Builder
 public class DataVO {
 	//GROUPFILE
-	private Integer gnumber; //자료번호
-	private Integer user_no; //회원번호 //MEMBERS FK
-	private String gname; //강의제목
-	private String gfilename; //학습자료명
-	private String gfilecon; //학습자료내용
-	private String gfiletype; //학습자료유형
-	private String gfileurl; //학습자료주소
-	private String gatta; //첨부파일명
-	private String gattaurl; //첨부파일경로
-	private Timestamp gregdate; //등록일자
+	private Integer GNUMBER; //자료번호
+	private Integer GVIEWS; //조회수
+	private String LOGIN_ID; //회원번호 //MEMBERS FK
+	private String GNAME; //강의제목
+	private String GFILENAME; //학습자료명
+	private String GFILECON; //학습자료내용
+	private String GFILERUL; //학습자료주소
+	private Timestamp GREGDATE; //등록일자
 }
