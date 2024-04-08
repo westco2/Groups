@@ -7,7 +7,7 @@ public class Criteria {
 
 	private int page;
 	private int amount;
-	
+
 	private String searchLogin_id;
 	private String searchKorn_flnm;
 	private String searchQtitle;
@@ -24,7 +24,7 @@ public class Criteria {
 	}
 	
 	public int getPageStart() {
-		return (page = 1) * amount;
+		return (page - 1) * amount;
 	}
 	
 	
