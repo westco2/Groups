@@ -7,9 +7,8 @@ import com.project.groups.homework.HomeworkService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
@@ -43,8 +42,25 @@ public class HomeworkController {
         return "homework/myhomework";
     }
 
-    @GetMapping("/myhomeworkdetail")
-    public String myhomeworkdetail(){
+    @GetMapping("/myhomeworkdetail/{homework_no}")
+    public String myhomeworkdetail(@PathVariable("homework_no") Integer homework_no , Model model){
+        //homework_no 에 해당하는 homework 테이블
+        HomeWorkVO homeworkVO = homeworkService.homeworkvoselect(homework_no);
+        System.out.println("homework_no = " + homework_no);
+        System.out.println("homeworkVO = " + homeworkVO);
+        //ex테이블
+        List<ExVO> exVOList = homeworkService.listexvoselect(homework_no);
+        System.out.println("exVOList = " + exVOList);
+
+        //test테이블
+        List<TestVO> testVOList = homeworkService.listtestvoselect(homework_no);
+        System.out.println("testVOList = " + testVOList);
+
+        // Model에 속성 추가
+        model.addAttribute("vo1", homeworkVO);
+        model.addAttribute("vo2", exVOList);
+        model.addAttribute("vo3", testVOList);
+
         return "homework/myhomeworkdetail";
     }
 
@@ -92,6 +108,8 @@ public class HomeworkController {
 
         return "redirect:/homework/homeworklist";
     }
+
+
 }
 
 

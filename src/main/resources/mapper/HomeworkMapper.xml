@@ -45,4 +45,30 @@
         #{homework_no}
         )
     </insert>
+
+    <select id="homeworkvoselect" resultType="HomeWorkVO">
+        SELECT * FROM HOMEWORK WHERE HOMEWORK_NO = #{homework_no};
+    </select>
+
+    <resultMap id="exVOResultMap" type="ExVO">
+        <id property="ex_no" column="ex_no" />
+        <result property="input" column="input" />
+        <result property="output" column="output" />
+        <result property="ex_ct" column="ex_ct" />
+        <result property="homework_no" column="homework_no" />
+    </resultMap>
+
+    <select id="listexvoselect" resultMap="exVOResultMap">
+        SELECT * FROM EX WHERE HOMEWORK_NO = #{homework_no};
+    </select>
+
+    <resultMap id="testVOResultMap" type="TestVO">
+        <id property="test_no" column="test_no" />
+        <result property="test_input" column="test_input" />
+        <result property="test_output" column="test_output" />
+        <result property="homework_no" column="homework_no" />
+    </resultMap>
+    <select id="listtestvoselect" resultMap="testVOResultMap">
+        SELECT * FROM TEST WHERE HOMEWORK_NO = #{homework_no};
+    </select>
 </mapper>
