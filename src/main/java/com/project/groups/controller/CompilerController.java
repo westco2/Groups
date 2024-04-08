@@ -10,13 +10,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class CompilerController {
 
     @PostMapping("/checkCode")
-    public String checkCode(@RequestBody String code) {
+    public String checkCode(@RequestBody String code, @RequestBody String input, @RequestBody String answer) {
         System.out.println("code:" + code);
         JSONObject jsonObject = new JSONObject(code);
         String codestr = jsonObject.getString("code");
         System.out.println("codestr = " + codestr);
-        System.out.println("sol : " + CodeRunner.CodeRunnerTest(codestr));
-        return CodeRunner.CodeRunnerTest(codestr);
+        System.out.println("sol : " + CodeRunner.CodeRunnerTest(codestr, input, answer));
+        return CodeRunner.CodeRunnerTest(codestr, input, answer);
     }
 }
 
