@@ -12,22 +12,10 @@ import java.util.*;
 
 
             // 학생이 제출한 코드
-            String studentCode = code;
-            System.out.println("studentCode = " + studentCode);
-//                    "import java.util.Scanner;\n" +
-//                    "public class Solution {\n" +
-//                    "    public static void main(String[] args) {\n" +
-//                    "        Scanner scanner = new Scanner(System.in);\n" +
-//                    "        int a = scanner.nextInt();\n" +
-//                    "        int b = scanner.nextInt();\n" +
-//                    "        System.out.println(a - b);\n" +
-//                    "    }\n" +
-//                    "}";
 
 
-            // 학생이 제출한 코드 실행 및 결과 출력
 
-            Object result = runStudentCode(studentCode, input);
+            Object result = runStudentCode(code, input);
             if (result != null) {
                 System.out.println("Execution result:");
                 System.out.println("------------------");

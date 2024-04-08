@@ -101,10 +101,7 @@
 
 <script>
 
-    $("#sub-btn").on('click', function (e){
-        console.log(1);
-        console.log($("#code").val());
-    })
+
 
     function updateLineNumbers() {
         var textarea = document.getElementById("code");
@@ -121,15 +118,12 @@
 
     $.fn.checkCode = function(code, input, answer, num) {
         var element = this; // 현재 요소를 가리키는 jQuery 객체를 저장합니다.
-        fetch("/checkCode", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ code: code, input: input, answer: answer })
-        })
-            .then(response => response.text())
-            .then(data => {
+        $.ajax({
+            url: "/checkCode",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify({ code: code, input: input, answer: answer }),
+            success: function(data) {
                 // 서버로부터 받은 결과를 처리합니다.
                 console.log(data); // 테스트 결과를 콘솔에 출력합니다.
                 // 결과에 따라 HTML을 업데이트합니다.
@@ -137,17 +131,22 @@
                     element.find('.st-mm').text('통과'); // 성공 메시지 업데이트
                     element.find('.sec-mm').text('0.12ms'); // 시간 업데이트
                 } else {
-                    element.append('<p class="st-mm"><i class="ri-alert-line"></i>실패</p>'); // 실패 메시지 추가
+                    // 실패 메시지가 이미 존재하는지 확인합니다.
+                    if (element.find('.fail-mm').length === 0) {
+                        // 실패 메시지를 추가합니다.
+                        element.append('<p class="fail-mm"><i class="ri-alert-line"></i>실패</p>');
+                    }
                 }
-            })
-            .catch(error => {
+            },
+            error: function(error) {
                 console.error("Error:", error);
-            });
+            }
+        });
     };
 
     // 서브미션 버튼에 대한 클릭 이벤트 핸들러
     $("#sub-btn").on("click", function (e){
-        $(".result-m").style("display","flex");
+        $(".result-m").css("display", "flex");
         var code = $("#code").val();
         $(".test-m").each(function(index) {
             // 각 요소에 대해 checkCode 함수 호출

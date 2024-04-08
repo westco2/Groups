@@ -57,7 +57,7 @@ public class HomeworkController {
         System.out.println("testVOList = " + testVOList);
 
         // Model에 속성 추가
-        model.addAttribute("vo1", homeworkVO);
+        model.addAttribute("vo", homeworkVO);
         model.addAttribute("vo2", exVOList);
         model.addAttribute("vo3", testVOList);
 
