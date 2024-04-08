@@ -10,19 +10,19 @@
             <p>그룹</p>
         </div>
         <div class="route-wrap">
-            <a href="#">그룹</a><p>/</p><a href="#">내 학습그룹</a><p>/</p><a style="color: black;">강남인재개발원 백엔드 교육과정</a>
+            <a href="#">그룹</a><p>/</p><a href="/group/groupList">내 학습그룹</a><p>/</p><a style="color: black;">[[${group.group_nm}]]</a>
         </div>
         <div class="bon-content-wrap">
             <div class="box-title-wrap">
                 <h3>학습 그룹 상세</h3>
             </div>
             <div class="content-box handle-h3">
-                <h3 style="margin-bottom: 10px;">강남인재개발원 백엔드 교육과정</h3>
+                <h3 style="margin-bottom: 10px;">[[${group.group_nm}]]</h3>
                 <div class="reg-title-wrap" style="margin-bottom: 15px;">
                     <div class="like-table-wrap">
                         <div class="sinfo-wrap-m">
                             <p>교육자명</p>
-                            <h4 class="name-m"><i class="ri-user-star-line"></i>&nbsp;홍길동</h4>
+                            <h4 class="name-m"><i class="ri-user-star-line"></i>&nbsp;[[${group.korn_flnm}]]</h4>
                         </div>
                         <div class="sinfo-wrap-m">
                             <p>구독등급</p>
@@ -30,19 +30,19 @@
                         </div>
                         <div class="sinfo-wrap-m">
                             <p>기간</p>
-                            <h4 class="name-m"><i class="ri-calendar-check-line"></i> &nbsp;2023.03.12~2023.10.11</h4>
+                            <h4 class="name-m"><i class="ri-calendar-check-line"></i> &nbsp;[[${#dates.format(group.group_start, 'yyyy-MM-dd')}]]~[[${#dates.format(group.group_end, 'yyyy-MM-dd')}]]</h4>
                         </div>
                         <div class="sinfo-wrap-m">
                             <p>그룹원</p>
-                            <h4 class="name-m"><i class="ri-group-line"></i> &nbsp;27</h4>
+                            <h4 class="name-m"><i class="ri-group-line"></i> &nbsp;[[${group.student_count}]]</h4>
                         </div>
                         <div class="sinfo-wrap-m">
                             <p>질문</p>
-                            <h4 class="name-m"><i class="ri-questionnaire-line"></i> &nbsp;57</h4>
+                            <h4 class="name-m"><i class="ri-questionnaire-line"></i> &nbsp;[[${group.std_q}]]</h4>
                         </div>
                         <div class="sinfo-wrap-m">
                             <p>수업자료</p>
-                            <h4 class="name-m"><i class="ri-file-line"></i> &nbsp;10</h4>
+                            <h4 class="name-m"><i class="ri-file-line"></i> &nbsp;[[${group.group_mt}]]</h4>
                         </div>
                     </div>
                 </div>
@@ -50,9 +50,9 @@
                 <div class="reg-title-wrap">
                     <div class="content-box">
                         <div class="top-line-btn-wrap">
-                            <input type="text" placeholder="학생이름을 검색해주세요">
+                            <input type="text" class="search-m" placeholder="학생이름을 검색해주세요">
                             <i class="ri-search-line"></i>
-                            <button type="button">방출</button>
+                            <button type="button" id="del-std">퇴장</button>
                         </div>
                         <div class="wr-m">
                             <p><i class="ri-error-warning-line"></i>학생이 회원탈퇴를 하면 자동으로 목록에서 삭제가 됩니다</p>
@@ -61,23 +61,25 @@
                             <table class="table-content">
                                 <thead class="co-head">
                                 <tr class="co-flex">
-                                    <th class="coco crcr-0">#</th>
+                                    <th class="coco crcr-0">#<input type="hidden" class="gno-m" name="group_no" th:value="${group.group_no}"></th>
                                     <th class="coco srsc-1 lis-left desc-tr">이름 <i class="ri-arrow-down-s-fill i-col"></i></th>
                                     <th class="coco srsc-2 lis-left desc-tr">연락처<i class="ri-arrow-down-s-fill"></i></th>
                                     <th class="coco srsc-3 lis-left desc-tr">이메일<i class="ri-arrow-down-s-fill"></i></th>
-                                    <th class="coco srsc-4 lis-left desc-tr">학습레벨<i class="ri-arrow-down-s-fill"></i></th>
+                                    <th class="coco srsc-4 lis-left desc-tr">학습점수<i class="ri-arrow-down-s-fill"></i></th>
                                     <th class="coco srsc-5 lis-left desc-tr">숙제제출<i class="ri-arrow-down-s-fill"></i></th>
                                 </tr>
                                 </thead>
-                                <tbody class="co-body">
+                                <tbody class="co-body sms-m">
+                                <th:block th:each="list : ${std}">
                                 <tr class="co-flex">
-                                    <td class="coco crcr-0 center-flex"><input type="checkbox"></td>
-                                    <td class="coco srsc-1 lis-left">이순신</td>
-                                    <td class="coco srsc-2 lis-left">010-1234-5678</td>
-                                    <td class="coco srsc-3 lis-left">abc123@naver.com</td>
+                                    <td class="coco crcr-0 center-flex"><input type="checkbox" name="login_id" th:value="${list.login_id}"></td>
+                                    <td class="coco srsc-1 lis-left">[[${list.korn_flnm}]]</td>
+                                    <td class="coco srsc-2 lis-left">[[${list.idfr_telno}]]</td>
+                                    <td class="coco srsc-3 lis-left">[[${list.adm_eml_addr}]]</td>
                                     <td class="coco srsc-4 lis-left">0LV</td>
-                                    <td class="coco srsc-5 lis-left detail-btw"><span>5/2</span><button class="join-btn rp-m" type="button">자세히</button></td>
+                                    <td class="coco srsc-5 lis-left detail-btw"><span>[[${list.submitted_count + list.not_submitted_count}]]/[[${list.submitted_count}]]</span><button class="join-btn rp-m" type="button">자세히</button></td>
                                 </tr>
+                                </th:block>
 
 
 
@@ -88,12 +90,9 @@
                         <div class="page-wrap right-p">
                             <div class="pagination">
                                 <a href="#">&laquo;</a>
-                                <a href="#">1</a>
-                                <a href="#" class="act">2</a>
-                                <a href="#">3</a>
-                                <a href="#">4</a>
-                                <a href="#">5</a>
-                                <a href="#">6</a>
+                                <th:block th:each="page : ${pageVO.pageList}">
+                                    <a th:class="${pageVO.page == page ? 'act':''}" th:data-page="${page}">[[${page}]]</a>
+                                </th:block>
                                 <a href="#">&raquo;</a>
                             </div>
                         </div>
@@ -301,7 +300,7 @@
 </th:block>
 
 <script>
-
+    const group_no = $(".gno-m").val();
     $(document).ready(function() {
         $(".handle-h3").on('click', "h3", function(e){
 
@@ -325,6 +324,75 @@
     document.getElementById("close-m").addEventListener('click', ()=>{
         $("#modalfour").addClass('hidden');
 
+    })
+
+
+
+
+
+    function getstdinfo(searchKorn_flnm, page, group_no) {
+        $.ajax({
+            type: "GET",
+            url: "/getgroupstdInfo",
+            dataType: "json",
+            data: {
+                searchKorn_flnm: searchKorn_flnm,
+                page: page,
+                amount: 5,
+                group_no: group_no
+            },
+            success: function (data) {
+                console.log(data);
+                for (let i of data) {
+                    var tr = document.createElement("tr");
+                    tr.classList.add("co-flex");
+                    tr.innerHTML = `<td class="coco crcr-0 center-flex"><input type="checkbox" name="login_id" value="${i.login_id}"></td>
+                                    <td class="coco srsc-1 lis-left">${i.korn_flnm}</td>
+                                    <td class="coco srsc-2 lis-left">${i.idfr_telno}</td>
+                                    <td class="coco srsc-3 lis-left">${i.adm_eml_addr}</td>
+                                    <td class="coco srsc-4 lis-left">0LV</td>
+                                    <td class="coco srsc-5 lis-left detail-btw"><span>${i.submitted_count + i.not_submitted_count}/${i.submitted_count}</span><button class="join-btn rp-m" type="button">자세히</button></td>`;
+                    $(".sms-m").append(tr);
+                }
+            },
+            error: function (xhr, status, error) {
+                console.log(xhr.responseText);
+                alert("정보를 불러올 수 없습니다.");
+            }
+        });
+    }
+
+    $("#del-std").click(function(){
+        // 선택된 학생들의 login_id를 담을 배열
+        var selectedStudents = [];
+
+        // 각 체크된 checkbox에서 login_id를 가져와 배열에 추가
+        $("input[name='login_id']:checked").each(function(){
+            selectedStudents.push($(this).val());
+        });
+
+        // AJAX를 통해 서버로 선택된 학생들의 login_id 전송
+        $.ajax({
+            url: '/stddel', // 서버의 컨트롤러 URL
+            type: 'GET', // GET 방식
+            data: {login_ids: selectedStudents.join(','), group_no: group_no }, // 선택된 학생들의 login_id 전달
+            success: function(response){
+                // 서버에서의 처리가 성공했을 때의 동작
+                // 예를 들어, 퇴장 처리 후 화면 갱신 등의 동작을 수행할 수 있음
+                location.reload(); // 페이지 새로고침
+            },
+            error: function(xhr, status, error){
+                // 서버에서의 처리가 실패했을 때의 동작
+                console.error(error); // 에러 로그 출력
+            }
+        });
+    });
+
+    $(".pagination").on("click", 'a',function (e){
+        console.log($(this).data("page"));
+        var searchname = $(".search-m").val();
+        $(".sms-m").empty();
+        getstdinfo(searchname, $(this).data("page"), group_no);
     })
 </script>
 </body>

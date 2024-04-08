@@ -52,7 +52,7 @@
                                 <td class="coco crcr-3">[[${#dates.format(g.group_start, 'yyyy.MM.dd')}]]</td>
                                 <td class="coco crcr-4">[[${#dates.format(g.group_end, 'yyyy.MM.dd')}]]</td>
                                 <td class="coco crcr-5">[[${g.group_pp}]]/[[${g.student_count}]]</td>
-                                <td class="coco crcr-6"><a th:href="@{/group/groupjoiner(user_no=${user_no}, group_no=${g.group_no})}" class="join-btn" type="button">신청하기</a></td>
+                                <td class="coco crcr-6"><a th:href="@{/group/groupjoiner(login_id=${#authentication.principal.Username}, group_no=${g.group_no})}" class="join-btn" type="button">신청하기</a></td>
                             </tr>
                            </th:block>
                         </tbody>
@@ -79,7 +79,12 @@
 
 </th:block>
 
-<script>
+<script th:inline="javascript">
+    var msg = `[[${msg}]]`;
+    msg = JSON.parse(msg)
+    if(msg !== null) {
+        alert(msg);
+    }
 
 </script>
 

@@ -124,7 +124,7 @@
                             </div>
                         </div>
 
-                        <div class="content-box">
+                        <form class="content-box" action="/group/groupjoinap" method="post">
                             <div class="wr-m">
                                 <p><i class="ri-error-warning-line"></i>거절을 누르면 자동으로 목록에서 삭제가 됩니다</p>
                             </div>
@@ -132,11 +132,11 @@
                                 <table class="table-content">
                                     <thead class="co-head">
                                     <tr class="co-flex">
-                                        <th class="coco crcr-0">#</th>
+                                        <th class="coco crcr-0">No</th>
                                         <th class="coco crc-1">학생 이름</th>
                                         <th class="coco crc-2">학생 연락처</th>
                                         <th class="coco crc-3">승인요청일자</th>
-                                        <th class="coco crc-4">승인</th>
+                                        <th class="coco crc-4"><input type="checkbox" id="selectAll">승인</th>
                                     </tr>
                                     </thead>
                                     <tbody class="co-body sms-m">
@@ -145,10 +145,10 @@
                                 </table>
                             </div>
                             <div class="bot-sub-m">
-                                <button id="join-m" type="button">승인</button>
+                                <button id="join-m" type="submit">승인</button>
                                 <button id="close-m" type="button">닫기</button>
                             </div>
-                        </div>
+                        </form>
 
                     </div>
                 </div>
@@ -169,6 +169,7 @@
 
 <script>
 
+
     function getinfo(group_no){
         $.ajax({
             type: "post",
@@ -183,11 +184,17 @@
                 for (let i in data){
                     var tr = document.createElement("tr");
                     tr.classList.add("co-flex");
-                    tr.innerHTML = `<td class="coco crcr-0 center-flex">${parseInt(i)+1}</td>
+
+                    // LocalDateTime 문자열을 Date 객체로 변환
+                    var joinDate = new Date(data[i].join_date);
+
+                    // 원하는 포맷으로 날짜 및 시간 출력
+                    var formattedJoinDate = joinDate.toLocaleString();
+                    tr.innerHTML = `<td class="coco crcr-0 center-flex">${parseInt(i)+1}<input type="hidden" name="group_no" value="${group_no}"></td>
                                         <td class="coco crc-1">${data[i].korn_flnm}</td>
                                         <td class="coco crc-2">${data[i].idfr_telno}</td>
-                                        <td class="coco crc-3">2023.03.10</td>
-                                        <td class="coco crc-4"><input type="checkbox"><button type="button">거절</button></td>`;
+                                        <td class="coco crc-3">${formattedJoinDate}</td>
+                                        <td class="coco crc-4"><input type="checkbox" class="ckbox-m" name="login_id" value="${data[i].login_id}"><button type="button">거절</button></td>`;
                     $(".sms-m").append(tr);
 
                 }
@@ -199,6 +206,7 @@
         });
 
     }
+
 
 
     $(".join-btn").on('click', function (e){
@@ -256,6 +264,46 @@
             });
         });
     });
+
+    document.addEventListener("DOMContentLoaded", function() {
+        var checkboxes = document.querySelectorAll('input[name="group_non"]');
+        var selectBoxOptions = document.querySelectorAll('.select-box__list li label');
+
+        function updateSelectBoxState() {
+            var checkedCount = document.querySelectorAll('input[name="group_non"]:checked').length;
+
+            if (checkedCount === 0) {
+                // 모든 체크박스가 해제되었을 때
+                selectBoxOptions.forEach(function(option) {
+                    option.style.pointerEvents = 'none';
+                    option.style.color = "#cecece";
+                });
+            } else {
+                // 하나 이상의 체크박스가 선택되어 있을 때
+                selectBoxOptions.forEach(function(option) {
+                    option.style.pointerEvents = 'auto';
+                    option.style.color = "#60666d";
+                });
+            }
+        }
+
+        checkboxes.forEach(function(checkbox) {
+            checkbox.addEventListener('change', function() {
+                updateSelectBoxState();
+            });
+        });
+
+        // 페이지 로드 시 초기 상태 설정
+        updateSelectBoxState();
+    });
+
+
+    $("#selectAll").change(function (e){
+        const isChecked = $(this).prop('checked');
+
+        $(".ckbox-m").prop('checked',isChecked);
+
+    })
 
 
 </script>

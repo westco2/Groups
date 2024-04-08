@@ -2,8 +2,13 @@ package com.project.groups.controller;
 
 import com.project.groups.command.GroupVO;
 import com.project.groups.group.GroupService;
+import com.project.groups.util.Criteria;
+import com.project.groups.util.PageVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -17,8 +22,6 @@ import java.util.List;
 @RequestMapping("/group")
 public class GroupController {
 
-
-
     @Autowired
     @Qualifier("groupService")
     private GroupService groupService;
@@ -27,16 +30,20 @@ public class GroupController {
 
 
     @PostMapping("/groupdetail")
-
     public String groupdetail(@RequestParam("group_no") Integer group_no, Model model){
-        System.out.println(group_no);
-
+        Criteria cri = new Criteria(1,5);
+        PageVO vo = new PageVO(cri, groupService.getstdtotal(cri,group_no));
+        model.addAttribute("group", groupService.getgroupdetail(group_no));
+        model.addAttribute("std", groupService.getgroupstdinfo(cri, group_no));
+        model.addAttribute("pageVO",vo);
         return "group/groupdetail";
     }
 
     @GetMapping("/groupList")
     public String groupList(Model model){
-        model.addAttribute("list",groupService.getgrouplist());
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String sessionId = authentication.getName();
+        model.addAttribute("list",groupService.getgrouplist(sessionId));
         return "group/groupList";
     }
 
@@ -107,10 +114,26 @@ public class GroupController {
 
 
     @GetMapping("groupjoiner")
-    public String groupjoiner(GroupVO vo){
-        groupService.groupjoin(vo);
+    public String groupjoiner(GroupVO vo, RedirectAttributes ra){
+
+
+        if(groupService.groupjoin(vo)==1) ra.addFlashAttribute("msg","정상적으로 처리되었습니다.");
+        else ra.addFlashAttribute("msg", "등록에 실패했습니다. 관리자에게 문의하세요. 1566-6666");
         return "redirect:/group/userGroupList";
     }
+
+    //그룹 승인하기
+    @PostMapping("/groupjoinap")
+    public String groupjoinap(@RequestParam("group_no") Integer group_no, @RequestParam("login_id") List<String> ids){
+        List<GroupVO> vo = new ArrayList<>();
+        ids.forEach(a->
+                vo.add(GroupVO.builder().group_no(group_no).login_id(a).build())
+                );
+        groupService.groupjoinap(vo);
+        return "redirect:/group/groupList";
+    }
+
+
 
 
 }
