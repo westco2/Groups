@@ -71,14 +71,15 @@ public class QnaWController {
 	
 	@PostMapping("/InsertWForm")
 	public String InsertWForm(QnaVO vo, RedirectAttributes re) {
-//		int result = qnaWService.regist(vo);
-//		if(result == 1) {
-//			re.addFlashAttribute("msg", "등록완료");
-//		}
-//		else {
-//			re.addFlashAttribute("msg", "등록실패");
-//		}
-		return "redirect:/qnaWBoard";
+		int result = qnaWService.regist(vo);
+		System.out.println(vo.toString());
+		if(result == 1) {
+			re.addFlashAttribute("msg", "등록완료");
+		}
+		else {
+			re.addFlashAttribute("msg", "등록실패");
+		}
+		return "redirect:/qnaW/qnaWBoard";
 	}	
 	////////////////////////////////////////////////
 
