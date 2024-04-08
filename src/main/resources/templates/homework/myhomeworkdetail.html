@@ -10,12 +10,12 @@
             <p>숙제</p>
         </div>
         <div class="route-wrap">
-            <a href="#">숙제</a><p>/</p><a href="#">내 숙제리스트</a><p>/</p><a href="#">for문으로 별찍기</a>
+            <a href="#">숙제</a><p>/</p><a href="#">내 숙제리스트</a><p>/</p><a href="#">[[${vo.homework_title}]]</a>
         </div>
         <div class="bon-content-wrap">
             <div class="two-m">
                 <div class="content-box fl-row-m">
-                    <h3 style="margin-bottom: 10px;">for문으로 별찍기</h3>
+                    <h3 style="margin-bottom: 10px;">[[${vo.homework_title}]]</h3>
 
                     <div class="reg-title-wrap">
                         <div class="group-naming-wrap-m">
@@ -23,37 +23,43 @@
                                 <div class="like-table-wrap">
                                     <div class="sinfo-wrap-m">
                                         <p>레벨</p>
-                                        <h4 class="name-m">0LV</h4>
+                                        <h4 class="name-m">[[${vo.homework_level}]]</h4>
                                     </div>
                                     <div class="sinfo-wrap-m">
                                         <p>제한시간</p>
-                                        <h4 class="name-m"><i class="ri-timer-line"></i> &nbsp;1초</h4>
+                                        <h4 class="name-m"><i class="ri-timer-line"></i>[[${vo.homework_time}]]초</h4>
                                     </div>
                                 </div>
                             </div>
                             <div class="group-name">
                                 <label>숙제내용</label>
                                 <p><i class="ri-alert-line"></i>생성 후에는 이름을 변경할수 없습니다.</p>
+                                <p>[[${vo.homework_content}]]</p>
                             </div>
                             <div class="group-name">
                                 <label>숙제힌트</label>
                                 <p><i class="ri-alert-line"></i>수용인원은 최대 30명 까지 입니다.</p>
+                                <p>[[${vo.homework_hint}]]</p>
                             </div>
                             <div class="group-name">
                                 <label>입출력 예시</label>
-
+                                <th:block th:each="i : ${vo2}">
                                 <div class="inout-m ex-inp-m">
                                     <div class="h-ex-wrap flc-center-mm" style="margin-bottom: 0">
                                         <label>입력값</label>
                                         <label>결과값</label>
                                     </div>
                                     <div class="h-ex-wrap flc-center-mm" style="margin-bottom: 30px; text-align: center;">
-                                        <label><div>2 3</div></label>
-                                        <label><div>[2,3,4,5]</div></label>
+
+                                            <label><div>[[${i.input}]]</div></label>
+                                            <label><div>[[${i.output}]]</div></label>
+
                                     </div>
                                 </div>
                                 <label>설명</label>
-                                <p>이렇게 입력해서 저렇게 출력하세요</p>
+                                <p>[[${i.ex_ct}]]</p>
+                                </th:block>
+
                             </div>
 
                         </div>
@@ -70,26 +76,15 @@
                             <textarea id="code" oninput="updateLineNumbers()"></textarea>
                         </div>
                     </div>
-                    <div class="reg-title-wrap result-m"  >
-                        <div class="test-m">
-                            <h4>테스트1</h4>
-                            <p class="st-mm"><i class="ri-checkbox-circle-line"></i>통과</p>
-                            <span class="sec-mm">0.12ms</span>
-                        </div>
-                        <div class="test-m">
-                            <h4>테스트2</h4>
-                            <p class="fail-m st-mm">실패</p>
-                            <span class="sec-mm">0.12ms</span>
-                        </div>
-                        <div class="test-m">
-                            <h4>테스트3</h4>
-                            <p class="fail-m st-mm">실패</p>
-                            <span class="sec-mm">0.12ms</span>
-                        </div>
-                        <div class="test-m">
-                            <h4>테스트4</h4>
-                            <p class="fail-m st-mm">실패</p>
-                            <span class="sec-mm">0.12ms</span>
+                    <div class="reg-title-wrap"  >
+                        <div class="result-m" style="display: none">
+
+                            <th:block th:each="item, status: ${vo3}">
+                                <div class="test-m" th:id="${status.index}" th:data-input="${item.test_input}" th:data-output="${item.test_output}">
+                                    <h4>테스트[[${status.index + 1}]]</h4>
+                                </div>
+                            </th:block>
+
                         </div>
                     </div>
                 </div>
@@ -122,6 +117,46 @@
         lineNumbersDiv.innerHTML = lineNumbersHTML;
     }
     updateLineNumbers(); // 초기화
+
+
+    $.fn.checkCode = function(code, input, answer, num) {
+        var element = this; // 현재 요소를 가리키는 jQuery 객체를 저장합니다.
+        fetch("/checkCode", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ code: code, input: input, answer: answer })
+        })
+            .then(response => response.text())
+            .then(data => {
+                // 서버로부터 받은 결과를 처리합니다.
+                console.log(data); // 테스트 결과를 콘솔에 출력합니다.
+                // 결과에 따라 HTML을 업데이트합니다.
+                if (data === "통과") {
+                    element.find('.st-mm').text('통과'); // 성공 메시지 업데이트
+                    element.find('.sec-mm').text('0.12ms'); // 시간 업데이트
+                } else {
+                    element.append('<p class="st-mm"><i class="ri-alert-line"></i>실패</p>'); // 실패 메시지 추가
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            });
+    };
+
+    // 서브미션 버튼에 대한 클릭 이벤트 핸들러
+    $("#sub-btn").on("click", function (e){
+        $(".result-m").style("display","flex");
+        var code = $("#code").val();
+        $(".test-m").each(function(index) {
+            // 각 요소에 대해 checkCode 함수 호출
+            $(this).checkCode(code, $(this).attr("data-input"), $(this).attr("data-output"), index);
+        });
+    });
+
+
+
 </script>
 </body>
 </html>

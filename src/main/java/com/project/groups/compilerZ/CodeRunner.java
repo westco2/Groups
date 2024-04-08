@@ -8,9 +8,9 @@ import java.net.*;
 import java.util.*;
 
     public class CodeRunner {
-        public static String CodeRunnerTest(String code) {
+        public static String CodeRunnerTest(String code, String input, String answer) {
 
-            String answer = "-2";
+
             // 학생이 제출한 코드
             String studentCode = code;
             System.out.println("studentCode = " + studentCode);
@@ -27,7 +27,7 @@ import java.util.*;
 
             // 학생이 제출한 코드 실행 및 결과 출력
 
-            Object result = runStudentCode(studentCode, "3 5");
+            Object result = runStudentCode(studentCode, input);
             if (result != null) {
                 System.out.println("Execution result:");
                 System.out.println("------------------");

@@ -23,14 +23,14 @@ import java.util.Scanner;
 
 
 <script>
-    function checkCode() {
+    function checkCode(code, input, answer) {
         var code = document.getElementById("javaCode").value;
         fetch("/checkCode", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({ code: code })
+            body: JSON.stringify({ code: code, input: input, answer: answer })
         })
             .then(response => response.text())
             .then(data => {
