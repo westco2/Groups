@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.groups.homework.HomeworkMapper">
+    <!-- 예시 파일입니다  namespace에 com.project.groups 까지는 동일하고 뒤에는 Mapper경로 넣어주면 됩니다. -->
+
+    <insert id="homeworkregForm">
+        insert into HOMEWORK (homework_no, group_no, login_id, homework_level, homework_title, homework_content, homework_hint, homework_language, homework_time)
+        values (#{homework_no},#{group_no}, #{login_id}, #{homework_level}, #{homework_title}, #{homework_content}, #{homework_hint}, #{homework_language}, #{homework_time})
+    </insert>
+</mapper>
