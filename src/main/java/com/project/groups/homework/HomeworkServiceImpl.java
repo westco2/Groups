@@ -12,6 +12,10 @@ public class HomeworkServiceImpl implements HomeworkService {
 
     @Override
     public int homeworkregForm(HomeWorkVO homeworkvo) {
-        return homeworkMapper.homeworkregForm(homeworkvo);
+        int result = homeworkMapper.homeworkregForm(homeworkvo);
+        homeworkvo.getList_exvo().forEach(a -> homeworkMapper.regex(a, homeworkvo.getLogin_id()));
+        homeworkvo.getList_testvo().forEach(b -> homeworkMapper.regtest(b, homeworkvo.getLogin_id()));
+        return result;
     }
+
 }

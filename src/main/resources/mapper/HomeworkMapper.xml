@@ -6,7 +6,43 @@
     <!-- 예시 파일입니다  namespace에 com.project.groups 까지는 동일하고 뒤에는 Mapper경로 넣어주면 됩니다. -->
 
     <insert id="homeworkregForm">
-        insert into HOMEWORK (homework_no, group_no, login_id, homework_level, homework_title, homework_content, homework_hint, homework_language, homework_time)
-        values (#{homework_no},#{group_no}, #{login_id}, #{homework_level}, #{homework_title}, #{homework_content}, #{homework_hint}, #{homework_language}, #{homework_time})
+        insert into HOMEWORK ( login_id, homework_level, homework_title, homework_content, homework_hint, homework_language, homework_time)
+        values (#{login_id}, #{homework_level}, #{homework_title}, #{homework_content}, #{homework_hint}, #{homework_language}, #{homework_time})
+    </insert>
+
+    <insert id="regex">
+        <selectKey resultType="int" keyProperty="homework_no" order="BEFORE">
+            select max(homework_no) from HOMEWORK
+            where login_id = #{login_id}
+        </selectKey>
+        insert into ex(
+        input,
+        output,
+        ex_ct,
+        homework_no
+        )
+        values (
+        #{exvo.input},
+        #{exvo.output},
+        #{exvo.ex_ct},
+        #{homework_no}
+        )
+    </insert>
+
+    <insert id="regtest">
+        <selectKey resultType="int" keyProperty="homework_no" order="BEFORE">
+            select max(homework_no) from HOMEWORK
+            where login_id = #{login_id}
+        </selectKey>
+        insert into test(
+        test_input,
+        test_output,
+        homework_no
+        )
+        values (
+        #{testvo.test_input},
+        #{testvo.test_output},
+        #{homework_no}
+        )
     </insert>
 </mapper>

@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -13,7 +14,6 @@ import java.sql.Timestamp;
 @Builder
 public class HomeWorkVO {
     private Integer homework_no;
-    private Integer group_no;
     private String login_id;
     private String homework_level;
     private String homework_title;
@@ -23,4 +23,7 @@ public class HomeWorkVO {
     private Timestamp homework_modify;
     private String homework_language;
     private Integer homework_time;
+
+    private List<ExVO> list_exvo;
+    private List<TestVO> list_testvo;
 }
