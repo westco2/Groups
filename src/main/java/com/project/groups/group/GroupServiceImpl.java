@@ -2,6 +2,7 @@ package com.project.groups.group;
 
 import com.project.groups.command.GroupVO;
 import com.project.groups.command.MemberVO;
+import com.project.groups.util.Criteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,12 +21,12 @@ public class GroupServiceImpl implements GroupService{
     }
 
     @Override
-    public List<GroupVO> getgrouplist() {
-        return groupMapper.getgrouplist();
+    public List<GroupVO> getgrouplist(String login_id) {
+        return groupMapper.getgrouplist(login_id);
     }
 
     @Override
-    public List<MemberVO> getstdInfo(GroupVO vo) {
+    public List<GroupVO> getstdInfo(GroupVO vo) {
         return groupMapper.getstdInfo(vo);
     }
 
@@ -51,8 +52,33 @@ public class GroupServiceImpl implements GroupService{
     }
 
     @Override
-    public void groupjoin(GroupVO vo) {
-        groupMapper.groupjoin(vo);
+    public int groupjoin(GroupVO vo) {
+        return groupMapper.groupjoin(vo);
+    }
+
+    @Override
+    public void groupjoinap(List<GroupVO> list) {
+        list.forEach(a-> groupMapper.groupjoinap(a));
+    }
+
+    @Override
+    public GroupVO getgroupdetail(Integer group_no) {
+        return groupMapper.getgroupdetail(group_no);
+    }
+
+    @Override
+    public List<GroupVO> getgroupstdinfo(Criteria cri ,Integer group_no) {
+        return groupMapper.getgroupstdinfo(cri,group_no);
+    }
+
+    @Override
+    public int getstdtotal(Criteria cri, Integer group_no) {
+        return groupMapper.getgroupstdTotal(cri,group_no);
+    }
+
+    @Override
+    public void groupstddel(List<String> login_ids, Integer group_no) {
+        login_ids.forEach(a-> groupMapper.groupstddel(a,group_no));
     }
 
 

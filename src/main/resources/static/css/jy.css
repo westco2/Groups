@@ -1,4 +1,5 @@
 
+
 /*---------- 회원가입 페이지 -----------*/
 body {
   font-family: Arial, sans-serif;
@@ -403,16 +404,17 @@ Form
     padding: 10px 0;
     position: relative;
     clear: both;
-    
-    &.fieldset-expiration {
-      float: left;
-      width: 60%;
 
-      & .select {
-        width: 84px;
-        margin-right: 12px;
-        float: left;
-        border: 2px solid #000;
+    
+/*     &.fieldset-expiration { */
+/*       float: left; */
+/*       width: 60%; */
+
+/*       & .select { */
+/*         width: 84px; */
+/*         margin-right: 12px; */
+/*         float: left; */
+/*         border: 2px solid #000; */
         
       }
     }
@@ -811,3 +813,4 @@ h1 {
 .faq.active .faq-toggle {
   background-color: #9fa4a8;
 }
+

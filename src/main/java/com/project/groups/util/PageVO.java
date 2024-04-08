@@ -26,14 +26,16 @@ public class PageVO {
 		this.amount = cri.getAmount();
 		this.total = total;
 		this.cri = cri;
-	
-	//시작페이지 계산
-	//끝페이지 - 페이지네이션 개수 + 1
-	this.start = this.end - 10 + 1;
+
+		//끝페이지 계산 - 현재조회하는 페이지에 따라 변화
+		//ex) page 11아면, 끝페이지 20
+		this.end = (int)(Math.ceil(this.page/5.0))*5;
+
+		//시작페이지 계산
+		//끝페이지 - 페이지네이션 개수 + 1
+		this.start = this.end - 5 + 1;
 		
-	//끝페이지 계산 = 현재조회하는 페이지에 따라 변함
-	//ex) page 11이면, 끝페이지 20 / 1이면 10, 31이면 40
-	this.end = (int)(Math.ceil(this.page / 5.0 )) * 5;
+
 		
 	//종료페이지 계산 - realEnd
 	//총게시글 53개-끝10, 종료6 / 163개-끝20, 종료 17 / 163>1~100조회 - 끝10

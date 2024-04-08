@@ -14,9 +14,9 @@ import lombok.NoArgsConstructor;
 public class QnaVO {
 	
 	//QNABOARD
-	private Integer QNUMBER; //글번호
-	private Integer USER_NO; //회원번호 //MEMBERS FK
-	private Integer GROUP_NO;
+	private Integer QNUMBER; //글번호 pk
+	private String LOGIN_ID; //MEMBERS FK 
+	private Integer GROUP_NO; //fk
 	private String QTITLE; //글제목
 	private String QCONTENT; //글내용
 	private Timestamp QREGDATE; //등록일자

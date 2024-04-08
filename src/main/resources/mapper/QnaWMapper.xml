@@ -7,11 +7,11 @@
 	 <!-- 셀렉트 구문이 맞는지와, left join 방향이 맞는지 확인필요 -->
 	 <!-- WHERE절이 필요한지 파악이 안됨 -->
 	<select id="getList" resultMap="VO">
-		SELECT M.USER_NO, M.LOGIN_ID, M.KORN_FLNM,
+		SELECT M.LOGIN_ID, M.KORN_FLNM,
 			   Q.QNUMBER, Q.QTITLE, Q.QREGDATE, Q.QVIEWS, Q.QCONTENT,
 			   G.GROUP_NM, C.CCONTENT
 		FROM MEMBERS AS M
-		LEFT JOIN QNABOARD AS Q ON M.USER_NO = Q.USER_NO
+		LEFT JOIN QNABOARD AS Q ON M.LOGIN_ID = Q.LOGIN_ID
 		LEFT JOIN GROUP_LIST AS G ON Q.GROUP_NO = G.GROUP_NO
 		LEFT JOIN COMMENT AS C ON Q.QNUMBER = C.QNUMBER
 		
@@ -31,7 +31,6 @@
 	
 	<!-- 1:N 테이블 관계형성[MEMBER, QNABOARD] -->
 	<resultMap type="com.project.groups.command.QnaWVO" id="VO">
-		<result property="USER_NO" column="USER_NO"/>
 		<result property="LOGIN_ID" column="LOGIN_ID"/>
 		<result property="KORN_FLNM" column="KORN_FLNM"/>
         <result property="GROUP_NM" column="GROUP_NM"/>
@@ -64,14 +63,13 @@
 	<insert id="regist">
 		INSERT INTO QNABOARD(QTITLE,
 							 QCONTENT,
-							 QATTA,
-							 QATTAURL
+							 GROUP_NO
 							 )
 		VALUES(#{QTITLE},
 			   #{QCONTENT},
-			   #{QATTA},
-			   #{QATTAURL}
+			   #{GROUP_NO}
 			   )
+		
 	</insert>
 	
 	<insert id="reply">

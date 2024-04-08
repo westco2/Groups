@@ -13,8 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class QnaWVO {
-	private Integer USER_NO;
-	private String LOGIN_ID; //아이디
+	private String LOGIN_ID; //아이디 pk
 	private String KORN_FLNM; //이름
 	
 	private String GROUP_NM;
