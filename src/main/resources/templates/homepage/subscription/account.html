@@ -7,14 +7,14 @@
 <link rel="stylesheet" th:href="@{/css/jy.css}" href="css/jy.css">
 </head>
 <body>
-    <div class="container">
-        <h2>계좌 이체 결제</h2>
+    <div class="container-jy">
+        <h2 class="name1">계좌 이체 결제</h2>
         <form action="/account" method="post">
             <label for="product-name">상품명:</label>
             <input type="text" id="product-name" name="productName" readonly>
 
             <label for="amount">금액:</label>
-            <input type="text" id="amount" name="amount" readonly>
+            <input type="text" id="amount" name="amount" readonly><br>
 
             <label for="bank">은행 선택:</label>
             <select id="bank" name="bank" required>
@@ -29,7 +29,7 @@
             <label for="account-number">계좌 번호:</label>
             <input type="text" id="account-number" name="accountNumber" required>
 
-            <label for="sender-name">송금자 이름:</label>
+            <label for="sender-name">입금자 이름:</label>
             <input type="text" id="sender-name" name="senderName" required>
             
             <input type="submit" value="결제하기">

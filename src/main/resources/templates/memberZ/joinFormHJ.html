@@ -12,8 +12,8 @@
 
 
     <div class="main-wrap">
-    <div class="container">
-        <h2>회원가입</h2>
+    <div class="container-j">
+        <h2 class="name1">회원가입</h2>
         <form action="/memberreg" method="post">
             <label for="login_id">아이디:</label>
             <input type="text" id="login_id" name="login_id" placeholder="아이디는 4글자 이상입니다" minlength="4" required>
@@ -50,9 +50,9 @@
                 <option value="LGU+">LG U+</option>
             </select> 
             <input type="tel" id="phone" name="idfr_telno" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" placeholder="000-0000-0000" required>
-<!--            <button type="button" class="phone-container" onclick="sendVerificationCode()">인증번호 받기</button>-->
-<!--            <input type="text" id="verifi" name="verificationCode" placeholder="인증번호" > required 테스트를 위해 잠시 생략-->
-<!--            <button type="button" class="verification" onclick="sendVerificationCode()">인증</button><br>-->
+           <button type="button" class="phone-container" onclick="sendVerificationCode()">인증번호 받기</button>
+           <input type="text" id="verifi" name="verificationCode" placeholder="인증번호" > 
+           <button type="button" class="verification" onclick="sendVerificationCode()">인증</button><br>
 
             <label for="postalCode">우편번호:</label>
             <input type="text" id="postalCode" name="postalCode" required>
