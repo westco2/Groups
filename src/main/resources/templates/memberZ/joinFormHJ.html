@@ -26,7 +26,7 @@
             <input type="text" id="name" name="korn_flnm" required><br>
 
             <label for="user_nick">닉네임:</label>
-            <input type="text" id="user_nick" name="user_nickname" required>
+            <input type="text" id="user_nick" name="user_nick" required>
             <button type="button" id="namebtn">중복확인</button><br>
 
             <label for="birthdate">생년월일:</label>
@@ -50,6 +50,7 @@
                 <option value="LGU+">LG U+</option>
             </select> 
             <input type="tel" id="phone" name="idfr_telno" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" placeholder="000-0000-0000" required>
+
            <button type="button" class="phone-container" onclick="sendVerificationCode()">인증번호 받기</button>
            <input type="text" id="verifi" name="verificationCode" placeholder="인증번호" > 
            <button type="button" class="verification" onclick="sendVerificationCode()">인증</button><br>
@@ -96,24 +97,24 @@
         }
         /*]]>*/
     </script>
-<!--    <script th:inline="javascript">-->
-<!--        /*<![CDATA[*/-->
-<!--        // 인증번호를 요청하는 함수-->
-<!--        function sendVerificationCode() {-->
-<!--            const phoneNumber = document.getElementById('phone').value;-->
-<!--            const carrier = document.getElementById('carrier').value;-->
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        // 인증번호를 요청하는 함수
+        function sendVerificationCode() {
+            const phoneNumber = document.getElementById('phone').value;
+            const carrier = document.getElementById('carrier').value;
 
-<!--            console.log('전화번호:', phoneNumber);-->
-<!--            console.log('통신사:', carrier);-->
-<!--        }-->
+            console.log('전화번호:', phoneNumber);
+            console.log('통신사:', carrier);
+        }
 
-<!--        // 인증번호 확인 함수-->
-<!--        function verifyCode() {-->
-<!--            const verificationCode = document.getElementById('verifi').value;-->
-<!--            console.log('인증번호:', verificationCode);-->
-<!--        }-->
-<!--        /*]]>*/-->
-<!--    </script>-->
+        // 인증번호 확인 함수
+        function verifyCode() {
+            const verificationCode = document.getElementById('verifi').value;
+            console.log('인증번호:', verificationCode);
+        }
+        /*]]>*/
+    </script>
     <script>
 		 // '출생 연도' 셀렉트 박스 option 목록 동적 생성
 		    const birthYearEl = document.querySelector('#birth-year')
@@ -204,45 +205,54 @@
          // 아이디 중복 확인 버튼 이벤트 리스너 등록
 		    document.getElementById('checkDuplicateBtn').addEventListener('click', function() {
 		        // 아이디 입력값 가져오기
-		        const username = document.getElementById('username').value;
-
+		        const username = document.getElementById('login_id').value;
+                console.log(username)
 		        // 아이디 입력값이 비어 있는지 확인
 		        if (username.trim() === '') {
 		            alert('아이디를 입력해주세요.');
 		            return; // 입력값이 없으면 중복 확인 로직을 실행하지 않고 함수 종료
 		        }
 
-		        // 여기서는 아이디가 중복되었다고 가정하고 간단히 처리합니다.
-		        const isDuplicate = true; // 여기에 실제 중복 확인 로직을 구현하면 됩니다.
+                // const isDuplicate = true; // 여기에 실제 중복 확인 로직을 구현하면 됩니다.
 
-		        // 중복되는 아이디가 있을 경우 알람 표시
-		        if (isDuplicate) {
-		            alert('아이디가 중복됩니다.');
-		        } else {
-		            alert('사용 가능합니다.');
-		        }
+                $.ajax({
+                    type: "post",
+                    async: false,
+                    url: "http://localhost:8989/memberidcheck",
+                    data: {id: username},
+                    success: function (data){
+                        if(data > 0){
+                            alert('중복된 아이디입니다. 다시 입력하세요.')
+                        } else{
+                            alert('가입이 가능한 아이디입니다.')
+                        }
+                    }
+                })
 		    });
 
 		    // 닉네임 중복 확인 버튼 이벤트 리스너 등록
 		    document.getElementById('namebtn').addEventListener('click', function() {
 		        // 닉네임 입력값 가져오기
-		        const nickname = document.getElementById('nickname').value;
-
+		        const nickname = document.getElementById('user_nick').value;
+                console.log(nickname);
 		        // 닉네임 입력값이 비어 있는지 확인
 		        if (nickname.trim() === '') {
 		            alert('닉네임을 입력해주세요.');
 		            return; // 입력값이 없으면 중복 확인 로직을 실행하지 않고 함수 종료
 		        }
-
-		        // 여기서는 닉네임이 중복되었다고 가정하고 간단히 처리합니다.
-		        const isDuplicate = true; // 여기에 실제 중복 확인 로직을 구현하면 됩니다.
-
-		        // 중복되는 닉네임이 있을 경우 알람 표시
-		        if (isDuplicate) {
-		            alert('닉네임이 중복됩니다.');
-		        } else {
-		            alert('사용 가능합니다.');
-		        }
+                $.ajax({
+                    type: "post",
+                    async: false,
+                    url: "http://localhost:8989/membernickcheck",
+                    data: {nick: nickname},
+                    success: function (data) {
+                        if(data > 0) {
+                            alert('중복된 닉네임입니다')
+                        }else {
+                            alert('가입이 가능한 닉네임입니다')
+                        }
+                    }
+                })
 		    });
     </script>
 </body>
