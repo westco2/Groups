@@ -6,7 +6,7 @@ body {
   margin: 0;
   padding: 0;
 }
-.container {
+.container-j {
   width: 100%;
   max-width: 570px;
   margin: 50px auto;
@@ -15,12 +15,9 @@ body {
   border-radius: 10px; 
   box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.1); 
 }
-h2 {
+.name1 {
   text-align: center;
   margin-bottom: 20px;
-}
-label {
-  font-weight: bold;
 }
 
 .phone-container button[type="button"] {
@@ -88,20 +85,8 @@ input[type="submit"] {
     border-width: 1px;
 }
 
-input[type="email"] {
-  width: calc(100% - 430px); /* Adjusted width */
-  padding: 10px; /* Reduced padding */
-  margin: 5px 0;
-  box-sizing: border-box;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-.eemail{
-  display: flex;
-  align-items: center;
-  margin: 0 5px;
-  width: 160px; /* Adjust as needed */
+#email{
+  width: 30%;
   padding: 10px;
   margin: 5px 0;
   box-sizing: border-box;
@@ -111,7 +96,7 @@ input[type="email"] {
 
 
 #postalCode {
-  width: calc(100% - 500px); /* Adjusted width */
+  width: 15%; /* Adjusted width */
   padding: 10px;
   margin: 5px 0;
   box-sizing: border-box;
@@ -172,7 +157,7 @@ input[type="email"] {
 }
 
 #phone {
-  width: calc(100% - 400px);
+  width: 25%;
   padding: 10px;
   margin: 5px 0;
   box-sizing: border-box;
@@ -181,7 +166,7 @@ input[type="email"] {
 }
 
 #verifi {
-  width: calc(100% - 500px);
+  width: 10%;
   padding: 10px;
   margin: 5px 0;
   box-sizing: border-box;
@@ -213,7 +198,25 @@ input[type="email"] {
 }
 
 #address {
-  width: calc(100% - 200px);
+  width: 400px;
+  padding: 10px;
+  margin: 5px 0;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+#login_id {
+  width: 30%;
+  padding: 10px;
+  margin: 5px 0;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 5px;	
+}
+
+#user_nick {
+  width: 30%;
   padding: 10px;
   margin: 5px 0;
   box-sizing: border-box;
@@ -222,13 +225,8 @@ input[type="email"] {
 }
 
 /*------------결제 페이지--------------*/
-body {
-  font-family: Arial, sans-serif;
-  background-color: #f2f2f2;
-  margin: 0;
-  padding: 0;
-}
-.container {
+
+.container-jy {
   width: 80%;
   max-width: 600px;
   margin: 50px auto;
@@ -237,23 +235,34 @@ body {
   border-radius: 10px;
   box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.1);
 }
-h2 {
-  text-align: center;
-  margin-bottom: 20px;
-}
-label {
-  font-weight: bold;
-}
-input[type="text"],
-input[type="password"],
-select {
-  width: 100%;
+
+#productName {
+  width: 30%;
   padding: 10px;
   margin: 5px 0;
   box-sizing: border-box;
   border: 1px solid #ccc;
   border-radius: 5px;
 }
+
+#amount {
+  width: 30%;
+  padding: 10px;
+  margin: 5px 0;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+} 
+
+#purchaseDate {
+  width: 25%;
+  padding: 10px;
+  margin: 5px 0;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+} 
+
 input[type="radio"] {
   display: none;
 }
@@ -300,90 +309,68 @@ input[type="submit"] {
 
 /* ------------계좌 이체 페이지----------*/
 
-body {
-  font-family: Arial, sans-serif;
-  background-color: #f2f2f2;
-  margin: 0;
-  padding: 0;
-}
-.container {
-  width: 100%;
-  max-width: 600px;
-  margin: 50px auto;
-  background-color: #ffffff; 
-  padding: 30px;
-  border-radius: 10px; 
-  box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.1); 
-}
-h2 {
-  text-align: center;
-  margin-bottom: 20px;
-}
-label {
-  font-weight: bold;
-}
-input[type="text"],
-input[type="number"] {
-  width: 100%;
+#product-name {
+  width: 30%;
   padding: 10px;
   margin: 5px 0;
   box-sizing: border-box;
   border: 1px solid #ccc;
   border-radius: 5px;
 }
-input[type="submit"] {
-  background-color: #2f4050;
-  color: #ffffff;
+#bank {
   padding: 10px;
   border: none;
   cursor: pointer;
   width: 100%;
   margin-top: 20px;
+  border-radius: 5px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  width: 30%;
+}
+#account-number {
+  width: 40%;
+  padding: 10px;
+  margin: 5px 0;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+#sender-name {
+  width: 20%;
+  padding: 10px;
+  margin: 5px 0;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
   border-radius: 5px;
 }
 
 /* ---------카카오페이 결제 체이지 ------- */
 
-body {
-  font-family: Arial, sans-serif;
-  background-color: #f2f2f2;
-  margin: 0;
-  padding: 0;
-}
-.container {
-  width: 100%;
-  max-width: 600px;
-  margin: 50px auto;
-  background-color: #ffffff; 
-  padding: 30px;
-  border-radius: 10px; 
-  box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.1); 
-}
-h2 {
-  text-align: center;
-  margin-bottom: 20px;
-}
-label {
-  font-weight: bold;
-}
-input[type="text"],
-input[type="number"],
-select {
-  width: 100%;
+#item-name {
+  width: 30%;
   padding: 10px;
   margin: 5px 0;
   box-sizing: border-box;
   border: 1px solid #ccc;
   border-radius: 5px;
 }
-input[type="submit"] {
-  background-color: #2f4050;
-  color: #ffffff;
+
+#buyer-name {
+  width: 20%;
   padding: 10px;
-  border: none;
-  cursor: pointer;
-  width: 100%;
-  margin-top: 20px;
+  margin: 5px 0;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+#buyer-phone {
+  width: 30%;
+  padding: 10px;
+  margin: 5px 0;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
   border-radius: 5px;
 }
 
@@ -512,7 +499,7 @@ Form
 /*--------------------
 Checkout
 --------------------*/
-.checkout {
+.checkout-kjy {
   margin: 150px auto 30px;
   position: relative;
   width: 460px;
