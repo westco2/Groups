@@ -18,7 +18,7 @@ public class CompilerController {
         System.out.println(vo);
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "text/plain");
-        ResponseEntity entity = new ResponseEntity<>(CodeRunner.CodeRunnerTest(vo.getCode(), vo.getInput(),vo.getAnswer()),headers ,HttpStatus.OK);
+        ResponseEntity entity = new ResponseEntity<>(CodeRunner.CodeRunnerTest(vo.getCode(), vo.getInput(),vo.getAnswer(), vo.getTime()),headers ,HttpStatus.OK);
 
         System.out.println(entity);
 

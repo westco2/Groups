@@ -13,4 +13,5 @@ public class CodeVO {
     private String code;
     private String input;
     private String answer;
+    private Integer time;
 }

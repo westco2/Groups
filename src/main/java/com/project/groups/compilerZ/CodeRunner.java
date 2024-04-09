@@ -9,11 +9,13 @@ import java.util.*;
 import java.util.concurrent.*;
 
 public class CodeRunner {
-    private static final long TIMEOUT_MS = 2000; // 입력 대기 시간 (밀리초)
+   // private static final long TIMEOUT_MS = 2000; // 입력 대기 시간 (밀리초)
 
 
-    public static String CodeRunnerTest(String code, String input, String answer) {
+    public static String CodeRunnerTest(String code, String input, String answer, Integer time) {
          // 입력 뒤에 개행 추가
+
+        long TIMEOUT_MS = time * 1000;
         Object result = runStudentCode(code, input, TIMEOUT_MS);
 
         System.out.println("result: " + result);

@@ -27,7 +27,7 @@
                                     </div>
                                     <div class="sinfo-wrap-m">
                                         <p>제한시간</p>
-                                        <h4 class="name-m"><i class="ri-timer-line"></i>[[${vo.homework_time}]]초</h4>
+                                        <h4 class="name-m"><i class="ri-timer-line"></i>[[${vo.homework_time}]]초<input type="hidden" class="h-time" th:value="${vo.homework_time}"></h4>
                                     </div>
                                 </div>
                             </div>
@@ -102,6 +102,8 @@
 
 <script>
 
+    var num = parseInt($(".h-time").val());
+
 
 
     function handleTab(event) {
@@ -123,7 +125,7 @@
         }
     }
 
-    $.fn.checkCode = function(code, input, answer, num, callback) {
+    $.fn.checkCode = function(code, input, answer,num, callback, time) {
         var element = this; // 현재 요소를 가리키는 jQuery 객체를 저장합니다.
 
         element.find('.loader').show();
@@ -132,7 +134,7 @@
             type: "POST",
             contentType: "application/json",
             dataType: "text",
-            data: JSON.stringify({ code: code, input: input, answer: answer }),
+            data: JSON.stringify({ code: code, input: input, answer: answer, time: time }),
             success: function(data) {
                 element.find('.loader').hide();
                 console.log(data);
@@ -163,20 +165,33 @@
 
         $(".st-mm, .fail-m").remove();
 
-        runNextTest($(".test-m"), code, 0);
+        runAllTests($(".test-m"), code)
+            .then(function() {
+                setTimeout(function() {
+                    alert("채점이 완료되었습니다.");
+                }, 1000);
+            });
     });
 
-    function runNextTest(tests, code, index) {
-        if (index >= tests.length) {
-            return; // 테스트가 더 이상 없으면 종료
+    function runAllTests(tests, code) {
+        var index = 0;
+
+        function runNextTest() {
+            if (index >= tests.length) {
+                return Promise.resolve(); // 모든 테스트가 완료되면 resolve
+            }
+
+            var $currentTest = $(tests[index]);
+
+            return new Promise(function(resolve) {
+                $currentTest.checkCode(code, $currentTest.attr("data-input"), $currentTest.attr("data-output"), index, function () {
+                    index++;
+                    resolve();
+                },num);
+            }).then(runNextTest); // 다음 테스트 실행
         }
 
-        var $currentTest = $(tests[index]);
-
-        $currentTest.checkCode(code, $currentTest.attr("data-input"), $currentTest.attr("data-output"), index, function () {
-            // 콜백이 돌아왔을 때 다음 테스트 실행
-            runNextTest(tests, code, index + 1);
-        });
+        return runNextTest();
     }
 
 
