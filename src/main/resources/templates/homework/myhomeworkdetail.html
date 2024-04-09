@@ -33,12 +33,12 @@
                             </div>
                             <div class="group-name">
                                 <label>숙제내용</label>
-                                <p><i class="ri-alert-line"></i>생성 후에는 이름을 변경할수 없습니다.</p>
+
                                 <p>[[${vo.homework_content}]]</p>
                             </div>
                             <div class="group-name">
                                 <label>숙제힌트</label>
-                                <p><i class="ri-alert-line"></i>수용인원은 최대 30명 까지 입니다.</p>
+
                                 <p>[[${vo.homework_hint}]]</p>
                             </div>
                             <div class="group-name">
@@ -73,7 +73,7 @@
                     <div class="reg-title-wrap">
                         <div class="code-editor">
                             <div class="line-numbers"></div>
-                            <textarea id="code" oninput="updateLineNumbers()"></textarea>
+                            <textarea id="code" onkeydown="handleTab(event)"></textarea>
                         </div>
                     </div>
                     <div class="reg-title-wrap"  >
@@ -82,6 +82,7 @@
                             <th:block th:each="item, status: ${vo3}">
                                 <div class="test-m" th:id="${status.index}" th:data-input="${item.test_input}" th:data-output="${item.test_output}">
                                     <h4>테스트[[${status.index + 1}]]</h4>
+                                    <div class="loader" style="display: flex; align-items: center"></div>
                                 </div>
                             </th:block>
 
@@ -103,39 +104,50 @@
 
 
 
-    function updateLineNumbers() {
-        var textarea = document.getElementById("code");
-        var lineNumbersDiv = document.querySelector(".line-numbers");
-        var lines = textarea.value.split("\n");
-        var lineNumbersHTML = "";
-        for (var i = 0; i < lines.length; i++) {
-            lineNumbersHTML += (i + 1) + "<br>";
+    function handleTab(event) {
+        // Tab 키 눌렀을 때
+        if (event.keyCode === 9) {
+            // 탭의 위치
+            var start = event.target.selectionStart;
+            var end = event.target.selectionEnd;
+
+            // 탭 앞뒤로 스페이스 4개 추가
+            var value = event.target.value;
+            event.target.value = value.substring(0, start) + "    " + value.substring(end);
+
+            // 커서 위치 조정
+            event.target.selectionStart = event.target.selectionEnd = start + 4;
+
+            // 기본 이벤트 방지
+            event.preventDefault();
         }
-        lineNumbersDiv.innerHTML = lineNumbersHTML;
     }
-    updateLineNumbers(); // 초기화
 
-
-    $.fn.checkCode = function(code, input, answer, num) {
+    $.fn.checkCode = function(code, input, answer, num, callback) {
         var element = this; // 현재 요소를 가리키는 jQuery 객체를 저장합니다.
+
+        element.find('.loader').show();
         $.ajax({
             url: "/checkCode",
             type: "POST",
             contentType: "application/json",
+            dataType: "text",
             data: JSON.stringify({ code: code, input: input, answer: answer }),
             success: function(data) {
-                // 서버로부터 받은 결과를 처리합니다.
-                console.log(data); // 테스트 결과를 콘솔에 출력합니다.
-                // 결과에 따라 HTML을 업데이트합니다.
-                if (data === "통과") {
-                    element.find('.st-mm').text('통과'); // 성공 메시지 업데이트
-                    element.find('.sec-mm').text('0.12ms'); // 시간 업데이트
+                element.find('.loader').hide();
+                console.log(data);
+
+                if (data == "통과") {
+                    element.append('<p class="st-mm"><i class="ri-checkbox-circle-line"></i>통과</p>');
+                } else if (data == "실패") {
+                    element.append('<p class="fail-m"><i class="ri-alert-line"></i>실패</p>');
                 } else {
-                    // 실패 메시지가 이미 존재하는지 확인합니다.
-                    if (element.find('.fail-mm').length === 0) {
-                        // 실패 메시지를 추가합니다.
-                        element.append('<p class="fail-mm"><i class="ri-alert-line"></i>실패</p>');
-                    }
+                    element.append('<p class="fail-m"><i class="ri-alert-line"></i>컴파일에러</p>');
+                }
+
+                // 콜백 함수 실행
+                if (callback && typeof callback === "function") {
+                    callback();
                 }
             },
             error: function(error) {
@@ -144,15 +156,29 @@
         });
     };
 
-    // 서브미션 버튼에 대한 클릭 이벤트 핸들러
-    $("#sub-btn").on("click", function (e){
+
+    $("#sub-btn").on("click", function (e) {
         $(".result-m").css("display", "flex");
         var code = $("#code").val();
-        $(".test-m").each(function(index) {
-            // 각 요소에 대해 checkCode 함수 호출
-            $(this).checkCode(code, $(this).attr("data-input"), $(this).attr("data-output"), index);
-        });
+
+        $(".st-mm, .fail-m").remove();
+
+        runNextTest($(".test-m"), code, 0);
     });
+
+    function runNextTest(tests, code, index) {
+        if (index >= tests.length) {
+            return; // 테스트가 더 이상 없으면 종료
+        }
+
+        var $currentTest = $(tests[index]);
+
+        $currentTest.checkCode(code, $currentTest.attr("data-input"), $currentTest.attr("data-output"), index, function () {
+            // 콜백이 돌아왔을 때 다음 테스트 실행
+            runNextTest(tests, code, index + 1);
+        });
+    }
+
 
 
 

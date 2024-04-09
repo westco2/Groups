@@ -213,3 +213,23 @@ input[type="text"]:focus, textarea:focus {outline: none; border-color:#1A8EF9;}
     text-align: right;
     color: #999;
 }
+
+/* HTML: <div class="loader"></div> */
+.loader {
+    width: 15px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    animation: l5 1s infinite linear alternate;
+}
+/* HTML: <div class="loader"></div> */
+.loader {
+    font-weight: bold;
+    font-family: sans-serif;
+    font-size: 30px;
+    animation: l1 1s linear infinite alternate;
+}
+.loader:before {
+    font-size: 15px;
+    content:"Loading..."
+}
+@keyframes l1 {to{opacity: 0}}

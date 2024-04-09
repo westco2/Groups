@@ -6,103 +6,121 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.*;
 import java.util.*;
+import java.util.concurrent.*;
 
-    public class CodeRunner {
-        public static String CodeRunnerTest(String code, String input, String answer) {
-
-
-            // 학생이 제출한 코드
+public class CodeRunner {
+    private static final long TIMEOUT_MS = 2000; // 입력 대기 시간 (밀리초)
 
 
+    public static String CodeRunnerTest(String code, String input, String answer) {
+         // 입력 뒤에 개행 추가
+        Object result = runStudentCode(code, input, TIMEOUT_MS);
 
-            Object result = runStudentCode(code, input);
-            if (result != null) {
-                System.out.println("Execution result:");
-                System.out.println("------------------");
-                System.out.println("Result: " + result.toString());
-                System.out.println("정답: " + answer);
-                System.out.println("------------------");
-            }
-            if(result.toString().equals(answer)) return "통과";
-            else return "실패";
+        System.out.println("result: " + result);
+        System.out.println("answer: " + answer);
+
+
+        if (result instanceof String && ((String) result).startsWith("컴파일 오류")) {
+            return "컴파일 오류: " + ((String) result).substring(7); // 컴파일 오류 메시지 반환
+        } else if (result instanceof String && ((String) result).startsWith("입력 값 처리 중 오류가 발생했습니다:")) {
+            return "입력 값 처리 오류: " + ((String) result).substring(17); // 입력 값 처리 오류 메시지 반환
+        } else if (((String)result).trim().equals(answer)) {
+            return "통과";
+        } else {
+            return "실패";
         }
+    }
 
-        public static Object runStudentCode(String code, String input) {
-            // 컴파일할 파일 준비
+    public static Object runStudentCode(String code, String input,long timeoutMillis) {
+        Object result = null;
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+
+        try {
             JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
             DiagnosticCollector<JavaFileObject> diagnostics = new DiagnosticCollector<>();
             JavaFileObject studentFileObject = new JavaSourceFromString("Solution", code);
 
-            // 컴파일 수행
             Iterable<? extends JavaFileObject> compilationUnits = Collections.singletonList(studentFileObject);
+
             JavaCompiler.CompilationTask task = compiler.getTask(null, null, diagnostics, null, null, compilationUnits);
             boolean success = task.call();
 
-            Object result = null;
-            System.out.println("success = " + success);
-
-            // 컴파일 결과 출력
             if (success) {
-                System.out.println("Compilation successful");
+                URLClassLoader classLoader = URLClassLoader.newInstance(new URL[]{new File(".").toURI().toURL()});
+                Class<?> solutionClass = classLoader.loadClass("Solution");
 
-                // 입력 값을 설정하여 실행
-                try {
-                    URLClassLoader classLoader = URLClassLoader.newInstance(new URL[]{new File(".").toURI().toURL()});
-                    Class<?> solutionClass = classLoader.loadClass("Solution");
-
-                    // 입력 값을 자동으로 설정하여 main 메서드 호출
-                    ByteArrayInputStream in = new ByteArrayInputStream(input.getBytes()); // 입력값 설정
-                    System.setIn(in);
-
-                    ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+                // 코드 실행 제한 시간 설정
+                FutureTask<Object> taskWithTimeout = new FutureTask<>(() -> {
+                    InputStream originalIn = System.in;
                     PrintStream originalOut = System.out;
-                    System.setOut(new PrintStream(outContent));
 
-                    Method mainMethod = solutionClass.getMethod("main", String[].class);
-                    mainMethod.invoke(null, (Object) null);
+                    try {
+                        ByteArrayInputStream in = new ByteArrayInputStream(input.getBytes());
+                        System.setIn(in);
 
-                    // 실행 결과를 얻기 위해 콘솔 출력을 읽어옴
-                    String output = outContent.toString();
-                    result = parseResult(output);
+                        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+                        System.setOut(new PrintStream(outContent));
 
-                    // 콘솔 출력을 원래대로 복원
-                    System.setOut(originalOut);
+                        solutionClass.getMethod("main", String[].class).invoke(null, (Object) null);
 
-                } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException |
-                         InvocationTargetException | MalformedURLException e) {
-                    e.printStackTrace();
+                        String output = outContent.toString();
+                        return output; // 결과값 반환
+                    } finally {
+                        System.setIn(originalIn);
+                        System.setOut(originalOut);
+                    }
+                });
+
+                executor.execute(taskWithTimeout); // FutureTask 실행
+
+                try {
+                    result = taskWithTimeout.get(timeoutMillis, TimeUnit.MILLISECONDS); // 시간 초과 예외 발생
+                } catch (TimeoutException e) {
+                    result = "시간 초과: 코드 실행이 " + timeoutMillis + "밀리초를 초과했습니다.";
+                    System.out.println(result);
+                } finally {
+                    // 코드 실행 종료
+                    taskWithTimeout.cancel(true);
                 }
+
+                executor.shutdownNow(); // 실행 완료 후 리소스 정리
             } else {
-                System.out.println("Compilation failed");
+                result = "컴파일 실패";
+                // 컴파일 에러를 출력
                 for (Diagnostic<? extends JavaFileObject> diagnostic : diagnostics.getDiagnostics()) {
                     System.out.println(diagnostic.getMessage(null));
                 }
             }
-
-            return result;
+        } catch (Exception e) {
+            result = "오류: " + e.getMessage(); // 오류 메시지 반환
+            e.printStackTrace();
         }
 
-        // 소스 코드를 컴파일할 때 사용할 JavaFileObject 구현 클래스
-        static class JavaSourceFromString extends SimpleJavaFileObject {
-            final String code;
+        return result;
+    }
 
-            JavaSourceFromString(String name, String code) {
-                super(URI.create("string:///" + name.replace('.', '/') + Kind.SOURCE.extension), Kind.SOURCE);
-                this.code = code;
-            }
+    static class JavaSourceFromString extends SimpleJavaFileObject {
+        final String code;
 
-            @Override
-            public CharSequence getCharContent(boolean ignoreEncodingErrors) {
-                return code;
-            }
+        JavaSourceFromString(String name, String code) {
+            super(URI.create("string:///" + name.replace('.', '/') + Kind.SOURCE.extension), Kind.SOURCE);
+            this.code = code;
         }
 
-        private static int parseResult(String output) {
-            // 콘솔 출력에서 결과값을 파싱하여 반환하는 로직을 구현
-            // 이 예제에서는 간단히 마지막 줄의 정수값을 추출하는 것으로 가정
-            String[] lines = output.trim().split("\n");
-            String lastLine = lines[lines.length - 1];
-            return Integer.parseInt(lastLine.trim());
+        @Override
+        public CharSequence getCharContent(boolean ignoreEncodingErrors) {
+            return code;
         }
     }
+
+    private static int parseResult(String output) {
+        Scanner scanner = new Scanner(output);
+        int lastValue = 0;
+        while (scanner.hasNextInt()) {
+            lastValue = scanner.nextInt();
+        }
+        scanner.close();
+        return lastValue;
+    }
+}
 
