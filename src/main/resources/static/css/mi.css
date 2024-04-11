@@ -153,6 +153,13 @@
 
 input[type="text"]:focus, textarea:focus {outline: none; border-color:#1A8EF9;}
 
+.work-t1{flex-basis: 5%}
+.work-t2{flex-basis: 50%}
+.work-t3{flex-basis: 10%}
+.work-t4{flex-basis: 10%}
+.work-t5{flex-basis: 20%}
+
+
 
 .work-m1{flex-basis: 30%}
 .work-m2{flex-basis: 10%}
@@ -188,28 +195,173 @@ input[type="text"]:focus, textarea:focus {outline: none; border-color:#1A8EF9;}
     position: relative;
 }
 .code-editor textarea {
-    width: 100%;
-    height: 300px;
-    padding: 10px;
+    line-height: 1.7;
+    flex: 1;
+    height: 400px;
+    padding: 10px 10px 10px 5px;
     font-family: monospace;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    font-size: 14px; /* textarea의 글꼴 크기 설정 */
+    border: none;
     resize: none;
-    box-sizing: border-box;
+    outline: none; /* 포커스된 textarea의 테두리 제거 */
+    background-color: transparent; /* 배경색 투명으로 설정 */
+
 }
+
+
+
+/* HTML: <div class="loader"></div> */
+.loader {
+    width: 15px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    animation: l5 1s infinite linear alternate;
+}
+/* HTML: <div class="loader"></div> */
+.loader {
+    font-weight: bold;
+    font-family: sans-serif;
+    font-size: 30px;
+    animation: l1 1s linear infinite alternate;
+}
+.loader:before {
+    font-size: 15px;
+    content:"Loading..."
+}
+@keyframes l1 {to{opacity: 0}}
+
+/* HTML: <div class="loader"></div> */
+.loaderb {
+    margin: 5px 21px ;
+    width: 7px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    animation: l5 1s infinite linear alternate;
+}
+@keyframes l5 {
+    0%  {box-shadow: 12px 0 #ffffff, -12px 0 #dddddd;background: #ffffff }
+    33% {box-shadow: 12px 0 #ffffff, -12px 0 #dddddd;background:#dddddd}
+    66% {box-shadow: 12px 0 #dddddd,-12px 0 #ffffff; background: #dddddd}
+    100%{box-shadow: 12px 0 #dddddd,-12px 0 #ffffff; background: #ffffff }
+}
+
+
+.content-line-m{display: none; width: 100%; background-color: #ffffff; height: 100%;}
+.left-h-m{flex-basis: 60%}
+.right-h-m{flex-basis: 40%}
+.row-m{box-shadow: 0 0 25px -9px rgb(7, 47, 79, 0.1);padding-top: 20px;display: flex; justify-content: start; align-items: start; gap: 20px;}
+.col-mm{gap: 30px; flex-basis: 45%; display: flex; flex-direction: column; justify-content: start;}
+.w-100{width: 100% ;    border-left: 1px solid #dddddd;
+    padding-left: 25px;}
+.nogap-m{gap: 60px}
+.we-m{font-size: 15px;
+    font-weight: 600;}
+
+.tt-m label{    background-color: whitesmoke; flex-basis: 23%; margin: 0; padding: 10px 5px; font-size: 13px}
+.ee-mm{flex-basis: 50%!important;}
+.ti-h3{ padding: 14px 0 ; width: 100%; background-color: #efefef
+}
+.ti-h3 h3{margin-left: 8px ; font-size: 18px }
+.tt-title-m{background-color: #fafafa; border-radius: 3px; color: #278dd1; font-size: 13px; font-weight: 600; border-bottom: 1px solid #e5e5e5; border-top: 1px solid #e5e5e5;}
+.sel-des-2m{padding: 7px 0 7px 3px; width: 160px; margin: 0}
+.sel-des-2m:focus{outline: none;}
+.tt-wr-m{justify-content: space-between}
+
+.crc-m1{flex-basis: 8%}
+.crc-m2{flex-basis: 32%}
+.crc-m3{flex-basis: 10%}
+.crc-m4{flex-basis: 45%}
+
+.t-m1{flex-basis: 50%!important;}
+.t-m2{flex-basis: 50%!important;}
+
+#mama-m2 .table-content{min-height: 400px;}
+#mama-m2 table tbody{display: block; overflow-y: scroll; max-height: 380px; -ms-overflow-style: none; /* 인터넷 익스플로러 */
+    scrollbar-width: none; /* 파이어폭스 */ border-bottom: #5d5f63;}
+
+#mama-m .table-content{min-height: 400px;}
+#mama-m table tbody{display: block; overflow-y: scroll; max-height: 380px; -ms-overflow-style: none; /* 인터넷 익스플로러 */
+    scrollbar-width: none; /* 파이어폭스 */ border-bottom: #5d5f63;}
+
+.bor-m{margin: 0; border-bottom: 1px solid #e5e5e5}
+.ssd-mm{margin: 10px 10px 15px 0}
+.sts-m{justify-content: start}
+
+.LV0{color: #2189FF}
+.LV1{color: #1BBAFF}
+.LV2{color: #47C84C}
+.LV3{color: #FFA800}
+.LV4{color: #FF6B18}
+.LV5{color: #C658E1}
+
+
+.jst-wrap-m{display: flex; justify-content: space-between; align-items: center}
+.ppl-m{    background-color: #ffffff;
+    color: #000;
+    border: 1px solid #bbbbbb;}
+.ti-mm{color: #278dd1}
+
+.tmt-m{margin: 0; border-bottom: 1px solid #dddddd; background-color: whitesmoke;}
+.tmt-m label{padding: 7px;}
+.tm-m0{flex-basis: 20%!important;}
+.tm-m1{flex-basis: 40%!important;}
+.tm-m2{flex-basis: 40%!important;}
+
+.eded-m{position: relative; display: flex; gap: 5px}
 .line-numbers {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    width: 40px;
-    height: 100%;
-    overflow: hidden;
-    pointer-events: none;
+    line-height: 1.7;
+    width: 15px;
+    height: 400px;
+    padding: 10px 5px 10px 15px;
     font-family: monospace;
+    font-size: 14px; /* 줄 번호의 글꼴 크기 설정 */
+    border-right: 1px solid #ccc;
+    background-color: #f5f5f5; /* 줄 번호의 배경색 */
+    color: #adadad;
+    user-select: none; /* 줄 번호 선택 방지 */
+    overflow: hidden; /* 스크롤 바를 숨김 */
+    text-align: end;
+    font-weight: 600;
 }
-.line-numbers span {
+.evg-m{font-size: 13px; font-weight: 600;}
+.ee-mm-date{padding: 5px; font-size: 13px;}
+.sub-wrap-ms{display: flex; justify-content: start; align-items: center; gap: 30px;}
+.enddate-m{display: flex; justify-content: start; align-items: center; gap: 5px;}
+.enddate-m label{font-size: 13px; font-weight: 600;}
+
+.toggle-m{ border: 1px solid #dddddd; width: 95%; margin-top: 10px; padding: 1px; background-color: #f4f4f4;  display: flex; justify-content: start;}
+.acts-m{
+    background-color: #fbfbfd;
+    border-radius: 5px;
+}
+.toggle-menu-m {display: none;}
+.active-m { display: block; animation: fadeIn 0.5s ease-in-out}
+.toggle-m li {
+    list-style: none;
+    flex: 1;
+    margin: 2px;
+    text-align: center;
     display: block;
-    padding-right: 5px;
-    text-align: right;
-    color: #999;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: -.05px;
+    line-height: 16px;
+    padding: 7px 0 9px;
+    cursor: pointer;
+    list-style: none;
+    border: none;
+
+
 }
+
+@keyframes fadeIn{
+    from{
+        opacity: 0;
+    }to{
+         opacity: 1;
+     }
+}
+
+
+.ul-wrap-m{display: flex; justify-content: center; width: 100%}
+

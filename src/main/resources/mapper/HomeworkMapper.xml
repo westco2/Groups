@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.groups.homework.HomeworkMapper">
+    <!-- 예시 파일입니다  namespace에 com.project.groups 까지는 동일하고 뒤에는 Mapper경로 넣어주면 됩니다. -->
+
+    <insert id="homeworkregForm">
+        insert into HOMEWORK ( login_id, homework_level, homework_title, homework_content, homework_hint, homework_language, homework_time)
+        values (#{login_id}, #{homework_level}, #{homework_title}, #{homework_content}, #{homework_hint}, #{homework_language}, #{homework_time})
+    </insert>
+
+    <insert id="regex">
+        <selectKey resultType="int" keyProperty="homework_no" order="BEFORE">
+            select max(homework_no) from HOMEWORK
+            where login_id = #{login_id}
+        </selectKey>
+        insert into ex(
+        input,
+        output,
+        ex_ct,
+        homework_no
+        )
+        values (
+        #{exvo.input},
+        #{exvo.output},
+        #{exvo.ex_ct},
+        #{homework_no}
+        )
+    </insert>
+
+    <insert id="regtest">
+        <selectKey resultType="int" keyProperty="homework_no" order="BEFORE">
+            select max(homework_no) from HOMEWORK
+            where login_id = #{login_id}
+        </selectKey>
+        insert into test(
+        test_input,
+        test_output,
+        homework_no
+        )
+        values (
+        #{testvo.test_input},
+        #{testvo.test_output},
+        #{homework_no}
+        )
+    </insert>
+
+    <select id="homeworkvoselect" resultType="HomeWorkVO">
+        SELECT * FROM HOMEWORK WHERE HOMEWORK_NO = #{homework_no};
+    </select>
+
+    <resultMap id="exVOResultMap" type="ExVO">
+        <id property="ex_no" column="ex_no" />
+        <result property="input" column="input" />
+        <result property="output" column="output" />
+        <result property="ex_ct" column="ex_ct" />
+        <result property="homework_no" column="homework_no" />
+    </resultMap>
+
+    <select id="listexvoselect" resultMap="exVOResultMap">
+        SELECT * FROM EX WHERE HOMEWORK_NO = #{homework_no};
+    </select>
+
+    <resultMap id="testVOResultMap" type="TestVO">
+        <id property="test_no" column="test_no" />
+        <result property="test_input" column="test_input" />
+        <result property="test_output" column="test_output" />
+        <result property="homework_no" column="homework_no" />
+    </resultMap>
+    <select id="listtestvoselect" resultMap="testVOResultMap">
+        SELECT * FROM TEST WHERE HOMEWORK_NO = #{homework_no};
+    </select>
+
+
+    <select id="gethomeworklist" resultType="HomeworkVO">
+        select * from homework
+                 where login_id = #{login_id}
+        <if test="cri.title != '' and cri.title != null">
+            and homework_title like concat('%',#{cri.title},'%')
+        </if>
+                 order by homework_register desc
+        limit #{cri.pageStart}, #{cri.amount}
+    </select>
+
+    <select id="gethomeworktotal" resultType="int">
+        select count(*) as total
+        from HOMEWORK
+        where login_id =#{login_id}
+        <if test="cri.title != '' and cri.title != null">
+            and homework_title like concat('%',#{cri.title},'%')
+        </if>
+    </select>
+
+
+    <!-- 숙제 전송 -->
+    <insert id="sendhomework">
+        insert into HOMEWORKSUBMIT (homework_no, login_id, homework_score,homework_st, homework_enddate)
+        values (#{homework_no}, #{login_id}, 0 , "미제출", #{homework_enddate})
+    </insert>
+
+
+    <!-- 학생 숙제 조회 -->
+    <select id="getmyhomeworktotal" resultType="int">
+        select count(*) from (select * from homeworksubmit where login_id = #{login_id}) s
+            left join homework h
+                on h.homework_no= s.homework_no
+        <if test="cri.title != '' and cri.title != null">
+            and homework_title like concat('%',#{cri.title},'%')
+        </if>
+    </select>
+
+    <select id="getmyhomeworklist" resultType="HomeworkVO">
+        select s.*, h.homework_title, h.homework_language, h.HOMEWORK_LEVEL
+        from (select * from homeworksubmit where login_id = #{login_id}) s
+            left join homework h
+                on h.homework_no= s.homework_no
+        <where>
+        <if test="cri.title != '' and cri.title != null">
+            and homework_title like concat('%',#{cri.title},'%')
+        </if>
+        </where>
+        order by submit_date desc
+        limit #{cri.pageStart}, #{cri.amount}
+    </select>
+
+    <select id="getstdhome" resultType="GroupVO">
+        select a.*, b.group_nm
+        from (
+        select m.*, j.group_no
+        from group_join j
+        left join members m on j.login_id = m.login_id
+        where APRV_YN = "Y"
+        ) a
+        join (
+        select group_no, group_nm
+        from group_list
+        where login_id = #{login_id}
+        <if test="group_nm != null and group_nm != ''">
+            and group_nm = #{group_nm}
+        </if>
+        ) b
+        on a.group_no = b.group_no
+        where not exists (
+        select 1
+        from homeworksubmit
+        where homework_no = #{homework_no}
+        and login_id = a.login_id
+        );
+    </select>
+
+
+    <select id="getgroupnames" resultType="GroupVO">
+        select group_nm from group_list where login_id = #{login_id};
+    </select>
+
+
+    <update id="submitupdate">
+        update HOMEWORKSUBMIT
+        set HOMEWORK_ST = "제출", homework_recieve = now(), HOMEWORK_SCORE = #{score}
+        where login_id = #{login_id} and homework_no = #{homework_no};
+    </update>
+
+    <insert id="recordhomework">
+        insert into HOMEWORKRECORD (record_code, homework_no, login_id,record_score)
+        values (#{code}, #{homework_no}, #{login_id}, #{score})
+    </insert>
+
+    <select id="getscore" resultType="INT">
+        select homework_score from HOMEWORKSUBMIT where homework_no = #{homework_no} and login_id = #{login_id}
+    </select>
+
+    <update id="updatepoint">
+        update MEMBERS set score = #{point} where login_id = #{login_id}
+    </update>
+
+
+    <select id="getrecord" resultType="HomeworkVO">
+        select * from HOMEWORKRECORD where homework_no = #{homework_no}
+    </select>
+
+
+    <select id="stdhomeworkinfo" resultType="HomeworkVO">
+        select a.*,b.HOMEWORK_LANGUAGE, b.HOMEWORK_LEVEL, b.HOMEWORK_TITLE from (select * from HOMEWORKSUBMIT where login_id = #{login_id}) a
+                                                                                    left join homework b
+                                                                                              on a.homework_no = b.homework_no;
+    </select>
+</mapper>

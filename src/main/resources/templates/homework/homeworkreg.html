@@ -10,9 +10,9 @@
             <p>숙제</p>
         </div>
         <div class="route-wrap">
-            <a href="#">숙제</a><p>/</p><a href="#">내 숙제리스트</a><p>/</p><a style="color: black;">숙제생성</a>
+            <a href="#">숙제</a><p>/</p><a href="homeworklist">내 숙제리스트</a><p>/</p><a style="color: black;">숙제생성</a>
         </div>
-        <div class="bon-content-wrap">
+        <form class="bon-content-wrap" action="homeworkregForm" method="post">
 
             <div class="box-title-wrap">
                 <h3>숙제 생성</h3>
@@ -24,6 +24,7 @@
                         <div class="sinfo-wrap-m">
                             <p>교육자명</p>
                             <h4 class="name-m"><i class="ri-user-star-line"></i>&nbsp;홍길동</h4>
+                            <input type="hidden" name="login_id" th:value="${#authentication.principal.Username}">
                         </div>
                         <div class="sinfo-wrap-m">
                             <p>구독등급</p>
@@ -36,17 +37,17 @@
                     <div class="group-naming-wrap-m">
                         <div class="group-name">
                             <label>숙제이름</label>
-                            <input class="inp-reg-m" type="text" placeholder="내 숙제">
+                            <input class="inp-reg-m" type="text" name="homework_title" placeholder="내 숙제">
                             <p><i class="ri-alert-line"></i>생성 후에는 이름을 변경할수 없습니다.</p>
                         </div>
                         <div class="group-name">
                             <label>언어</label>
-                            <input class="inp-reg-m" type="text" style="width: 100px" placeholder="JAVA" value="JAVA" readonly>
+                            <input class="inp-reg-m" type="text" style="width: 100px" name="homework_language" placeholder="JAVA" value="JAVA" readonly>
                             <p><i class="ri-alert-line"></i>생성 후에는 언어를 변경할수 없습니다.</p>
                         </div>
                         <div class="group-name">
                             <label>레벨</label>
-                            <select class="sel-des-m" style="width: 120px">
+                            <select class="sel-des-m" style="width: 120px" name="homework_level">
                                 <option>LV0</option>
                                 <option>LV1</option>
                                 <option>LV2</option>
@@ -59,7 +60,7 @@
                         <div class="group-name">
                             <label>시간</label>
                             <div class="fon-m">
-                                <input class="inp-reg-m" type="number" style="width: 100px" placeholder="1">
+                                <input class="inp-reg-m" type="number" name="homework_time" style="width: 100px" placeholder="1">
                                 <p>초</p>
                             </div>
                             <p><i class="ri-alert-line"></i>생성 후에는 시간을 변경할수 없습니다.</p>
@@ -72,12 +73,12 @@
                     <div class="group-naming-wrap-m">
                         <div class="group-name">
                             <label>숙제설명</label>
-                            <textarea class="aria-m" ></textarea>
+                            <textarea class="aria-m" name="homework_content"></textarea>
                             <p><i class="ri-alert-line"></i>생성 후에는 이름을 변경할수 없습니다.</p>
                         </div>
                         <div class="group-name">
                             <label>힌트&nbsp;&nbsp;-&nbsp;&nbsp;선택사항</label>
-                            <textarea class="aria-m" ></textarea>
+                            <textarea class="aria-m" name="homework_hint" ></textarea>
                         </div>
                     </div>
 
@@ -92,9 +93,9 @@
                             <label class="exp-m">설명&nbsp;&nbsp;-&nbsp;&nbsp;선택사항</label>
                         </div>
                         <div class="h-ex-wrap" style="margin-bottom: 30px">
-                            <label><input type="text" placeholder="입력 값"></label>
-                            <label><input type="text" placeholder="결과 값"></label>
-                            <label class="exp-m"><input type="text" placeholder="입출력에대한 설명" style="width: 380px"></label>
+                            <label><input type="text" placeholder="입력 값" name="input[]"></label>
+                            <label><input type="text" placeholder="결과 값" name="output[]"></label>
+                            <label class="exp-m"><input type="text" placeholder="입출력에대한 설명" name="ex_ct[]" style="width: 380px"></label>
                         </div>
                     </div>
                     <div class="h-ex-wrap">
@@ -110,8 +111,8 @@
                             <label>출력</label>
                         </div>
                         <div class="h-ex-wrap" style="margin-bottom: 30px">
-                            <label><input type="text" placeholder="입력 값"></label>
-                            <label><input type="text" placeholder="출력 값"></label>
+                            <label><input type="text" placeholder="입력 값" name="test_input[]"></label>
+                            <label><input type="text" placeholder="출력 값" name="test_output[]"></label>
                         </div>
                     </div>
                     <div class="h-ex-wrap">
@@ -132,7 +133,7 @@
 
 
 
-        </div>
+        </form>
     </div>
 
 </th:block>
@@ -142,12 +143,13 @@
     $(document).ready(function() {
 
         $(".plus-btn-md").on('click', function(e) {
+            e.preventDefault();
             var newExample = $('<div>').addClass('h-ex-wrap');
             newExample.html(`
-            <label><input type="text" placeholder="입력 값"></label>
-            <label><input type="text" placeholder="결과 값"></label>
-            <label class="exp-m"><input type="text" style="width: 380px" placeholder="입출력에대한 설명"></label>
-            <label><button type="button" class="del-btn-m">삭제</button></label>
+            <label><input type="text" placeholder="입력 값" name="input[]"></label>
+            <label><input type="text" placeholder="결과 값" name="output[]"></label>
+            <label class="exp-m"><input type="text" style="width: 380px" placeholder="입출력에대한 설명" name="ex_ct[]"></label>
+            <div><button type="button" class="del-btn-m">삭제</button></div>
         `);
 
             $(".ex-inp-m").append(newExample);
@@ -158,18 +160,20 @@
 
 
         $(".plus-btn-mt").on('click', function(e) {
+            e.preventDefault();
             var newExample = $('<div>').addClass('h-ex-wrap');
             newExample.html(`
-            <label><input type="text" placeholder="입력 값"></label>
-            <label><input type="text" placeholder="출력 값"></label>
-            <label><button type="button" class="del-btn-m">삭제</button></label>
+            <label><input type="text" placeholder="입력 값" name="test_input[]"></label>
+            <label><input type="text" placeholder="출력 값" name="test_output[]"></label>
+            <div><button type="button" class="del-btn-m">삭제</button></div>
         `);
 
             $(".test-cm").append(newExample);
         });
 
 
-        $(".inout-m").on("click", ".del-btn-m", function(e) {
+        $(".ex-inp-m, .test-cm").on("click", ".del-btn-m", function(e) {
+            e.stopPropagation();
             $(this).closest(".h-ex-wrap").remove();
         });
     });
