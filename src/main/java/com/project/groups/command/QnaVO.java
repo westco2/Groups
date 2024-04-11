@@ -30,4 +30,5 @@ public class QnaVO {
 	private String CCONTENT; //답변내용
 	private Timestamp CREGDATE; //등록일자
 	private Timestamp CUPDDATE; //수정일자
+	
 }

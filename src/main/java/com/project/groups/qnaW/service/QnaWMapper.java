@@ -7,7 +7,12 @@ import com.project.groups.util.Criteria;
 @Mapper
 public interface QnaWMapper {
 	public List<QnaWVO> getList(Criteria cri);
+	public List<QnaVO> getList2(Criteria cri);
 	public int regist(QnaVO vo);
+	public QnaVO getDetail(int QNUMBER);
+	public int update(QnaVO vo);
+	public void delete(int QNUMBER);
+	
 	public int reply(QnaVO vo);
-	public Integer getTotal();
+	public int getTotal();
 }

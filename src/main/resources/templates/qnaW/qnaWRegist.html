@@ -1,62 +1,77 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 
+<!--
+※권한 
+ㄱ. 해당 페이지는 학생만 접근가능
+ -->
+
+<!-- 
+※수정할내용
+1. 질문등록시 qnaWBoard 테이블에 정상 insert 되나, login_id 나 group_no는 테이블에 반영되지 않습니다.
+	이 부분에 있어 만들 방법을 모르겠습니다.
+ -->
+
 <body>
+	<th:block th:replace="~{./include/baselayout :: setContent( ~{ :: .bon-wrap } )}">
+		<div class="bon-wrap">
+			<div class="page-title">
+				<p>질문</p>
+			</div>
+			<div class="route-wrap">
+				<a href="/qnaW/qnaWBoard">질문</a>
+				<p>/</p>
+				<a href="/qnaW/qnaWRegist">질문등록</a>
+			</div>
+			<div class="bon-content-wrap">
+				<div class="box-title-wrap">
+					<h3>질문 등록</h3>
+				</div>
+				<div class="content-box">
+					<form name="InsertWForm" action="InsertWForm" method="post">
+						<h3 style="margin-bottom: 10px;">기본 정보</h3>
+						<div class="reg-title-wrap" style="margin-bottom: 15px;">
+							<div class="like-table-wrap">
+								<div class="sinfo-wrap-w">
+									<p>교육자명</p>
+									<h4 class="name-w">
+										<i class="ri-user-star-line"></i>&nbsp;교육자
+									</h4>
+								</div>
+								<div class="sinfo-wrap-w">
+									<p>강의명</p>
+									<h4 class="name-w">
+										<i class="ri-file-user-line"></i>&nbsp;JAVA개발
+									</h4>
+								</div>
+								<div class="sinfo-wrap-w">
+									<p>그룹명</p>
+									<h4 class="name-w">
+										<i class="ri-file-user-line"></i>&nbsp;JAVA입문반
+									</h4>
+								</div>
+							</div>
+						</div>
+						<h3 style="margin-bottom: 10px;">질문 내용</h3>
+						<div class="reg-title-wrap">
+							<div class="group-naming-wrap-w">
+								<div class="group-name">
+									<label>제목</label> <input class="inp-reg-w" type="text" name="QTITLE">
+								</div>
+								<div class="group-name">
+									<label>내용</label>
+									<textarea class="wj-textarea" name="QCONTENT"></textarea>
+								</div>
+							</div>
 
-<!-- content -->
-<th:block th:replace="~{./include/baselayout :: setContent( ~{ :: .bon-wrap } )}">
-    <div class="bon-wrap">
-        <div class="page-title">
-            <p>질문</p>
-        </div>
-        <div class="route-wrap">
-            <a href="/qnaW/qnaWBoard">질문</a><p>/</p><a href="/qnaW/qnaWRegist">질문등록</a>
-        </div>
-        <div class="bon-content-wrap">
-            <div class="box-title-wrap">
-                <h3>질문 등록</h3>
-            </div>
-            <div class="content-box">
-              <form name="InsertWForm" action="InsertWForm" method="post">
-                <h3 style="margin-bottom: 10px;">기본 정보</h3>
-                <div class="reg-title-wrap" style="margin-bottom: 15px;">
-                    <div class="like-table-wrap">
-                        <div class="sinfo-wrap-w">
-                            <p>교육자명</p>
-                            <h4 class="name-w"><i class="ri-user-star-line"></i>&nbsp;교육자</h4>
-                        </div>
-                        <div class="sinfo-wrap-w">
-                            <p>강의명</p>
-                            <h4 class="name-w"><i class="ri-file-user-line"></i>&nbsp;JAVA개발</h4>
-                        </div>
-                        <div class="sinfo-wrap-w">
-                            <p>그룹명</p>
-                            <h4 class="name-w"><i class="ri-file-user-line"></i>&nbsp;JAVA입문반</h4>
-                        </div>
-                    </div>
-                </div>
-                <h3 style="margin-bottom: 10px;">질문 내용</h3>
-                <div class="reg-title-wrap">
-                    <div class="group-naming-wrap-w">
-                        <div class="group-name" name="QTITLE">
-                            <label>제목</label>
-                            <input class="inp-reg-w" type="text">
-                        </div>
-                        <div class="group-name" name="QCONTENT">
-                            <label>내용</label>
-                            <textarea class="wj-textarea"></textarea>
-                        </div>
-                    </div>
-
-                </div>
-                <div class="reg-btn-wrap">
-                    <button type="submit">질문등록</button>
-                </div>
-                </form>
-                
-            </div>
-        </div>
-    </div>
-</th:block>
+						</div>
+						<div class="reg-btn-wrap">
+							<button type="submit">질문등록</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</th:block>
 </body>
 </html>

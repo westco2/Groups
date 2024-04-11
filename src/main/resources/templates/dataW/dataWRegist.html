@@ -1,72 +1,111 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 
+<!-- 
+※권한
+1. 따로 줄 필요 없음(dataWBoardT 로만 올 수 있는 페이지입니다. dataWBoardT는 애초에 선생권한만 들어갈 수 있는 페이지입니다.
+ -->
+ 
+ <!-- 
+ ※수정할내용
+1. 질문등록시 GROUPFILE 테이블에 정상 insert 되나,
+	현재로썬 첨부파일 및 login_id, group_no, GNAME은 DB에 반영되지 않습니다.
+	이 부분에 있어 만들 방법을 모르겠습니다.
+  -->
+
+
 <body>
 
-<!-- content -->
-<th:block th:replace="~{./include/baselayout :: setContent( ~{ :: .bon-wrap } )}">
-    <div class="bon-wrap">
-        <div class="page-title">
-            <p>수업자료</p>
-        </div>
-        <div class="route-wrap">
-            <a href="/dataW/dataWBoard">수업자료</a><p>/</p><a href="/dataW/dataWRegist">수업자료등록</a>
-        </div>
-        <div class="bon-content-wrap">
-            <div class="box-title-wrap">
-                <h3>수업자료등록</h3>
-            </div>
-            <div class="content-box">
-            
-              <form name="InsertWForm" action="InsertWForm" method="post">
-                <h3 style="margin-bottom: 10px;">기본 정보</h3>
-                <div class="reg-title-wrap" style="margin-bottom: 15px;">
-                    <div class="like-table-wrap">
-                        <div class="sinfo-wrap-m">
-                            <p>교육자명</p>
-                            <h4 class="name-m"><i class="ri-user-star-line"></i>&nbsp;교육자</h4>
-                        </div>
-                        <div class="sinfo-wrap-m">
-                            <p>강의명</p>
-                            <h4 class="name-m"><i class="ri-file-user-line"></i>&nbsp;JAVA개발</h4>
-                        </div>
-                        <div class="sinfo-wrap-m">
-                            <p>그룹명</p>
-                            <h4 class="name-m"><i class="ri-file-user-line"></i>&nbsp;GROUP-A</h4>
-                        </div>
-                    </div>
-                </div>
-                <h3 style="margin-bottom: 10px;">학습자료등록</h3>
-                <div class="reg-title-wrap">
-                    <div class="group-naming-wrap-m">
-                        <div class="group-name">
-                            <label>학습자료명</label>
-                            <input class="inp-reg-m" type="text">
-                        </div>
-                        <div class="group-name">
-                            <label>학습자료내용</label>
-                            <textarea class="wj-textarea"></textarea>
-                        </div>
-                        <div class="group-name">
-                            <label>첨부파일</label>
-                            <div class="date-wrap-m">
-								<form action="upload_ok" method="post" enctype="multipart/form data">
-									<label>첨부파일명<input type="text" value="JAVA입문용 교안">	</label><!-- 드래그앤드롭이 목표 -->
-									첨부파일선택 : <input type="file" name="file" multiple="multiple">
-								</form>	
+	<th:block th:replace="~{./include/baselayout :: setContent( ~{ :: .bon-wrap } )}">
+		<div class="bon-wrap">
+			<div class="page-title">
+				<p>수업자료</p>
+			</div>
+			<div class="route-wrap">
+				<a href="/dataW/dataWBoard">수업자료</a>
+				<p>/</p>
+				<a href="/dataW/dataWRegist">수업자료등록</a>
+			</div>
+			<div class="bon-content-wrap">
+				<div class="box-title-wrap">
+					<h3>수업자료등록</h3>
+				</div>
+				<div class="content-box">
+					<form name="InsertWForm" action="InsertWForm" method="post" enctype="multipart/form-data">
+						<h3 style="margin-bottom: 10px;">기본 정보</h3>
+						<div class="reg-title-wrap" style="margin-bottom: 15px;">
+							<div class="like-table-wrap">
+								<div class="sinfo-wrap-m">
+									<p>교육자명</p>
+									<h4 class="name-m">
+										<i class="ri-user-star-line"></i>&nbsp;교육자
+									</h4>
+								</div>
+								<div class="sinfo-wrap-m">
+									<p>강의명</p>
+									<h4 class="name-m">
+										<i class="ri-file-user-line"></i>&nbsp;JAVA개발
+									</h4>
+								</div>
+								<div class="sinfo-wrap-m">
+									<p>그룹명</p>
+									<h4 class="name-m">
+										<i class="ri-file-user-line"></i>&nbsp;GROUP-A
+									</h4>
+								</div>
 							</div>
-                        </div>
-                    </div>
+						</div>
+						<h3 style="margin-bottom: 10px;">학습자료등록</h3>
+						<div class="reg-title-wrap">
+							<div class="group-naming-wrap-m">
+								<div class="group-name">
+									<label>학습자료명</label> <input class="inp-reg-m" type="text" name="GFILENAME">
+								</div>
+								<div class="group-name">
+									<label>학습자료내용</label>
+									<textarea class="wj-textarea" name="GFILECON"></textarea>
+								</div>
+								<div class="group-name">
+									<label>첨부파일</label>
+									<div class="date-wrap-m">
+										<label for="fileInput">첨부파일선택:</label>
+										<input type="file" id="fileInput" name="file">
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="reg-btn-wrap">
+							<button type="submit">자료등록</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</th:block>
 
-                </div>
-                <div class="reg-btn-wrap">
-                    <button type="submit">자료등록</button>
-                </div>
-                </form>
-                
-            </div>
-        </div>
-    </div>
-</th:block>
+	<script th:inline="javascript">
+    // 파일 선택 이벤트 감지
+    document.getElementById('fileInput').addEventListener('change', function(event) {
+        // 선택된 파일 가져오기
+        var file = event.target.files[0];
+
+        // FormData 생성
+        var formData = new FormData();
+        formData.append('file', file);
+
+        // 서버로 파일 전송 (AJAX 사용)
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'upload', true); // 업로드 URL 설정
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                console.log('업로드 성공');
+            } else {
+                console.error('업로드 실패');
+            }
+        };
+        xhr.send(formData);
+    });
+	</script>
+
 </body>
 </html>
