@@ -72,11 +72,11 @@
                                 <tbody class="co-body sms-m">
                                 <th:block th:each="list : ${std}">
                                 <tr class="co-flex">
-                                    <td class="coco crcr-0 center-flex"><input type="checkbox" name="login_id" th:value="${list.login_id}"></td>
+                                    <td class="coco crcr-0 center-flex"><input type="checkbox" name="login_id" class="lolo-m" th:value="${list.login_id}"></td>
                                     <td class="coco srsc-1 lis-left">[[${list.korn_flnm}]]</td>
                                     <td class="coco srsc-2 lis-left">[[${list.idfr_telno}]]</td>
                                     <td class="coco srsc-3 lis-left">[[${list.adm_eml_addr}]]</td>
-                                    <td class="coco srsc-4 lis-left">0LV</td>
+                                    <td class="coco srsc-4 lis-left">[[${list.score}]]</td>
                                     <td class="coco srsc-5 lis-left detail-btw"><span>[[${list.submitted_count + list.not_submitted_count}]]/[[${list.submitted_count}]]</span><button class="join-btn rp-m" type="button">자세히</button></td>
                                 </tr>
                                 </th:block>
@@ -210,77 +210,7 @@
                                     <th class="coco hm-mm-6">상태</th>
                                 </tr>
                                 </thead>
-                                <tbody class="co-body">
-                                <tr class="co-flex">
-                                    <td class="coco crcr-0 center-flex">1</td>
-                                    <td class="coco hm-mm-1">for문으로 별찍기</td>
-                                    <td class="coco hm-mm-2">JAVA</td>
-                                    <td class="coco hm-mm-22">0LV</td>
-                                    <td class="coco hm-mm-3">2023.03.10</td>
-                                    <td class="coco hm-mm-4">2034.04.02</td>
-                                    <td class="coco hm-mm-5">80점</td>
-                                    <td class="coco hm-mm-6">제출완료</td>
-                                </tr>
-                                <tr class="co-flex">
-                                    <td class="coco crcr-0 center-flex">1</td>
-                                    <td class="coco hm-mm-1">for문으로 별찍기</td>
-                                    <td class="coco hm-mm-2">JAVA</td>
-                                    <td class="coco hm-mm-22">0LV</td>
-                                    <td class="coco hm-mm-3">2023.03.10</td>
-                                    <td class="coco hm-mm-4">2034.04.02</td>
-                                    <td class="coco hm-mm-5">80점</td>
-                                    <td class="coco hm-mm-6">제출완료</td>
-                                </tr>
-                                <tr class="co-flex">
-                                    <td class="coco crcr-0 center-flex">1</td>
-                                    <td class="coco hm-mm-1">for문으로 별찍기</td>
-                                    <td class="coco hm-mm-2">JAVA</td>
-                                    <td class="coco hm-mm-22">0LV</td>
-                                    <td class="coco hm-mm-3">2023.03.10</td>
-                                    <td class="coco hm-mm-4">2034.04.02</td>
-                                    <td class="coco hm-mm-5">80점</td>
-                                    <td class="coco hm-mm-6">제출완료</td>
-                                </tr>
-                                <tr class="co-flex">
-                                    <td class="coco crcr-0 center-flex">1</td>
-                                    <td class="coco hm-mm-1">for문으로 별찍기</td>
-                                    <td class="coco hm-mm-2">JAVA</td>
-                                    <td class="coco hm-mm-22">0LV</td>
-                                    <td class="coco hm-mm-3">2023.03.10</td>
-                                    <td class="coco hm-mm-4">2034.04.02</td>
-                                    <td class="coco hm-mm-5">80점</td>
-                                    <td class="coco hm-mm-6">제출완료</td>
-                                </tr>
-                                <tr class="co-flex">
-                                    <td class="coco crcr-0 center-flex">1</td>
-                                    <td class="coco hm-mm-1">for문으로 별찍기</td>
-                                    <td class="coco hm-mm-2">JAVA</td>
-                                    <td class="coco hm-mm-22">0LV</td>
-                                    <td class="coco hm-mm-3">2023.03.10</td>
-                                    <td class="coco hm-mm-4">2034.04.02</td>
-                                    <td class="coco hm-mm-5">80점</td>
-                                    <td class="coco hm-mm-6">제출완료</td>
-                                </tr>
-                                <tr class="co-flex">
-                                    <td class="coco crcr-0 center-flex">1</td>
-                                    <td class="coco hm-mm-1">for문으로 별찍기</td>
-                                    <td class="coco hm-mm-2">JAVA</td>
-                                    <td class="coco hm-mm-22">0LV</td>
-                                    <td class="coco hm-mm-3">2023.03.10</td>
-                                    <td class="coco hm-mm-4">2034.04.02</td>
-                                    <td class="coco hm-mm-5">80점</td>
-                                    <td class="coco hm-mm-6">제출완료</td>
-                                </tr>
-                                <tr class="co-flex">
-                                    <td class="coco crcr-0 center-flex">1</td>
-                                    <td class="coco hm-mm-1">for문으로 별찍기</td>
-                                    <td class="coco hm-mm-2">JAVA</td>
-                                    <td class="coco hm-mm-22">0LV</td>
-                                    <td class="coco hm-mm-3">2023.03.10</td>
-                                    <td class="coco hm-mm-4">2034.04.02</td>
-                                    <td class="coco hm-mm-5">80점</td>
-                                    <td class="coco hm-mm-6">제출완료</td>
-                                </tr>
+                                <tbody class="co-body sms-ddd">
 
 
                                 </tbody>
@@ -317,14 +247,7 @@
     });
 
 
-    $(".rp-m").on('click', function (e){
 
-        $("#modalfour").removeClass('hidden');
-    })
-    document.getElementById("close-m").addEventListener('click', ()=>{
-        $("#modalfour").addClass('hidden');
-
-    })
 
 
 
@@ -350,7 +273,7 @@
                                     <td class="coco srsc-1 lis-left">${i.korn_flnm}</td>
                                     <td class="coco srsc-2 lis-left">${i.idfr_telno}</td>
                                     <td class="coco srsc-3 lis-left">${i.adm_eml_addr}</td>
-                                    <td class="coco srsc-4 lis-left">0LV</td>
+                                    <td class="coco srsc-4 lis-left">${i.score}</td>
                                     <td class="coco srsc-5 lis-left detail-btw"><span>${i.submitted_count + i.not_submitted_count}/${i.submitted_count}</span><button class="join-btn rp-m" type="button">자세히</button></td>`;
                     $(".sms-m").append(tr);
                 }
@@ -361,6 +284,41 @@
             }
         });
     }
+    function gethomeworkinfo(login_id) {
+        $.ajax({
+            type: "POST",
+            url: "/gethomeworkinfo",
+            data: JSON.stringify({
+                login_id: login_id,
+
+            }),
+            contentType: "application/json",
+            success: function (data) {
+                $(".sms-ddd").empty();
+                console.log(data);
+                for (let i in data) {
+                    var tr = document.createElement("tr");
+                    tr.classList.add("co-flex");
+                    tr.innerHTML = `<td class="coco crcr-0">${i + 1}</td>
+                                    <td class="coco hm-mm-1">${data[i].homework_title}</td>
+                                    <td class="coco hm-mm-2">${data[i].homework_language}</td>
+                                    <td class="coco hm-mm-22">${data[i].homework_level}</td>
+                                    <td class="coco hm-mm-3">수신일 </td>
+                                    <td class="coco hm-mm-4">마감기한</td>
+                                    <td class="coco hm-mm-5">${data[i].homework_score}</td>
+                                    <td class="coco hm-mm-6">${data[i].homework_st}</td>`;
+                    $(".sms-ddd").append(tr);
+                }
+            },
+            error: function (xhr, status, error) {
+                console.log(xhr.responseText);
+                alert("정보를 불러올 수 없습니다.");
+            }
+        });
+    }
+
+
+
 
     $("#del-std").click(function(){
         // 선택된 학생들의 login_id를 담을 배열
@@ -394,6 +352,19 @@
         $(".sms-m").empty();
         getstdinfo(searchname, $(this).data("page"), group_no);
     })
+
+
+
+    $(".rp-m").on('click', function (e){
+        console.log($(this).closest(".co-flex").find(".lolo-m").val());
+        gethomeworkinfo($(this).closest(".co-flex").find(".lolo-m").val());
+        $("#modalfour").removeClass('hidden');
+    })
+    document.getElementById("close-m").addEventListener('click', ()=>{
+        $("#modalfour").addClass('hidden');
+
+    })
+
 </script>
 </body>
 </html>

@@ -10,7 +10,7 @@
             <p>숙제</p>
         </div>
         <div class="route-wrap">
-            <a href="#">숙제 </a><p>/</p><a href="#">내 숙제리스트</a>
+            <a href="#">숙제 </a><p>/</p><a style="color: black">내 숙제리스트</a>
         </div>
         <div class="bon-content-wrap">
             <div class="box-title-wrap">
@@ -18,12 +18,12 @@
             </div>
             <div class="content-box">
                 <div class="top-inp">
-                    <p>숙제(3)</p>
+                    <p>숙제([[${total}]])</p>
 
                 </div>
                 <div class="search-wrap-m" style="margin-bottom: 0; padding-bottom: 0; padding-left: 0;">
                     <div class="top-line-btn-wrap" style="margin-bottom: 15px">
-                        <input type="text" placeholder="제목을 검색해주세요" style="width: 300px">
+                        <input type="text" placeholder="제목을 검색해주세요" name="title" style="width: 300px">
                         <i class="ri-search-line"></i>
 
                     </div>
@@ -44,43 +44,34 @@
                         </tr>
                         </thead>
                         <tbody class="co-body">
+                        <th:block th:each="i,status : ${home}">
                         <tr class="co-flex">
-                            <td class="coco crcr-0 center-flex">1</td>
-                            <td class="coco work-m1 lis-left"><a href="#">for문으로 별찍기</a></td>
-                            <td class="coco work-m2 lis-left">JAVA</td>
-                            <td class="coco work-m3 lis-left">0LV</td>
-                            <td class="coco work-m4 lis-left">2023.01.13</td>
-                            <td class="coco work-m5 lis-left">2023.01.13</td>
-                            <td class="coco work-mm lis-left">0</td>
-                            <td class="coco work-m6 lis-left">미제출</td>
+                            <td class="coco crcr-0 center-flex">[[${status.index+1}]]</td>
+                            <td class="coco work-m1 lis-left"><a th:href="@{myhomeworkdetail(homework_no = ${i.homework_non})}">[[${i.homework_title}]]</a></td>
+                            <td class="coco work-m2 lis-left">[[${i.homework_language}]]</td>
+                            <td class="coco work-m3 lis-left">[[${i.homework_level}]]</td>
+                            <td class="coco work-m4 lis-left">[[${#temporals.format(i.submit_date, 'yyyy.MM.dd')}]]</td>
+                            <td class="coco work-m5 lis-left">[[${#dates.format(i.homework_enddate, 'yyyy.MM.dd')}]]</td>
+                            <td class="coco work-mm lis-left">[[${i.homework_score}]]</td>
+                            <td class="coco work-m6 lis-left">
+                                <div th:block th:if="${i.homework_st == '제출'}" class="ck-mmm">
+                                    <i class="ri-checkbox-circle-line"></i>[[${i.homework_st}]]
+                                </div>
+                                <div th:block th:unless="${i.homework_st == '제출'}" th:text="${i.homework_st}"></div>
+                            </td>
                         </tr>
-
-                        <tr class="co-flex">
-                            <td class="coco crcr-0 center-flex">1</td>
-                            <td class="coco work-m1 lis-left"><a href="#">for문으로 별찍기</a></td>
-                            <td class="coco work-m2 lis-left">JAVA</td>
-                            <td class="coco work-m3 lis-left">0LV</td>
-                            <td class="coco work-m4 lis-left">2023.01.13</td>
-                            <td class="coco work-m5 lis-left">2023.01.13</td>
-                            <td class="coco work-mm lis-left">80</td>
-                            <td class="coco work-m6 lis-left ck-mmm"><i class="ri-checkbox-circle-line"></i>제출</td>
-                        </tr>
-
-
-
+                        </th:block>
                         </tbody>
                     </table>
                 </div>
                 <div class="page-wrap right-p">
                     <div class="pagination">
-                        <a href="#">&laquo;</a>
-                        <a href="#">1</a>
-                        <a href="#" class="act">2</a>
-                        <a href="#">3</a>
-                        <a href="#">4</a>
-                        <a href="#">5</a>
-                        <a href="#">6</a>
-                        <a href="#">&raquo;</a>
+                        <a th:href="@{myhomework(page=1,
+                      title = ${pageVO.cri.title})}">&laquo;</a>
+                        <th:block th:each="page : ${pageVO.pageList}">
+                            <a th:class="${pageVO.page == page ? 'act':''}" th:href="@{myhomework(page = ${page}, title = ${pageVO.cri.title})}">[[${page}]]</a>
+                        </th:block>
+                        <a th:href="@{myhomework(page = ${pageVO.realEnd}, title = ${pageVO.cri.title})}"> &raquo;</a>
                     </div>
                 </div>
 

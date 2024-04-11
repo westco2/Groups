@@ -10,11 +10,12 @@
             <p>숙제</p>
         </div>
         <div class="route-wrap">
-            <a href="#">숙제 </a><p>/</p><a href="#">내 숙제리스트</a>
+            <a href="#">숙제 </a><p>/</p><a style="color: black;">내 숙제리스트</a>
         </div>
         <div class="bon-content-wrap">
             <div class="box-title-wrap">
                 <h3>내 숙제리스트</h3>
+                <input type="hidden" id="myid" th:value="${#authentication.principal.Username}">
             </div>
             <div class="content-box">
                 <div class="top-inp">
@@ -45,65 +46,54 @@
                                 </li>
                             </ul>
                         </div>
-                        <button type="button" class="regbtn-des">숙제 생성</button>
+                        <button type="button" class="regbtn-des" onclick="location.href='homeworkreg';">숙제 생성</button>
                     </div>
                 </div>
-                <div class="search-wrap-m" style="margin-bottom: 0; padding-bottom: 0; padding-left: 0;">
+                <form class="search-wrap-m sts-m" action="/homework/homeworklist" method="get" style="margin-bottom: 0; padding-bottom: 0; padding-left: 0;">
                     <div class="top-line-btn-wrap" style="margin-bottom: 15px">
-                        <input type="text" placeholder="제목을 검색해주세요" style="width: 300px">
+                        <input type="text" placeholder="제목을 검색해주세요" name="title" th:value="${pageVO.cri.title}" style="width: 300px">
                         <i class="ri-search-line"></i>
 
                     </div>
-
-                </div>
+                    <div class="ssd-mm">
+                        <input type="submit" class="sub-des" value="조회하기">
+                    </div>
+                </form>
                 <div class="table-wrap">
                     <table class="table-content" >
                         <thead class="co-head">
                         <tr class="co-flex">
-                            <th class="coco crcr-0">#</th>
-                            <th class="coco work-1 lis-left desc-tr">제목 <i class="ri-arrow-down-s-fill"></i></th>
-                            <th class="coco work-2 lis-left desc-tr">언어<i class="ri-arrow-down-s-fill"></i></th>
-                            <th class="coco work-3 lis-left desc-tr">레벨<i class="ri-arrow-down-s-fill"></i></th>
-                            <th class="coco work-4 lis-left desc-tr">등록일자<i class="ri-arrow-down-s-fill i-col"></i></th>
+                            <th class="coco crcr-0 center-flex">#</th>
+                            <th class="coco work-t1">No</th>
+                            <th class="coco work-t2 lis-left desc-tr" style="justify-content: center;">제목</th>
+                            <th class="coco work-t3 lis-left desc-tr">언어</th>
+                            <th class="coco work-t4 lis-left desc-tr">레벨<i class="ri-arrow-down-s-fill"></i></th>
+                            <th class="coco work-t5 lis-left desc-tr">등록일자<i class="ri-arrow-down-s-fill i-col"></i></th>
                         </tr>
                         </thead>
                         <tbody class="co-body">
+                        <th:block th:each="i, status : ${home}">
                         <tr class="co-flex">
-                            <td class="coco crcr-0 center-flex"><input type="checkbox"></td>
-                            <td class="coco work-1 lis-left"><a href="#">for문으로 별찍기</a></td>
-                            <td class="coco work-2 lis-left">JAVA</td>
-                            <td class="coco work-3 lis-left">0LV</td>
-                            <td class="coco work-4 lis-left">2023.01.13</td>
+                            <td class="coco crcr-0 center-flex"><input type="radio" class="ra-no-m" name="homework_no"><input type="hidden" th:value="${i.homework_no}"></td>
+                            <td class="coco work-t1">[[${status.index+1}]]</td>
+                            <td class="coco work-t2 lis-left" style="justify-content: center;"><a style="color: #191a2e">[[${i.homework_title}]]</a></td>
+                            <td class="coco work-t3 lis-left">[[${i.homework_language}]]</td>
+                            <td class="coco work-t4 lis-left" th:classappend="${i.homework_level}" >[[${i.homework_level}]]</td>
+                            <td class="coco work-t5 lis-left">[[${ #temporals.format(i.homework_register, 'yyyy.MM.dd')}]]</td>
                         </tr>
-                        <tr class="co-flex">
-                            <td class="coco crcr-0 center-flex"><input type="checkbox"></td>
-                            <td class="coco work-1 lis-left"><a href="#">for문으로 별찍기</a></td>
-                            <td class="coco work-2 lis-left">JAVA</td>
-                            <td class="coco work-3 lis-left">0LV</td>
-                            <td class="coco work-4 lis-left">2023.01.13</td>
-                        </tr>
-                        <tr class="co-flex">
-                            <td class="coco crcr-0 center-flex"><input type="checkbox"></td>
-                            <td class="coco work-1 lis-left"><a href="#">for문으로 별찍기</a></td>
-                            <td class="coco work-2 lis-left">JAVA</td>
-                            <td class="coco work-3 lis-left">0LV</td>
-                            <td class="coco work-4 lis-left">2023.01.13</td>
-                        </tr>
-
+                        </th:block>
 
                         </tbody>
                     </table>
                 </div>
                 <div class="page-wrap right-p">
                     <div class="pagination">
-                        <a href="#">&laquo;</a>
-                        <a href="#">1</a>
-                        <a href="#" class="act">2</a>
-                        <a href="#">3</a>
-                        <a href="#">4</a>
-                        <a href="#">5</a>
-                        <a href="#">6</a>
-                        <a href="#">&raquo;</a>
+                        <a th:href="@{homeworklist(page=1,
+                      title = ${pageVO.cri.title})}">&laquo;</a>
+                        <th:block th:each="page : ${pageVO.pageList}">
+                            <a th:class="${pageVO.page == page ? 'act':''}" th:href="@{homeworklist(page = ${page}, title = ${pageVO.cri.title})}">[[${page}]]</a>
+                        </th:block>
+                        <a th:href="@{homeworklist(page = ${pageVO.realEnd}, title = ${pageVO.cri.title})}"> &raquo;</a>
                     </div>
                 </div>
 
@@ -114,10 +104,344 @@
             </div>
 
         </div>
+
+
+        <div class="content-line-m">
+            <div class="left-h-m">
+                <div class="ul-wrap-m">
+                    <ul class="toggle-m">
+                        <li data-id="#tog-m1" class="acts-m">정보</li>
+                        <li data-id="#tog-m2" class="">이력</li>
+                    </ul>
+                </div>
+                <div class="bon-content-wrap sms-mm toggle-menu-m active-m" id="tog-m1">
+
+
+                </div>
+                <div class="bon-content-wrap sms-mm2 toggle-menu-m" id="tog-m2">
+                    <div class="ti-h3" style="margin-bottom: 20px"><h3>이력</h3></div>
+                    <div class="table-wrap" id="mama-m2">
+                        <table class="table-content">
+                            <thead class="co-head">
+                            <tr class="co-flex">
+                                <th class="coco crcr-0">No</th>
+                                <th class="coco crc-m1">아이디</th>
+                                <th class="coco crc-m4">제출일자</th>
+                                <th class="coco crc-m3">점수</th>
+                                <th class="coco crc-m2">코드보기</th>
+                            </tr>
+                            </thead>
+                            <tbody class="co-body sms-mmm">
+
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="right-h-m">
+                <div class="bon-content-wrap" style="margin-left: 0">
+                    <form class="reg-title-wrap col-mm" action="/homework/homeworksend" method="post">
+                        <div class="sub-wrap-ms">
+                            <div class="enddate-m" >
+                                <label>마감기한</label>
+                                <input class="inp-reg-m ee-mm-date" style="width: 100px; font-size: 12px;" type="date" name="homework_enddate">
+                            </div>
+                        </div>
+                        <div class="jst-wrap-m">
+                            <select class="sel-des sel-des-2m">
+                                <option value="">전체</option>
+                                <th:block th:each="i : ${names}">
+                                    <option th:value="${i.group_nm}">[[${i.group_nm}]]</option>
+                                </th:block>
+                            </select>
+                            <input type="hidden" name="homework_no" id="hw-no">
+                            <button type="submit"  class="regbtn-des ppl-m" >전송하기</button>
+                        </div>
+                        <div class="table-wrap" id="mama-m">
+                            <div class="evg-m">평균점수: <span class="evg-sm"></span>점</div>
+                            <table class="table-content">
+                                <thead class="co-head">
+                                <tr class="co-flex">
+                                    <th class="coco crcr-0"><input id="selectAll" type="checkbox"></th>
+                                    <th class="coco crc-m1">이름</th>
+                                    <th class="coco crc-m2">e-mail</th>
+                                    <th class="coco crc-m3">점수</th>
+                                    <th class="coco crc-m4">소속 그룹</th>
+                                </tr>
+                                </thead>
+                                <tbody class="co-body sms-m">
+
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div id="modalfour" class="hidden">
+            <div id="modalcontentt">
+                <div class="modal-wrap-m">
+                    <div class="join-wrap-mm">
+                        <div class="top-inp">
+                            <h3><i class="ri-checkbox-circle-line"></i>코드보기</h3>
+                        </div>
+                    </div>
+
+                    <div class="show-code-m"></div>
+
+
+                    <div class="bot-sub-m">
+                        <button id="close-m" type="button">닫기</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
 </th:block>
 
+<script th:inline="javascript">
+    var msg = `[[${msg}]]`;
+    msg = JSON.parse(msg)
+    if(msg !== null) {
+        alert(msg);
+    }
 
+</script>
+
+<script>
+
+    var tog = document.querySelector('.toggle-m');
+    var prei = '#tog-m1';
+    tog.addEventListener('click', (e)=>{
+
+        if(e.target.tagName != 'LI') return;
+        var preto = document.querySelector('.acts-m');
+        var menu = e.target.dataset.id;
+        var ddd = document.querySelector(menu);
+        var pp = document.querySelector(prei);
+        preto.classList.toggle('acts-m');
+        e.target.classList.toggle('acts-m');
+
+        pp.classList.toggle('active-m');
+        ddd.classList.toggle('active-m');
+        prei = menu;
+
+    })
+
+
+    var currenthomework = 0;
+    const my_id = $("#myid").val();
+    var selgroupnm = '';
+
+
+    function getstdlist(login_id, group_nm, homework_no){
+        $.ajax({
+            type: "post",
+            url: "/getstdlist",
+            dataType: "json",
+            data: JSON.stringify({
+                login_id: login_id,
+                group_nm: group_nm,
+                homework_no: homework_no
+            }),
+            contentType: "application/json",
+            success: function(data) {
+                console.log(data);
+                var cnt = 0;
+                var sum = 0;
+                for (let i of data){
+                    var tr = document.createElement("tr");
+                    tr.classList.add("co-flex");
+                    cnt++;
+                    sum += i.score;
+                    tr.innerHTML = ` <td class="coco crcr-0 center-flex"><input type="checkbox" name="login_id" class="ckbox-m" value="${i.login_id}"></td>
+                                        <td class="coco crc-m1">${i.korn_flnm}</td>
+                                        <td class="coco crc-m2">${i.adm_eml_addr}</td>
+                                        <td class="coco crc-m3">${i.score}</td>
+                                        <td class="coco crc-m4">${i.group_nm}</td>`;
+                    $(".sms-m").append(tr);
+
+
+                }
+                $(".evg-sm").html(Math.ceil(sum/cnt));
+            },
+            error: function(err, status) {
+                console.log(err, status);
+                alert("정보를 불러올 수 없습니다.");
+            }
+        });
+
+    }
+
+
+    function getrecorddetail(homework_no){
+        $.ajax({
+            type: "post",
+            url: "/getrecorddetail",
+            dataType: "json",
+            data: JSON.stringify({
+                homework_no: homework_no
+            }),
+            contentType: "application/json",
+            success: function(data) {
+                $(".sms-mmm").empty();
+                console.log(data);
+
+                data.forEach((item, index) => {
+                    var joinDate = new Date(item.record_date);
+                    var formattedJoinDate = joinDate.toLocaleString();
+
+                    var tr = document.createElement("tr");
+                    tr.classList.add("co-flex");
+
+                    tr.innerHTML = `
+            <td class="coco crcr-0 center-flex">${index + 1}</td>
+            <td class="coco crc-m1">${item.login_id}</td>
+            <td class="coco crc-m4">${formattedJoinDate}</td>
+            <td class="coco crc-m3">${item.record_score}</td>
+            <td class="coco crc-m2"><input type="button" class="sub-des ck-code-m" data-code="${item.record_code}" value="확인"></td>
+        `;
+                    $(".sms-mmm").append(tr);
+                });
+            },
+            error: function(err, status) {
+                console.log(err, status);
+                alert("정보를 불러올 수 없습니다.");
+            }
+        });
+
+    }
+
+
+    function gethomedetail(homework_no){
+        $.ajax({
+            type: "post",
+            url: "/gethomedetail",
+            dataType: "json",
+            data: JSON.stringify({
+                homework_no: homework_no
+            }),
+            contentType: "application/json",
+            success: function(data) {
+                $(".sms-mm").empty();
+                console.log(data);
+
+                var div = document.createElement("div");
+                var div2 = document.createElement("div");
+                div2.classList.add("ti-h3");
+                div2.innerHTML = "<h3>세부정보</h3>";
+                div.classList.add("reg-title-wrap");
+                div.classList.add("row-m");
+
+                var html = `<div class="col-mm">
+                    <div class="like-table-wrap nogap-m">
+                        <div class="sinfo-wrap-m">
+                            <label class="we-m">레벨</label>
+                            <h4 class="name-m ${data.homework_level}">${data.homework_level}</h4>
+                        </div>
+                        <div class="sinfo-wrap-m">
+                            <label class="we-m">제한시간</label>
+                            <h4 class="name-m"><i class="ri-timer-line"></i> &nbsp;${data.homework_time}초</h4>
+                        </div>
+                    </div>
+                    <div class="group-name">
+                        <label>숙제내용</label>
+                        <p>${data.homework_content}</p>
+                    </div>
+                    <div class="group-name">
+                        <label>숙제힌트</label>
+                        <p>${data.homework_hint}</p>
+                    </div>
+                </div>
+                <div class="group-name w-100">
+                    <label style="    color: indigo;">입출력 예시</label>
+                    <div class="inout-m ex-inp-m">
+                        <div class="h-ex-wrap tt-m tt-title-m" style="margin-bottom: 0">
+                            <label>입력</label>
+                            <label>결과</label>
+                            <label class="exp-m ee-mm">설명</label>
+                        </div>`;
+
+                for (var i of data.list_exvo) {
+                    html += `<div class="h-ex-wrap tt-m bor-m">
+                    <label>${i.input}</label>
+                    <label>${i.output}</label>
+                    <label class="exp-m ee-mm">${i.ex_ct}</label>
+                </div>`;
+                }
+
+                html += `</div>
+                <label style="    color: indigo;">테스트 코드</label>
+                <div class="inout-m ex-inp-m">
+                    <div class="h-ex-wrap tt-m tt-title-m" style="margin-bottom: 0; width: 50%">
+                        <label class="t-m1">입력</label>
+                        <label class="t-m2">결과</label>
+                    </div>`;
+
+                for (var i of data.list_testvo) {
+                    html += `<div class="h-ex-wrap tt-m bor-m" style="width: 50%">
+                    <label class="t-m1">${i.test_input}</label>
+                    <label class="t-m2">${i.test_output}</label>
+                </div>`;
+                }
+
+                html += `</div>
+            </div>`;
+
+                div.innerHTML = html;
+                $(".sms-mm").append(div2);
+                $(".sms-mm").append(div);
+            },
+            error: function(err, status) {
+                console.log(err, status);
+                alert("정보를 불러올 수 없습니다.");
+            }
+        });
+
+    }
+
+    $(".sms-mmm").on('click', '.ck-code-m', function (e) {
+        console.log($(this).val());
+        $(".show-code-m").html($(this).attr("data-code"));
+        $("#modalfour").removeClass('hidden');
+    });
+
+    document.getElementById("close-m").addEventListener('click', () => {
+        $(".show-code-m").empty();
+        $("#modalfour").addClass('hidden');
+    });
+
+
+    $(".ra-no-m").on('click',function (e){
+        $(".content-line-m").css("display","flex");
+        currenthomework = $(this).next().val();
+        $("#hw-no").val(currenthomework);
+        $(".sms-m").empty();
+        getstdlist(my_id, selgroupnm, currenthomework);
+        gethomedetail(currenthomework);
+        getrecorddetail(currenthomework);
+
+    })
+
+    $(".sel-des-2m").on('change',function (e){
+        selgroupnm = $(".sel-des-2m").val();
+        $(".sms-m").empty();
+        $("#selectAll").prop('checked', false);
+        getstdlist(my_id, selgroupnm, currenthomework);
+    })
+
+    $("#selectAll").change(function (e){
+        const isChecked = $(this).prop('checked');
+
+        $(".ckbox-m").prop('checked',isChecked);
+
+    })
+</script>
 </body>
 </html>

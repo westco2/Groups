@@ -4,16 +4,23 @@ import com.project.groups.command.ExVO;
 import com.project.groups.command.HomeWorkVO;
 import com.project.groups.command.TestVO;
 import com.project.groups.homework.HomeworkService;
+import com.project.groups.util.Criteria;
+import com.project.groups.util.EncryptionUtils;
+import com.project.groups.util.PageVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 @RequestMapping("/homework")
@@ -24,7 +31,13 @@ public class HomeworkController {
     private HomeworkService homeworkService;
 
     @GetMapping("/homeworklist")
-    public String hoemworklist(){
+    public String hoemworklist(Model model, Criteria cri){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String sessionId = authentication.getName();
+        PageVO vo = new PageVO(cri,homeworkService.gethomeworktotal(sessionId, cri));
+        model.addAttribute("names", homeworkService.getgroupnames(sessionId));
+        model.addAttribute("home",homeworkService.gethomeworklist(sessionId, cri));
+        model.addAttribute("pageVO",vo);
         return "homework/homeworklist";
     }
 
@@ -38,22 +51,42 @@ public class HomeworkController {
     /* 학생 */
 
     @GetMapping("/myhomework")
-    public String myhomework(){
+    public String myhomework(Model model, Criteria cri){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String sessionId = authentication.getName();
+        int total = homeworkService.getmyhomeworktotal(sessionId, cri);
+        PageVO vo = new PageVO(cri,total);
+
+        List<HomeWorkVO> list = homeworkService.getmyhomeworklist(sessionId, cri);
+        list.forEach(a -> {
+            String encryptedHomeworkNo = EncryptionUtils.encrypt(a.getHomework_no() + "");
+            if (encryptedHomeworkNo != null) {
+                a.setHomework_non(encryptedHomeworkNo);
+            } else {
+                // 암호화 실패 시 처리할 로직을 여기에 추가하세요
+            }
+        });
+        System.out.println(list);
+        model.addAttribute("total",total);
+        model.addAttribute("home",list);
+        model.addAttribute("pageVO",vo);
         return "homework/myhomework";
     }
 
-    @GetMapping("/myhomeworkdetail/{homework_no}")
-    public String myhomeworkdetail(@PathVariable("homework_no") Integer homework_no , Model model){
+    @GetMapping("/myhomeworkdetail")
+    public String myhomeworkdetail(@RequestParam("homework_no") String homework_no , Model model){
+
+        Integer homework_noo =  Integer.parseInt(Objects.requireNonNull(EncryptionUtils.decrypt(homework_no)));
         //homework_no 에 해당하는 homework 테이블
-        HomeWorkVO homeworkVO = homeworkService.homeworkvoselect(homework_no);
-        System.out.println("homework_no = " + homework_no);
+        HomeWorkVO homeworkVO = homeworkService.homeworkvoselect(homework_noo);
+        System.out.println("homework_no = " + homework_noo);
         System.out.println("homeworkVO = " + homeworkVO);
         //ex테이블
-        List<ExVO> exVOList = homeworkService.listexvoselect(homework_no);
+        List<ExVO> exVOList = homeworkService.listexvoselect(homework_noo);
         System.out.println("exVOList = " + exVOList);
 
         //test테이블
-        List<TestVO> testVOList = homeworkService.listtestvoselect(homework_no);
+        List<TestVO> testVOList = homeworkService.listtestvoselect(homework_noo);
         System.out.println("testVOList = " + testVOList);
 
         // Model에 속성 추가
@@ -106,6 +139,14 @@ public class HomeworkController {
         }
 
 
+        return "redirect:/homework/homeworklist";
+    }
+
+    /* 선생 숙제 전송 */
+    @PostMapping("/homeworksend")
+    public String homeworksend(@RequestParam("login_id") List<String> ids, @RequestParam("homework_no")Integer homework_no, @RequestParam("homework_enddate") Date homework_enddate, RedirectAttributes ra){
+        homeworkService.sendhomework(ids,homework_no,homework_enddate);
+        ra.addFlashAttribute("msg","정상적으로 처리되었습니다.");
         return "redirect:/homework/homeworklist";
     }
 

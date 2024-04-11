@@ -10,7 +10,7 @@
             <p>숙제</p>
         </div>
         <div class="route-wrap">
-            <a href="#">숙제</a><p>/</p><a href="#">내 숙제리스트</a><p>/</p><a href="#">[[${vo.homework_title}]]</a>
+            <a href="#">숙제</a><p>/</p><a href="myhomework">내 숙제리스트</a><p>/</p><a style="color: black">[[${vo.homework_title}]]</a>
         </div>
         <div class="bon-content-wrap">
             <div class="two-m">
@@ -23,7 +23,7 @@
                                 <div class="like-table-wrap">
                                     <div class="sinfo-wrap-m">
                                         <p>레벨</p>
-                                        <h4 class="name-m">[[${vo.homework_level}]]</h4>
+                                        <h4 class="name-m" th:classappend="${vo.homework_level}">[[${vo.homework_level}]]<input type="hidden" id="lvscr" th:value="${vo.homework_level}"></h4>
                                     </div>
                                     <div class="sinfo-wrap-m">
                                         <p>제한시간</p>
@@ -43,20 +43,24 @@
                             </div>
                             <div class="group-name">
                                 <label>입출력 예시</label>
-                                <th:block th:each="i : ${vo2}">
+
                                 <div class="inout-m ex-inp-m">
-                                    <div class="h-ex-wrap flc-center-mm" style="margin-bottom: 0">
-                                        <label>입력값</label>
-                                        <label>결과값</label>
+                                    <div class="h-ex-wrap flc-center-mm tmt-m ti-mm" style="margin-bottom: 0">
+                                        <label class="tm-m0">No</label>
+                                        <label class="tm-m1">입력값</label>
+                                        <label class="tm-m2">결과값</label>
                                     </div>
-                                    <div class="h-ex-wrap flc-center-mm" style="margin-bottom: 30px; text-align: center;">
-
-                                            <label><div>[[${i.input}]]</div></label>
-                                            <label><div>[[${i.output}]]</div></label>
+                                    <th:block th:each="i, status : ${vo2}">
+                                    <div class="h-ex-wrap flc-center-mm tmt-m" style=" text-align: center;">
+                                            <label class="tm-m0"><div>[[${status.index+1}]]</div></label>
+                                            <label class="tm-m1"><div>[[${i.input}]]</div></label>
+                                            <label class="tm-m2"><div>[[${i.output}]]</div></label>
 
                                     </div>
+                                    </th:block>
                                 </div>
-                                <label>설명</label>
+                                <th:block th:each="i,status : ${vo2}">
+                                <label>예시[[${status.index+1}]]번 설명</label>
                                 <p>[[${i.ex_ct}]]</p>
                                 </th:block>
 
@@ -71,9 +75,9 @@
                 <div class="content-box fl-row-m2" >
                     <h3 style="margin-bottom: 10px;">solution</h3>
                     <div class="reg-title-wrap">
-                        <div class="code-editor">
-                            <div class="line-numbers"></div>
-                            <textarea id="code" onkeydown="handleTab(event)"></textarea>
+                        <div class="code-editor eded-m">
+                            <div id="lineNumbers" class="line-numbers"></div>
+                            <textarea id="code" rows="1" onkeydown="handleTab(event)"></textarea>
                         </div>
                     </div>
                     <div class="reg-title-wrap"  >
@@ -100,8 +104,39 @@
 </th:block>
 
 
-<script>
+<script th:inline="javascript">
+    
 
+    const point = parseInt($("#lvscr").val().substring(2,3));
+    var lastpoint = 0;
+    if(point === 0) lastpoint = 10;
+    else if (point === 1) lastpoint = 13;
+    else if (point === 2) lastpoint = 15;
+    else if (point === 3) lastpoint = 17;
+    else if (point === 4) lastpoint = 20;
+    else if (point === 5) lastpoint = 25;
+
+    var allpro = 0;
+    var procnt = 0;
+
+    const textarea = document.getElementById('code');
+    const lineNumbers = document.getElementById('lineNumbers');
+
+    textarea.addEventListener('input', updateLineNumbers);
+    textarea.addEventListener('scroll', syncScroll);
+    window.addEventListener('resize', updateLineNumbers);
+
+    function updateLineNumbers() {
+        const lines = textarea.value.split('\n').length;
+        lineNumbers.innerHTML = '';
+        for (let i = 1; i <= lines; i++) {
+            lineNumbers.innerHTML += i + '<br>';
+        }
+    }
+
+    function syncScroll() {
+        lineNumbers.scrollTop = textarea.scrollTop;
+    }
     var num = parseInt($(".h-time").val());
 
 
@@ -138,9 +173,10 @@
             success: function(data) {
                 element.find('.loader').hide();
                 console.log(data);
-
+                allpro++;
                 if (data == "통과") {
                     element.append('<p class="st-mm"><i class="ri-checkbox-circle-line"></i>통과</p>');
+                    procnt++;
                 } else if (data == "실패") {
                     element.append('<p class="fail-m"><i class="ri-alert-line"></i>실패</p>');
                 } else {
@@ -158,8 +194,34 @@
         });
     };
 
+    function updatescore(score, lastpoint, homework_no, code){
+        $.ajax({
+            type: "post",
+            url: "/submithomework",
+            dataType: "text",
+            contentType: "application/json",
+            data: JSON.stringify({
+                score: score,
+                point: lastpoint,
+                homework_no: homework_no,
+                code : code
+            }),
+            success: function(data) {
+                console.log(data);
+            },
+            error: function(err, status) {
+                console.log(err, status);
+                alert("정보를 불러올 수 없습니다.");
+            }
+        });
+
+    }
+
 
     $("#sub-btn").on("click", function (e) {
+        $("#sub-btn").prop("disabled", true);
+        $("#sub-btn").html('<div class="loaderb"></div>');
+        $("#sub-btn").find(".loaderb").show();
         $(".result-m").css("display", "flex");
         var code = $("#code").val();
 
@@ -169,7 +231,16 @@
             .then(function() {
                 setTimeout(function() {
                     alert("채점이 완료되었습니다.");
-                }, 1000);
+                    $("#sub-btn").prop("disabled", false);
+                    $("#sub-btn").html('체점하기');
+
+                }, 100);
+                var score = Math.ceil(procnt/allpro*100);
+                updatescore(score,lastpoint,JSON.parse(`[[${vo.homework_no}]]`),$("#code").val());
+
+
+                allpro = 0;
+                procnt = 0;
             });
     });
 
