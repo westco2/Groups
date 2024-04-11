@@ -1,0 +1,312 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+<!-- content -->
+<th:block th:replace="~{./include/baselayout :: setContent( ~{ :: .bon-wrap } )}">
+    <div class="bon-wrap">
+        <div class="page-title">
+            <p>그룹</p>
+        </div>
+        <div class="route-wrap">
+            <a href="#">my groups </a><p>/</p><a href="#">학습그룹조회</a>
+        </div>
+        <div class="bon-content-wrap">
+            <div class="box-title-wrap">
+                <h3>내 학습그룹</h3>
+            </div>
+            <div class="content-box">
+                <div class="top-inp">
+                    <p>group(5)</p>
+                    <div class="inp-wrap" style="margin-right: 10px; justify-content: end; ">
+                        <div class="select-box">
+                            <div class="select-box__current" tabindex="1">
+                                <div class="select-box__value">
+                                    <input class="select-box__input" type="radio" id="0" value="1" name="Ben" checked="checked"/>
+                                    <p class="select-box__input-text">작업</p>
+                                </div>
+                                <div class="select-box__value">
+                                    <input class="select-box__input" type="radio" id="1" value="2" name="Ben"/>
+                                    <p class="select-box__input-text">그룹 활성화</p>
+                                </div>
+                                <div class="select-box__value">
+                                    <input class="select-box__input" type="radio" id="2" value="3" name="Ben"/>
+                                    <p class="select-box__input-text">그룹 비활성화</p>
+                                </div>
+                                <div class="select-box__value">
+                                    <input class="select-box__input" type="radio" id="3" value="4" name="Ben"/>
+                                    <p class="select-box__input-text">종료</p>
+                                </div>
+                                <i class="ri-arrow-down-s-fill select-box__icon"></i>
+                            </div>
+                            <ul class="select-box__list">
+
+                                <li>
+                                    <label class="select-box__option f-t1" for="1" aria-hidden="aria-hidden">그룹 활성화</label>
+                                </li>
+                                <li>
+                                    <label class="select-box__option f-t2" for="2" aria-hidden="aria-hidden">그룹 비활성화</label>
+                                </li>
+                                <li>
+                                    <label class="select-box__option f-t3" for="3" aria-hidden="aria-hidden">삭제</label>
+                                </li>
+                            </ul>
+                        </div>
+                        <button type="button" class="regbtn-des">그룹 생성</button>
+                    </div>
+                </div>
+                <div class="search-wrap-m" style="margin-bottom: 0; padding-bottom: 0; padding-left: 0;">
+                    <div class="top-line-btn-wrap" style="margin-bottom: 15px">
+                        <input type="text" placeholder="제목을 검색해주세요" style="width: 300px">
+                        <i class="ri-search-line"></i>
+                    </div>
+
+                </div>
+                <form class="table-wrap" action="#" name="grouplistForm" method="post">
+                    <table class="table-content">
+                        <thead class="co-head">
+                        <tr class="co-flex">
+                            <th class="coco crcr-0">#</th>
+                            <th class="coco crcr-1">그룹이름</th>
+                            <th class="coco crcr-2">유형</th>
+                            <th class="coco crcr-3">교육시작일</th>
+                            <th class="coco crcr-4">교육종료일</th>
+                            <th class="coco crcr-5">인원</th>
+                            <th class="coco crcr-6">상태</th>
+                        </tr>
+                        </thead>
+                        <tbody class="co-body">
+                       <th:block th:each="i, iterStat : ${list}">
+                           <tr class="co-flex">
+                               <td class="coco crcr-0 center-flex"><input type="checkbox" name="group_non" th:value="${i.group_no}"><input type="hidden"  class="hi-mmm" th:value="${i.group_no}"></td>
+                               <td class="coco crcr-1">
+
+                                   <input type="hidden" name="group_no" th:value="${i.group_no}">
+                                   <a href="#">[[${i.group_nm}]]</a>
+
+                               </td>
+                               <td class="coco crcr-2">국비</td>
+                               <td class="coco crcr-3">[[${i.group_start}]]</td>
+                               <td class="coco crcr-4">[[${i.group_end}]]</td>
+                               <td class="coco crcr-5">[[${i.group_pp}]]/[[${i.student_count}]]</td>
+                               <td class="coco crcr-6">
+                                   <button type="button" id="medbtn-m" class="join-btn" th:if="${i.group_st == '활성화'}">신청자 확인</button>
+                                   <span th:unless="${i.group_st == '활성화'}">비활성화</span>
+                               </td>
+                           </tr>
+                       </th:block>
+
+
+                        </tbody>
+                    </table>
+                </form>
+                <div class="page-wrap right-p">
+                    <div class="pagination">
+                        <a href="#">&laquo;</a>
+                        <a href="#">1</a>
+                        <a href="#" class="act">2</a>
+                        <a href="#">3</a>
+                        <a href="#">4</a>
+                        <a href="#">5</a>
+                        <a href="#">6</a>
+                        <a href="#">&raquo;</a>
+                    </div>
+                </div>
+
+            </div>
+            <div id="modalfour" class="hidden">
+                <div id="modalcontentt">
+                    <div class="modal-wrap-m">
+                        <div class="join-wrap-mm">
+                            <div class="top-inp">
+                                <h3><i class="ri-checkbox-circle-line"></i>그룹 신청자</h3>
+                            </div>
+                        </div>
+
+                        <form class="content-box" action="/group/groupjoinap" method="post">
+                            <div class="wr-m">
+                                <p><i class="ri-error-warning-line"></i>거절을 누르면 자동으로 목록에서 삭제가 됩니다</p>
+                            </div>
+                            <div class="table-wrap">
+                                <table class="table-content">
+                                    <thead class="co-head">
+                                    <tr class="co-flex">
+                                        <th class="coco crcr-0">No</th>
+                                        <th class="coco crc-1">학생 이름</th>
+                                        <th class="coco crc-2">학생 연락처</th>
+                                        <th class="coco crc-3">승인요청일자</th>
+                                        <th class="coco crc-4"><input type="checkbox" id="selectAll">승인</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody class="co-body sms-m">
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="bot-sub-m">
+                                <button id="join-m" type="submit">승인</button>
+                                <button id="close-m" type="button">닫기</button>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</th:block>
+<script th:inline="javascript">
+    var msg = `[[${msg}]]`;
+    msg = JSON.parse(msg)
+    if(msg !== null) {
+        alert(msg);
+    }
+
+</script>
+
+<script>
+
+
+    function getinfo(group_no){
+        $.ajax({
+            type: "post",
+            url: "/getstdInfo",
+            dataType: "json",
+            data: JSON.stringify({
+                group_no: group_no
+            }),
+            contentType: "application/json",
+            success: function(data) {
+                console.log(data);
+                for (let i in data){
+                    var tr = document.createElement("tr");
+                    tr.classList.add("co-flex");
+
+                    // LocalDateTime 문자열을 Date 객체로 변환
+                    var joinDate = new Date(data[i].join_date);
+
+                    // 원하는 포맷으로 날짜 및 시간 출력
+                    var formattedJoinDate = joinDate.toLocaleString();
+                    tr.innerHTML = `<td class="coco crcr-0 center-flex">${parseInt(i)+1}<input type="hidden" name="group_no" value="${group_no}"></td>
+                                        <td class="coco crc-1">${data[i].korn_flnm}</td>
+                                        <td class="coco crc-2">${data[i].idfr_telno}</td>
+                                        <td class="coco crc-3">${formattedJoinDate}</td>
+                                        <td class="coco crc-4"><input type="checkbox" class="ckbox-m" name="login_id" value="${data[i].login_id}"><button type="button">거절</button></td>`;
+                    $(".sms-m").append(tr);
+
+                }
+            },
+            error: function(err, status) {
+                console.log(err, status);
+                alert("정보를 불러올 수 없습니다.");
+            }
+        });
+
+    }
+
+
+
+    $(".join-btn").on('click', function (e){
+
+        console.log( $(this).closest(".co-flex").find(".hi-mmm").val());
+        getinfo( $(this).closest(".co-flex").find(".hi-mmm").val());
+        $("#modalfour").removeClass('hidden');
+    })
+    document.getElementById("close-m").addEventListener('click', ()=>{
+        $(".sms-m").empty();
+        $("#modalfour").addClass('hidden');
+
+    })
+
+
+    $(".regbtn-des").on('click', function(e) {
+        location.href = "/group/groupreg";
+    });
+
+    $(".f-t1").on('click', function (e){
+        var form = $("form[name='grouplistForm']");
+        form.attr("action", "groupstupdate");
+        form.submit();
+    });
+
+    $(".f-t2").on('click', function (e){
+        var form = $("form[name='grouplistForm']");
+        form.attr("action", "groupstbupdate");
+        form.submit();
+    });
+
+    $(".f-t3").on('click', function (e){
+        var form = $("form[name='grouplistForm']");
+        form.attr("action", "groupdelete");
+        form.submit();
+    });
+
+    document.addEventListener("DOMContentLoaded", function() {
+        var groupLinks = document.querySelectorAll(".crcr-1 a");
+        groupLinks.forEach(function(link) {
+            link.addEventListener("click", function(event) {
+                event.preventDefault(); // 기본 동작 방지
+
+                var groupNo = this.previousElementSibling.value; // 해당 그룹의 group_no 가져오기
+                var form = document.createElement("form"); // 폼 동적 생성
+                form.action = "groupdetail"; // 액션 설정
+                form.method = "POST"; // 메소드 설정
+                var input = document.createElement("input"); // input 동적 생성
+                input.type = "hidden"; // hidden 타입 설정
+                input.name = "group_no"; // 이름 설정
+                input.value = groupNo; // 값 설정
+                form.appendChild(input); // 폼에 input 추가
+                document.body.appendChild(form); // body에 폼 추가
+                form.submit(); // 폼 제출
+            });
+        });
+    });
+
+    document.addEventListener("DOMContentLoaded", function() {
+        var checkboxes = document.querySelectorAll('input[name="group_non"]');
+        var selectBoxOptions = document.querySelectorAll('.select-box__list li label');
+
+        function updateSelectBoxState() {
+            var checkedCount = document.querySelectorAll('input[name="group_non"]:checked').length;
+
+            if (checkedCount === 0) {
+                // 모든 체크박스가 해제되었을 때
+                selectBoxOptions.forEach(function(option) {
+                    option.style.pointerEvents = 'none';
+                    option.style.color = "#cecece";
+                });
+            } else {
+                // 하나 이상의 체크박스가 선택되어 있을 때
+                selectBoxOptions.forEach(function(option) {
+                    option.style.pointerEvents = 'auto';
+                    option.style.color = "#60666d";
+                });
+            }
+        }
+
+        checkboxes.forEach(function(checkbox) {
+            checkbox.addEventListener('change', function() {
+                updateSelectBoxState();
+            });
+        });
+
+        // 페이지 로드 시 초기 상태 설정
+        updateSelectBoxState();
+    });
+
+
+    $("#selectAll").change(function (e){
+        const isChecked = $(this).prop('checked');
+
+        $(".ckbox-m").prop('checked',isChecked);
+
+    })
+
+
+</script>
+
+</body>
+</html>

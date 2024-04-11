@@ -1,0 +1,86 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<!-- 
+※권한
+1. dataWBoardS 라는 학생권한전용 페이지를 통해 들어오는 페이지
+  : 해당페이지에 따로 권한부여 필요없음
+ -->
+ 
+ <!-- 
+ ※수정할내용
+ 2. 첨부파일 다운로드 기능 필요
+ -->
+
+<body>
+	<!-- content -->
+	<th:block
+		th:replace="~{./include/baselayout :: setContent( ~{ :: .bon-wrap } )}">
+		<div class="bon-wrap">
+			<div class="page-title">
+				<p>수업자료</p>
+			</div>
+			<div class="route-wrap">
+				<a href="/dataW/dataWBoard">수업자료</a><p>/</p><a href="/dataW/dataWDetail">수업자료상세</a>
+			</div>
+			<div class="bon-content-wrap">
+            <div class="box-title-wrap">
+                <h3>수업자료확인</h3>
+            </div>
+            <form class="content-box">
+                <h3 style="margin-bottom: 10px;">기본 정보</h3>
+                <div class="reg-title-wrap" style="margin-bottom: 15px;">
+                    <div class="like-table-wrap">
+							<div class="sinfo-wrap-m">
+								<p>교육자명</p>
+								<h4 class="name-m">
+									<i class="ri-user-star-line"></i>&nbsp;교육자
+								</h4>
+							</div>
+	                        <div class="sinfo-wrap-m">
+	                            <p>강의명</p>
+	                            <h4 class="name-m"><i class="ri-file-user-line"></i>&nbsp;JAVA개발</h4>
+	                        </div>
+							<div class="sinfo-wrap-m">
+								<p>그룹명</p>
+								<h4 class="name-m">
+									<i class="ri-file-user-line"></i>&nbsp;GROUP-A
+								</h4>
+							</div>
+						</div>
+					</div>
+					<h3 style="margin-bottom: 10px;">학습자료내용</h3>
+					<div class="reg-title-wrap">
+						<div class="group-naming-wrap-m">
+							<div class="group-name">
+								<label>학습자료명</label> <input class="inp-reg-m" type="text" th:value="${vo.GFILENAME}" readonly>
+							</div>
+							<div class="group-name">
+								<label>학습자료내용</label>
+								<textarea class="wj-textarea" readonly>[[${vo.GFILECON}]]</textarea>
+							</div>
+							<div class="group-name">
+								<label>첨부파일 다운로드</label>
+								<div class="reg-btn-wrap">
+									<!--<button type="submit">다운로드</button>-->
+								</div> 
+							</div>
+						</div>
+					</div>
+					<div class="reg-btn-wrap">
+						<button type="button" onclick="goback()">뒤로가기</button>
+					</div>
+				</form>
+			</div>
+		</div>
+
+	</th:block>
+
+<script>
+function goback(){
+	window.location.href="/dataW/dataWBoardS";
+}
+</script>
+	
+</body>
+</html>

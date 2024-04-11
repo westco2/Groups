@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.groups.qnaW.service.QnaWMapper">
+	
+	<select id="getList" resultType="QnaWVO">
+	SELECT Q.LOGIN_ID, M.KORN_FLNM, M.ROLE,
+		   Q.QNUMBER, Q.QTITLE, Q.QREGDATE, Q.QVIEWS, Q.QCONTENT,
+		   G.GROUP_NM, C.CCONTENT
+	FROM QNABOARD AS Q
+	LEFT JOIN MEMBERS AS M ON Q.LOGIN_ID = M.LOGIN_ID
+	LEFT JOIN GROUP_LIST AS G ON Q.GROUP_NO = G.GROUP_NO
+	LEFT JOIN COMMENT AS C ON Q.QNUMBER = C.QNUMBER
+	WHERE GROUP_NM IS NOT NULL
+<!-- 		<if test="searchLogin_id != '' and searchLogin_id != null"> -->
+<!-- 			and Q.LOGIN_ID LIKE CONCAT('%', #{searchLogin_id}, '%') -->
+<!-- 		</if> -->
+		
+<!-- 		<if test="searchKorn_flnm != '' and searchKorn_flnm != null"> -->
+<!-- 			and M.KORN_FLNM LIKE CONCAT('%', #{searchKorn_flnm}, '%') -->
+<!-- 		</if> -->
+		
+<!-- 		<if test="searchQtitle != '' and searchQtitle != null"> -->
+<!-- 			and Q.QTITLE LIKE CONCAT('%', #{searchQtitle}, '%') -->
+<!-- 		</if> -->
+<!-- 	LIMIT #{pageStart}, #{amount} -->
+	
+<!-- 	<select id="getList" resultMap="VO"> -->
+<!-- 	SELECT M.LOGIN_ID, M.KORN_FLNM, -->
+<!-- 		   Q.QNUMBER, Q.QTITLE, Q.QREGDATE, Q.QVIEWS, Q.QCONTENT, -->
+<!-- 		   G.GROUP_NM, C.CCONTENT -->
+<!-- 	FROM MEMBERS AS M -->
+<!-- 	LEFT JOIN QNABOARD AS Q ON M.LOGIN_ID = Q.LOGIN_ID -->
+<!-- 	LEFT JOIN GROUP_LIST AS G ON Q.GROUP_NO = G.GROUP_NO -->
+<!-- 	LEFT JOIN COMMENT AS C ON Q.QNUMBER = C.QNUMBER -->
+<!-- 	WHERE M.ROLE = "ROLE_STUDENT" -->
+	</select>
+	
+	<select id="getList2" resultType="QnaVO">
+	SELECT Q.LOGIN_ID, M.KORN_FLNM, M.ROLE,
+		   Q.QNUMBER, Q.QTITLE, Q.QREGDATE, Q.QVIEWS, Q.QCONTENT,
+		   G.GROUP_NM, C.CCONTENT
+	FROM QNABOARD AS Q
+	LEFT JOIN MEMBERS AS M ON Q.LOGIN_ID = M.LOGIN_ID
+	LEFT JOIN GROUP_LIST AS G ON Q.GROUP_NO = G.GROUP_NO
+	LEFT JOIN COMMENT AS C ON Q.QNUMBER = C.QNUMBER
+	WHERE GROUP_NM IS NOT NULL
+	</select>
+	
+	<!-- 1:N 테이블 관계형성[MEMBER, QNABOARD] -->
+<!-- 	<resultMap type="com.project.groups.command.QnaWVO" id="VO"> -->
+<!-- 		<result property="LOGIN_ID" column="LOGIN_ID"/> -->
+<!-- 		<result property="KORN_FLNM" column="KORN_FLNM"/> -->
+<!--         <result property="GROUP_NM" column="GROUP_NM"/> -->
+<!--         <result property="CCONTENT" column="CCONTENT"/> -->
+<!-- 		<collection property="list" ofType="com.project.groups.command.QnaVO"> -->
+<!-- 			<result property="QNUMBER" column="QNUMBER"/> -->
+<!-- 			<result property="QTITLE" column="QTITLE"/> -->
+<!-- 			<result property="QREGDATE" column="QREGDATE"/> -->
+<!-- 			<result property="QCONTENT" column="QCONTENT"/> -->
+<!-- 		</collection> -->
+<!-- 	</resultMap> -->
+	
+	<insert id="regist">
+		INSERT INTO QNABOARD(QTITLE,
+							 QCONTENT,
+							 GROUP_NO
+							 )
+		VALUES(#{QTITLE},
+			   #{QCONTENT},
+			   #{GROUP_NO}
+			   )
+	</insert>
+	
+	<select id="getDetail" resultType="QnaVO">
+		SELECT Q.QNUMBER, Q.QTITLE, Q.QCONTENT,
+			   C.CCONTENT
+		FROM QNABOARD AS Q
+		LEFT JOIN COMMENT AS C ON Q.LOGIN_ID = C.LOGIN_ID
+		WHERE Q.QNUMBER = #{QNUMBER}
+	</select>
+	
+	<update id="update">
+		UPDATE COMMENT SET
+		CCONTENT = #{CCONTENT}
+		WHERE QNUMBER = #{QNUMBER}
+	</update>
+	
+	<delete id="delete">
+		DELETE FROM QNABOARD
+		WHERE QNUMBER = #{QNUMBER}
+	</delete>
+	
+	<insert id="reply">
+		INSERT INTO COMMENT(CCONTENT,
+							CREGDATE,
+							CUPDDATE
+							)
+		VALUES(#{CCONTENT},
+			   #{CREGDATE},
+		 	   #{CUPDDATE},
+			   )
+	</insert>
+
+	<select id="getTotal" resultType="int">
+		SELECT COUNT(*) AS TOTAL
+		FROM QNABOARD
+		<if test="searchLogin_id != '' and searchLogin_id != null">
+			and M.LOGIN_ID LIKE CONCAT('%', #{searchLogin_id}, '%')
+		</if>
+		
+		<if test="searchKorn_flnm != '' and searchKorn_flnm != null">
+			and M.KORN_FLNM LIKE CONCAT('%', #{searchKorn_flnm}, '%')
+		</if>
+		
+		<if test="searchQtitle != '' and searchQtitle != null">
+			and Q.QTITLE LIKE CONCAT('%', #{searchQtitle}, '%')
+		</if>
+		LIMIT 0, 10
+	</select>
+
+</mapper>

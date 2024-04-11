@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/jy.css">
+</head>
+<body>
+    <div class="container-jy">
+        <h2 class="name1">결제 정보 입력</h2>
+        <form id="paymentForm" action="/payment" method="post">
+            <label for="productName">상품명:</label>
+            <input type="text" id="productName" name="productName" readonly th:value="${productName}">
+
+            <label for="amount">금액:</label>
+            <input type="text" id="amount" name="amount" readonly th:value="${amount}"><br>
+
+            <label for="purchaseDate">구매일자:</label>
+            <input type="text" id="purchaseDate" name="purchaseDate" value="" readonly th:value="${purchaseDate}"><br>
+
+            <label>결제 방법:</label>
+            <div class="radio-group">
+                <input type="radio" id="creditCard" name="paymentMethod" value="신용카드" class="radio-input" th:checked="${paymentMethod eq '신용카드'}">
+                <label for="creditCard" class="radio-label"><span>신용카드</span></label>
+                <input type="radio" id="kakaoPay" name="paymentMethod" value="카카오페이" class="radio-input" th:checked="${paymentMethod eq '카카오페이'}">
+                <label for="kakaoPay" class="radio-label"><span>카카오페이</span></label>
+                <input type="radio" id="bankTransfer" name="paymentMethod" value="계좌이체" class="radio-input" th:checked="${paymentMethod eq '계좌이체'}">
+                <label for="bankTransfer" class="radio-label"><span>계좌이체</span></label>
+            </div>
+
+            <input type="submit" cla value="결제하기">
+        </form>
+    </div>
+
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        // 현재 날짜를 구해서 purchaseDate input 요소에 설정하는 함수
+        function setCurrentDate() {
+            var currentDate = new Date();
+            var year = currentDate.getFullYear();
+            var month = String(currentDate.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 1을 더하고, 2자리로 맞춤
+            var day = String(currentDate.getDate()).padStart(2, '0'); // 날짜는 1부터 시작하므로 그대로 사용하고, 2자리로 맞춤
+            var formattedDate = year + '년' + month + '월' + day + "일";
+            document.getElementById('purchaseDate').value = formattedDate;
+        }
+
+        // 페이지가 로드되면 setCurrentDate 함수 호출하여 현재 날짜 설정
+        window.onload = function() {
+            setCurrentDate();
+        };
+        /*]]>*/
+    </script>
+</body>
+</html>

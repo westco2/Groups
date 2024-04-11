@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>카카오페이 결제 페이지</title>
+<link rel="stylesheet" th:href="@{/css/jy.css}" href="css/jy.css">
+</head>
+<body>
+    <div class="container-jy">
+        <h2 class="name1">카카오페이 결제</h2>
+        <form id="paymentForm" action="/kakaopay" method="post">
+            <label for="item-name">상품명:</label>
+            <input type="text" id="item-name" name="itemName" readonly required>
+
+            <label for="amount">금액:</label>
+            
+            <input type="number" id="amount" name="amount" readonly required><br>
+
+            <label for="buyer-name">구매자 이름:</label>
+            <input type="text" id="buyer-name" name="buyerName" required><br>
+
+            <label for="email">구매자 이메일:</label>
+            <input type="text" id="email" name="emailheader" required>
+            <span>@</span>
+            <select class="box" id="domain-list" name="domain">
+                <option value="type">직접 입력</option>
+                <option value="naver.com">naver.com</option>
+                <option value="google.com">google.com</option>
+                <option value="hanmail.net">hanmail.net</option>
+                <option value="nate.com">nate.com</option>
+                <option value="kakao.com">kakao.com</option>
+            </select>
+            <input type="hidden" name="adm_eml_addr" id="email_adr" value=""><br>
+
+            <label for="carrier">통신사 선택:</label>
+            <select id="carrier" name="carrier">
+                <option value="SKT">SKT</option>
+                <option value="KT">KT</option>
+                <option value="LGU+">LG U+</option>
+            </select>
+
+            <label for="buyer-phone">구매자 전화번호:</label>
+            <input type="text" id="buyer-phone" name="buyerPhone" required>
+
+            <input type="submit" value="결제하기">
+        </form>
+    </div>
+</body>
+</html>

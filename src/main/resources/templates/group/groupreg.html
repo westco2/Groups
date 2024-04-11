@@ -1,0 +1,72 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<body>
+
+<!-- content -->
+<th:block th:replace="~{./include/baselayout :: setContent( ~{ :: .bon-wrap } )}">
+    <div class="bon-wrap">
+        <div class="page-title">
+            <p>my groups</p>
+        </div>
+        <div class="route-wrap">
+            <a href="#">my groups </a><p>/</p><a href="/group/groupList">학습그룹조회</a><p>/</p><a href="#">학습그룹생성</a>
+        </div>
+        <div class="bon-content-wrap">
+            <div class="box-title-wrap">
+                <h3>학습 그룹 생성</h3>
+            </div>
+            <form class="content-box" action="groupregForm" method="post">
+                <h3 style="margin-bottom: 10px;">기본 정보</h3>
+                <div class="reg-title-wrap" style="margin-bottom: 15px;">
+                    <div class="like-table-wrap">
+                        <div class="sinfo-wrap-m">
+                            <p>교육자명</p>
+                            <h4 class="name-m"><i class="ri-user-star-line"></i>&nbsp;홍길동</h4>
+                            <input type="hidden" name="login_id" th:value="${#authentication.principal.Username}">
+                        </div>
+                        <div class="sinfo-wrap-m">
+                            <p>구독등급</p>
+                            <h4 class="name-m"><i class="ri-file-user-line"></i> &nbsp;free tier</h4>
+                        </div>
+                    </div>
+                </div>
+                <h3 style="margin-bottom: 10px;">그룹 정보</h3>
+                <div class="reg-title-wrap">
+                    <div class="group-naming-wrap-m">
+                        <div class="group-name">
+                            <label>학습그룹이름</label>
+                            <input class="inp-reg-m" name="group_nm" type="text">
+                            <p><i class="ri-alert-line"></i>생성 후에는 이름을 변경할수 없습니다.</p>
+                        </div>
+                        <div class="group-name">
+                            <label>수용인원</label>
+                            <input class="inp-reg-m" style="width: 100px;" name="group_pp" type="number">
+                            <p><i class="ri-alert-line"></i>수용인원은 최대 30명 까지 입니다.</p>
+                        </div>
+                        <div class="group-name">
+                            <label>학습기간</label>
+                            <div class="date-wrap-m">
+                                <label>시작일</label>
+                                <input class="inp-reg-m" style="width: 100px; font-size: 12px;" type="date" name="group_start">
+                                <label style="margin-left: 15px;">종료일</label>
+                                <input class="inp-reg-m" style="width: 100px; font-size: 12px;" type="date" name="group_end">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="reg-btn-wrap">
+                    <button type="submit">그룹 생성</button>
+                </div>
+
+
+
+
+            </form>
+        </div>
+    </div>
+
+</th:block>
+</body>
+</html>

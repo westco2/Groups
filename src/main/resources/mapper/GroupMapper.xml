@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.groups.group.GroupMapper">
+    <!-- 예시 파일입니다  namespace에 com.project.groups 까지는 동일하고 뒤에는 Mapper경로 넣어주면 됩니다. -->
+
+    <insert id="groupregForm">
+        insert into GROUP_LIST (login_id, group_nm, group_start, group_end, group_pp, group_st )
+        values (#{login_id},#{group_nm}, #{group_start}, #{group_end}, #{group_pp}, "활성화")
+    </insert>
+
+
+    <select id="getgrouplist" resultType="GroupVO">
+        SELECT
+            a1.*,
+            COUNT(a2.login_id) AS student_count
+        FROM
+                (select * from group_list where login_id = #{login_id}) a1
+                    LEFT JOIN
+                (select * from group_join where APRV_YN = "Y" )a2
+                ON
+                    a1.group_no = a2.group_no
+        GROUP BY
+            a1.group_no;
+    </select>
+
+
+
+    <select id="getstdInfo" resultType="GroupVO">
+        select m1.*,a1.join_date from (select * from group_join where group_no = #{group_no} and aprv_yn = "N") a1
+        left join members m1
+        on a1.login_id = m1.login_id;
+    </select>
+
+
+    <update id="groupstupdate">
+        update GROUP_LIST set group_st = "활성화" where group_no = #{group_non}
+    </update>
+
+    <update id="groupstbupdate">
+        update GROUP_LIST set group_st = "비활성화" where group_no = #{group_non}
+    </update>
+
+    <delete id="groupdelete">
+        delete from GROUP_LIST where group_no = #{group_non}
+    </delete>
+
+    <select id="getgroupstdTotal" resultType="int">
+        select count(*) as total
+        from (select m.*,g.group_no from (select * from group_join where APRV_YN = "Y") g left join members m on g.login_id = m.login_id ) a
+        where group_no = #{group_no};
+        <if test="cri.searchKorn_flnm != '' and cri.searchKorn_flnm != null">
+            and korn_flnm like concat('%',#{cri.searchKorn_flnm},'%')
+        </if>
+    </select>
+
+
+    <select id="getallgrouplist" resultType="GroupVO">
+        select * from (select a.*, m1.KORN_FLNM from
+                (select * from group_list where group_st = "활성화") a
+                    left join members m1
+                              on a.login_id = m1.login_id) t
+                          left join  (select a1.group_no,
+                                             COUNT(a2.login_id) AS student_count
+                                      FROM
+                                              (select * from group_list) a1
+                                                  LEFT JOIN
+                                              (select * from group_join where APRV_YN = "Y" )a2
+                                              ON
+                                                  a1.group_no = a2.group_no
+                                      GROUP BY
+                                          a1.group_no) n
+                                     on t.group_no = n.group_no
+    </select>
+
+
+    <insert id="groupjoin">
+        insert into GROUP_JOIN (login_id, group_no, aprv_yn)
+        values (#{login_id}, #{group_no}, "N")
+    </insert>
+
+    <!-- 그룹 승인처리 -->
+    <update id="groupjoinap">
+        update GROUP_JOIN set aprv_yn = "Y" where login_id = #{login_id} and group_no = #{group_no}
+    </update>
+
+    <!-- 그룹 정보 조회 -->
+    <select id="getgroupdetail" resultType="GroupVO">
+        SELECT
+            a.*,
+            COALESCE(b.group_join_count, 0) AS student_count,
+            COALESCE(c.qnaboard_count, 0) AS std_q,
+            COALESCE(d.groupfile_count, 0) AS group_mt
+        FROM
+            (select g1.*,m1.KORN_FLNM
+            from group_list g1
+            left join members m1
+            on g1.LOGIN_ID = m1.LOGIN_ID) a
+                LEFT JOIN (
+                SELECT
+                    group_no,
+                    COUNT(*) AS group_join_count
+                FROM
+                    group_join
+                WHERE
+                    group_no = #{group_no}
+                  AND
+                    APRV_YN = 'Y'
+                GROUP BY
+                    group_no
+            ) AS b ON a.group_no = b.group_no
+                LEFT JOIN (
+                SELECT
+                    group_no,
+                    COUNT(*) AS qnaboard_count
+                FROM
+                    qnaboard
+                WHERE
+                    group_no = #{group_no}
+                GROUP BY
+                    group_no
+            ) AS c ON a.group_no = c.group_no
+                LEFT JOIN (
+                SELECT
+                    group_no,
+                    COUNT(*) AS groupfile_count
+                FROM
+                    groupfile
+                WHERE
+                    group_no = #{group_no}
+                GROUP BY
+                    group_no
+            ) AS d ON a.group_no = d.group_no
+        WHERE
+            a.group_no = #{group_no};
+    </select>
+
+    <select id="getgroupstdinfo" resultType="GroupVO">
+        SELECT
+            a.*,
+            COALESCE(submitted_count, 0) AS submitted_count,
+            COALESCE(not_submitted_count, 0) AS not_submitted_count
+        FROM
+            (
+                SELECT
+                    gj.group_no,
+                    m.*
+                FROM
+                    GROUP_JOIN gj
+                        LEFT JOIN
+                    MEMBERS m ON gj.login_id = m.login_id
+                WHERE
+                    gj.group_no = #{group_no} AND gj.APRV_YN = 'Y'
+            ) a
+                LEFT JOIN (
+                SELECT
+                    m.login_id,
+                    COUNT(h.login_id) AS submitted_count
+                FROM
+                    MEMBERS m
+                        LEFT JOIN
+                    HOMEWORKSUBMIT h ON m.login_id = h.login_id AND h.homework_st = '제출'
+                GROUP BY
+                    m.login_id
+            ) b ON a.login_id = b.login_id
+                LEFT JOIN (
+                SELECT
+                    m.login_id,
+                    COUNT(h.login_id) AS not_submitted_count
+                FROM
+                    MEMBERS m
+                        LEFT JOIN
+                    HOMEWORKSUBMIT h ON m.login_id = h.login_id AND h.homework_st != '제출'
+                GROUP BY
+                    m.login_id
+            ) c ON a.login_id = c.login_id
+            limit #{cri.pageStart}, #{cri.amount};
+    </select>
+
+
+    <delete id="groupstddel">
+        delete from GROUP_JOIN where group_no = #{group_no} and login_id = #{login_id}
+    </delete>
+
+</mapper>
+

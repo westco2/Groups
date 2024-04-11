@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Java Code Checker</title>
+</head>
+<body>
+<h1>Java Code Checker</h1>
+<textarea id="javaCode" rows="10" cols="50">
+import java.util.Scanner;
+    public class Solution {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int a = scanner.nextInt();
+        int b = scanner.nextInt();
+        System.out.println(a - b);
+    }
+}
+</textarea><br>
+<button onclick="checkCode()">Check Code</button>
+<div id="result"></div>
+
+
+<script>
+    function checkCode(code, input, answer) {
+        var code = document.getElementById("javaCode").value;
+        fetch("/checkCode", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ code: code, input: input, answer: answer })
+        })
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById("result").innerText = data;
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            });
+    }
+</script>
+</body>
+</html>

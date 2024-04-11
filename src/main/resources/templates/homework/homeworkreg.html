@@ -1,0 +1,185 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+<!-- content -->
+<th:block th:replace="~{./include/baselayout :: setContent( ~{ :: .bon-wrap } )}">
+    <div class="bon-wrap">
+        <div class="page-title">
+            <p>숙제</p>
+        </div>
+        <div class="route-wrap">
+            <a href="#">숙제</a><p>/</p><a href="homeworklist">내 숙제리스트</a><p>/</p><a style="color: black;">숙제생성</a>
+        </div>
+        <form class="bon-content-wrap" action="homeworkregForm" method="post">
+
+            <div class="box-title-wrap">
+                <h3>숙제 생성</h3>
+            </div>
+            <div class="content-box">
+                <h3 style="margin-bottom: 10px;">기본 정보</h3>
+                <div class="reg-title-wrap" style="margin-bottom: 15px;">
+                    <div class="like-table-wrap">
+                        <div class="sinfo-wrap-m">
+                            <p>교육자명</p>
+                            <h4 class="name-m"><i class="ri-user-star-line"></i>&nbsp;홍길동</h4>
+                            <input type="hidden" name="login_id" th:value="${#authentication.principal.Username}">
+                        </div>
+                        <div class="sinfo-wrap-m">
+                            <p>구독등급</p>
+                            <h4 class="name-m"><i class="ri-file-user-line"></i> &nbsp;free tier</h4>
+                        </div>
+                    </div>
+                </div>
+                <h3 style="margin-bottom: 10px;">숙제 정보</h3>
+                <div class="reg-title-wrap">
+                    <div class="group-naming-wrap-m">
+                        <div class="group-name">
+                            <label>숙제이름</label>
+                            <input class="inp-reg-m" type="text" name="homework_title" placeholder="내 숙제">
+                            <p><i class="ri-alert-line"></i>생성 후에는 이름을 변경할수 없습니다.</p>
+                        </div>
+                        <div class="group-name">
+                            <label>언어</label>
+                            <input class="inp-reg-m" type="text" style="width: 100px" name="homework_language" placeholder="JAVA" value="JAVA" readonly>
+                            <p><i class="ri-alert-line"></i>생성 후에는 언어를 변경할수 없습니다.</p>
+                        </div>
+                        <div class="group-name">
+                            <label>레벨</label>
+                            <select class="sel-des-m" style="width: 120px" name="homework_level">
+                                <option>LV0</option>
+                                <option>LV1</option>
+                                <option>LV2</option>
+                                <option>LV3</option>
+                                <option>LV4</option>
+                                <option>LV5</option>
+                            </select>
+                            <p><i class="ri-alert-line"></i>난이도는 최대 5LV까지 입니다.</p>
+                        </div>
+                        <div class="group-name">
+                            <label>시간</label>
+                            <div class="fon-m">
+                                <input class="inp-reg-m" type="number" name="homework_time" style="width: 100px" placeholder="1">
+                                <p>초</p>
+                            </div>
+                            <p><i class="ri-alert-line"></i>생성 후에는 시간을 변경할수 없습니다.</p>
+                        </div>
+                    </div>
+
+                </div>
+                <h3 style="margin-bottom: 10px;">숙제 내용</h3>
+                <div class="reg-title-wrap">
+                    <div class="group-naming-wrap-m">
+                        <div class="group-name">
+                            <label>숙제설명</label>
+                            <textarea class="aria-m" name="homework_content"></textarea>
+                            <p><i class="ri-alert-line"></i>생성 후에는 이름을 변경할수 없습니다.</p>
+                        </div>
+                        <div class="group-name">
+                            <label>힌트&nbsp;&nbsp;-&nbsp;&nbsp;선택사항</label>
+                            <textarea class="aria-m" name="homework_hint" ></textarea>
+                        </div>
+                    </div>
+
+                </div>
+
+                <h3 style="margin-bottom: 10px;">예시</h3>
+                <div class="reg-title-wrap ">
+                    <div class="inout-m ex-inp-m">
+                        <div class="h-ex-wrap" style="margin-bottom: 0">
+                            <label>입력</label>
+                            <label>결과</label>
+                            <label class="exp-m">설명&nbsp;&nbsp;-&nbsp;&nbsp;선택사항</label>
+                        </div>
+                        <div class="h-ex-wrap" style="margin-bottom: 30px">
+                            <label><input type="text" placeholder="입력 값" name="input[]"></label>
+                            <label><input type="text" placeholder="결과 값" name="output[]"></label>
+                            <label class="exp-m"><input type="text" placeholder="입출력에대한 설명" name="ex_ct[]" style="width: 380px"></label>
+                        </div>
+                    </div>
+                    <div class="h-ex-wrap">
+                        <button class="plus-btn-des plus-btn-md">예시 추가</button>
+                    </div>
+                </div>
+
+                <h3 style="margin-bottom: 10px;">테스트 코드</h3>
+                <div class="reg-title-wrap ">
+                    <div class="inout-m test-cm">
+                        <div class="h-ex-wrap" style="margin-bottom: 0">
+                            <label>입력</label>
+                            <label>출력</label>
+                        </div>
+                        <div class="h-ex-wrap" style="margin-bottom: 30px">
+                            <label><input type="text" placeholder="입력 값" name="test_input[]"></label>
+                            <label><input type="text" placeholder="출력 값" name="test_output[]"></label>
+                        </div>
+                    </div>
+                    <div class="h-ex-wrap">
+                        <button class="plus-btn-des plus-btn-mt">테스트 코드 추가</button>
+                    </div>
+                </div>
+
+
+
+                <div class="reg-btn-wrap">
+                    <button type="submit">숙제 생성</button>
+                </div>
+
+
+
+            </div>
+
+
+
+
+        </form>
+    </div>
+
+</th:block>
+
+
+<script>
+    $(document).ready(function() {
+
+        $(".plus-btn-md").on('click', function(e) {
+            e.preventDefault();
+            var newExample = $('<div>').addClass('h-ex-wrap');
+            newExample.html(`
+            <label><input type="text" placeholder="입력 값" name="input[]"></label>
+            <label><input type="text" placeholder="결과 값" name="output[]"></label>
+            <label class="exp-m"><input type="text" style="width: 380px" placeholder="입출력에대한 설명" name="ex_ct[]"></label>
+            <div><button type="button" class="del-btn-m">삭제</button></div>
+        `);
+
+            $(".ex-inp-m").append(newExample);
+        });
+
+
+
+
+
+        $(".plus-btn-mt").on('click', function(e) {
+            e.preventDefault();
+            var newExample = $('<div>').addClass('h-ex-wrap');
+            newExample.html(`
+            <label><input type="text" placeholder="입력 값" name="test_input[]"></label>
+            <label><input type="text" placeholder="출력 값" name="test_output[]"></label>
+            <div><button type="button" class="del-btn-m">삭제</button></div>
+        `);
+
+            $(".test-cm").append(newExample);
+        });
+
+
+        $(".ex-inp-m, .test-cm").on("click", ".del-btn-m", function(e) {
+            e.stopPropagation();
+            $(this).closest(".h-ex-wrap").remove();
+        });
+    });
+
+
+</script>
+
+</body>
+</html>

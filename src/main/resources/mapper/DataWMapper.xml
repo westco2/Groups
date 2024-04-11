@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.groups.dataW.service.DataWMapper">
+	
+	<select id="getList" resultType="DataVO">
+		SELECT G.GNAME, G.GFILENAME, G.GFILECON, G.GREGDATE,
+			   GL.GROUP_NM
+		FROM GROUPFILE AS G
+		LEFT JOIN GROUP_LIST AS GL ON G.GROUP_NO = GL.GROUP_NO
+		LIMIT #{pageStart}, #{amount}
+	</select>
+	
+	<!-- @@@@@첨부파일 데이터베이스 저장여부 확인 필요@@@@@ -->
+	<!-- @@@@@첨부파일 데이터베이스 저장여부 확인 필요@@@@@ -->
+	<!-- @@@@@첨부파일 데이터베이스 저장여부 확인 필요@@@@@ -->
+	<!-- @@@@@첨부파일 데이터베이스 저장여부 확인 필요@@@@@ -->
+	<!-- @@@@@첨부파일 데이터베이스 저장여부 확인 필요@@@@@ -->
+	<insert id="regist">
+		INSERT INTO GROUPFILE(GFILENAME,
+							  GFILECON,
+							  GROUP_NO
+						      ) 
+		VALUES(#{GFILENAME},
+			   #{GFILECON},
+			   #{GROUP_NO}
+			   )
+	</insert>
+	
+	<select id="getDetail" resultType="DataVO">
+		SELECT GNUMBER, GFILENAME, GFILECON
+		FROM GROUPFILE
+		WHERE GNUMBER = #{GNUMBER}
+	</select>
+	
+	<update id="update">
+		UPDATE GROUPFILE SET
+		GFILENAME = #{GFILENAME},
+		GFILECON = #{GFILECON}
+		WHERE GNUMBER = #{GNUMBER}		
+	</update>
+	
+	<delete id="delete">
+		DELETE FROM GROUPFILE
+		WHERE GNUMBER = #{GNUMBER}
+	</delete>
+	
+	<!-- WHERE 구문 확인 필요 -->
+	<!-- WHERE 구문 확인 필요 -->
+	<!-- WHERE 구문 확인 필요 -->
+	<!-- WHERE 구문 확인 필요 -->
+	<!-- WHERE 구문 확인 필요 -->
+	<select id="getTotal" resultType="int">
+		SELECT COUNT(*) AS TOTAL
+		FROM GROUPFILE
+		
+	</select>
+
+
+</mapper>
