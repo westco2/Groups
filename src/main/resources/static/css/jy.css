@@ -406,15 +406,15 @@ Form
     clear: both;
 
     
-/*     &.fieldset-expiration { */
-/*       float: left; */
-/*       width: 60%; */
+  &.fieldset-expiration {
+    float: left;
+    width: 60%; 
 
-/*       & .select { */
-/*         width: 84px; */
-/*         margin-right: 12px; */
-/*         float: left; */
-/*         border: 2px solid #000; */
+  & .select { 
+    idth: 84px;
+    margin-right: 12px;
+    float: left;
+    border: 2px solid #000;
         
       }
     }
@@ -423,7 +423,21 @@ Form
       clear: none;
       float: right;
       width: 86px;
+     
     }
+    
+    .ccc-s {
+	  width: 60px; /* Adjust the width as needed */
+	  height: 38px; /* Adjust the height as needed */
+	  color: hsl(0, 0, 20);
+	  padding: 10px;
+	  border-radius: 5px;
+	  font-size: 15px;
+	  outline: none !important;
+	  border: 1px solid hsla(0, 0, 0, 0.3);
+	  box-shadow: inset 0 1px 4px hsla(0, 0, 0, 0.2);
+	  margin-right: 55px;
+}
 
     label {
       display: block;
@@ -435,9 +449,8 @@ Form
       font-family: Inconsolata;
     }
 
-    input,
     .select {
-      width: 100%;
+      width: 30%;
       height: 38px;
       color: hsl(0, 0, 20);
       padding: 10px;
@@ -457,6 +470,54 @@ Form
         }
       }
 
+    }
+    
+    #card-number {
+      width: 20%;
+      height: 38px;
+      color: hsl(0, 0, 20);
+      padding: 10px;
+      border-radius: 5px;
+      font-size: 15px;
+      outline: none!important;
+      border: 1px solid hsla(0, 0, 0, 0.3);
+      box-shadow: inset 0 1px 4px hsla(0, 0, 0, 0.2);	
+    }
+    
+    #card-number-1 {
+     width: 20%;
+      height: 38px;
+      color: hsl(0, 0, 20);
+      padding: 10px;
+      border-radius: 5px;
+      font-size: 15px;
+      outline: none!important;
+      border: 1px solid hsla(0, 0, 0, 0.3);
+      box-shadow: inset 0 1px 4px hsla(0, 0, 0, 0.2);	
+    }
+    
+    #card-number-2 {
+      width: 20%;
+      height: 38px;
+      color: hsl(0, 0, 20);
+      padding: 10px;
+      border-radius: 5px;
+      font-size: 15px;
+      outline: none!important;
+      border: 1px solid hsla(0, 0, 0, 0.3);
+      box-shadow: inset 0 1px 4px hsla(0, 0, 0, 0.2);	
+    }
+    
+    #card-number-3 {
+      width: 20%;
+      height: 38px;
+      color: hsl(0, 0, 20);
+      padding: 10px;
+      border-radius: 5px;
+      font-size: 15px;
+      outline: none!important;
+      border: 1px solid hsla(0, 0, 0, 0.3);
+      box-shadow: inset 0 1px 4px hsla(0, 0, 0, 0.2);	
     }
 
     .select {
@@ -489,6 +550,8 @@ Form
           color: transparent;
           text-shadow: 0 0 0 #000;
         }
+        
+        
 
       }
     }
@@ -639,6 +702,8 @@ Credit Card
     display: block;
     margin-bottom: 3px;
   }
+  
+ 
 
   .card-holder,
   .card-expiration-date {
@@ -657,27 +722,25 @@ Credit Card
   }
 
   .ccv {
-    height: 36px;
-    background: #fff;
-    width: 91%;
-    border-radius: 5px;
-    top: 110px;
-    left: 0;
-    right: 0;
-    position: absolute;
-    margin: 0 auto;
-    color: #000;
-    text-align: right;
-    padding: 10px;
+	  height: 36px;
+	  background: #fff;
+	  width: 91%;
+	  border-radius: 5px;
+	  bottom: 110px; /* Change top to bottom */
+	  left: 0;
+	  right: 0;
+	  position: absolute;
+	  margin: 0 auto;
+	  color: #000;
+	  text-align: right;
+	  padding: 10px;
 
-    label {
-      margin: -25px 0 14px;
-      color: #fff;
-    }
+  label {
+    margin: -25px 0 14px;
+    color: #fff;
   }
-
-
 }
+
 
 .the-most {
   position: fixed;
