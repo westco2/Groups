@@ -1,3 +1,5 @@
+package com.project.groups.payment;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,7 +21,7 @@ public class PaymentApplication {
         System.out.println("Card Number: " + request.getCardNumber());
         System.out.println("Expiration Month: " + request.getExpirationMonth());
         System.out.println("Expiration Year: " + request.getExpirationMonth());
-        System.out.println("CCV: " + request.getCcv());
+        //System.out.println("CCV: " + request.getCcv());
 
         // 여기에 실제 결제 처리 로직을 추가하세요.
 

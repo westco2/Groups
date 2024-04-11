@@ -1,4 +1,4 @@
-package com.project.gro.payment;
+package com.project.groups.payment;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
