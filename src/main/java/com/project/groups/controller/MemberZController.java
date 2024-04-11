@@ -2,6 +2,7 @@ package com.project.groups.controller;
 
 import com.project.groups.command.MemberVO;
 
+import com.project.groups.membersZ.service.CustomUserDetails;
 import com.project.groups.membersZ.service.MembersZService;
 import com.project.groups.membersZ.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,8 @@ public class MemberZController {
     private UserDetailsServiceImpl userDetailsService;
     @Autowired
     private AuthenticationManager authenticationManager;
+    
+    
 
     public MemberZController(AuthenticationManager authenticationManager, UserDetailsServiceImpl userDetailsService){
         this.authenticationManager = authenticationManager;
@@ -70,22 +73,23 @@ public class MemberZController {
         return ("/javacompilerZ/CompilerTestZ");
     }
 
-    //로그인 컨트롤
+    //로그인 컨트롤 사실 필요가 없다.
     @PostMapping("/login")
     public void loginchecking(
         @RequestParam("username") String login_id,
         @RequestParam("password") String password) {
 
-        UserDetails userDetails = userDetailsService.loadUserByUsername(login_id);
+            UserDetails userDetails = userDetailsService.loadUserByUsername(login_id);
+            System.out.println("컨트롤러 UserDetails = " + userDetails);
+            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userDetails, password);
 
-        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userDetails, password);
+            Authentication authentication = authenticationManager.authenticate(token);
 
-        Authentication authentication = authenticationManager.authenticate(token);
-
-        if(authentication.isAuthenticated()){
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-        } else {
-        }
+            if(authentication.isAuthenticated()){
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            } else {
+                System.out.println("오류발생");
+            }
 
     }
 }

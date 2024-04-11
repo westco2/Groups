@@ -23,4 +23,6 @@ public class MemberVO { //회원 테이블 정보
     private Timestamp date_subscription; //가입일자 처음엔 null로 받고 DB에 넣을 때
     private Timestamp date_del; //탈퇴일자 처음엔 null로 받고 DB에 넣을 때
     private String user_nickname; //닉네임
+    private Integer score; //학생 점수
+    private String tier; //선생님결제 티어
 }

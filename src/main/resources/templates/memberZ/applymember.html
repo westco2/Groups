@@ -1,0 +1,201 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<style>
+    /* 모달 스타일 */
+    .modalZ {
+        display: none; /* 모달 숨김 */
+        position: fixed; /* 위치 고정 */
+        z-index: 1; /* 화면 위로 표시 */
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto; /* 스크롤이 생길 경우 스크롤 허용 */
+        background-color: rgba(0, 0, 0, 0.4); /* 배경색과 투명도 설정 */
+    }
+
+    /* 모달 내용 스타일 */
+    .modal-contentZ {
+        background-color: #fefefe;
+        margin: 15% auto; /* 모달을 화면 중앙에 배치 */
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+    }
+
+    /* 모달 닫기 버튼 스타일 */
+    .closeZ {
+        color: #232f3e;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .closeZ:hover,
+    .closeZ:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    /* 승인 및 취소 버튼 스타일 */
+    .confirmBtnZ,
+    .cancelBtnZ {
+        background-color: #232f3e; /* 초록색 */
+        color: white;
+        padding: 10px 20px;
+        margin: 10px;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+    }
+
+    .confirmBtnZ:hover,
+    .cancelBtnZ:hover {
+        background-color: #232f3e; /* 더 진한 초록색 */
+    }
+</style>
+<body>
+
+<!-- content -->
+<th:block th:replace="~{./include/baselayout :: setContent( ~{ :: .bon-wrap } )}">
+    <div class="bon-wrap">
+        <div class="page-title">
+            <p>승인</p>
+        </div>
+        <div class="bon-content-wrap">
+            <div class="box-title-wrap">
+                <h3>회원 신청 리스트</h3>
+            </div>
+            <div class="content-box">
+                <div class="top-inp">
+                    <p>회원</p>
+
+                </div>
+                <div class="search-wrap-m" style="margin-bottom: 0; padding-bottom: 0; padding-left: 0;">
+                    <div class="top-line-btn-wrap" style="margin-bottom: 15px">
+                        <input type="text" placeholder="아이디를 검색해주세요" style="width: 300px">
+                        <i class="ri-search-line"></i>
+
+                    </div>
+
+                </div>
+                <div class="table-wrap">
+                    <table class="table-content">
+                        <thead class="co-head">
+                        <tr class="co-flex">
+                            <th class="coco crcr-0">#</th>
+                            <th class="coco work-1 lis-left desc-tr">아이디 <i class="ri-arrow-down-s-fill"></i></th>
+                            <th class="coco work-2 lis-left desc-tr">이름<i class="ri-arrow-down-s-fill"></i></th>
+                            <th class="coco work-3 lis-left desc-tr">이메일<i class="ri-arrow-down-s-fill"></i></th>
+                            <th class="coco work-4 lis-left desc-tr">닉네임<i class="ri-arrow-down-s-fill"></i></th>
+                            <th class="coco work-5 lis-left desc-tr">생년월일<i class="ri-arrow-down-s-fill"></i></th>
+                            <th class="coco work-6 lis-left desc-tr">가입일자<i class="ri-arrow-down-s-fill i-col"></i></th>
+                            <th class="coco work-7 lis-left desc-tr">승인<i class="ri-arrow-down-s-fill i-col"></i></th>
+                        </tr>
+                        </thead>
+                        <tbody class="co-body">
+                        <tr class="co-flex" th:each="member : ${amlist}">
+                            <td class="coco crcr-0 center-flex"><input type="checkbox"></td>
+                            <td class="coco work-1 lis-left"><a href="#" th:text="${member.login_id}"></a></td>
+                            <td class="coco work-2 lis-left" th:text="${member.korn_flnm}"></td>
+                            <td class="coco work-3 lis-left" th:text="${member.adm_eml_addr}"></td>
+                            <td class="coco work-4 lis-left" th:text="${member.user_nickname}"></td>
+                            <td class="coco work-5 lis-left" th:text="${member.date_birth}"></td>
+                            <td class="coco work-6 lis-left" th:text="${member.date_subscription}"></td>
+                            <td class="coco work-7 lis-left"><input class="applyButton" type="button" value="승인" th:data-login-id="${member.login_id}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="page-wrap right-p">
+                    <div class="pagination">
+                        <a href="#">&laquo;</a>
+                        <a href="#">1</a>
+                        <a href="#" class="act">2</a>
+                        <a href="#">3</a>
+                        <a href="#">4</a>
+                        <a href="#">5</a>
+                        <a href="#">6</a>
+                        <a href="#">&raquo;</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</th:block>
+<div id="myModalZ" class="modalZ">
+    <div class="modal-contentZ">
+        <span class="closeZ">&times;</span>
+        <p>승인하시겠습니까?</p>
+        <input type="hidden" id="loginIdInput">
+        <button class="confirmBtnZ">승인</button>
+        <button class="cancelBtnZ">취소</button>
+    </div>
+</div>
+
+<script th:inline="javascript">
+    var modalZ = document.getElementById("myModalZ");
+
+    var buttonsZ = document.querySelectorAll(".applyButton");
+
+    var spanZ = document.getElementsByClassName("closeZ")[0];
+
+    for (var i = 0; i < buttonsZ.length; i++) {
+        buttonsZ[i].onclick = function () {
+            var loginId = this.getAttribute("data-login-id");
+            modalZ.style.display = "block";
+            document.getElementById("loginIdInput").value = loginId;
+        }
+    }
+
+    spanZ.onclick = function () {
+        modalZ.style.display = "none";
+    }
+
+    window.onclick = function (event) {
+        if (event.target == modalZ) {
+            modalZ.style.display = "none";
+        }
+    }
+
+
+    document.getElementsByClassName("cancelBtnZ")[0].onclick = function () {
+        modalZ.style.display = "none";
+    }
+
+    // '승인' 버튼 클릭 시 AJAX 요청을 보내는 함수
+    $('.confirmBtnZ').click(function() {
+        var loginId = $('#loginIdInput').val();
+        console.log(loginId);
+        $.ajax({
+            type: 'POST',  // 요청 방식은 POST
+            url: 'approvemember',  // 서버의 엔드포인트 URL
+            data: { loginId: loginId },  // 요청에 포함될 데이터
+            success: function(response) {
+                console.log('승인이 성공적으로 처리되었습니다.');
+                alert("회원 ID " + loginId + "가(이) 승인되었습니다.");
+                closeModal();
+                $('#table-wrap').load(location.href + ' #table-wrap');
+            },
+            error: function(status, error) {
+                console.error('승인 처리에 실패했습니다:', error);
+            }
+        });
+    });
+
+    // 모달 닫기 함수
+    function closeModal() {
+        $('#myModalZ').hide();
+    }
+
+</script>
+
+</body>
+</html>

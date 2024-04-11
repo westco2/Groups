@@ -26,10 +26,10 @@
             <input type="text" id="name" name="korn_flnm" required><br>
 
             <label for="user_nick">닉네임:</label>
-            <input type="text" id="user_nick" name="user_nick" required>
+            <input type="text" id="user_nick" name="user_nickname" required>
             <button type="button" id="namebtn">중복확인</button><br>
 
-            <label for="birthdate">생년월일:</label>
+            <label >생년월일:</label>
             <div class="info" id="info__birth">
 			  <select class="box" id="birth-year">
 			    <option disabled selected>출생 연도</option>
@@ -44,16 +44,16 @@
 			</div>
  
             <label for="phone">연락처:</label>
-            <select id="carrier" name="carrier">
-                <option value="SKT">SKT</option>
-                <option value="KT">KT</option>
-                <option value="LGU+">LG U+</option>
-            </select> 
+<!--            <select id="carrier" name="carrier">-->
+<!--                <option value="SKT">SKT</option>-->
+<!--                <option value="KT">KT</option>-->
+<!--                <option value="LGU+">LG U+</option>-->
+<!--            </select> -->
             <input type="tel" id="phone" name="idfr_telno" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" placeholder="000-0000-0000" required>
 
-           <button type="button" class="phone-container" onclick="sendVerificationCode()">인증번호 받기</button>
-           <input type="text" id="verifi" name="verificationCode" placeholder="인증번호" > 
-           <button type="button" class="verification" onclick="sendVerificationCode()">인증</button><br>
+<!--           <button type="button" class="phone-container" onclick="sendVerificationCode()">인증번호 받기</button>-->
+<!--           <input type="text" id="verifi" name="verificationCode" placeholder="인증번호" > -->
+<!--           <button type="button" class="verification" onclick="sendVerificationCode()">인증</button><br>-->
 
             <label for="postalCode">우편번호:</label>
             <input type="text" id="postalCode" name="postalCode" required>
@@ -75,8 +75,16 @@
             </select>
             <input type="hidden" name="adm_eml_addr" id="email_adr" value="">
 
-            <input type="submit" id="teacher" name="role" value="ROLE_TEACHER">
+            <input type="submit" id="teacher" name="role" value="ROLE_FREE">
             <input type="submit" id="student" name="role" value="ROLE_STUDENT">
+<!--            <label>-->
+<!--                <input type="radio" id="teacher" name="role" value="ROLE_FREE">-->
+<!--                <button type="button">선생</button>-->
+<!--            </label>-->
+<!--            <label>-->
+<!--                <input type="radio" id="student" name="role" value="ROLE_STUDENT">-->
+<!--                <button type="button">학생</button>-->
+<!--            </label>-->
 
         </form>
     </div>
