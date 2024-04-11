@@ -20,6 +20,7 @@ public class QnaWVO {
 	
 	private String CCONTENT;
 	
+	
 //    private String ROLE; //회원권한 회원가입 후 관리자가 UserDetails 로 부여함
 //    private String PSWD; //비밀번호
 //    private String IDFR_TELNO; //연락처
@@ -30,6 +31,6 @@ public class QnaWVO {
 //    private Timestamp DATE_DEL; //탈퇴일자 처음엔 null로 받고 DB에 넣을 때
 //    private String USER_NICKNAME; //닉네임
     
-    private List<QnaVO> list;
+    private QnaVO list ;
     
 }

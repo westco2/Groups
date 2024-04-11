@@ -1,8 +1,18 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<body>
+<!-- 
+※권한
+1. dataWBoardS 라는 학생권한전용 페이지를 통해 들어오는 페이지
+  : 해당페이지에 따로 권한부여 필요없음
+ -->
+ 
+ <!-- 
+ ※수정할내용
+ 2. 첨부파일 다운로드 기능 필요
+ -->
 
+<body>
 	<!-- content -->
 	<th:block
 		th:replace="~{./include/baselayout :: setContent( ~{ :: .bon-wrap } )}">
@@ -43,11 +53,11 @@
 					<div class="reg-title-wrap">
 						<div class="group-naming-wrap-m">
 							<div class="group-name">
-								<label>학습자료명</label> <input class="inp-reg-m" type="text" readonly value="JAVA입문용 교안">
+								<label>학습자료명</label> <input class="inp-reg-m" type="text" th:value="${vo.GFILENAME}" readonly>
 							</div>
 							<div class="group-name">
 								<label>학습자료내용</label>
-								<textarea class="wj-textarea" readonly>JAVA 교육 1~5주차까지 교안내용입니다. 첨부파일을 확인해주세요.</textarea>
+								<textarea class="wj-textarea" readonly>[[${vo.GFILECON}]]</textarea>
 							</div>
 							<div class="group-name">
 								<label>첨부파일 다운로드</label>
@@ -58,7 +68,7 @@
 						</div>
 					</div>
 					<div class="reg-btn-wrap">
-						<button type="submit" onclick="goback()">뒤로가기</button>
+						<button type="button" onclick="goback()">뒤로가기</button>
 					</div>
 				</form>
 			</div>
@@ -68,9 +78,8 @@
 
 <script>
 function goback(){
-	window.history.back();
+	window.location.href="/dataW/dataWBoardS";
 }
-
 </script>
 	
 </body>

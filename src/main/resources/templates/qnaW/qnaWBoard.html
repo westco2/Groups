@@ -1,8 +1,20 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<body>
+<!-- 
+※권한
+ㄱ. 해당 페이지는 모든 권한이 확인가능
+ㄴ. 질문등록 버튼은 학생권한에만 보임
+ -->
 
+<!--
+※수정할내용
+1. 30줄 : 권한이 ROLE_STUDENT일 경우에만 보이게 설정을 했으나, 학생 권한일때도 보이지않음. 확인필요
+2. 검색기능과 select의 구분기능
+3. 페이지네이션
+-->
+
+<body>
 	<!-- content -->
 	<th:block
 		th:replace="~{./include/baselayout :: setContent( ~{ :: .bon-wrap } )}">
@@ -18,24 +30,22 @@
 					<h3>질문게시판</h3>
 				</div>
 				<div class="content-box">
+				<form action="qnaWBoard" method="get">
 					<div class="top-inp">
 						<p>질문 내용 조회</p>
-						<div class="inp-wrap"
-							style="margin-right: 10px; justify-content: end;">
-							<button type="button" class="regbtn-des del-bt-des"
-								style="margin-right: 10px;">삭제</button>
-							<button type="button" class="regbtn-des" onclick="qnaWRegist()">질문등록</button> <!-- qnaW/Detail 로 경로이동필요 -->
-						</div>
+							<div class="inp-wrap" style="margin-right: 10px; justify-content: end;" th:if="${#authorization.expression('hasRole(''ROLE_STUDENT'')')}">
+							    <button type="button" class="regbtn-des" style="margin-right: 10px;" onclick="qnaWRegist()">질문등록</button>
+							</div>
 					</div>
-					<div class="search-wrap-w"
-						style="margin-bottom: 0; padding-bottom: 0; padding-left: 0;">
+					<div class="search-wrap-w" style="margin-bottom: 0; padding-bottom: 0; padding-left: 0;">
 						<div class="top-line-btn-wrap" style="margin-bottom: 15px">
-							<input type="text" placeholder="검색해주세요" style="width: 300px">
-							<i class="ri-search-line"></i> <select class="sel-des"
-								style="width: 120px; padding: 0px;">
-								<option>그룹검색</option>
-								<option>이름검색</option>
-								<option>제목검색</option>
+							<input type="text" placeholder="검색해주세요" style="width: 300px" name="keyword">
+							<i class="ri-search-line"></i>
+							<select class="sel-des" id="searchOption" style="width: 120px; padding: 0px;" onchange="setSearchOption()">
+						        <option value="ALL">전체</option>
+						        <option value="searchQtitle">제목</option>
+						        <option value="searchGroup_nm">그룹명</option>
+						        <option value="searchKorn_flnm">이름</option>
 							</select>
 							<button type="button" class="wj-button">검색</button>
 						</div>
@@ -44,7 +54,6 @@
 						<table class="table-content">
 							<thead class="co-head">
 								<tr class="co-flex">
-									<th class="coco crcr-0"><input type="checkbox"></th>
 									<th class="coco crcr-0">No</th>
 									<th class="coco w-1">제목</th>
 									<th class="coco w-2">그룹명</th>
@@ -55,16 +64,19 @@
 							</thead>
 							<tbody class="co-body">
 								<tr class="co-flex" th:each="qnawvo, status : ${qnawvo}">
-									<td class="coco crcr-0 center-flex"><input type="checkbox"></td>
 									<td class="coco crcr-0 center-flex">[[${status.count}]]</td>
-									<td class="coco w-1"><a href="#" th:each="qnavo : ${qnawvo.list}" th:text="${qnavo.QTITLE}"></a></td>
+									<td class="coco w-1">
+									    <a th:href="@{'/qnaW/qnaWDetail?QNUMBER=' + ${qnawvo.list.QNUMBER}}">
+									        <span th:text="${qnawvo.list.QTITLE}"></span>
+									    </a>
+   									</td>
 									<td class="coco w-2" th:text="${qnawvo.GROUP_NM}"></td>
 									<td class="coco w-3" th:text="${qnawvo.KORN_FLNM}"></td>
-									<td class="coco w-4" th:each="qnavo : ${qnawvo.list}" th:text="${qnavo.QREGDATE}"></td>
+									<td class="coco w-4" th:text="${qnawvo.list.QREGDATE}"></td>
 									<td class="coco w-5">
 										<span th:if="${qnawvo.CCONTENT != null}">
 										<i class="ri-checkbox-circle-line"></i>답변완료</span>
-										<span th:unless="${qnawvo.CCONTENT != null}">대기중</span>
+										<span th:unless="${qnawvo.CCONTENT != null or !qnawvo.CCONTENT.isEmpty()}">대기중</span>
 									</td>
 								</tr>
 							</tbody>
@@ -73,17 +85,77 @@
 
 					<div class="page-wrap right-p">
 						<div class="pagination">
-							<a href="#">&laquo;</a>
-							<a href="#">1</a>
-							<a href="#" class="act">2</a>
-							<a href="#">3</a>
-							<a href="#">4</a>
-							<a href="#">5</a>
-							<a href="#">6</a>
-							<a href="#">&raquo;</a>
+							<div class="page">
+								<ul>
+<!-- 								
+								<li th:if="${pageVO.total != 0}">
+									<a	th:href="@{dataWBoard(page=1, 
+																amount=${pageVO.amount},
+																searchQtitle=${pageVO.cri.searchQtitle},
+																searchGroup_nm=${pageVO.cri.searchGroup_nm},
+																searchKorn_flnm=${pageVO.cri.searchKorn_flnm},
+																startDate=${pageVO.cri.startDate},
+																endDate=${pageVO.cri.endDate}
+ 															  )}">
+									<i class="fa fa-angle-double-left" aria-hidden="true"></i></a></li>
+									<th:block th:if="${pageVO.prev}">
+										<li style="margin-right: 5px;">
+										<a th:href="@{dataWBoard(page=${pageVO.start - 1}, 
+																	amount=${pageVO.amount},
+																	searchQtitle=${pageVO.cri.searchQtitle},
+																	searchGroup_nm=${pageVO.cri.searchGroup_nm},
+																	searchKorn_flnm=${pageVO.cri.searchKorn_flnm},
+																	startDate=${pageVO.cri.startDate},
+																	endDate=${pageVO.cri.endDate}																	
+ 																  )}">
+												<i class="fa fa-angle-left" aria-hidden="true"></i>
+										</a></li>
+									</th:block>
+
+									<th:block th:each="page : ${pageVO.pageList}">
+										<li th:class="${pageVO.page == page ? 'on' : '' }">
+										<a th:href="@{dataWBoard(page=${page}, 
+																	amount=${pageVO.amount},
+																	searchQtitle=${pageVO.cri.searchQtitle},
+																	searchGroup_nm=${pageVO.cri.searchGroup_nm},
+																	searchKorn_flnm=${pageVO.cri.searchKorn_flnm},
+																	startDate=${pageVO.cri.startDate},
+																	endDate=${pageVO.cri.endDate}
+ 																  )}">[[${page}]]</a>
+										</li>
+									</th:block>
+
+									<th:block th:if="${pageVO.next}">
+										<li style="margin-left: 5px;">
+										<a th:href="@{dataWBoard(page=${pageVO.end + 1},
+																	amount=${pageVO.amount},
+																	searchQtitle=${pageVO.cri.searchQtitle},
+																	searchGroup_nm=${pageVO.cri.searchGroup_nm},
+																	searchKorn_flnm=${pageVO.cri.searchKorn_flnm},
+																	startDate=${pageVO.cri.startDate},
+																	endDate=${pageVO.cri.endDate}
+ 																  )}">
+												<i class="fa fa-angle-right" aria-hidden="true"></i>
+										</a></li>
+									</th:block>
+
+									<li th:if="${pageVO.total != 0}">
+									<a th:href="@{dataWBoard(page=${pageVO.realEnd},
+																	amount=${pageVO.amount},
+																	searchQtitle=${pageVO.cri.searchQtitle},
+																	searchGroup_nm=${pageVO.cri.searchGroup_nm},
+																	searchKorn_flnm=${pageVO.cri.searchKorn_flnm},
+																	startDate=${pageVO.cri.startDate},
+																	endDate=${pageVO.cri.endDate}
+ 															  )}">
+											<i class="fa fa-angle-double-right" aria-hidden="true"></i>
+									</a></li>
+-->
+								</ul>
+							</div>
 						</div>
 					</div>
-
+				 </form>
 				</div>
 
 			</div>
@@ -91,6 +163,7 @@
 
 	</th:block>
 	
+	// 등록완료여부 메시지
 	<script th:inline="javascript">
 		var msg = '[[${msg}]]';
 		msg = JSON.parse(msg);
@@ -99,9 +172,17 @@
 			alert(msg);
 		}
 	
+	// 질문등록 클릭시 경로이동
 	function qnaWRegist(){
 		window.location.href="/qnaW/qnaWRegist";
 	}
+	
+    // 검색 옵션 값이 변경될 때마다 파라미터 값을 설정
+    function setSearchOption() {
+        var searchOption = document.getElementById("searchOption").value;
+        document.getElementById("searchType").value = searchOption;
+    }
+	
 	</script>
 
 </body>

@@ -22,8 +22,8 @@ public class QnaWServiceImpl implements QnaWService{
 	}
 	
 	@Override
-	public Integer getTotal() {
-		return qnaWMapper.getTotal();
+	public List<QnaVO> getList2(Criteria cri ) {
+		return qnaWMapper.getList2(cri);
 	}
 	
 	@Override	
@@ -32,7 +32,27 @@ public class QnaWServiceImpl implements QnaWService{
 	}
 	
 	@Override
+	public QnaVO getDetail(int QNUMBER) {
+		return qnaWMapper.getDetail(QNUMBER);
+	}
+	
+	@Override
+	public int update(QnaVO vo) {
+		return qnaWMapper.update(vo);
+	}
+	
+	@Override
+	public void delete(int QNUMBER) {
+		qnaWMapper.delete(QNUMBER);
+	}
+	
+	@Override
 	public int reply(QnaVO vo) {
 		return qnaWMapper.reply(vo);
+	}
+	
+	@Override
+	public int getTotal() {
+		return qnaWMapper.getTotal();
 	}
 }
