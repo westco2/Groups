@@ -35,6 +35,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter { //시큐리�
                     .antMatchers("/css/**", "/js/**", "/img/**", "/fonts/**", "/homepageimg/**").permitAll() //css등 import를 위해
                     .antMatchers("/main","/login", "/joinFormHJ" ).permitAll() //기본 3대장 페이지
                     .antMatchers("/member*").permitAll() //회원가입페이지에서ㅠㅠ
+                    .antMatchers("/memberZ/applymember").hasRole("ADMIN")
                     .anyRequest().authenticated()
                     .and()
                 .exceptionHandling()
