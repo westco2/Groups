@@ -19,10 +19,7 @@ import lombok.RequiredArgsConstructor;
 public class PostRestController {
     private final PostService postService;
 
-    @GetMapping("/api/posts")
-    public List<PostSimpleResponseDto> getPostsList() {
-        return postService.findAll();
-    }
+
 
     @PostMapping("/api/posts")
     public Long registerPost(@RequestBody PostRequestDto requestDto) {

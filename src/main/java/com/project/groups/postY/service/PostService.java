@@ -30,12 +30,7 @@ public class PostService {
         postRepository.deleteById(id);
     }
 
-    @Transactional(readOnly=true)
-    public List<PostSimpleResponseDto> findAll(){
-        return postRepository.findAllByOrderByCreatedAtDesc().stream()
-                .map(PostSimpleResponseDto::new)
-                .collect(Collectors.toList());
-    }
+
 
     @Transactional(readOnly=true)
     public PostDetailResponseDto findById(Long id){
