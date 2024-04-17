@@ -1,0 +1,85 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+<!-- content -->
+<th:block th:replace="~{./include/baselayout :: setContent( ~{ :: .bon-wrap } )}">
+    <div class="bon-wrap">
+        <div class="page-title">
+            <p>공지사항</p>
+        </div>
+        <div class="route-wrap">
+            <a href="#">공지사항</a><p>/</p><a href="#">공지사항 등록</a>
+        </div>
+        <div class="bon-content-wrap">
+            <div class="box-title-wrap">
+                <h3>공지사항 등록</h3>
+            </div>
+            <div class="content-box">
+                   <div class="group-naming-wrap-m">
+				    <div style="display: flex; align-items: center;">
+				        <label for="titleInput" style="margin-right: 10px;">제목:</label>
+				        <input id="titleInput" class="inp-reg-mheight 400px;" type="text">
+				    </div>
+				   <div style="display: flex; align-items: center; margin-bottom: 10px;">
+    <label for="writerInput" style="margin-right: 10px;">작성자:</label>
+    <input id="writerInput" class="inp-reg-mheight" type="text" style="width: 145px;">
+</div>
+
+				       
+                        <label>내용</label>
+                        <textarea id="mytextarea"></textarea>
+                    </div>
+                   
+                 
+                </div>
+            </div>
+            <div class="reg-btn-wrap">
+                <button onclick="registerPost()">등록</button>
+                <button type="submit" class="list-button" onclick="goToNotilist()">목록</button>
+            </div>
+        </div>
+    
+</th:block> 
+  <script>
+  
+	//게시물 목록
+	  function goToNotilist() {
+	      window.location.href = "/posts/notilist"; // 이동할 URL 설정
+	  }
+	  // TinyMCE 초기화
+	  tinymce.init({
+	    selector: '#mytextarea' // 에디터를 적용할 textarea의 id
+	  });
+
+	  // 게시물 등록
+	  function registerPost(){
+	    // TinyMCE 에디터의 내용을 textarea로 저장
+	    tinymce.triggerSave();
+
+	    // 저장된 값들을 가져와서 처리
+	    var post = {
+	      'title': $('#titleInput').val(),
+	      'content': $('#mytextarea').val(),
+	      'writer': $('#writerInput').val(),
+	    }
+
+	    // AJAX로 데이터 전송
+	    $.ajax({
+	      type: 'POST',
+	      url: '/api/posts',
+	      contentType: "application/json",
+	      data: JSON.stringify(post),
+	      success: function(response){
+	        alert("게시글 "+response+" 번을 등록하였습니다.");
+	        window.location.href = "/posts/notilist";
+	      },
+	      error: function(e){
+	          alert("게시글을 조회할 수 없습니다.");
+	        }
+	      });
+	    }
+	  </script>
+    </body>
+    </html>

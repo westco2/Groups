@@ -1,0 +1,92 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+<!-- content -->
+<th:block th:replace="~{./include/baselayout :: setContent(~{:: .bon-wrap})}">
+    <div class="bon-wrap">
+        <div class="page-title">
+            <p>공지사항</p>
+        </div>
+        <div class="route-wrap">
+            <a href="#">공지사항</a><p>/</p><a href="#">공지사항 조회</a>
+        </div>
+        <div class="bon-content-wrap">
+            <div class="box-title-wrap">
+                <h3 class="handle-h3">공지사항 조회</h3>
+            </div>
+            <div class="content-box">
+            
+             <div class="top-line-btn-wrap">
+
+                            
+
+                            <button type="button" onclick="goToRegister()">등록</button>
+
+
+                        </div>
+                
+                <div class="table-wrap">
+                    <table class="table-content">
+                        <thead class="co-head">
+                            <tr class="co-flex">
+                                <th class="coco crcr-0 center-flex">No</th>
+                                <th class="coco mrmry-1">제목</th>
+                                <th class="coco mrmry-2">작성자</th>
+                            </tr>
+                        </thead>
+                        <tbody class="co-body" id="post-list">
+                          
+                        </tbody>
+                    </table>
+                </div>
+                <div class="page-wrap right-p">
+                  
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+<script>
+
+	//등록 페이지로 이동
+	function goToRegister() {
+	    window.location.href = "/posts/register";
+	}
+
+	// 게시물 목록 조회
+    function findAll(){
+        $.ajax({
+            type: 'GET',
+            url: '/api/posts',
+            success: function(response){
+                for (let i = 0; i < response.length; i++) {
+                    let post = response[i];
+                    let tempHtml = HTMLPosts(post);
+                    $('#post-list').append(tempHtml);
+                }
+            },
+            error: function(e){
+                alert("게시글을 조회할 수 없습니다.");
+            }
+        });
+    }
+
+    // 게시물 마다 HTML 만들기
+    function HTMLPosts(post) {
+        return`<tr class="co-flex">
+		<td class="coco crcr-0 center-flex">${post.id}<td>
+        <td class="coco mrmry-1"><a href="/posts/detail?id=${post.id}" >${post.title}</a></td>
+        <td class="coco mrmry-2">${post.writer}</td>
+    </tr>`;
+}
+
+
+$(document).ready(function () {
+findAll();
+});
+</script>
+
+</body>
+</html>
