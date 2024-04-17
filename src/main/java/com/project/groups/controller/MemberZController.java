@@ -14,6 +14,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -44,6 +45,18 @@ public class MemberZController {
     public String joinForm(){
         return "memberZ/joinFormHJ";
     }
+
+    @PostMapping("/joinFormHJ")
+    public void joinForm(@RequestParam("name") String name,
+                         @RequestParam("phone") String phone,
+                         Model model){
+        System.out.println("name = " + name);
+        System.out.println("phone = " + phone);
+        model.addAttribute("name", name);
+        model.addAttribute("phone", phone);
+
+    }
+
     @PostMapping("/memberreg") //회원가입에서 입력된 값을 받음
     public String memberreg(MemberVO memberVO){
         String pswd = passwordEncoder.encode(memberVO.getPswd());
@@ -92,4 +105,12 @@ public class MemberZController {
             }
 
     }
+
+    @GetMapping("/memberIdentification")
+    public String memberIdentification(){
+        return ("memberZ/memberIdentification");
+    }
+
+
+
 }
