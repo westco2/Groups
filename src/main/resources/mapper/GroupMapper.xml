@@ -10,6 +10,7 @@
         values (#{login_id},#{group_nm}, #{group_start}, #{group_end}, #{group_pp}, "활성화")
     </insert>
 
+    <!-- 그룹별 학생수 -->
 
     <select id="getgrouplist" resultType="GroupVO">
         SELECT
@@ -21,18 +22,38 @@
                 (select * from group_join where APRV_YN = "Y" )a2
                 ON
                     a1.group_no = a2.group_no
+
+        <where>
+            <if test="cri.title != '' and cri.title != null">
+                and group_nm like concat('%',#{cri.title},'%')
+            </if>
+        </where>
         GROUP BY
-            a1.group_no;
+            a1.group_no
+        limit #{cri.pageStart}, #{cri.amount};
+
+
+    </select>
+    <select id="getgrouplisttotal" resultType="int">
+        SELECT count(*) from GROUP_LIST
+                        where login_id = #{login_id}
+
+            <if test="cri.title != '' and cri.title != null">
+                and group_nm like concat('%', #{cri.title}, '%')
+            </if>
+
+
     </select>
 
 
-
+    <!-- 신청자 조회 -->
     <select id="getstdInfo" resultType="GroupVO">
         select m1.*,a1.join_date from (select * from group_join where group_no = #{group_no} and aprv_yn = "N") a1
         left join members m1
         on a1.login_id = m1.login_id;
     </select>
 
+    <!-- 그룹 상태 변경,삭제 -->
 
     <update id="groupstupdate">
         update GROUP_LIST set group_st = "활성화" where group_no = #{group_non}
@@ -46,14 +67,17 @@
         delete from GROUP_LIST where group_no = #{group_non}
     </delete>
 
+    <!-- 그룹의 승인된 학생수 -->
+
     <select id="getgroupstdTotal" resultType="int">
         select count(*) as total
         from (select m.*,g.group_no from (select * from group_join where APRV_YN = "Y") g left join members m on g.login_id = m.login_id ) a
-        where group_no = #{group_no};
+        where group_no = #{group_no}
         <if test="cri.searchKorn_flnm != '' and cri.searchKorn_flnm != null">
             and korn_flnm like concat('%',#{cri.searchKorn_flnm},'%')
         </if>
     </select>
+
 
 
     <select id="getallgrouplist" resultType="GroupVO">
@@ -72,8 +96,31 @@
                                       GROUP BY
                                           a1.group_no) n
                                      on t.group_no = n.group_no
+        <where>
+            <if test="cri.title != '' and cri.title != null">
+                and group_nm like concat('%',#{cri.title},'%')
+                or KORN_FLNM like concat('%',#{cri.title},'%')
+            </if>
+        </where>
+        limit #{cri.pageStart}, #{cri.amount};
     </select>
 
+    <select id="getalltotal" resultType="int">
+        select count(*) from ( select * from GROUP_LIST
+        where group_st = "활성화")a
+        left join MEMBERS b
+        on a.login_id = b.login_id
+        <where>
+        <if test="cri.title != '' and cri.title != null">
+            and group_nm like concat('%',#{cri.title},'%')
+            or KORN_FLNM like concat('%',#{cri.title},'%')
+        </if>
+        </where>
+
+
+    </select>
+
+    <!-- 그룹 가입 신청 -->
 
     <insert id="groupjoin">
         insert into GROUP_JOIN (login_id, group_no, aprv_yn)
@@ -85,7 +132,7 @@
         update GROUP_JOIN set aprv_yn = "Y" where login_id = #{login_id} and group_no = #{group_no}
     </update>
 
-    <!-- 그룹 정보 조회 -->
+    <!-- 해당 그룹 정보 조회 -->
     <select id="getgroupdetail" resultType="GroupVO">
         SELECT
             a.*,
@@ -93,7 +140,7 @@
             COALESCE(c.qnaboard_count, 0) AS std_q,
             COALESCE(d.groupfile_count, 0) AS group_mt
         FROM
-            (select g1.*,m1.KORN_FLNM
+            (select g1.*,m1.KORN_FLNM, m1.tier
             from group_list g1
             left join members m1
             on g1.LOGIN_ID = m1.LOGIN_ID) a
@@ -136,6 +183,7 @@
             a.group_no = #{group_no};
     </select>
 
+    <!-- 해당 그룹의 학생정보 조회 -->
     <select id="getgroupstdinfo" resultType="GroupVO">
         SELECT
             a.*,
@@ -175,13 +223,243 @@
                 GROUP BY
                     m.login_id
             ) c ON a.login_id = c.login_id
+            <where>
+                <if test="cri.searchKorn_flnm != '' and cri.searchKorn_flnm != null">
+                    and korn_flnm like concat('%',#{cri.searchKorn_flnm},'%')
+                </if>
+            </where>
             limit #{cri.pageStart}, #{cri.amount};
     </select>
 
+    <!-- 그룹에서 학생 퇴장 -->
 
     <delete id="groupstddel">
         delete from GROUP_JOIN where group_no = #{group_no} and login_id = #{login_id}
     </delete>
 
+
+
+    <!-- 승인 대기방 -->
+    <select id="groupwait" resultType="GroupVO">
+        select a.login_id,b.group_no,b.group_nm, b.korn_flnm from (select * from GROUP_JOIN where login_id = #{login_id})a left join
+                                                                  (
+                                                                      select m.KORN_FLNM, g.group_no,g.group_nm from GROUP_LIST g left join MEMBERS m on g.login_id = m.login_id
+                                                                  ) b
+                                                                  on a.group_no = b.group_no;
+    </select>
+
+    <delete id="waitdel">
+        delete from GROUP_JOIN where login_id = #{login_id}
+    </delete>
+
+
+    <!-- 승인된 학생인지 판별하는 sql문 -->
+    <select id="aprv_yn" resultType="int">
+        SELECT COUNT(*) FROM GROUP_JOIN where login_id = #{login_id} and aprv_yn = "Y";
+    </select>
+
+    <select id="aprv_null" resultType="int">
+        SELECT COUNT(*) FROM GROUP_JOIN where login_id = #{login_id};
+    </select>
+
+
+
+    <select id="getmygroupno" resultType="int">
+        select group_no from GROUP_JOIN where login_id = #{login_id}
+    </select>
+    
+    
+    <select id="getdashboardt" resultType="QueryVO">
+        (
+            select  c.korn_flnm, d.percentage as num, 'query1' AS query_type from
+                (select g.group_no, l.login_id , l.korn_flnm
+                 from (select * from group_list where group_no = #{group_no} ) g
+                          left join
+                      (select b.*, a.group_no from (
+                                                       select *
+                                                       from group_join
+                                                       where aprv_yn = "Y") a
+                                                       left join MEMBERS b
+                                                                 on a.login_id = b.login_id) l
+                      on g.group_no = l.group_no) c
+                    left join (SELECT
+                                   login_id,
+                                   COUNT(CASE WHEN homework_st = '제출' THEN 1 END) AS submitted_count,
+                                   COUNT(*) AS total_count,
+                                   ROUND(100 * COUNT(CASE WHEN homework_st = '제출' THEN 1 END) / COUNT(*)) AS percentage
+                               FROM
+                                   homeworksubmit
+                               GROUP BY
+                                   login_id) d
+                              on c.login_id = d.login_id
+        )
+
+        union all
+        (
+            SELECT
+                date_range.date_range AS korn_flnm,
+                IFNULL(ROUND(100 * COUNT(CASE WHEN jk.homework_st = '제출' THEN 1 END) / COUNT(*)), 0) AS num,
+                'query2' AS query_type
+            FROM (
+                     SELECT
+                         DATE_FORMAT(submit_date, '%Y-%m-%d') AS submit_date,
+                         ht.homework_st
+                     FROM
+                         (SELECT
+                              g.group_no,
+                              l.login_id,
+                              l.korn_flnm
+                          FROM
+                              group_list g
+                                  LEFT JOIN
+                              (SELECT
+                                   b.*,
+                                   a.group_no
+                               FROM
+                                   group_join a
+                                       LEFT JOIN
+                                   MEMBERS b ON a.login_id = b.login_id
+                               WHERE
+                                   a.aprv_yn = 'Y') l ON g.group_no = l.group_no
+                          WHERE
+                              g.group_no = #{group_no}
+                         ) k
+                             LEFT JOIN
+                         homeworksubmit ht ON k.login_id = ht.login_id
+                 ) AS jk
+                     RIGHT JOIN (
+                SELECT DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL n DAY), '%Y-%m-%d') AS date_range
+                FROM (
+                         SELECT 0 AS n UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5
+                     ) AS days
+            ) AS date_range ON jk.submit_date = date_range.date_range
+            WHERE
+                    date_range.date_range >= DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 6 DAY), '%Y-%m-%d')
+            GROUP BY
+                date_range.date_range
+            ORDER BY
+                date_range.date_range desc
+        )
+        union all
+        (
+            SELECT
+                date_range.date_range AS korn_flnm,
+                IFNULL(ROUND(100 * COUNT(CASE WHEN hs.homework_st = '제출' THEN 1 END) / COUNT(*)), 0) AS num,
+                'query3' AS query_type
+            FROM
+                (
+                    SELECT DATE_FORMAT(submit_date, '%Y-%m-%d') AS submit_date,
+                           homework_st
+                    FROM homeworksubmit
+                    WHERE submit_date >= DATE_SUB(CURDATE(), INTERVAL 6 DAY)
+                ) AS hs
+                    RIGHT JOIN
+                (
+                    SELECT DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL n DAY), '%Y-%m-%d') AS date_range
+                    FROM (
+                             SELECT 0 AS n UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5
+                         ) AS days
+                ) AS date_range
+                ON hs.submit_date = date_range.date_range
+            GROUP BY
+                date_range.date_range
+            ORDER BY
+                date_range.date_range desc
+)
+union all
+(
+SELECT 
+    h.HOMEWORK_LEVEL as korn_flnm,
+    
+    ROUND(100 * SUM(CASE WHEN r.RECORD_SCORE = 100 THEN 1 ELSE 0 END) / COUNT(*)) AS num,
+    'query4' AS query_type
+FROM
+        (select * from HOMEWORK where login_id = #{login_id}) h
+LEFT JOIN 
+    HOMEWORKRECORD r ON h.HOMEWORK_NO = r.homework_no
+GROUP BY 
+    h.HOMEWORK_LEVEL
+    order by homework_level desc
+)
+
+union all
+    
+    
+    
+    
+
+
+(
+    SELECT 
+        m.korn_flnm,
+        COUNT(*) AS num,
+        'query5' AS query_type
+    FROM 
+        MEMBERS m
+    INNER JOIN 
+        GROUP_JOIN gj ON m.LOGIN_ID = gj.LOGIN_ID
+    INNER JOIN 
+        HOMEWORKRECORD hr ON m.LOGIN_ID = hr.login_id
+    WHERE 
+        gj.group_no = #{group_no}
+    GROUP BY 
+        hr.login_id
+    ORDER BY 
+        COUNT(*) DESC
+    LIMIT 1
+)
+UNION all
+(
+    SELECT 
+        m.korn_flnm,
+        COUNT(*) AS num,
+        'query6' AS query_type
+    FROM 
+        MEMBERS m
+    INNER JOIN 
+        GROUP_JOIN gj ON m.LOGIN_ID = gj.LOGIN_ID
+    INNER JOIN 
+        HOMEWORKRECORD hr ON m.LOGIN_ID = hr.login_id
+    WHERE 
+        gj.group_no = #{group_no}
+    GROUP BY 
+        hr.login_id
+    ORDER BY 
+        COUNT(*) ASC
+    LIMIT 1
+)
+UNION all
+(
+    SELECT 
+        m.korn_flnm,
+        m.score AS num,
+        'query7' AS query_type
+    FROM 
+        MEMBERS m
+    INNER JOIN 
+        (select * from GROUP_JOIN where aprv_yn = "Y" )gj ON m.LOGIN_ID = gj.LOGIN_ID
+    WHERE 
+        gj.group_no = #{group_no}
+    ORDER BY 
+        m.score DESC
+    LIMIT 1
+)
+UNION all
+(
+    SELECT 
+        m.korn_flnm,
+        m.score AS num,
+        'query8' AS query_type
+    FROM 
+        MEMBERS m
+    INNER JOIN
+            (select * from GROUP_JOIN where aprv_yn = "Y" ) gj ON m.LOGIN_ID = gj.LOGIN_ID
+    WHERE 
+        gj.group_no = #{group_no}
+    ORDER BY 
+        m.score ASC
+    LIMIT 1
+);
+    </select>
 </mapper>
 

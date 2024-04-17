@@ -37,6 +37,7 @@
                             <th class="coco work-m1 lis-left desc-tr">제목<i class="ri-arrow-down-s-fill"></i></th>
                             <th class="coco work-m2 lis-left desc-tr">언어<i class="ri-arrow-down-s-fill"></i></th>
                             <th class="coco work-m3 lis-left desc-tr">레벨<i class="ri-arrow-down-s-fill"></i></th>
+                            <th class="coco work-m7 lis-left desc-tr">유형<i class="ri-arrow-down-s-fill"></i></th>
                             <th class="coco work-m4 lis-left desc-tr">등록일자<i class="ri-arrow-down-s-fill"></i></th>
                             <th class="coco work-m5 lis-left desc-tr">마감일자<i class="ri-arrow-down-s-fill i-col"></i></th>
                             <th class="coco work-mm lis-left desc-tr">점수<i class="ri-arrow-down-s-fill"></i></th>
@@ -49,7 +50,8 @@
                             <td class="coco crcr-0 center-flex">[[${status.index+1}]]</td>
                             <td class="coco work-m1 lis-left"><a th:href="@{myhomeworkdetail(homework_no = ${i.homework_non})}">[[${i.homework_title}]]</a></td>
                             <td class="coco work-m2 lis-left">[[${i.homework_language}]]</td>
-                            <td class="coco work-m3 lis-left">[[${i.homework_level}]]</td>
+                            <td class="coco work-m3 lis-left" th:classappend="${i.homework_level}">[[${i.homework_level}]]</td>
+                            <td class="coco work-m7 lis-left">[[${i.category}]]</td>
                             <td class="coco work-m4 lis-left">[[${#temporals.format(i.submit_date, 'yyyy.MM.dd')}]]</td>
                             <td class="coco work-m5 lis-left">[[${#dates.format(i.homework_enddate, 'yyyy.MM.dd')}]]</td>
                             <td class="coco work-mm lis-left">[[${i.homework_score}]]</td>
@@ -86,6 +88,26 @@
 
 </th:block>
 
+<script>
+
+    $(document).ready(function() {
+
+        checkHomeworkDeadline();
+    });
+
+    function checkHomeworkDeadline() {
+        var currentDate = new Date();
+
+        $(".co-flex").each(function() {
+            var endDateString = $(this).find(".work-m5").text();
+            var endDate = new Date(endDateString);
+
+            if (currentDate > endDate) {
+                $(this).addClass("gray-m");
+            }
+        });
+    }
+</script>
 
 </body>
 </html>

@@ -12,7 +12,7 @@
         <div class="route-wrap">
             <a href="#">숙제</a><p>/</p><a href="homeworklist">내 숙제리스트</a><p>/</p><a style="color: black;">숙제생성</a>
         </div>
-        <form class="bon-content-wrap" action="homeworkregForm" method="post">
+        <form class="bon-content-wrap" action="homeworkupdateForm" method="post">
 
             <div class="box-title-wrap">
                 <h3>숙제 생성</h3>
@@ -21,6 +21,7 @@
                 <h3 style="margin-bottom: 10px;">기본 정보</h3>
                 <div class="reg-title-wrap" style="margin-bottom: 15px;">
                     <div class="like-table-wrap">
+                        <input type="hidden" name="homework_no" th:value="${vo.homework_no}">
                         <div class="sinfo-wrap-m">
                             <p>교육자명</p>
                             <h4 class="name-m"><i class="ri-user-star-line"></i>&nbsp;[[${membervo.korn_flnm}]]</h4>
@@ -37,7 +38,7 @@
                     <div class="group-naming-wrap-m">
                         <div class="group-name">
                             <label>숙제이름</label>
-                            <input class="inp-reg-m" type="text" name="homework_title" placeholder="내 숙제">
+                            <input class="inp-reg-m" type="text" name="homework_title" placeholder="내 숙제" readonly th:value="${vo.homework_title}">
                             <p><i class="ri-alert-line"></i>생성 후에는 이름을 변경할수 없습니다.</p>
                         </div>
                         <div class="group-name">
@@ -47,7 +48,7 @@
                         </div>
                         <div class="group-name">
                             <label>레벨</label>
-                            <select class="sel-des-m" style="width: 120px" name="homework_level">
+                            <select class="sel-des-m" style="width: 120px" name="homework_level" th:value="${vo.homework_level}">
                                 <option>LV0</option>
                                 <option>LV1</option>
                                 <option>LV2</option>
@@ -60,7 +61,7 @@
                         <div class="group-name">
                             <label>유형</label>
                             <div class="add-wrap-mmm">
-                                <select class="sel-des-m ctctct-mmm" style="width: 200px" name="category">
+                                <select class="sel-des-m ckck-mmm" style="width: 200px" name="category" th:value="${vo.category}">
 
                                 </select>
                                 <button type="button" class="add-btn-m" id="adad-btn">추가</button>
@@ -71,7 +72,7 @@
                         <div class="group-name">
                             <label>시간</label>
                             <div class="fon-m">
-                                <input class="inp-reg-m" type="number" name="homework_time" style="width: 100px" placeholder="1">
+                                <input class="inp-reg-m" type="number" name="homework_time" style="width: 100px" placeholder="1" th:value="${vo.homework_time}">
                                 <p>초</p>
                             </div>
                             <p><i class="ri-alert-line"></i>생성 후에는 시간을 변경할수 없습니다.</p>
@@ -84,57 +85,20 @@
                     <div class="group-naming-wrap-m">
                         <div class="group-name">
                             <label>숙제설명</label>
-                            <textarea class="aria-m" name="homework_content"></textarea>
+                            <textarea class="aria-m" name="homework_content">[[${vo.homework_content}]]</textarea>
                             <p><i class="ri-alert-line"></i>생성 후에는 이름을 변경할수 없습니다.</p>
                         </div>
                         <div class="group-name">
                             <label>힌트&nbsp;&nbsp;-&nbsp;&nbsp;선택사항</label>
-                            <textarea class="aria-m" name="homework_hint" ></textarea>
+                            <textarea class="aria-m" name="homework_hint" >[[${vo.homework_hint}]]</textarea>
                         </div>
                     </div>
 
                 </div>
-
-                <h3 style="margin-bottom: 10px;">예시</h3>
-                <div class="reg-title-wrap ">
-                    <div class="inout-m ex-inp-m">
-                        <div class="h-ex-wrap" style="margin-bottom: 0">
-                            <label>입력</label>
-                            <label>결과</label>
-                            <label class="exp-m">설명&nbsp;&nbsp;-&nbsp;&nbsp;선택사항</label>
-                        </div>
-                        <div class="h-ex-wrap" style="margin-bottom: 30px">
-                            <label><input type="text" placeholder="입력 값" name="input[]"></label>
-                            <label><input type="text" placeholder="결과 값" name="output[]"></label>
-                            <label class="exp-m"><input type="text" placeholder="입출력에대한 설명" name="ex_ct[]" style="width: 380px"></label>
-                        </div>
-                    </div>
-                    <div class="h-ex-wrap">
-                        <button class="plus-btn-des plus-btn-md">예시 추가</button>
-                    </div>
-                </div>
-
-                <h3 style="margin-bottom: 10px;">테스트 코드</h3>
-                <div class="reg-title-wrap ">
-                    <div class="inout-m test-cm">
-                        <div class="h-ex-wrap" style="margin-bottom: 0">
-                            <label>입력</label>
-                            <label>출력</label>
-                        </div>
-                        <div class="h-ex-wrap" style="margin-bottom: 30px">
-                            <label><input type="text" placeholder="입력 값" name="test_input[]"></label>
-                            <label><input type="text" placeholder="출력 값" name="test_output[]"></label>
-                        </div>
-                    </div>
-                    <div class="h-ex-wrap">
-                        <button class="plus-btn-des plus-btn-mt">테스트 코드 추가</button>
-                    </div>
-                </div>
-
 
 
                 <div class="reg-btn-wrap">
-                    <button type="submit">숙제 생성</button>
+                    <button type="submit">수정</button>
                 </div>
 
 
@@ -173,43 +137,7 @@
 
 
 <script>
-    $(document).ready(function() {
 
-        $(".plus-btn-md").on('click', function(e) {
-            e.preventDefault();
-            var newExample = $('<div>').addClass('h-ex-wrap');
-            newExample.html(`
-            <label><input type="text" placeholder="입력 값" name="input[]"></label>
-            <label><input type="text" placeholder="결과 값" name="output[]"></label>
-            <label class="exp-m"><input type="text" style="width: 380px" placeholder="입출력에대한 설명" name="ex_ct[]"></label>
-            <div><button type="button" class="del-btn-m">삭제</button></div>
-        `);
-
-            $(".ex-inp-m").append(newExample);
-        });
-
-
-
-
-
-        $(".plus-btn-mt").on('click', function(e) {
-            e.preventDefault();
-            var newExample = $('<div>').addClass('h-ex-wrap');
-            newExample.html(`
-            <label><input type="text" placeholder="입력 값" name="test_input[]"></label>
-            <label><input type="text" placeholder="출력 값" name="test_output[]"></label>
-            <div><button type="button" class="del-btn-m">삭제</button></div>
-        `);
-
-            $(".test-cm").append(newExample);
-        });
-
-
-        $(".ex-inp-m, .test-cm").on("click", ".del-btn-m", function(e) {
-            e.stopPropagation();
-            $(this).closest(".h-ex-wrap").remove();
-        });
-    });
 
     function getctg(){
         $.ajax({
@@ -217,8 +145,8 @@
             url: "/getctg",
             contentType: "application/json",
             success: function(data) {
-                $(".ctctct-mmm").empty();
-                $(".ctctct-mmm").html("<option>기초</option>\n" +
+                $(".ckck-mmm").empty();
+                $(".ckck-mmm").html("<option>기초</option>\n" +
                     "                                    <option>조건문</option>\n" +
                     "                                    <option>반복문</option>\n" +
                     "                                    <option>배열</option>\n" +
@@ -233,7 +161,7 @@
 
 
                     option.innerHTML = `${i.my_category}`;
-                    $(".ctctct-mmm").append(option);
+                    $(".ckck-mmm").append(option);
 
                 }
 

@@ -51,6 +51,13 @@ public class MIrestController {
         headers.add("Content-Type", "application/json");
         return new ResponseEntity<>(groupService.getgroupstdinfo(cri, group_no), headers, HttpStatus.OK);
     }
+    @GetMapping("/getgroupstdInfopage")
+    public ResponseEntity<PageVO> getstdInfopage(Criteria cri, @RequestParam Integer group_no) {
+        PageVO vo = new PageVO(cri, groupService.getstdtotal(cri, group_no));
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json");
+        return new ResponseEntity<>(vo, headers, HttpStatus.OK);
+    }
 
     //내숙제 세부정보
     @PostMapping("/gethomedetail")
@@ -89,13 +96,14 @@ public class MIrestController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String sessionId = authentication.getName();
         vo.setLogin_id(sessionId);
-        int score = homeworkService.getscore(vo);
-
+        Integer score = homeworkService.getscore(vo);
+        System.out.println(score);
         if(score != 100){
             homeworkService.updatepoint(vo);
+            if(vo.getScore() > score) homeworkService.updatesubmit(vo);
         }
 
-        homeworkService.updatesubmit(vo);
+
         homeworkService.homeworkrecord(vo);
 
 
@@ -120,6 +128,32 @@ public class MIrestController {
 
         return new ResponseEntity<>(homeworkService.getstdhomeck(vo), headers, HttpStatus.OK);
     }
+
+
+    @PostMapping("/getctg")
+    public ResponseEntity<List<CategoryVO>>getctg(){
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String sessionId = authentication.getName();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json"); //내가 보내는 컨텐츠 타입
+
+        return new ResponseEntity<>(homeworkService.getcategory(sessionId), headers, HttpStatus.OK);
+    }
+
+    @PostMapping("/regctg")
+    public String regctg(@RequestBody CategoryVO vo){
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String sessionId = authentication.getName();
+        vo.setLogin_id(sessionId);
+
+        homeworkService.regcategory(vo);
+
+        return "success";
+    }
+
 
 
 

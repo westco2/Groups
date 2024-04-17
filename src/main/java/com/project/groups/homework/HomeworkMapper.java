@@ -1,9 +1,6 @@
 package com.project.groups.homework;
 
-import com.project.groups.command.ExVO;
-import com.project.groups.command.GroupVO;
-import com.project.groups.command.HomeWorkVO;
-import com.project.groups.command.TestVO;
+import com.project.groups.command.*;
 import com.project.groups.util.Criteria;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -46,4 +43,20 @@ public interface HomeworkMapper {
 
 
     List<HomeWorkVO>stdhomeworkinfo(HomeWorkVO vo);
+
+    int regcategory(CategoryVO vo);
+    List<CategoryVO> getcategory(String login_id);
+    int deletecategory(CategoryVO vo);
+
+    int solutionp(String login_id);
+
+    List<HomeWorkVO> notsolutionp(String login_id);
+
+    List<HomeWorkVO> myrecord(@Param("login_id") String login_id, @Param("cri")Criteria cri);
+    int myrecordtotal(@Param("login_id") String login_id, @Param("cri")Criteria cri);
+
+    HomeWorkVO hwinfo(HomeWorkVO vo);
+    int hwdel(HomeWorkVO vo);
+
+    int homeworkup(HomeWorkVO vo);
 }

@@ -2,6 +2,7 @@ package com.project.groups.group;
 
 import com.project.groups.command.GroupVO;
 import com.project.groups.command.MemberVO;
+import com.project.groups.command.QueryVO;
 import com.project.groups.util.Criteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,8 +22,13 @@ public class GroupServiceImpl implements GroupService{
     }
 
     @Override
-    public List<GroupVO> getgrouplist(String login_id) {
-        return groupMapper.getgrouplist(login_id);
+    public List<GroupVO> getgrouplist(String login_id, Criteria cri) {
+        return groupMapper.getgrouplist(login_id, cri);
+    }
+
+    @Override
+    public int getgrouplisttotal(String login_id, Criteria cri) {
+        return groupMapper.getgrouplisttotal(login_id, cri);
     }
 
     @Override
@@ -47,8 +53,13 @@ public class GroupServiceImpl implements GroupService{
     }
 
     @Override
-    public List<GroupVO> getallgrouplist() {
-        return groupMapper.getallgrouplist();
+    public List<GroupVO> getallgrouplist(Criteria cri) {
+        return groupMapper.getallgrouplist(cri);
+    }
+
+    @Override
+    public int getalltotal(Criteria cri) {
+        return groupMapper.getalltotal(cri);
     }
 
     @Override
@@ -79,6 +90,37 @@ public class GroupServiceImpl implements GroupService{
     @Override
     public void groupstddel(List<String> login_ids, Integer group_no) {
         login_ids.forEach(a-> groupMapper.groupstddel(a,group_no));
+    }
+
+    @Override
+    public GroupVO groupwait(String login_id) {
+
+        return groupMapper.groupwait(login_id);
+    }
+
+    @Override
+    public int waitdel(String login_id) {
+        return groupMapper.waitdel(login_id);
+    }
+
+    @Override
+    public int aprv_yn(String login_id) {
+        return groupMapper.aprv_yn(login_id);
+    }
+
+    @Override
+    public int aprv_null(String login_id) {
+        return groupMapper.aprv_null(login_id);
+    }
+
+    @Override
+    public int getmygroupno(String login_id) {
+        return groupMapper.getmygroupno(login_id);
+    }
+
+    @Override
+    public List<QueryVO> getdashboardt(Integer group_no, String login_id) {
+        return groupMapper.getdashboardt(group_no, login_id);
     }
 
 

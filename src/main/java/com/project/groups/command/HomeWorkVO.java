@@ -39,8 +39,10 @@ public class HomeWorkVO {
     private Integer record_score;
     private String record_code;
 
+    private String category; // 숙제 유형
 
-
+    private Integer average_score;// 숙제 평균점수
+    private Integer percentage; //숙제 정답률
 
     private Date homework_enddate;
     private LocalDateTime homework_recieve; //

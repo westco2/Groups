@@ -5,7 +5,7 @@ import java.util.Base64;
 
 public class EncryptionUtils {
 
-    private static final String SECRET_KEY = "$m2k10#mk5%abcdd"; // 암호화 키 (16바이트여야 함)
+    private static final String SECRET_KEY = "$m2k10#mk5%abcdd";  // 암호화 키 (16바이트여야 함)
 
     public static String encrypt(String strToEncrypt) {
         try {
