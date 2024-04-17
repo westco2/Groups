@@ -13,12 +13,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class QnaWVO {
-	private String LOGIN_ID; //아이디 pk
-	private String KORN_FLNM; //이름
+	private String login_id; //아이디 pk
+	private String korn_flnm; //이름
 	
-	private String GROUP_NM;
+	private String group_nm;
 	
-	private String CCONTENT;
+	private String ccontent;
 	
 	
 //    private String ROLE; //회원권한 회원가입 후 관리자가 UserDetails 로 부여함

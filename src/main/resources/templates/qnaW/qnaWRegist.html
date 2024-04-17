@@ -1,15 +1,9 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<!--
-※권한 
-ㄱ. 해당 페이지는 학생만 접근가능
- -->
-
 <!-- 
-※수정할내용
-1. 질문등록시 qnaWBoard 테이블에 정상 insert 되나, login_id 나 group_no는 테이블에 반영되지 않습니다.
-	이 부분에 있어 만들 방법을 모르겠습니다.
+※페이지 상세내용
+1. 권한 학생만 접근가능한 페이지입니다.(qnaWBoard의 "질문등록" 버튼을 통해 접근합니다)
  -->
 
 <body>
@@ -19,9 +13,7 @@
 				<p>질문</p>
 			</div>
 			<div class="route-wrap">
-				<a href="/qnaW/qnaWBoard">질문</a>
-				<p>/</p>
-				<a href="/qnaW/qnaWRegist">질문등록</a>
+				<a href="/qnaW/qnaWBoard">질문</a><p>/</p><a href="/qnaW/qnaWRegist">질문등록</a>
 			</div>
 			<div class="bon-content-wrap">
 				<div class="box-title-wrap">
@@ -33,21 +25,17 @@
 						<div class="reg-title-wrap" style="margin-bottom: 15px;">
 							<div class="like-table-wrap">
 								<div class="sinfo-wrap-w">
+								<input type="hidden" name="group_no" th:value="${group.group_no}">
+								<input type="hidden" name="login_id" th:value="${group.login_id}">
 									<p>교육자명</p>
 									<h4 class="name-w">
-										<i class="ri-user-star-line"></i>&nbsp;교육자
-									</h4>
-								</div>
-								<div class="sinfo-wrap-w">
-									<p>강의명</p>
-									<h4 class="name-w">
-										<i class="ri-file-user-line"></i>&nbsp;JAVA개발
+										<i class="ri-user-star-line"></i>&nbsp;[[${group.korn_flnm}]]
 									</h4>
 								</div>
 								<div class="sinfo-wrap-w">
 									<p>그룹명</p>
 									<h4 class="name-w">
-										<i class="ri-file-user-line"></i>&nbsp;JAVA입문반
+										<i class="ri-file-user-line"></i>&nbsp;[[${group.group_nm}]]
 									</h4>
 								</div>
 							</div>
@@ -56,11 +44,11 @@
 						<div class="reg-title-wrap">
 							<div class="group-naming-wrap-w">
 								<div class="group-name">
-									<label>제목</label> <input class="inp-reg-w" type="text" name="QTITLE">
+									<label>제목</label> <input class="inp-reg-w" type="text" name="qtitle">
 								</div>
 								<div class="group-name">
 									<label>내용</label>
-									<textarea class="wj-textarea" name="QCONTENT"></textarea>
+									<textarea class="wj-textarea" name="qcontent"></textarea>
 								</div>
 							</div>
 

@@ -2,31 +2,25 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <!-- 
-※권한
-ㄱ. 왼쪽 "수업자료" 클릭시 선생 권한일때 해당 페이지로 이동
-ㄴ. 선생님 본인의 ID에 등록된 그룹들만 조회됩니다.
- -->
- 
- <!-- 
- ※수정할내용
-1. 제목클릭시 올바른 경로이동(직접입력시 이동이 되나, 타고 들어가는데 오류)
-2. 검색기능과 select의 구분기능
-3. 페이지네이션
-  -->
+※페이지 상세내용
+1. 레이아웃 수업자료 클릭시 권한 선생은 해당페이지로 이동합니다.
+2. 강의명 클릭시 Update페이지로 이동합니다.
 
+※수정필요
+1. 로그인한  ID에만 등록되어 있는 그룹들을 조회합니다.
+2. 검색 및 페이지네이션 설정 필요합니다.
+ -->
 
 <body>
-	<!-- content -->
-	<th:block
-		th:replace="~{./include/baselayout :: setContent( ~{ :: .bon-wrap } )}">
+	<th:block th:replace="~{./include/baselayout :: setContent( ~{ :: .bon-wrap } )}">
 		<div class="bon-wrap">
 			<div class="page-title">
 				<p>수업자료</p>
 			</div>
 			<div class="route-wrap">
-				<a href="/dataW/dataWBoardT">수업자료</a><p>/</p><a href="/dataW/dataWBoardT">수업자료리스트</a>
+				<a href="#">수업자료</a><p>/</p><a href="/dataW/dataWBoardT">수업자료리스트</a>
 			</div>
-			<div class="bon-content-wrap">
+			<form class="bon-content-wrap" action="dataWBoardT" method="get">
 				<div class="box-title-wrap">
 					<h3>수업자료</h3>
 				</div>
@@ -39,13 +33,14 @@
 					</div>
 					<div class="search-wrap-w" style="margin-bottom: 0; padding-bottom: 0; padding-left: 0;">
 						<div class="top-line-btn-wrap" style="margin-bottom: 15px">
-							<input type="text" placeholder="검색해주세요" style="width: 300px" name="keyword">
+							<input type="text" placeholder="검색해주세요" style="width: 300px" name="title">
 							<i class="ri-search-line"></i>
-							<select class="sel-des" id="searchOption" style="width: 120px; padding: 0px;" onchange="setSearchOption()">
-						        <option value="ALL">전체</option>
-						        <option value="searchGname">강의명</option>
-						        <option value="searchGroup_nm">그룹명</option>
-							</select>
+							<select class="sel-des sel-des-2m" name="group_no">
+                                <option value="">전체</option>
+                                <th:block th:each="i : ${names}">
+                                    <option th:value="${i.group_no}">[[${i.group_nm}]]</option>
+                                </th:block>
+                            </select>
 							<button type="submit" class="wj-button">검색</button>
 						</div>
 					</div>
@@ -54,34 +49,35 @@
 							<thead class="co-head">
 								<tr class="co-flex">
 									<th class="coco crcr-0">자료번호</th>
-									<th class="coco w2-1">강의명</th>
-									<th class="coco w2-2">그룹명</th>
-									<th class="coco w2-3">학습자료명</th>
-									<th class="coco w2-4">학습자료내용</th>
-									<th class="coco w2-5">등록일자</th>
+									<th class="coco w2-1">제목</th>
+									<th class="coco w2-2">강의명</th>
+									<th class="coco w2-3">그룹명</th>
+									<th class="coco w2-4">등록일자</th>
 								</tr>
 							</thead>
 							<tbody class="co-body">
-								<tr class="co-flex" th:each="datavo, status : ${datavo}">
+							<th:block th:each="datavo, status : ${datavo}">
+								<tr class="co-flex" >
 									<td class="coco crcr-0 center-flex">[[${status.count}]]</td>
 									<td class="coco w2-1">
-									    <a th:href="@{'/dataW/dataWUpdate?GNUMBER=' + ${datavo.GNUMBER}}">
-									        <span th:text="${datavo.GNAME}"></span>
+									    <a th:href="@{'/dataW/dataWUpdate?gnumber=' + ${datavo.gnumber}}">
+									        <span th:text="${datavo.gfilename}"></span>
 									    </a>
 								    </td>
-									<td class="coco w2-2" th:text="${datavo.GROUP_NM}"></td>
-									<td class="coco w2-3" th:text="${datavo.GFILENAME}"></td>
-									<td class="coco w2-4" th:text="${datavo.GFILECON}"></td>
-									<td class="coco w2-5" th:text="${datavo.GREGDATE}"></td>
+									<td class="coco w2-2" th:text="${datavo.gname}"></td>
+									<td class="coco w2-3" th:text="${datavo.group_nm}"></td>
+									
+									<td class="coco w2-4" th:text="${datavo.gregdate}"></td>
 								</tr>
+								</th:block>
 							</tbody>
 						</table>
 					</div>
-					<div class="page-wrap right-p">
-						<div class="pagination">
-							<div class="page">
+<!-- 					<div class="page-wrap right-p">
+							<div class="pagination">
+								<div class="page">
 								<ul>
-<!-- 
+
 									<li th:if="${pageVO.total != 0}">
 									<a	th:href="@{dataWBoard(page=1, 
 															  amount=${pageVO.amount},
@@ -141,15 +137,28 @@
 															  )}">
 											<i class="fa fa-angle-double-right" aria-hidden="true"></i>
 									</a></li>
- -->
+ 
 								</ul>
 							</div>
-						</div>
+						</div> 
+						
 					</div>
+-->
 
+
+				<div class="page-wrap right-p">
+                    <div class="pagination">
+                        <a th:href="@{dataWBoardT(page=1,
+                      title = ${pageVO.cri.title})}">&laquo;</a>
+                        <th:block th:each="page : ${pageVO.pageList}">
+                            <a th:class="${pageVO.page == page ? 'act':''}" th:href="@{dataWBoardT(page = ${page}, title = ${pageVO.cri.title})}">[[${page}]]</a>
+                        </th:block>
+                        <a th:href="@{dataWBoardT(page = ${pageVO.realEnd}, title = ${pageVO.cri.title})}"> &raquo;</a>
+                    </div>
+                </div>
 				</div>
 
-			</div>
+			</form>
 		</div>
 
 	</th:block>

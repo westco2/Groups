@@ -2,29 +2,23 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <!-- 
-※권한
-ㄱ. 해당 페이지는 qnaWBoard에서 제목 클릭시 이동하는 상세화면으로, 권한제한없이 볼 수 있음
-단, 답변등록, 삭제 버튼은 선생권한 볼 수 있습니다.
- -->
- 
- <!-- 
-※수정할내용
-1. 75줄 : 버튼을 선생권한만 보이게 설정을 나름대로 했지만 모든 권한에서 보이지않는 상황입니다.
+※페이지 상세내용
+1. 권한 상관없이 접근가능한 페이지입니다.
+  : 단, 답변내용작성 및 답변등록은 권한 선생만 가능합니다.
  -->
 
 <body>
-	<!-- content -->
 	<th:block th:replace="~{./include/baselayout :: setContent( ~{ :: .bon-wrap } )}">
 		<div class="bon-wrap">
 			<div class="page-title">
 				<p>질문</p>
 			</div>
 			<div class="route-wrap">
-				<a href="/qnaW/qnaWBoard">질문</a><p>/</p><a href="/qnaW/qnaWRegist">질문등록</a><p>/</p><p>질문상세</p>
+				<a href="/qnaW/qnaWBoard">질문</a><p>/</p><p>질문상세</p>
 			</div>
 			<div class="bon-content-wrap">
             <div class="box-title-wrap">
-                <h3>질문 등록</h3>
+                <h3>질문 답변</h3>
             </div>
             <form class="content-box" name="actionForm" action="#" method="post">
                 <h3 style="margin-bottom: 10px;">기본 정보</h3>
@@ -33,19 +27,20 @@
 							<div class="sinfo-wrap-w">
 								<p>교육자명</p>
 								<h4 class="name-w">
-									<i class="ri-user-star-line"></i>&nbsp;교육자
+									<i class="ri-user-star-line"></i>&nbsp;[[${vo.tname}]]
 								</h4>
 							</div>
 							<div class="sinfo-wrap-w">
 								<p>그룹명</p>
 								<h4 class="name-w">
-									<i class="ri-file-user-line"></i>&nbsp;JAVA입문반
+									<i class="ri-file-user-line"></i>&nbsp;[[${vo.group_nm}]]
 								</h4>
 							</div>
 							<div class="sinfo-wrap-w">
 								<p>학생명</p>
 								<h4 class="name-w">
-									<i class="ri-file-user-line"></i>&nbsp;홍길동
+								<input type="hidden" name="login_id" th:value="${vo.login_id}">
+									<i class="ri-file-user-line"></i>&nbsp;[[${vo.korn_flnm}]]
 								</h4>
 							</div>
 						</div>
@@ -54,25 +49,27 @@
 					<div class="reg-title-wrap">
 						<div class="group-naming-wrap-w">
 							<div class="group-name">
-								<label>No</label> <input type=text class="inp-reg-w" name="QNUMBER" th:value="${vo.QNUMBER}" readonly>
+								<label>No</label> <input type=text class="inp-reg-w" name="qnumber" th:value="${vo.qnumber}" readonly>
 							</div>
 							<div class="group-name">
-								<label>제목</label> <input class="inp-reg-w" type="text" th:value="${vo.QTITLE}" readonly>
+								<label>제목</label> <input class="inp-reg-w" type="text" th:value="${vo.qtitle}" readonly>
 							</div>
 							<div class="group-name">
 								<label>내용</label>
-								<textarea class="wj-textarea" name="QCONTENT" readonly>[[${vo.QCONTENT}]]</textarea>
+								<textarea class="wj-textarea" name="qcontent" readonly>[[${vo.qcontent}]]</textarea>
 							</div>
 							<div class="group-name">
-								<label>답변</label>
-								<textarea class="wj-textarea" name="CCONTENT">[[${vo.CCONTENT}]]</textarea>
+							    <label>답변</label>
+							    <textarea class="wj-textarea" name="ccontent" th:readonly="${membervo.role == 'ROLE_STUDENT'}">[[${vo.ccontent}]]</textarea>
 							</div>
 						</div>
 					</div>
-<!-- 					th:if="${#authorization.expression('hasRole(''ROLE_STUDENT'')')}" -->
-					<div class="reg-btn-wrap">
-						<button type="button" id="updateBtn" style="margin-right: 10px;">답변등록</a>
-						<button type="button" id="deleteBtn">삭제</a>
+					
+					<div class="reg-btn-wrap" th:if="${#authorization.expression('hasRole(''ROLE_TEACHER'')')}">
+					    <button type="button" id="updateBtn" style="margin-right: 10px;"
+					        th:disabled="${vo.ccontent != null}">답변등록</button>
+					    <button type="button" id="deleteBtn"
+					        th:disabled="${vo.ccontent == null}">삭제</button>
 					</div>
 				</form>
 			</div>
@@ -83,7 +80,7 @@
 		var updateBtn = document.getElementById("updateBtn");
 		updateBtn.addEventListener('click', function(){
 			event.preventDefault();
-			if(confirm("수정하시겠습니까?") == false){
+			if(confirm("답변 등록하시겠습니까?") == false){
 				return;
 			}
 			document.actionForm.action = "updateForm";
