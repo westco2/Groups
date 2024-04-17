@@ -1,0 +1,87 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>회원 조회</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+<!-- content -->
+<div class="bon-wrap">
+    <div class="page-title">
+        <p>회원관리</p>
+    </div>
+    <div class="route-wrap">
+        <a href="#">회원관리</a><p>/</p><a href="#">회원조회</a>
+    </div>
+    <div class="bon-content-wrap">
+        <div class="box-title-wrap">
+            <h3>회원조회</h3>
+        </div>
+        <div class="content-box">
+            <div class="top-inp">
+                <p>group(5)</p>
+            </div>
+            <div class="search-wrap-m">
+                <div class="inp-wrap">
+                    <label>구분</label>
+                    <select id="userType" class="sel-des">
+                        <option value="all">전체</option>
+                        <option value="instructor">교육자</option>
+                        <option value="student">학습자</option>
+                    </select>
+                    <button id="searchButton" class="sub-des">조회하기</button>
+                </div>
+            </div>
+            <div id="groupTable" class="table-wrap">
+                <!-- 서버에서 받은 데이터로 업데이트 될 테이블 영역 -->
+                <table class="table-content">
+                    <thead class="co-head">
+                        <tr class="co-flex">
+                            <th class="coco">#</th>
+                            <th class="coco">이름</th>
+                            <th class="coco">이메일</th>
+                            <th class="coco">역할</th>
+                        </tr>
+                    </thead>
+                    <tbody class="co-body" th:each="user, i : ${list}">
+                        <tr class="co-flex">
+                            <td class="coco" th:text="${i.index + 1}"></td>
+                            <td class="coco" th:text="${user.name}"></td>
+                            <td class="coco" th:text="${user.email}"></td>
+                            <td class="coco" th:text="${user.role}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // 페이지 로드 시 초기 데이터 로드
+    $(document).ready(function() {
+        loadGroupList('all'); // 전체 데이터 로드
+    });
+
+    // 조회 버튼 클릭 시 해당 유형의 데이터 로드
+    $('#searchButton').click(function() {
+        var userType = $('#userType').val();
+        loadGroupList(userType);
+    });
+
+    // 해당 유형의 데이터를 서버에서 가져와서 테이블에 업데이트
+    function loadGroupList(userType) {
+        $.ajax({
+            url: "/account/list/" + userType,
+            type: "GET",
+            success: function(data) {
+                $('#groupTable').html(data); // 서버에서 받은 데이터로 테이블 업데이트
+            },
+            error: function(xhr, status, error) {
+                console.error("Error:", error);
+            }
+        });
+    }
+</script>
+</body>
+</html>
