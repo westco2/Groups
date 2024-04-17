@@ -2,17 +2,16 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <!-- 
-※권한
-1. 따로 줄 필요 없음(dataWBoardT 로만 올 수 있는 페이지입니다. dataWBoardT는 애초에 선생권한만 들어갈 수 있는 페이지입니다.
- -->
- 
- <!-- 
- ※수정할내용
-1. 질문등록시 GROUPFILE 테이블에 정상 insert 되나,
-	현재로썬 첨부파일 및 login_id, group_no, GNAME은 DB에 반영되지 않습니다.
-	이 부분에 있어 만들 방법을 모르겠습니다.
-  -->
+※페이지 상세내용
+1. dataWBoardT에서 "자료등록" 버튼 클릭시 해당페이지로 이동합니다.
+2. 그룹명, 학습자료명, 학습자료내용 및 첨부파일을 업로드하고 "자료등록"버튼을 통해 업로드합니다.
 
+※수정필요
+1. 로그인한 ID에만 등록되어 있는 그룹들을 조회하여 select할 수 있게 합니다.
+2. 올바른 기본정보들을 출력합니다.
+3. 첨부파일 업로드시 DB까지 도달하여 저장할 수 있게 합니다.
+4. "자료등록" 클릭시 최종적으로 DB에 정상반영되는지 확인합니다.
+ -->
 
 <body>
 
@@ -22,9 +21,7 @@
 				<p>수업자료</p>
 			</div>
 			<div class="route-wrap">
-				<a href="/dataW/dataWBoard">수업자료</a>
-				<p>/</p>
-				<a href="/dataW/dataWRegist">수업자료등록</a>
+				<a href="/dataW/dataWBoardT">수업자료</a><p>/</p><a href="/dataW/dataWRegist">수업자료등록</a>
 			</div>
 			<div class="bon-content-wrap">
 				<div class="box-title-wrap">
@@ -38,20 +35,12 @@
 								<div class="sinfo-wrap-m">
 									<p>교육자명</p>
 									<h4 class="name-m">
-										<i class="ri-user-star-line"></i>&nbsp;교육자
-									</h4>
+										<i class="ri-user-star-line"></i>&nbsp;<input type="hidden" value="${membervo.login_id}" name="login_id">[[${membervo.korn_flnm}]]</h4>
 								</div>
 								<div class="sinfo-wrap-m">
-									<p>강의명</p>
+									<p>구독</p>
 									<h4 class="name-m">
-										<i class="ri-file-user-line"></i>&nbsp;JAVA개발
-									</h4>
-								</div>
-								<div class="sinfo-wrap-m">
-									<p>그룹명</p>
-									<h4 class="name-m">
-										<i class="ri-file-user-line"></i>&nbsp;GROUP-A
-									</h4>
+										<i class="ri-file-user-line"></i>&nbsp;[[${membervo.tier}]]</h4>
 								</div>
 							</div>
 						</div>
@@ -59,17 +48,29 @@
 						<div class="reg-title-wrap">
 							<div class="group-naming-wrap-m">
 								<div class="group-name">
-									<label>학습자료명</label> <input class="inp-reg-m" type="text" name="GFILENAME">
+									<label>그룹선택</label> 
+									 <select class="sel-des sel-des-2m" name="group_no">
+			                            <option value="">선택</option>
+			                            <th:block th:each="i : ${names}">
+			                                <option th:value="${i.group_no}">[[${i.group_nm}]]</option>
+			                            </th:block>
+			                        </select>
+								</div>
+								<div class="group-name">
+									<label>학습자료명</label> <input class="inp-reg-m" type="text" name="gfilename" placeholder="반복문">
+								</div>
+								<div class="group-name">
+									<label>강의 분류</label> <input class="inp-reg-m" type="text" name="gname" placeholder="JAVA강의">
 								</div>
 								<div class="group-name">
 									<label>학습자료내용</label>
-									<textarea class="wj-textarea" name="GFILECON"></textarea>
+									<textarea class="wj-textarea" name="gfilecon"></textarea>
 								</div>
 								<div class="group-name">
 									<label>첨부파일</label>
 									<div class="date-wrap-m">
 										<label for="fileInput">첨부파일선택:</label>
-										<input type="file" id="fileInput" name="file">
+										<input type="file" id="fileInput" name="file" multiple="multiple">
 									</div>
 								</div>
 							</div>

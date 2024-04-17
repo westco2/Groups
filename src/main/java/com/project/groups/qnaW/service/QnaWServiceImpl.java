@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.project.groups.command.GroupVO;
 import com.project.groups.command.QnaVO;
 import com.project.groups.command.QnaWVO;
 import com.project.groups.util.Criteria;
@@ -17,13 +18,13 @@ public class QnaWServiceImpl implements QnaWService{
 	private QnaWMapper qnaWMapper;
 	
 	@Override
-	public List<QnaWVO> getList(Criteria cri) {
-		return qnaWMapper.getList(cri);
+	public List<QnaVO> getList(Criteria cri, String login_id) {
+		return qnaWMapper.getList(cri, login_id);
 	}
 	
 	@Override
-	public List<QnaVO> getList2(Criteria cri ) {
-		return qnaWMapper.getList2(cri);
+	public List<QnaVO> getList2(Criteria cri, String login_id ) {
+		return qnaWMapper.getList2(cri, login_id);
 	}
 	
 	@Override	
@@ -32,8 +33,8 @@ public class QnaWServiceImpl implements QnaWService{
 	}
 	
 	@Override
-	public QnaVO getDetail(int QNUMBER) {
-		return qnaWMapper.getDetail(QNUMBER);
+	public QnaVO getDetail(int qnumber) {
+		return qnaWMapper.getDetail(qnumber);
 	}
 	
 	@Override
@@ -42,8 +43,8 @@ public class QnaWServiceImpl implements QnaWService{
 	}
 	
 	@Override
-	public void delete(int QNUMBER) {
-		qnaWMapper.delete(QNUMBER);
+	public void delete(int qnumber) {
+		qnaWMapper.delete(qnumber);
 	}
 	
 	@Override
@@ -54,5 +55,11 @@ public class QnaWServiceImpl implements QnaWService{
 	@Override
 	public int getTotal() {
 		return qnaWMapper.getTotal();
+	}
+	
+	@Override
+	public GroupVO getgroupinfo(String login_id) {
+		// TODO Auto-generated method stub
+		return qnaWMapper.getgroupinfo(login_id);
 	}
 }

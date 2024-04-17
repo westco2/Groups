@@ -5,10 +5,10 @@
 .w-5{flex-basis: 10%;}
 .w-5 i{color: #85cf7c; font-size: 16px;margin-right:5px;}
 
-.w2-1{flex-basis: 20%;}
+.w2-1{flex-basis: 35%;}
 .w2-2{flex-basis: 20%;}
 .w2-3{flex-basis: 20%;}
-.w2-4{flex-basis: 25%;}
+.w2-4{flex-basis: 20%;}
 .w2-5{flex-basis: 10%;}
 
 .wj-button{padding: 5px 15px;
@@ -29,6 +29,9 @@
 	font-size: 15px;
 	padding: 10px;
 	}
+	
+.reg-btn-wrap-w{margin:20px; display: flex; justify-content: left;}
+.reg-btn-wrap-w button{padding: 7px 15px; font-size: 13px; font-weight: 600; cursor: pointer; background-color: #ffa04e; border: none; color: #ffffff; border-radius: 3px;}
 
 	
 	
