@@ -34,7 +34,7 @@ public class GroupVO {
     private Integer std_q; //그룹 질문 수
     private Integer score; //학생 점수
     private Integer homework_no;
-    private String sub_class; //구독등급
+    private String tier; //구독등급
 
     private Integer submitted_count; //숙제 제출카운트
     private Integer not_submitted_count;// 숙제 미제출카운트

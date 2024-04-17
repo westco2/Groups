@@ -6,8 +6,8 @@
     <!-- 예시 파일입니다  namespace에 com.project.groups 까지는 동일하고 뒤에는 Mapper경로 넣어주면 됩니다. -->
 
     <insert id="homeworkregForm">
-        insert into HOMEWORK ( login_id, homework_level, homework_title, homework_content, homework_hint, homework_language, homework_time)
-        values (#{login_id}, #{homework_level}, #{homework_title}, #{homework_content}, #{homework_hint}, #{homework_language}, #{homework_time})
+        insert into HOMEWORK ( login_id, homework_level, homework_title, homework_content, homework_hint, homework_language, homework_time, category)
+        values (#{login_id}, #{homework_level}, #{homework_title}, #{homework_content}, #{homework_hint}, #{homework_language}, #{homework_time} ,#{category})
     </insert>
 
     <insert id="regex">
@@ -72,10 +72,18 @@
         SELECT * FROM TEST WHERE HOMEWORK_NO = #{homework_no};
     </select>
 
+    <!-- 교육자 숙제리스트 조회 -->
 
     <select id="gethomeworklist" resultType="HomeworkVO">
-        select * from homework
-                 where login_id = #{login_id}
+        select a.*, b.average_score , b.percentage
+        from
+        (select * from homework
+        where login_id = #{login_id}) a
+        left join
+        (SELECT homework_no, ROUND(AVG(RECORD_SCORE)) AS average_score,  Round(SUM(CASE WHEN RECORD_SCORE = 100 THEN 1 ELSE 0 END)/count(*)*100) AS percentage
+        FROM HOMEWORKRECORD
+        GROUP BY homework_no) b
+        on a.homework_no = b.homework_no
         <if test="cri.title != '' and cri.title != null">
             and homework_title like concat('%',#{cri.title},'%')
         </if>
@@ -83,6 +91,7 @@
         limit #{cri.pageStart}, #{cri.amount}
     </select>
 
+    <!-- 내가만든 숙제 총량 조회 -->
     <select id="gethomeworktotal" resultType="int">
         select count(*) as total
         from HOMEWORK
@@ -110,8 +119,10 @@
         </if>
     </select>
 
+    <!-- 교육자가 내숙제 조회 -->
+
     <select id="getmyhomeworklist" resultType="HomeworkVO">
-        select s.*, h.homework_title, h.homework_language, h.HOMEWORK_LEVEL
+        select s.*, h.homework_title, h.homework_language, h.HOMEWORK_LEVEL, h.category
         from (select * from homeworksubmit where login_id = #{login_id}) s
             left join homework h
                 on h.homework_no= s.homework_no
@@ -123,6 +134,8 @@
         order by submit_date desc
         limit #{cri.pageStart}, #{cri.amount}
     </select>
+
+    <!-- 받은 숙제들 검색 또는 조회 -->
 
     <select id="getstdhome" resultType="GroupVO">
         select a.*, b.group_nm
@@ -149,11 +162,13 @@
         );
     </select>
 
+    <!-- 교육자의 그룹 이름들 조회 -->
 
     <select id="getgroupnames" resultType="GroupVO">
         select group_nm from group_list where login_id = #{login_id};
     </select>
 
+    <!-- 교육자가 내준 숙제를 풀었을경우 숙제 제출 업데이트 -->
 
     <update id="submitupdate">
         update HOMEWORKSUBMIT
@@ -161,28 +176,105 @@
         where login_id = #{login_id} and homework_no = #{homework_no};
     </update>
 
+    <!-- 학생이 숙제를 풀면 해당숙제의 이력 등록 -->
+
     <insert id="recordhomework">
         insert into HOMEWORKRECORD (record_code, homework_no, login_id,record_score)
         values (#{code}, #{homework_no}, #{login_id}, #{score})
     </insert>
+    <!-- 해당 숙제 학생의 최고점수 조회 -->
 
     <select id="getscore" resultType="INT">
         select homework_score from HOMEWORKSUBMIT where homework_no = #{homework_no} and login_id = #{login_id}
     </select>
 
+    <!-- 학생 점수 갱신 -->
+
     <update id="updatepoint">
-        update MEMBERS set score = #{point} where login_id = #{login_id}
+        update MEMBERS set score = score + #{point} where login_id = #{login_id}
     </update>
 
+    <!-- 해당 숙제를 푼 이력정보들 조회  -->
 
     <select id="getrecord" resultType="HomeworkVO">
         select * from HOMEWORKRECORD where homework_no = #{homework_no}
     </select>
 
+    <!-- 학생의 숙제정보 조회 -->
 
     <select id="stdhomeworkinfo" resultType="HomeworkVO">
-        select a.*,b.HOMEWORK_LANGUAGE, b.HOMEWORK_LEVEL, b.HOMEWORK_TITLE from (select * from HOMEWORKSUBMIT where login_id = #{login_id}) a
+        select a.*,b.HOMEWORK_LANGUAGE, b.HOMEWORK_LEVEL, b.HOMEWORK_TITLE,b.category from (select * from HOMEWORKSUBMIT where login_id = #{login_id}) a
                                                                                     left join homework b
                                                                                               on a.homework_no = b.homework_no;
     </select>
+
+
+
+    <!-- 숙제 카테고리 -->
+
+    <select id="getcategory" resultType="CategoryVO">
+        select * from CATEGORIES where login_id = #{login_id}
+    </select>
+    <insert id="regcategory">
+        insert into CATEGORIES (login_id, my_category) values (#{login_id}, #{my_category})
+    </insert>
+    <delete id="deletecategory">
+        delete from CATEGORIES where login_id = #{login_id} and my_category = #{my_categoryd};
+    </delete>
+
+
+    <!-- -->
+
+    <select id="solutionp" resultType="int">
+        select count(*) from homeworksubmit where login_id = #{login_id} and HOMEWORK_ST = "제출";
+    </select>
+
+    <select id="notsolutionp" resultType="HomeworkVO">
+        select a.*, b.homework_title from ( select * from HOMEWORKSUBMIT where login_id = #{login_id} and HOMEWORK_ST = "미제출") a left join HOMEWORK b on a.homework_no = b.homework_no;
+    </select>
+
+
+
+    <!-- 학생 메인페이지 숙제 이력정보 -->
+    <select id="myrecord" resultType="HomeworkVO">
+        select b.*,a.record_code, a.record_score, a.record_date from
+                (select * from homeworkrecord where login_id = #{login_id} ) a
+                    left join homework b
+                              on a.homework_no = b.homework_no
+        <where>
+            <if test="cri.title != '' and cri.title != null">
+                and homework_title like concat('%',#{cri.title},'%')
+            </if>
+        </where>
+        order by RECORD_DATE desc
+        limit #{cri.pageStart}, #{cri.amount}
+    </select>
+
+    <select id="myrecordtotal" resultType="int">
+        select count(*) from
+                (select * from homeworkrecord where login_id = #{login_id} ) a
+                    left join homework b
+                              on a.homework_no = b.homework_no
+        <where>
+            <if test="cri.title != '' and cri.title != null">
+                and homework_title like concat('%',#{cri.title},'%')
+            </if>
+        </where>
+    </select>
+
+
+    <select id="hwinfo" resultType="HomeworkVO">
+        select * from HOMEWORK where homework_no = #{homework_no}
+    </select>
+
+    <delete id="hwdel">
+        delete from HOMEWORK where homework_no = #{homework_no}
+    </delete>
+
+    <update id="homeworkup">
+        update HOMEWORK set homework_content = #{homework_content}, homework_hint = #{homework_hint}, homework_level = #{homework_level}, homework_time = ${homework_time}, category = #{category} where homework_no = #{homework_no}
+    </update>
+
+
+
 </mapper>

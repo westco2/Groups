@@ -15,7 +15,7 @@
         <div class="bon-content-wrap">
             <div class="two-m">
                 <div class="content-box fl-row-m">
-                    <h3 style="margin-bottom: 10px;">[[${vo.homework_title}]]</h3>
+                    <h3 style="margin-bottom: 10px;">[[${vo.homework_title}]]<span>([[${vo.category}]])</span></h3>
 
                     <div class="reg-title-wrap">
                         <div class="group-naming-wrap-m">
@@ -34,12 +34,12 @@
                             <div class="group-name">
                                 <label>숙제내용</label>
 
-                                <p>[[${vo.homework_content}]]</p>
+                                <pre>[[${vo.homework_content}]]</pre>
                             </div>
                             <div class="group-name">
                                 <label>숙제힌트</label>
 
-                                <p>[[${vo.homework_hint}]]</p>
+                                <pre>[[${vo.homework_hint}]]</pre>
                             </div>
                             <div class="group-name">
                                 <label>입출력 예시</label>
@@ -77,7 +77,18 @@
                     <div class="reg-title-wrap">
                         <div class="code-editor eded-m">
                             <div id="lineNumbers" class="line-numbers"></div>
-                            <textarea id="code" rows="1" onkeydown="handleTab(event)"></textarea>
+                            <textarea id="code" spellcheck="false" rows="1" onkeydown="handleTab(event)">
+import java.util.Scanner;
+
+public class Solution {
+    public static void main(String[] args) {
+
+        Scanner scan = new Scanner(System.in);
+
+
+    }
+}
+                            </textarea>
                         </div>
                     </div>
                     <div class="reg-title-wrap"  >
@@ -137,6 +148,33 @@
     function syncScroll() {
         lineNumbers.scrollTop = textarea.scrollTop;
     }
+
+    $(document).ready(function() {
+        $('#code').keydown(function(e) {
+            var cursorPosition = this.selectionStart;
+            var textareaValue = $(this).val();
+
+            if (e.key === '{') {
+                e.preventDefault();
+                var newValue = textareaValue.substring(0, cursorPosition) + '{}' + textareaValue.substring(cursorPosition);
+                $(this).val(newValue);
+                this.selectionStart = this.selectionEnd = cursorPosition + 1;
+            } else if (e.key === '(') {
+                e.preventDefault();
+                var newValue = textareaValue.substring(0, cursorPosition) + '()' + textareaValue.substring(cursorPosition);
+                $(this).val(newValue);
+                this.selectionStart = this.selectionEnd = cursorPosition + 1;
+            } else if (e.key === '[') {
+                e.preventDefault();
+                var newValue = textareaValue.substring(0, cursorPosition) + '[]' + textareaValue.substring(cursorPosition);
+                $(this).val(newValue);
+                this.selectionStart = this.selectionEnd = cursorPosition + 1;
+            }
+        });
+    });
+
+
+
     var num = parseInt($(".h-time").val());
 
 

@@ -56,13 +56,16 @@
                         <button type="button" class="regbtn-des">그룹 생성</button>
                     </div>
                 </div>
-                <div class="search-wrap-m" style="margin-bottom: 0; padding-bottom: 0; padding-left: 0;">
+                <form action="/group/groupList" method="get" class="search-wrap-m" style="justify-content: start; align-items: center; margin-bottom: 0; padding-bottom: 0; padding-left: 0;">
                     <div class="top-line-btn-wrap" style="margin-bottom: 15px">
-                        <input type="text" placeholder="제목을 검색해주세요" style="width: 300px">
+                        <input type="text" placeholder="제목을 검색해주세요" name="title" th:value="${pageVO.cri.title}" style="width: 300px">
                         <i class="ri-search-line"></i>
                     </div>
+                    <div class="search-btn-wrap">
+                        <button type="submit" class="sksk-m">조회하기</button>
+                    </div>
 
-                </div>
+                </form>
                 <form class="table-wrap" action="#" name="grouplistForm" method="post">
                     <table class="table-content">
                         <thead class="co-head">
@@ -103,14 +106,12 @@
                 </form>
                 <div class="page-wrap right-p">
                     <div class="pagination">
-                        <a href="#">&laquo;</a>
-                        <a href="#">1</a>
-                        <a href="#" class="act">2</a>
-                        <a href="#">3</a>
-                        <a href="#">4</a>
-                        <a href="#">5</a>
-                        <a href="#">6</a>
-                        <a href="#">&raquo;</a>
+                        <a th:href="@{groupList(page=1,
+                      title = ${pageVO.cri.title})}">&laquo;</a>
+                        <th:block th:each="page : ${pageVO.pageList}">
+                            <a th:class="${pageVO.page == page ? 'act':''}" th:href="@{groupList(page = ${page}, title = ${pageVO.cri.title})}">[[${page}]]</a>
+                        </th:block>
+                        <a th:href="@{groupList(page = ${pageVO.realEnd}, title = ${pageVO.cri.title})}"> &raquo;</a>
                     </div>
                 </div>
 

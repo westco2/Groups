@@ -17,19 +17,16 @@
                 <h3>학습그룹</h3>
             </div>
             <div class="content-box">
-                <div class="search-wrap-m">
-                    <div class="inp-wrap">
-                        <label>교육자</label>
-                        <select class="sel-des">
-                            <option>전체</option>
-                            <option>홍길동</option>
-                            <option>홍길동</option>
-                        </select>
-                        <input type="submit" class="sub-des" value="조회하기">
+                <form action="/group/userGroupList" method="get" class="search-wrap-m" style="justify-content: start; align-items: center; margin-bottom: 0; padding-bottom: 0; padding-left: 0;">
+                    <div class="top-line-btn-wrap" style="margin-bottom: 15px">
+                        <input type="text" placeholder="이름 또는 제목을 검색해주세요" name="title" th:value="${pageVO.cri.title}" style="width: 300px">
+                        <i class="ri-search-line"></i>
                     </div>
-                    <div class="inp-wrap">
+                    <div class="search-btn-wrap">
+                        <button type="submit" class="sksk-m">조회하기</button>
                     </div>
-                </div>
+
+                </form>
                 <div class="table-wrap">
                     <table class="table-content">
                         <thead class="co-head">
@@ -45,29 +42,29 @@
                         </thead>
                         <tbody class="co-body">
                            <th:block th:each="g,status : ${glist}">
+                           <form action="groupjoiner" method="post">
                             <tr class="co-flex">
-                                <td class="coco crcr-0">[[${status.count}]]</td>
-                                <td class="coco crcr-1">[[${g.group_nm}]]</td>
-                                <td class="coco crcr-2">[[${g.korn_flnm}]]</td>
+                                <td class="coco crcr-0">[[${status.count}]]<input type="hidden" name="group_no" th:value="${g.group_no}"></td>
+                                <td class="coco crcr-1">[[${g.group_nm}]]<input type="hidden" name="group_nm" th:value="${g.group_nm}"></td>
+                                <td class="coco crcr-2">[[${g.korn_flnm}]]<input type="hidden" name="korn_flnm" th:value="${g.korn_flnm}"></td>
                                 <td class="coco crcr-3">[[${#dates.format(g.group_start, 'yyyy.MM.dd')}]]</td>
                                 <td class="coco crcr-4">[[${#dates.format(g.group_end, 'yyyy.MM.dd')}]]</td>
                                 <td class="coco crcr-5">[[${g.group_pp}]]/[[${g.student_count}]]</td>
-                                <td class="coco crcr-6"><a th:href="@{/group/groupjoiner(login_id=${#authentication.principal.Username}, group_no=${g.group_no})}" class="join-btn" type="button">신청하기</a></td>
+                                <td class="coco crcr-6"><button  class="join-btn" type="submit">신청하기</button></td>
                             </tr>
+                           </form>
                            </th:block>
                         </tbody>
                     </table>
                 </div>
-                <div class="page-wrap">
+                <div class="page-wrap right-p">
                     <div class="pagination">
-                        <a href="#">&laquo;</a>
-                        <a href="#">1</a>
-                        <a href="#" class="act">2</a>
-                        <a href="#">3</a>
-                        <a href="#">4</a>
-                        <a href="#">5</a>
-                        <a href="#">6</a>
-                        <a href="#">&raquo;</a>
+                        <a th:href="@{userGroupList(page=1,
+                      title = ${pageVO.cri.title})}">&laquo;</a>
+                        <th:block th:each="page : ${pageVO.pageList}">
+                            <a th:class="${pageVO.page == page ? 'act':''}" th:href="@{userGroupList(page = ${page}, title = ${pageVO.cri.title})}">[[${page}]]</a>
+                        </th:block>
+                        <a th:href="@{userGroupList(page = ${pageVO.realEnd}, title = ${pageVO.cri.title})}"> &raquo;</a>
                     </div>
                 </div>
 
