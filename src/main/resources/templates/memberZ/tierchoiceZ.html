@@ -1,0 +1,351 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<style>
+    .sub-wrap-m{display: flex; flex-direction: column; align-items: center;gap: 50px; margin-top: 50px; }
+    .sub-pay-title-m{ display: flex; flex-direction: column; gap: 20px; text-align: center; align-items: center; justify-content: center;}
+    .sub-pay-title-m h3{font-size: 22px; color: #2F327D;}
+    .sub-pay-title-m p{font-size: 13px; font-weight: 600;}
+    .pay-box-title-m{padding: 0px 0;}
+    .pay-box-title-m h4{font-size: 15px; font-weight: 600;}
+
+    .pay-box-wrap-m{display: flex; justify-content: center; gap: 30px; }
+    .pay-box-m{position: relative; flex-basis: 30%; display: flex; flex-direction: column; background-color: #ffffff; border-radius: 15px; padding: 30px 30px 70px 30px; gap: 50px;}
+    .pay-box-title-m{color: #1877F2;}
+    .pay-box-m2{font-size: 24px; display: flex; justify-content: center;}
+    .pay-box-m2 h3 span{margin-left: 5px; font-size: 13px;}
+    .pay-box-content-m{display: flex; flex-direction: column; align-items: start; justify-content: start; gap: 20px;}
+    .mini-content-wrap-m{display: flex; justify-content: start; align-items: center; gap: 10px;}
+    .mini-content-wrap-m p{font-size: 13px; font-weight: 600;}
+    .mini-content-wrap-m i{font-size: 18px;}
+    .pay-button-wrap-m{margin-top: auto; display: flex; justify-content: center;}
+    .pay-button-wrap-m button{cursor: pointer; padding: 8px 25px; border: none; font-size: 12px; background-color: #ffa04e; font-weight: 600; border-radius: 24px; color: #ffffff;}
+
+    .icolor-m{color: #FDCB6E;}
+    .icolor-m2{color: #55EFC4;}
+    .boxs-m{box-shadow: 0px 2px 11px rgb(77 117 241 / 50%);}
+
+
+    .pay-ch-m{display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 40px; margin: 100px 0;  }
+
+    .pay-info-wrap-m{padding: 50px; background-color: #ffffff; display: flex; flex-direction: column; align-items: center; gap: 30px; width: 600px; border-radius: 12px;}
+    .pay-name-m{display: flex; flex-direction: column; gap: 10px;}
+    .flex-c-m{display: flex; flex-direction: column; gap: 20px; text-align: center;}
+    .flex-c-m h5{font-size: 18px;}
+    #selectedMonths{font-weight: 600;}
+
+    .pay-name-m h5{font-size: 18px;}
+    .pay-name-m p{font-size: 18px; font-weight: 600;}
+    .flfl-mmw{display: flex; flex-direction: column; align-items: center;}
+    .pay-f-m-w{font-size: 22px; font-weight: 600;}
+
+    .flfl-mmw button{padding: 7px 15px; font-size: 12px; font-weight: 600; background-color: #464760; color: #ffffff; border: none; border-radius: 5px; cursor: pointer; margin-top: 30px;}
+</style>
+
+<body>
+<!--결제API-->
+<script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+
+<!-- content -->
+<th:block th:replace="~{./include/baselayout :: setContent( ~{ :: .bon-wrap } )}">
+    <div class="bon-wrap">
+    <div class="sub-wrap-m">
+        <div class="sub-pay-title-m">
+            <h3>세상 하나뿐인 <br>선생님만의 수업 솔루션</h3>
+            <p>강사로 등록해 여러 사람의 삶을 변화시켜 보세요</p>
+            <p>[[${membervo.korn_flnm}]] 님 현재 구독 티어는 [[${membervo.tier}]] 입니다</p>
+        </div>
+        <div class="pay-box-wrap-m">
+            <div class="pay-box-m">
+                <div class="pay-box-title-m">
+                    <h4>free tier</h4>
+                </div>
+                <div class="pay-box-m2">
+                    <h3>무료<span>/forever </span></h3>
+                </div>
+                <div class="pay-box-content-m">
+                    <div class="mini-content-wrap-m">
+                        <i class="ri-checkbox-circle-fill"></i>
+                        <p>학습 그룹 1개까지 생성</p>
+                    </div>
+                    <div class="mini-content-wrap-m">
+                        <i class="ri-checkbox-circle-fill"></i>
+                        <p>학습 분석 실시간 대시보드</p>
+                    </div>
+                    <div class="mini-content-wrap-m">
+                        <i class="ri-checkbox-circle-fill"></i>
+                        <p>질문형 게시판</p>
+                    </div>
+                    <div class="mini-content-wrap-m">
+                        <i class="ri-checkbox-circle-fill"></i>
+                        <p>체계적인 강의 콘텐츠 관리</p>
+                    </div>
+                </div>
+                <div class="pay-button-wrap-m" style="margin-top: auto;">
+                    <button th:hidden="true" type="button" class="tier-btnZ" data-tier="FREETIER">
+                        선택하기</button>
+                </div>
+            </div>
+
+            <div class="pay-box-m">
+                <div class="pay-box-title-m">
+                    <h4>basic tier</h4>
+                </div>
+                <div class="pay-box-m2">
+                    <h3>20000<span style="font-size: 24px; margin: 2px;">₩</span><span>/month </span></h3>
+                </div>
+                <div class="pay-box-content-m">
+                    <div class="mini-content-wrap-m">
+                        <i class="ri-checkbox-circle-fill icolor-m"></i>
+                        <p>학습 그룹 3개까지 생성</p>
+                    </div>
+                    <div class="mini-content-wrap-m">
+                        <i class="ri-checkbox-circle-fill icolor-m"></i>
+                        <p>FREETIER보다 2배 높은 성능</p>
+                    </div>
+                    <div class="mini-content-wrap-m">
+                        <i class="ri-checkbox-circle-fill icolor-m"></i>
+                        <p>숙제/코딩테스트 기능</p>
+                    </div>
+                    <div class="mini-content-wrap-m">
+                        <i class="ri-checkbox-circle-fill icolor-m"></i>
+                        <p>공지/푸시메시지 기능</p>
+                    </div>
+                    <div class="mini-content-wrap-m">
+                        <i class="ri-checkbox-circle-fill icolor-m"></i>
+                        <p>API 제공</p>
+                    </div>
+                    <div class="mini-content-wrap-m">
+                        <i class="ri-checkbox-circle-fill icolor-m"></i>
+                        <p>질문형 게시판</p>
+                    </div>
+                    <div class="mini-content-wrap-m">
+                        <i class="ri-checkbox-circle-fill icolor-m"></i>
+                        <p>학습 분석 실시간 대시보드</p>
+                    </div>
+                    <div class="mini-content-wrap-m">
+                        <i class="ri-checkbox-circle-fill icolor-m"></i>
+                        <p>체계적인 강의 콘텐츠 관리</p>
+                    </div>
+                </div>
+                <div class="pay-button-wrap-m">
+                    <button type="button" class="tier-btnZ" onclick="requestPayfor('BASICTIER', 20000)" data-tier="BASICTIER">
+                        선택하기</button>
+                </div>
+            </div>
+
+            <div class="pay-box-m">
+                <div class="pay-box-title-m">
+                    <h4>master tier</h4>
+                </div>
+                <div class="pay-box-m2">
+                    <h3>50000<span style="font-size: 24px; margin: 2px;">₩</span><span>/month </span></h3>
+                </div>
+                <div class="pay-box-content-m">
+                    <div class="mini-content-wrap-m">
+                        <i class="ri-checkbox-circle-fill icolor-m2"></i>
+                        <p>학습 그룹 5개까지 생성</p>
+                    </div>
+                    <div class="mini-content-wrap-m">
+                        <i class="ri-checkbox-circle-fill icolor-m2"></i>
+                        <p>FREETIER보다 4~8배 높은 성능</p>
+                    </div>
+                    <div class="mini-content-wrap-m">
+                        <i class="ri-checkbox-circle-fill icolor-m2"></i>
+                        <p>숙제/코딩테스트 기능</p>
+                    </div>
+                    <div class="mini-content-wrap-m">
+                        <i class="ri-checkbox-circle-fill icolor-m2"></i>
+                        <p>공지/푸시메시지 기능</p>
+                    </div>
+                    <div class="mini-content-wrap-m">
+                        <i class="ri-checkbox-circle-fill icolor-m2"></i>
+                        <p>API 제공</p>
+                    </div>
+                    <div class="mini-content-wrap-m">
+                        <i class="ri-checkbox-circle-fill icolor-m2"></i>
+                        <p>학습 분석 실시간 대시보드</p>
+                    </div>
+                    <div class="mini-content-wrap-m">
+                        <i class="ri-checkbox-circle-fill icolor-m2"></i>
+                        <p>질문형 게시판</p>
+                    </div>
+                    <div class="mini-content-wrap-m">
+                        <i class="ri-checkbox-circle-fill icolor-m2"></i>
+                        <p>체계적인 강의 콘텐츠 관리</p>
+                    </div>
+                </div>
+                <div class="pay-button-wrap-m">
+                    <button type="button" class="tier-btnZ" onclick="requestPayfor('MASTERTIER', 50000)" data-tier="MASTERTIER">
+                        선택하기</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="pay-ch-m">
+        <h3>요금을 확인해 보세요</h3>
+        <div class="pay-info-wrap-m">
+            <div class="pay-name-m">
+                <h5>선택된 상품</h5> <p>basic tier</p>
+            </div>
+            <div class="flex-c-m">
+                <h5>기간선택</h5>
+                <input type="range" id="rangeInput" class="range-slider" value="1" min="1" max="12" />
+                <div>
+                    <span id="selectedMonths">1 </span><span>개월 선택됨</span>
+                </div>
+            </div>
+            <div class="flex-c-m">
+                <h5>total</h5>
+                <div class="flfl-mmw">
+                    <div>
+                        <span id="amountSpan" class="pay-f-m-w">0</span> <!-- amountZ 값이 표시될 위치 -->
+                        <span>원</span>
+                    </div>
+                </div>
+            </div>
+            <div class="flfl-mmw">
+                <div class="paybuttonZ">
+                <button type="button" onclick="requestPayKakao()">카카오페이로<br>결제하기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</th:block>
+
+<!--티어에 맞게 불들어오게함-->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var tier_load = "[[${membervo.tier}]]"; // 페이지 로드 시의 tier 값
+
+        // tier 값이 BASICTIER, MASTERTIER 등 특정 값이라면 해당 버튼에 boxs-m 클래스를 추가합니다.
+        var buttons = document.querySelectorAll('.tier-btnZ');
+        buttons.forEach(function(button) {
+            if (button.getAttribute('data-tier') === tier_load) {
+                var parentBox = button.closest('.pay-box-m');
+                parentBox.classList.add('boxs-m');
+            }
+        });
+    });
+
+</script>
+
+<!--클릭하면 불들어오게함-->
+<script>
+    // 버튼 요소들을 선택합니다.
+    var buttons = document.querySelectorAll('.tier-btnZ');
+
+    // 각 버튼에 대해 클릭 이벤트 핸들러를 추가합니다.
+    buttons.forEach(function(button) {
+        button.addEventListener('click', function() {
+            // 버튼을 포함하는 부모 요소를 찾습니다.
+            var parentBox = button.closest('.pay-box-m');
+
+            // 모든 pay-box-m 요소의 클래스에서 boxs-m 클래스를 제거합니다.
+            var allBoxes = document.querySelectorAll('.pay-box-m');
+            allBoxes.forEach(function(box) {
+                box.classList.remove('boxs-m');
+            });
+
+            // 해당 버튼을 포함하는 부모 요소에 boxs-m 클래스를 추가합니다.
+            parentBox.classList.add('boxs-m');
+        });
+    });
+
+</script>
+
+<script th:inline="javascript">
+    var rangeInput = document.getElementById('rangeInput');
+    // 선택된 개월 수를 표시할 span 요소를 가져옵니다.
+    var selectedMonthsSpan = document.getElementById('selectedMonths');
+    let using_term = 1;
+    // input 요소의 값이 변경될 때마다 실행되는 함수를 정의합니다.
+    rangeInput.addEventListener('input', function() {
+        // 선택된 개월 수를 표시하는 span 요소의 텍스트를 업데이트합니다.
+        selectedMonthsSpan.textContent = this.value;
+        let one_price = amountZ/using_term;
+        using_term = this.value;
+        console.log("one_price == " + one_price );
+        console.log("using_term 값이 왜 안바뀌니  " + using_term);
+        console.log("tierZ 값 ::" + tierZ);
+
+        requestPayfor(tierZ, one_price);
+    });
+
+
+</script>
+<script>
+    IMP.init("imp04137027");
+    var amountSpan = document.getElementById('amountSpan');
+    let tierZ = ""
+    let amountZ = 0 //결제 금액
+    // let using_term = selectedMonthsSpan.textContent //구독 개월수
+    let buyer_id = "[[${membervo.login_id}]]"; //구매자 아이디
+    let buyer_email = "[[${membervo.adm_eml_addr}]]"; //구매자 이메일
+    let buyer_address = "[[${membervo.lotno_daddr}]]"; //구매자 주소
+    let randomNumber = Math.floor(Math.random() * 90000) + 10000;
+    let payment_time = new Date().toLocaleString(); //결제 시간
+    function requestPayfor(tier, price){ //price를 (결제 티어 이름 * 구독 기간)
+        tierZ = tier;
+        amountZ = price * using_term;
+        amountSpan.textContent = amountZ;
+        console.log("amountZ 출력:" + amountZ)
+        console.log("usingterm 출력:::" + using_term)
+        console.log("amountSpan.textContent출력::" + amountSpan.textContent)
+        console.log("buyer_id 출력:::: " + buyer_id);
+        console.log("buyer_email 출력:::: " + buyer_email);
+        console.log("결제 금액 티어 * 개월 수== " + amountZ);
+        console.log("결제시간==" + payment_time);
+    }
+    function requestPayKakao() {
+        // 결제창 호출
+        IMP.request_pay(
+            {
+                pg: "kakaopay",
+                pay_method: "card",
+                merchant_uid: "test_luw8br" + buyer_id + randomNumber, //숫자 바꾸자
+                name: tierZ,
+                amount: amountZ,
+                buyer_name: buyer_id,
+                buyer_email: buyer_email,
+                buyer_addr: buyer_address,
+
+            },
+            rsp => {
+                if (rsp.success) {
+                    console.log("rsp.success 조건 만족!!!!");
+
+                    // POST 요청 보내기
+                    $.ajax({
+                        url: "/paymentpageZ/topaymentpageZ",
+                        type: "POST",
+                        contentType: "application/json",
+                        data: JSON.stringify({
+                            name : rsp.name,
+                            imp_uid: rsp.imp_uid,
+                            merchant_uid: rsp.merchant_uid,
+                            buyer_name: rsp.buyer_name,
+                            buyer_email : rsp.buyer_email,
+                            buyer_addr : rsp.buyer_addr,
+                            using_term: using_term,
+                            amount: amountZ
+                        }),
+                        success: function (data) {
+                            console.log("요청 성공!");
+                            window.location.href = '/main'; //결제 완료시 어디로 갈것인가
+                        },
+                        error: function (xhr, status, error) {
+                            console.error("요청 실패:", error);
+                        }
+                    });
+                } else {
+                    alert(`결제에 실패하였습니다. 에러 내용: ${rsp.error_msg}`);
+                }
+            }
+        );
+    }
+</script>
+</body>
+</html>

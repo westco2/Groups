@@ -37,7 +37,7 @@ public class ApplyController {
         return "redirect:/memberZ/applymember";
     }
 
-    @GetMapping("/tierchoice")
+    @GetMapping("/tierchoice")  //결제 페이지 수정전
     public String tierchoice(Model model){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication.getPrincipal() instanceof CustomUserDetails) {
@@ -49,4 +49,17 @@ public class ApplyController {
 
         return "memberZ/tierchoice";
     }
+
+    @GetMapping("/tierchoiceZ")
+    public String tierchoiceZ(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication.getPrincipal() instanceof CustomUserDetails) {
+            CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+            MemberVO memberVO = userDetails.getMemberVO();
+            System.out.println("MemberVO: " + memberVO);
+            model.addAttribute("membervo",memberVO);
+        }
+        return "memberZ/tierchoiceZ";
+    }
+
 }

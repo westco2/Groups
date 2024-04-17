@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="/css/jy.css">
 </head>
 <body>
-
+<script src="https://cdn.iamport.kr/v1/iamport.js"></script>
 <!-- content -->
 <th:block th:replace="~{./include/homelayout :: homeContent( ~{ :: .main-wrap } )}">
 
@@ -22,10 +22,10 @@
             <label for="password">비밀번호:</label>  <!--for 과 id 가 같아야함-->
             <input type="password" id="password" name="pswd" required><br>
 
-            <label for="name">이름:</label>
+            <label for="name">이름: [[${name}]]</label>
             <input type="text" id="name" name="korn_flnm" required><br>
 
-            <label for="user_nick">닉네임:</label>
+            <label for="user_nick">닉네임: </label>
             <input type="text" id="user_nick" name="user_nickname" required>
             <button type="button" id="namebtn">중복확인</button><br>
 
@@ -42,18 +42,11 @@
 			  </select>
                 <input type="hidden" name="date_birth" id="datebirth_input">
 			</div>
- 
-            <label for="phone">연락처:</label>
-<!--            <select id="carrier" name="carrier">-->
-<!--                <option value="SKT">SKT</option>-->
-<!--                <option value="KT">KT</option>-->
-<!--                <option value="LGU+">LG U+</option>-->
-<!--            </select> -->
-            <input type="tel" id="phone" name="idfr_telno" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" placeholder="000-0000-0000" required>
 
-<!--           <button type="button" class="phone-container" onclick="sendVerificationCode()">인증번호 받기</button>-->
-<!--           <input type="text" id="verifi" name="verificationCode" placeholder="인증번호" > -->
-<!--           <button type="button" class="verification" onclick="sendVerificationCode()">인증</button><br>-->
+            <label for="phone">연락처:</label>
+            <input type="tel" id="phone" name="idfr_telno" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" placeholder="000-0000-0000" required>
+            <button onclick="requestCert()">인증하기</button><br>
+
 
             <label for="postalCode">우편번호:</label>
             <input type="text" id="postalCode" name="postalCode" required>
@@ -75,16 +68,9 @@
             </select>
             <input type="hidden" name="adm_eml_addr" id="email_adr" value="">
 
-            <input type="submit" id="teacher" name="role" value="ROLE_FREE">
-            <input type="submit" id="student" name="role" value="ROLE_STUDENT">
-<!--            <label>-->
-<!--                <input type="radio" id="teacher" name="role" value="ROLE_FREE">-->
-<!--                <button type="button">선생</button>-->
-<!--            </label>-->
-<!--            <label>-->
-<!--                <input type="radio" id="student" name="role" value="ROLE_STUDENT">-->
-<!--                <button type="button">학생</button>-->
-<!--            </label>-->
+            <input type="submit" id="teacher" name="role" value="ROLE_FREE"> <!--글자는 선생님으로 나오고 value는 ROLE_FREE-->
+            <input type="submit" id="student" name="role" value="ROLE_STUDENT"> <!--글자는 학생으로 나오고 value는 ROLE_STUDENT-->
+
 
         </form>
     </div>
@@ -105,24 +91,11 @@
         }
         /*]]>*/
     </script>
-    <script th:inline="javascript">
-        /*<![CDATA[*/
-        // 인증번호를 요청하는 함수
-        function sendVerificationCode() {
-            const phoneNumber = document.getElementById('phone').value;
-            const carrier = document.getElementById('carrier').value;
 
-            console.log('전화번호:', phoneNumber);
-            console.log('통신사:', carrier);
-        }
 
-        // 인증번호 확인 함수
-        function verifyCode() {
-            const verificationCode = document.getElementById('verifi').value;
-            console.log('인증번호:', verificationCode);
-        }
-        /*]]>*/
-    </script>
+
+
+
     <script>
 		 // '출생 연도' 셀렉트 박스 option 목록 동적 생성
 		    const birthYearEl = document.querySelector('#birth-year')

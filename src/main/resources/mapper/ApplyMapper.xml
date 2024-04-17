@@ -9,7 +9,7 @@
     </select>
 
     <update id="approveteacher">
-        update members set ROLE = 'ROLE_TEACHER', TIER = 'PRETIER' where login_id = #{loginId}
+        update members set ROLE = 'ROLE_TEACHER', TIER = 'FREETIER' where login_id = #{loginId}
     </update>
 
 
