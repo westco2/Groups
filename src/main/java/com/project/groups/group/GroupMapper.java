@@ -2,6 +2,7 @@ package com.project.groups.group;
 
 import com.project.groups.command.GroupVO;
 import com.project.groups.command.MemberVO;
+import com.project.groups.command.QueryVO;
 import com.project.groups.util.Criteria;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -13,7 +14,8 @@ public interface GroupMapper {
 
     int groupregForm(GroupVO vo);
 
-    List<GroupVO> getgrouplist(String login_id);
+    List<GroupVO> getgrouplist(@Param("login_id") String login_id, @Param("cri") Criteria cri);
+    int getgrouplisttotal(@Param("login_id") String login_id, @Param("cri") Criteria cri);
 
     List<GroupVO> getstdInfo(GroupVO vo);
 
@@ -22,7 +24,8 @@ public interface GroupMapper {
 
     void groupdelete(GroupVO vo);
 
-    List<GroupVO> getallgrouplist();
+    List<GroupVO> getallgrouplist(@Param("cri") Criteria cri);
+    int getalltotal(@Param("cri") Criteria cri);
 
     int groupjoin(GroupVO vo);
 
@@ -35,4 +38,15 @@ public interface GroupMapper {
     int getgroupstdTotal(@Param("cri") Criteria cri, @Param("group_no") Integer group_no);
 
     void groupstddel(@Param("login_id") String login_id, @Param("group_no") Integer group_no);
+
+    GroupVO groupwait (String login_id);
+
+    int waitdel(String login_id);
+
+    int aprv_yn(String login_id);
+    int aprv_null(String login_id);
+
+    int getmygroupno(String login_id);
+
+    List<QueryVO> getdashboardt(@Param("group_no") Integer group_no, @Param("login_id")String login_id);
 }

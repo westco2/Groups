@@ -1,0 +1,228 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+<!-- content -->
+<th:block th:replace="~{./include/baselayout :: setContent( ~{ :: .bon-wrap } )}">
+    <div class="bon-wrap">
+        <div class="page-title">
+            <p>숙제</p>
+        </div>
+        <div class="route-wrap">
+            <a href="#">숙제</a><p>/</p><a href="homeworklist">내 숙제리스트</a><p>/</p><a style="color: black;">숙제생성</a>
+        </div>
+        <form class="bon-content-wrap" action="homeworkupdateForm" method="post">
+
+            <div class="box-title-wrap">
+                <h3>숙제 생성</h3>
+            </div>
+            <div class="content-box">
+                <h3 style="margin-bottom: 10px;">기본 정보</h3>
+                <div class="reg-title-wrap" style="margin-bottom: 15px;">
+                    <div class="like-table-wrap">
+                        <input type="hidden" name="homework_no" th:value="${vo.homework_no}">
+                        <div class="sinfo-wrap-m">
+                            <p>교육자명</p>
+                            <h4 class="name-m"><i class="ri-user-star-line"></i>&nbsp;[[${membervo.korn_flnm}]]</h4>
+                            <input type="hidden" name="login_id" th:value="${#authentication.principal.Username}">
+                        </div>
+                        <div class="sinfo-wrap-m">
+                            <p>구독등급</p>
+                            <h4 class="name-m"><i class="ri-file-user-line"></i> &nbsp;[[${membervo.tier}]]</h4>
+                        </div>
+                    </div>
+                </div>
+                <h3 style="margin-bottom: 10px;">숙제 정보</h3>
+                <div class="reg-title-wrap">
+                    <div class="group-naming-wrap-m">
+                        <div class="group-name">
+                            <label>숙제이름</label>
+                            <input class="inp-reg-m" type="text" name="homework_title" placeholder="내 숙제" readonly th:value="${vo.homework_title}">
+                            <p><i class="ri-alert-line"></i>생성 후에는 이름을 변경할수 없습니다.</p>
+                        </div>
+                        <div class="group-name">
+                            <label>언어</label>
+                            <input class="inp-reg-m" type="text" style="width: 100px" name="homework_language" placeholder="JAVA" value="JAVA" readonly>
+                            <p><i class="ri-alert-line"></i>생성 후에는 언어를 변경할수 없습니다.</p>
+                        </div>
+                        <div class="group-name">
+                            <label>레벨</label>
+                            <select class="sel-des-m" style="width: 120px" name="homework_level" th:value="${vo.homework_level}">
+                                <option>LV0</option>
+                                <option>LV1</option>
+                                <option>LV2</option>
+                                <option>LV3</option>
+                                <option>LV4</option>
+                                <option>LV5</option>
+                            </select>
+                            <p><i class="ri-alert-line"></i>난이도는 최대 5LV까지 입니다.</p>
+                        </div>
+                        <div class="group-name">
+                            <label>유형</label>
+                            <div class="add-wrap-mmm">
+                                <select class="sel-des-m ckck-mmm" style="width: 200px" name="category" th:value="${vo.category}">
+
+                                </select>
+                                <button type="button" class="add-btn-m" id="adad-btn">추가</button>
+                                <i class="ri-refresh-line" id="refle-mct"></i>
+                            </div>
+
+                        </div>
+                        <div class="group-name">
+                            <label>시간</label>
+                            <div class="fon-m">
+                                <input class="inp-reg-m" type="number" name="homework_time" style="width: 100px" placeholder="1" th:value="${vo.homework_time}">
+                                <p>초</p>
+                            </div>
+                            <p><i class="ri-alert-line"></i>생성 후에는 시간을 변경할수 없습니다.</p>
+                        </div>
+                    </div>
+
+                </div>
+                <h3 style="margin-bottom: 10px;">숙제 내용</h3>
+                <div class="reg-title-wrap">
+                    <div class="group-naming-wrap-m">
+                        <div class="group-name">
+                            <label>숙제설명</label>
+                            <textarea class="aria-m" name="homework_content">[[${vo.homework_content}]]</textarea>
+                            <p><i class="ri-alert-line"></i>생성 후에는 이름을 변경할수 없습니다.</p>
+                        </div>
+                        <div class="group-name">
+                            <label>힌트&nbsp;&nbsp;-&nbsp;&nbsp;선택사항</label>
+                            <textarea class="aria-m" name="homework_hint" >[[${vo.homework_hint}]]</textarea>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="reg-btn-wrap">
+                    <button type="submit">수정</button>
+                </div>
+
+
+
+            </div>
+
+
+
+
+        </form>
+
+        <div id="modalcho" class="hidden">
+            <div id="modalcontentt" style="height: 150px; width: 450px">
+                <div class="modal-wrap-m">
+                    <h3>유형 등록</h3>
+                    <div class="modal-search-m justy-m">
+                        <div class="search-left-wrap">
+                            <div class="modal-name-m">
+                                <p>유형명</p>
+                                <input type="text" class="pa-name-m" style="width: 150px;">
+                            </div>
+                            <button type="button" id="clsf">등록</button>
+                        </div>
+
+                    </div>
+
+                    <div class="close-wrap-m">
+                        <button type="button" id="clch" >닫기</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</th:block>
+
+
+<script>
+
+
+    function getctg(){
+        $.ajax({
+            type: "post",
+            url: "/getctg",
+            contentType: "application/json",
+            success: function(data) {
+                $(".ckck-mmm").empty();
+                $(".ckck-mmm").html("<option>기초</option>\n" +
+                    "                                    <option>조건문</option>\n" +
+                    "                                    <option>반복문</option>\n" +
+                    "                                    <option>배열</option>\n" +
+                    "                                    <option>문자열</option>\n" +
+                    "                                    <option>정렬</option>\n" +
+                    "                                    <option>스택,큐,덱</option>\n" +
+                    "                                    <option>약수,배수와 소수</option>\n" +
+                    "                                    <option>알고리즘</option>");
+
+                for (let i of data){
+                    var option = document.createElement("option");
+
+
+                    option.innerHTML = `${i.my_category}`;
+                    $(".ckck-mmm").append(option);
+
+                }
+
+            },
+            error: function(err, status) {
+                console.log(err, status);
+                alert("정보를 불러올 수 없습니다.");
+            }
+        });
+
+    }
+
+    function regctg(category_nm){
+        $.ajax({
+            type: "post",
+            url: "/regctg",
+            contentType: "application/json",
+            data: JSON.stringify({
+                my_category: category_nm
+            }),
+            success: function (data){
+                console.log(data);
+                alert("등록이 완료되었습니다.");
+            },
+            error: function (err, status){
+                console.log(err,status);
+            }
+        });
+
+    }
+
+    $("#refle-mct").on('click', function (e){
+        getctg();
+    })
+
+    window.onload = function() {
+        getctg();
+    };
+
+
+
+    var modalch = document.getElementById("modalcho");
+
+    document.getElementById("adad-btn").addEventListener('click', ()=>{
+        modalch.classList.remove('hidden');
+    })
+    document.getElementById("clch").addEventListener('click', ()=>{
+        modalch.classList.add('hidden');
+        $(".pa-name-m").val("");
+    })
+
+    document.getElementById("clsf").addEventListener('click', ()=>{
+        regctg($(".pa-name-m").val());
+        modalch.classList.add('hidden');
+        $(".pa-name-m").val("");
+
+    })
+
+
+
+</script>
+
+</body>
+</html>

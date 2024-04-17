@@ -13,16 +13,18 @@ import lombok.NoArgsConstructor;
 @Builder
 public class DataVO {
 	//GROUPFILE
-	private Integer GNUMBER; //자료번호
-	private Integer GVIEWS; //조회수
-	private Integer GROUP_NO; //그룹번호																																																																																																																																																																		;
-	private String LOGIN_ID; //회원번호 //MEMBERS FK
-	private String GNAME; //강의제목
-	private String GFILENAME; //학습자료명
-	private String GFILECON; //학습자료내용
-	private String GFILEURL; //학습자료주소
-	private Timestamp GREGDATE; //등록일자
+	private Integer gnumber; //자료번호
+	private Integer gviews; //조회수
+	private Integer group_no; //그룹번호																																																																																																																																																																		;
+	private String login_id; //MEMBERS FK
+	private String login_idid;
+	private String gname; //강의제목
+	private String gfilename; //학습자료명
+	private String gfilecon; //학습자료내용
+	private String gfileurl; //학습자료주소
+	private Timestamp gregdate; //등록일자
 	
 	//GROUP_LIST
-	private String GROUP_NM;
+	private String group_nm;
+	private String korn_flnm;
 }

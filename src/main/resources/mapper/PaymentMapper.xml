@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.groups.payment.PaymentMapper">
+
+
+    <update id="tier_updatemap">
+        update members set TIER = #{name} where login_id = #{buyer_name}
+    </update>
+
+    <insert id="payment_content">
+        insert into TIERPAYMENT (PAY_NUM, LOGIN_ID, PAY_DATE, END_DATE, PAY_PRODUCT, PAY_MONEY, USING_TERM, TIERSTATE)
+        values (#{merchant_uid}, #{buyer_name}, #{payment_time},
+                DATE_ADD(#{payment_time}, INTERVAL #{using_term} MONTH),
+                #{name}, #{amount}, #{using_term}, 'N')
+    </insert>
+
+
+</mapper>

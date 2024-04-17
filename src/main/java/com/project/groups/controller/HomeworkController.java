@@ -1,9 +1,8 @@
 package com.project.groups.controller;
 
-import com.project.groups.command.ExVO;
-import com.project.groups.command.HomeWorkVO;
-import com.project.groups.command.TestVO;
+import com.project.groups.command.*;
 import com.project.groups.homework.HomeworkService;
+import com.project.groups.membersZ.service.CustomUserDetails;
 import com.project.groups.util.Criteria;
 import com.project.groups.util.EncryptionUtils;
 import com.project.groups.util.PageVO;
@@ -34,6 +33,7 @@ public class HomeworkController {
     public String hoemworklist(Model model, Criteria cri){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String sessionId = authentication.getName();
+        model.addAttribute("cat", homeworkService.getcategory(sessionId));
         PageVO vo = new PageVO(cri,homeworkService.gethomeworktotal(sessionId, cri));
         model.addAttribute("names", homeworkService.getgroupnames(sessionId));
         model.addAttribute("home",homeworkService.gethomeworklist(sessionId, cri));
@@ -42,7 +42,14 @@ public class HomeworkController {
     }
 
     @GetMapping("/homeworkreg")
-    public String homeworkreg(){
+    public String homeworkreg(Model model){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication.getPrincipal() instanceof CustomUserDetails) {
+            CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+            MemberVO memberVO = userDetails.getMemberVO();
+            System.out.println("MemberVO: " + memberVO);
+            model.addAttribute("membervo",memberVO);
+        }
         return "homework/homeworkreg";
     }
 
@@ -147,6 +154,86 @@ public class HomeworkController {
     public String homeworksend(@RequestParam("login_id") List<String> ids, @RequestParam("homework_no")Integer homework_no, @RequestParam("homework_enddate") Date homework_enddate, RedirectAttributes ra){
         homeworkService.sendhomework(ids,homework_no,homework_enddate);
         ra.addFlashAttribute("msg","정상적으로 처리되었습니다.");
+        return "redirect:/homework/homeworklist";
+    }
+
+
+    /* 카테고리 */
+    @PostMapping("/regcategory")
+    public String regcategory(CategoryVO vo, RedirectAttributes ra){
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication.getPrincipal() instanceof CustomUserDetails) {
+            CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+            MemberVO memberVO = userDetails.getMemberVO();
+            vo.setLogin_id(memberVO.getLogin_id());
+
+        }
+        if (homeworkService.regcategory(vo) == 1 ) {
+            ra.addFlashAttribute("msg","등록이 완료 되었습니다.");
+        } else {
+            ra.addFlashAttribute("msg", "등록에 실패했습니다. 관리자에게 문의하세요. 1566-6666");
+        }
+        
+
+        return "redirect:/homework/homeworklist";
+    }
+    @PostMapping("/deletecategory")
+    public String deletecategory(CategoryVO vo, RedirectAttributes ra){
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication.getPrincipal() instanceof CustomUserDetails) {
+            CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+            MemberVO memberVO = userDetails.getMemberVO();
+            vo.setLogin_id(memberVO.getLogin_id());
+
+        }
+        System.out.println(vo);
+        if (homeworkService.deletecategory(vo) == 1 ) {
+            ra.addFlashAttribute("msg","정상적으로 처리되었습니다.");
+        } else {
+            ra.addFlashAttribute("msg", "삭제에 실패했습니다. 관리자에게 문의하세요. 1566-6666");
+        }
+
+
+        return "redirect:/homework/homeworklist";
+    }
+
+
+    @PostMapping("homeworkupdate")
+    public String homeworkupdate(HomeWorkVO vo, Model model){
+        model.addAttribute("vo", homeworkService.gethwinfo(vo));
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication.getPrincipal() instanceof CustomUserDetails) {
+            CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+            MemberVO memberVO = userDetails.getMemberVO();
+            vo.setLogin_id(memberVO.getLogin_id());
+            model.addAttribute("membervo", memberVO);
+
+        }
+        return "homework/homeworkupdate";
+    }
+
+    @PostMapping("homeworkdelete")
+    public String homeworkupdate(HomeWorkVO vo, RedirectAttributes ra){
+
+        if (homeworkService.hwidel(vo) == 1 ) {
+            ra.addFlashAttribute("msg","정상적으로 처리되었습니다.");
+        } else {
+            ra.addFlashAttribute("msg", "삭제에 실패했습니다. 관리자에게 문의하세요. 1566-6666");
+        }
+
+
+        return "redirect:/homework/homeworklist";
+    }
+
+    @PostMapping("homeworkupdateForm")
+    public String homeworkupdateForm(HomeWorkVO vo, RedirectAttributes ra){
+        if (homeworkService.homeworkup(vo) == 1 ) {
+            ra.addFlashAttribute("msg","수정이 완료 되었습니다.");
+        } else {
+            ra.addFlashAttribute("msg", "삭제에 실패했습니다. 관리자에게 문의하세요. 1566-6666");
+        }
         return "redirect:/homework/homeworklist";
     }
 

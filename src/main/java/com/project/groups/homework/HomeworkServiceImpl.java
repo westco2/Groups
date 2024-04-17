@@ -1,9 +1,6 @@
 package com.project.groups.homework;
 
-import com.project.groups.command.ExVO;
-import com.project.groups.command.GroupVO;
-import com.project.groups.command.HomeWorkVO;
-import com.project.groups.command.TestVO;
+import com.project.groups.command.*;
 import com.project.groups.util.Criteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -104,6 +101,57 @@ public class HomeworkServiceImpl implements HomeworkService {
     @Override
     public List<HomeWorkVO> getstdhomeck(HomeWorkVO vo) {
         return homeworkMapper.stdhomeworkinfo(vo);
+    }
+
+    @Override
+    public List<CategoryVO> getcategory(String login_id) {
+        return homeworkMapper.getcategory(login_id);
+    }
+
+    @Override
+    public int regcategory(CategoryVO vo) {
+        return homeworkMapper.regcategory(vo);
+    }
+
+    @Override
+    public int deletecategory(CategoryVO vo) {
+
+        return homeworkMapper.deletecategory(vo);
+    }
+
+    @Override
+    public int solutionp(String login_id) {
+        return homeworkMapper.solutionp(login_id);
+    }
+
+    @Override
+    public List<HomeWorkVO> notsolutionp(String login_id) {
+        return homeworkMapper.notsolutionp(login_id);
+    }
+
+    @Override
+    public List<HomeWorkVO> myrecord(String login_id, Criteria cri) {
+        return homeworkMapper.myrecord(login_id, cri);
+    }
+
+    @Override
+    public int myrecordtotal(String login_id, Criteria cri) {
+        return homeworkMapper.myrecordtotal(login_id, cri);
+    }
+
+    @Override
+    public HomeWorkVO gethwinfo(HomeWorkVO vo) {
+        return homeworkMapper.hwinfo(vo);
+    }
+
+    @Override
+    public int hwidel(HomeWorkVO vo) {
+        return homeworkMapper.hwdel(vo);
+    }
+
+    @Override
+    public int homeworkup(HomeWorkVO vo) {
+        return homeworkMapper.homeworkup(vo);
     }
 
 }

@@ -1,0 +1,120 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+<!-- content -->
+<th:block th:replace="~{./include/baselayout :: setContent( ~{ :: .bon-wrap } )}">
+    <div class="bon-wrap">
+        <div class="page-title">
+            <p>공지사항</p>
+        </div>
+        <div class="route-wrap">
+            <a href="#">공지사항</a><p>/</p><a href="#">공지사항 수정</a>
+        </div>
+        <div class="bon-content-wrap">
+            <div class="box-title-wrap">
+                <h3>공지사항 수정</h3>
+            </div>
+            <div class="content-box">
+                <div class="group-naming-wrap-m">
+                    <div class="group-name">
+                        <label>제목</label>
+                        <input id="title" class="inp-reg-mheight 400px;" type="text">
+                    </div>
+                    
+                    <div>
+                        <label class="label">내용</label>
+                        <textarea class="textarea" id="mytextarea"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="reg-btn-wrap">
+                <button onclick="updatePost()">수정</button>
+                
+                <button type="submit" class="list-button" onclick="goToNotilist()">목록</button>
+            </div>
+        </div>
+    </div>
+</th:block>
+
+
+<script>
+// TinyMCE 초기화
+tinymce.init({
+  selector: '#mytextarea' // 에디터를 적용할 textarea의 id
+});
+
+//게시물 목록
+function goToNotilist() {
+    window.location.href = "/posts/notilist"; // 이동할 URL 설정
+}
+
+let current_id = document.location.href.split("?id=")[1];
+
+// 게시물 수정하기
+function updatePost(){
+    // TinyMCE 에디터의 내용을 textarea로 저장
+    tinymce.triggerSave();
+
+    post = {
+        'title': $('#title').val(),
+        'content': $('#mytextarea').val()
+    }
+
+    $.ajax({
+        type: 'PUT',
+        url: `/api/posts/${current_id}`,
+        contentType: "application/json",
+        data: JSON.stringify(post),
+        success: function(response){
+            alert("게시글 "+response+" 번을 수정하였습니다.");
+            window.location.href = "/posts/notilist";
+        },
+        error: function(e){
+            alert("게시글 수정에 실패하였습니다.");
+        }
+    });
+}
+
+// 게시글 원본 가져오기
+function findOne(){
+    $.ajax({
+        type: 'GET',
+        url: `/api/posts/${current_id}`,
+        success: function(response){
+            console.log(response)
+            $('#title').val(response.title);
+            $('#mytextarea').val(response.content);
+            // 에디터의 내용을 업데이트
+            tinymce.get('mytextarea').setContent(response.content);
+        },
+        error: function(e){
+            alert("게시글을 조회할 수 없습니다.");
+        }
+    });
+}
+
+$(document).ready(function () {
+    findOne();
+    })
+
+// 게시글 삭제
+function deletePost() {
+    $.ajax({
+        type: 'DELETE',
+        url: `/api/posts/${current_id}`,
+        success: function (response) {
+            alert("게시글 " + response + " 번이 삭제되었습니다.");
+            window.location.href = "/posts/notilist";
+        },
+        error: function (e) {
+            alert("게시글을 조회할 수 없습니다.");
+        }
+    });
+}
+</script>
+
+
+</body>
+</html>

@@ -23,12 +23,12 @@
                     <div class="like-table-wrap">
                         <div class="sinfo-wrap-m">
                             <p>교육자명</p>
-                            <h4 class="name-m"><i class="ri-user-star-line"></i>&nbsp;홍길동</h4>
+                            <h4 class="name-m"><i class="ri-user-star-line"></i>&nbsp;[[${membervo.korn_flnm}]]</h4>
                             <input type="hidden" name="login_id" th:value="${#authentication.principal.Username}">
                         </div>
                         <div class="sinfo-wrap-m">
                             <p>구독등급</p>
-                            <h4 class="name-m"><i class="ri-file-user-line"></i> &nbsp;free tier</h4>
+                            <h4 class="name-m"><i class="ri-file-user-line"></i> &nbsp;[[${membervo.tier}]]</h4>
                         </div>
                     </div>
                 </div>
@@ -56,6 +56,17 @@
                                 <option>LV5</option>
                             </select>
                             <p><i class="ri-alert-line"></i>난이도는 최대 5LV까지 입니다.</p>
+                        </div>
+                        <div class="group-name">
+                            <label>유형</label>
+                            <div class="add-wrap-mmm">
+                                <select class="sel-des-m ctctct-mmm" style="width: 200px" name="category">
+
+                                </select>
+                                <button type="button" class="add-btn-m" id="adad-btn">추가</button>
+                                <i class="ri-refresh-line" id="refle-mct"></i>
+                            </div>
+
                         </div>
                         <div class="group-name">
                             <label>시간</label>
@@ -134,6 +145,28 @@
 
 
         </form>
+
+        <div id="modalcho" class="hidden">
+            <div id="modalcontentt" style="height: 150px; width: 450px">
+                <div class="modal-wrap-m">
+                    <h3>유형 등록</h3>
+                    <div class="modal-search-m justy-m">
+                        <div class="search-left-wrap">
+                            <div class="modal-name-m">
+                                <p>유형명</p>
+                                <input type="text" class="pa-name-m" style="width: 150px;">
+                            </div>
+                            <button type="button" id="clsf">등록</button>
+                        </div>
+
+                    </div>
+
+                    <div class="close-wrap-m">
+                        <button type="button" id="clch" >닫기</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
 </th:block>
@@ -177,6 +210,88 @@
             $(this).closest(".h-ex-wrap").remove();
         });
     });
+
+    function getctg(){
+        $.ajax({
+            type: "post",
+            url: "/getctg",
+            contentType: "application/json",
+            success: function(data) {
+                $(".ctctct-mmm").empty();
+                $(".ctctct-mmm").html("<option>기초</option>\n" +
+                    "                                    <option>조건문</option>\n" +
+                    "                                    <option>반복문</option>\n" +
+                    "                                    <option>배열</option>\n" +
+                    "                                    <option>문자열</option>\n" +
+                    "                                    <option>정렬</option>\n" +
+                    "                                    <option>스택,큐,덱</option>\n" +
+                    "                                    <option>약수,배수와 소수</option>\n" +
+                    "                                    <option>알고리즘</option>");
+
+                for (let i of data){
+                    var option = document.createElement("option");
+
+
+                    option.innerHTML = `${i.my_category}`;
+                    $(".ctctct-mmm").append(option);
+
+                }
+
+            },
+            error: function(err, status) {
+                console.log(err, status);
+                alert("정보를 불러올 수 없습니다.");
+            }
+        });
+
+    }
+
+    function regctg(category_nm){
+        $.ajax({
+            type: "post",
+            url: "/regctg",
+            contentType: "application/json",
+            data: JSON.stringify({
+                my_category: category_nm
+            }),
+            success: function (data){
+                console.log(data);
+                alert("등록이 완료되었습니다.");
+            },
+            error: function (err, status){
+                console.log(err,status);
+            }
+        });
+
+    }
+
+    $("#refle-mct").on('click', function (e){
+        getctg();
+    })
+
+    window.onload = function() {
+        getctg();
+    };
+
+
+
+    var modalch = document.getElementById("modalcho");
+
+    document.getElementById("adad-btn").addEventListener('click', ()=>{
+        modalch.classList.remove('hidden');
+    })
+    document.getElementById("clch").addEventListener('click', ()=>{
+        modalch.classList.add('hidden');
+        $(".pa-name-m").val("");
+    })
+
+    document.getElementById("clsf").addEventListener('click', ()=>{
+        regctg($(".pa-name-m").val());
+        modalch.classList.add('hidden');
+        $(".pa-name-m").val("");
+
+    })
+
 
 
 </script>

@@ -5,10 +5,10 @@
 .w-5{flex-basis: 10%;}
 .w-5 i{color: #85cf7c; font-size: 16px;margin-right:5px;}
 
-.w2-1{flex-basis: 20%;}
+.w2-1{flex-basis: 35%;}
 .w2-2{flex-basis: 20%;}
 .w2-3{flex-basis: 20%;}
-.w2-4{flex-basis: 25%;}
+.w2-4{flex-basis: 20%;}
 .w2-5{flex-basis: 10%;}
 
 .wj-button{padding: 5px 15px;
@@ -29,6 +29,9 @@
 	font-size: 15px;
 	padding: 10px;
 	}
+	
+.reg-btn-wrap-w{margin:20px; display: flex; justify-content: left;}
+.reg-btn-wrap-w button{padding: 7px 15px; font-size: 13px; font-weight: 600; cursor: pointer; background-color: #ffa04e; border: none; color: #ffffff; border-radius: 3px;}
 
 	
 	
@@ -236,7 +239,7 @@ table tbody{}
 #modalfour table tbody{display: block; overflow-y: scroll; max-height: 322px; -ms-overflow-style: none; /* 인터넷 익스플로러 */
     scrollbar-width: none; /* 파이어폭스 */ border-bottom: #5d5f63;}
 
-.coco { padding: 10px 5px; font-size: 13px; margin: 0; display: flex; justify-content: center; align-items: center;}
+.coco { padding: 10px 5px; font-size: 12px; margin: 0; display: flex; justify-content: center; align-items: center;}
 
 
 
@@ -313,7 +316,7 @@ input[type="checkbox"] {width: 15px; height: 15px; background-color: #afaeae; cu
 .like-table-wrap{display: flex; justify-content: start; gap: 100px;}
 .sinfo-wrap-w{display: flex; flex-direction: column; gap: 7px;}
 .sinfo-wrap-w p{font-size: 14px; margin: 0; font-weight: 500;}
-.sinfo-wrap-w h4{font-size: 16px; margin-left: 5px;}
+.sinfo-wrap-w h4{font-size: 13px; margin-left: 5px;}
 
 
 .date-wrap-w{margin-bottom: 15px; display: flex; align-items: center; gap: 10px;}
@@ -387,10 +390,11 @@ input[type="checkbox"] {width: 15px; height: 15px; background-color: #afaeae; cu
 .pagination a {
     color: black;
     float: left;
-    padding: 5px 12px;
+    padding: 4px 11px;
     text-decoration: none;
     transition: background-color .3s;
     border: 1px solid #ddd;
+    cursor: pointer;
 }
 
 .pagination a.act {

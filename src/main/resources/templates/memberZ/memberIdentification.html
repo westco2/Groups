@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/jy.css">
+</head>
+<body>
+<script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+<!-- content -->
+<th:block th:replace="~{./include/homelayout :: homeContent( ~{ :: .main-wrap } )}">
+
+
+    <div class="main-wrap">
+        <div class="container-j">
+            <h2 class="name1">회원가입</h2>
+
+                <button onclick="requestCert()">인증하기</button><br>
+
+        </div>
+    </div>
+</th:block>
+
+
+<!--본인인증-->
+<script>
+    IMP.init("imp04137027");
+
+    function requestCert() {
+        IMP.certification({
+            pg: "inicis_unified",
+            merchant_uid: "test_luwj0w36",
+            name: "포트원",
+            phone: "010-1111-1111",
+            popup: true,
+            callback: function (response) {
+                if(response.success){
+                    var certificationId = response.certification_id;
+                    fetchCertificationResult(certificationId);
+                } else{
+                    alert("본인인증에 실패했습니다.");
+                }
+            }
+        });
+    }
+
+    function fetchCertificationResult(certificationId) {
+        fetch("http://api.portone.io/rest-v1/certification/" + certificationId)
+            .then(response => response.json())
+            .then(data => {
+                if(data.success) {
+                    var name = data.name;
+                    var phone = data.phone;
+                    sendDataToServer(name, phone);
+                } else{
+                    alert("본인인증에 실패했습니다. 다시 시도하세요.");
+                }
+            })
+            .catch(error => {
+                console.error("본인인증 결과 조회 중 오류 발생:", error);
+                alert("본인인증 결과 조회 중 오류가 발생했습니다.");
+            });
+    }
+
+    function sendDataToServer(name, phone) {
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:8989/joinFormHJ",
+            data: {
+                name: name,
+                phone: phone
+            },
+            success: function(response) {
+                console.log("서버로 데이터 전송 완료: " + response);
+            },
+            error: function(xhr, status, error) {
+                console.error("서버로 데이터 전송 중 오류 발생:", error);
+                alert("서버로 데이터 전송 중 오류가 발생했습니다.");
+            }
+        });
+    }
+
+</script>
+
+
+</body>
+</html>

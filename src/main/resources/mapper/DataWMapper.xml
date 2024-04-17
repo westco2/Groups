@@ -6,57 +6,114 @@
 <mapper namespace="com.project.groups.dataW.service.DataWMapper">
 	
 	<select id="getList" resultType="DataVO">
-		SELECT G.GNAME, G.GFILENAME, G.GFILECON, G.GREGDATE,
-			   GL.GROUP_NM
-		FROM GROUPFILE AS G
-		LEFT JOIN GROUP_LIST AS GL ON G.GROUP_NO = GL.GROUP_NO
-		LIMIT #{pageStart}, #{amount}
-	</select>
+    select g.*,
+           gl.group_nm
+    from (select * from GROUPFILE where login_id = #{login_id} ) g
+    left join GROUP_LIST gl on g.group_no = gl.group_no
+    <where>
+    <if test="cri.title != '' and cri.title != null">
+            and gfilename like concat('%',#{cri.title},'%')
+       </if>
+       <if test="cri.group_no != '' and cri.group_no != null">
+            and g.group_no = #{cri.group_no}
+        </if>
+        </where>
+    order by g.gregdate desc
+    limit #{cri.pageStart}, #{cri.amount}
+</select>
+
+<select id="getList2" resultType="DataVO">
+
+	select g.*,
+           gl.group_nm
+    from (select * from GROUPFILE where group_no = (select group_no from group_join where login_id = #{login_id} and APRV_YN = "Y") ) g
+    left join GROUP_LIST gl on g.group_no = gl.group_no
+     <where>
+    <if test="cri.title != '' and cri.title != null">
+            and gfilename like concat('%',#{cri.title},'%')
+       </if>
+       </where>
+       limit #{cri.pageStart}, #{cri.amount}
+</select>
 	
-	<!-- @@@@@첨부파일 데이터베이스 저장여부 확인 필요@@@@@ -->
-	<!-- @@@@@첨부파일 데이터베이스 저장여부 확인 필요@@@@@ -->
-	<!-- @@@@@첨부파일 데이터베이스 저장여부 확인 필요@@@@@ -->
-	<!-- @@@@@첨부파일 데이터베이스 저장여부 확인 필요@@@@@ -->
-	<!-- @@@@@첨부파일 데이터베이스 저장여부 확인 필요@@@@@ -->
 	<insert id="regist">
-		INSERT INTO GROUPFILE(GFILENAME,
-							  GFILECON,
-							  GROUP_NO
+		insert into GROUPFILE(login_id,
+							  gfilename,
+							  gfilecon,
+							  group_no,
+							  gname
 						      ) 
-		VALUES(#{GFILENAME},
-			   #{GFILECON},
-			   #{GROUP_NO}
+		values(#{login_id},
+			   #{gfilename},
+			   #{gfilecon},
+			   #{group_no},
+			   #{gname}
 			   )
 	</insert>
 	
 	<select id="getDetail" resultType="DataVO">
-		SELECT GNUMBER, GFILENAME, GFILECON
-		FROM GROUPFILE
-		WHERE GNUMBER = #{GNUMBER}
+		select tt.*,gg.group_nm from
+    (select a.*,m.korn_flnm from (
+    select *
+		from GROUPFILE
+		where gnumber = #{gnumber}) a
+        left join MEMBERS m
+        on a.login_id = m.login_id) tt
+        left join GROUP_LIST gg
+        on tt.group_no = gg.group_no;
+	</select>
+	
+	<select id="getfile" resultType="UploadVO">
+		select * from FILEUPLOAD where gnumber = #{gnumber}
 	</select>
 	
 	<update id="update">
-		UPDATE GROUPFILE SET
-		GFILENAME = #{GFILENAME},
-		GFILECON = #{GFILECON}
-		WHERE GNUMBER = #{GNUMBER}		
+		update GROUPFILE set
+		gfilename = #{gfilename},
+		gfilecon = #{gfilecon}
+		where gnumber = #{gnumber}		
 	</update>
 	
 	<delete id="delete">
-		DELETE FROM GROUPFILE
-		WHERE GNUMBER = #{GNUMBER}
+		delete from GROUPFILE
+		where gnumber = #{gnumber}
 	</delete>
 	
-	<!-- WHERE 구문 확인 필요 -->
-	<!-- WHERE 구문 확인 필요 -->
-	<!-- WHERE 구문 확인 필요 -->
-	<!-- WHERE 구문 확인 필요 -->
-	<!-- WHERE 구문 확인 필요 -->
 	<select id="getTotal" resultType="int">
-		SELECT COUNT(*) AS TOTAL
-		FROM GROUPFILE
+		select count(*) as total
+		from GROUPFILE
+		where login_id = #{login_id}
 		
+    <if test="cri.title != '' and cri.title != null">
+            and gfilename like concat('%',#{cri.title},'%')
+       </if>
+       <if test="cri.group_no != '' and cri.group_no != null">
+            and group_no = #{cri.group_no}
+        </if>
+       
 	</select>
-
+	
+	<insert id="upload">
+		<selectKey resultType="int" keyProperty="gnumber" order="BEFORE">
+            select max(gnumber) from GROUPFILE
+            where login_id = #{login_id}
+        </selectKey>
+		insert into FILEUPLOAD(gnumber,
+							   filename,
+							   filepath,
+							   fileurl,
+							   uuid
+		)
+		values(#{gnumber},
+			   #{filename},
+			   #{filepath},
+			   #{fileurl},
+			   #{uuid}
+		)
+	</insert>
+	
+	<select id="getgroupname" resultType="GroupVO">
+        select group_nm, group_no from group_list where login_id = #{login_id};
+    </select>
 
 </mapper>

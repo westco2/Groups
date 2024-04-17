@@ -1,0 +1,124 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+<!-- content -->
+
+<th:block th:replace="~{./include/baselayout :: setContent( ~{ :: .bon-wrap } )}">
+
+    <div class="bon-wrap">
+
+        <div class="page-title">
+
+            <p>공지사항</p>
+
+        </div>
+
+        <div class="route-wrap">
+
+            <a href="#">공지사항</a><p>/</p><a href="#">공지사항 조회</a>
+
+        </div>
+
+        <div class="bon-content-wrap">
+
+            <div class="box-title-wrap">
+
+                <h3>공지사항 조회</h3>
+
+            </div>
+
+            <div class="content-box">
+
+                <div class="group-naming-wrap-m">
+
+                    <div class="group-name">
+
+                        <label>제목</label>
+
+                        <p id="title" class="inp-reg-mheight"></p>
+
+                    </div>
+
+                    <div>
+                        <label>내용</label>
+                        <!-- 여기에서 textarea를 사용하지 않고, TinyMCE 에디터를 사용합니다. -->
+                        <div id="editor"></div>
+                        <span id="writer">작성자명</span> <span class="create-date" id="create-date">2021-06-30</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="reg-btn-wrap">
+                <button onclick="updatePost()">수정</button>
+                <button onclick="deletePost()" class="list-button">삭제</button>
+                <button type="submit" class="list-button" onclick="goToNotilist()">목록</button>
+            </div>
+
+        </div>
+
+    </div>
+
+</th:block>
+
+<script>
+    // 게시물 목록
+    function goToNotilist() {
+        window.location.href = "/posts/notilist"; // 이동할 URL 설정
+    }
+    let current_id = document.location.href.split("?id=")[1];
+  
+    // 게시물 조회
+    function findOne() {
+        $.ajax({
+            type: 'GET',
+            url: `/api/posts/${current_id}`,
+            success: function (response) {
+                $('#title').text(response.title);
+                // TinyMCE 에디터를 통해 내용을 설정합니다.
+                tinymce.get('editor').setContent(response.content);
+                $('#writer').text(response.writer);
+                $('#create-date').text(response.createdAt);
+            },
+            error: function (e) {
+                alert("게시글을 조회할 수 없습니다.");
+            }
+        });
+    }
+  
+    // 페이지 로드 시 게시물 조회
+    $(document).ready(function () {
+        findOne();
+    });
+  
+    // 게시물 목록 조회
+    function deletePost() {
+        $.ajax({
+            type: 'DELETE',
+            url: `/api/posts/${current_id}`,
+            success: function (response) {
+                alert("게시글 " + response + " 번이 삭제되었습니다.");
+                window.location.href = "/posts/notilist";
+            },
+            error: function (e) {
+                alert("게시글을 조회할 수 없습니다.");
+            }
+        });
+    }
+  
+    function updatePost() {
+        window.location.href = `/posts/update?id=${current_id}`;
+    }
+
+    // TinyMCE 에디터 초기화
+    tinymce.init({
+        selector: '#editor'
+    });
+</script>
+
+</body>
+
+</html>

@@ -18,8 +18,10 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.project.groups.command.MemberVO;
 import com.project.groups.command.QnaVO;
 import com.project.groups.command.QnaWVO;
+import com.project.groups.membersZ.service.CustomUserDetails;
 //import com.project.groups.qnaW.service.QnaWService;
 //import com.project.groups.util.Criteria;
 //import com.project.groups.util.PageVO;
@@ -37,39 +39,38 @@ public class QnaWController {
 	
 	@GetMapping("/qnaWBoard") //로그인한 id와 같은 작성 질문만 올라오게 만들어져있음
 	public String qnaWBoard(Model model, Criteria cri) {
+
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//		System.out.println(authentication.getPrincipal());
-//		System.out.println(authentication.getDetails());
-//		System.out.println(authentication.getName());
-//		System.out.println(authentication.getAuthorities());
-	
-		List<QnaWVO> qnawvo = qnaWService.getList(cri);
-//		System.out.println(qnawvo.toString());
-//		System.out.println(qnawvo.get(0));
-		List<QnaVO> qnavo = qnaWService.getList2(cri);
-//		System.out.println(qnavo);
-		List<QnaWVO> currentUserQnaWVOList = new ArrayList<>();
-		for(int a=0; a<qnawvo.size(); a++) {
-			QnaWVO qnawvoob = qnawvo.get(a);
-			qnawvoob.setList(qnavo.get(a));
-			qnawvo.set(a, qnawvoob);
-			if(qnawvo.get(a).getLOGIN_ID().equals(authentication.getName())) {
-				currentUserQnaWVOList.add(qnawvoob);
-			}
-		}
-//		System.out.println(currentUserQnaWVOList.toString());
-//		int total = qnaWService.getTotal();
-//		PageVO pageVO = new PageVO(cri, total);
-//		model.addAttribute("pageVO", pageVO);
-		model.addAttribute("qnawvo", currentUserQnaWVOList);
-//		System.out.println(qnawvo.get(0).getLOGIN_ID());
+        if (authentication.getPrincipal() instanceof CustomUserDetails) {
+            CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+            MemberVO memberVO = userDetails.getMemberVO();
+            System.out.println("MemberVO: " + memberVO);
+            System.out.println(memberVO.getRole());
+            if(memberVO.getRole().equals("ROLE_TEACHER")) {
+            	System.out.println("실행");
+            	model.addAttribute("qnavo", qnaWService.getList(cri, memberVO.getLogin_id()));
+            }else if(memberVO.getRole().equals("ROLE_STUDENT")) model.addAttribute("qnavo", qnaWService.getList2(cri, memberVO.getLogin_id()));
+            
+        	model.addAttribute("membervo",memberVO);
+        	System.out.println(memberVO);
+            
+            
+        }
 		
 		return "qnaW/qnaWBoard";
 	}
 	//////////////////////////////////////////////////
 	
 	@GetMapping("/qnaWRegist")
-	public String qnaWRegist() {
+	public String qnaWRegist(Model model) {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication.getPrincipal() instanceof CustomUserDetails) {
+            CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+            MemberVO memberVO = userDetails.getMemberVO();
+            System.out.println("MemberVO: " + memberVO);
+            model.addAttribute("membervo",memberVO);
+            model.addAttribute("group", qnaWService.getgroupinfo(memberVO.getLogin_id())); 
+        }
 		return "/qnaW/qnaWRegist";
 	}
 	
@@ -88,9 +89,22 @@ public class QnaWController {
 	//////////////////////////////////////////////////
 	
 	@GetMapping("/qnaWDetail")
-	public String getDetail(@RequestParam("QNUMBER") int QNUMBER,
+	public String getDetail(@RequestParam("qnumber") int qnumber,
 			  				 Model model) {
-		QnaVO vo = qnaWService.getDetail(QNUMBER);
+		
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication.getPrincipal() instanceof CustomUserDetails) {
+            CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+            MemberVO memberVO = userDetails.getMemberVO();
+            System.out.println("MemberVO: " + memberVO);
+            System.out.println(memberVO.getRole());
+            
+        	model.addAttribute("membervo",memberVO);
+        	
+            
+            
+        }
+		QnaVO vo = qnaWService.getDetail(qnumber);
 		model.addAttribute("vo", vo);
 		return "qnaW/qnaWDetail";
 	}
@@ -101,7 +115,7 @@ public class QnaWController {
 	public String updateForm(QnaVO vo, RedirectAttributes re) {
 		int result = qnaWService.update(vo);
 		if(result == 1) {
-			re.addFlashAttribute("msg", "등록완료");
+			re.addFlashAttribute("msg", "답변이 완료되었습니다.");
 		} else {
 			re.addFlashAttribute("msg", "등록실패");
 		}
@@ -111,8 +125,8 @@ public class QnaWController {
 	//////////////////////////////////////////////////
 	
 	@PostMapping("/deleteForm")
-	public String deleteForm(@RequestParam("QNUMBER") int QNUMBER) {
-		qnaWService.delete(QNUMBER);
+	public String deleteForm(@RequestParam("qnumber") int qnumber) {
+		qnaWService.delete(qnumber);
 		return "redirect:/qnaW/qnaWBoard";
 	}
 	

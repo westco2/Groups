@@ -1,10 +1,14 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<!-- 
-※권한
-1. dataWBoardT 에서 제목경로 클릭시 해당페이지로 넘어옴
- -->
 
+<!-- 
+※페이지 상세내용
+1. dataWBoardT 에서 강의명 클릭시 해당페이지로 이동합니다.
+2. 권한 선생이 등록한 자료 및 내용을 조회하고 내용 및 첨부파일을 수정 및 삭제할 수 있습니다.
+
+※수정필요
+4. "수정" 클릭시 최종적으로 DB에 정상반영되는지 확인합니다.
+-->
 
 <body>
 	<th:block th:replace="~{./include/baselayout :: setContent( ~{ :: .bon-wrap } )}">
@@ -13,11 +17,11 @@
 				<p>수업자료</p>
 			</div>
 			<div class="route-wrap">
-				<a href="/dataW/dataWBoard">수업자료</a><p>/</p><a href="/dataW/dataWUpdate">수업자료수정</a>
+				<a href="/dataW/dataWBoardT">수업자료</a><p>/</p><a href="#">수업자료수정</a>
 			</div>
 			<div class="bon-content-wrap">
 				<div class="box-title-wrap">
-					<h3>수업자료등록</h3>
+					<h3>수업자료수정</h3>
 				</div>
 				<div class="content-box">
 					<form name="actionForm" action="#" method="post" enctype="multipart/form-data">
@@ -27,19 +31,19 @@
 								<div class="sinfo-wrap-m">
 									<p>교육자명</p>
 									<h4 class="name-m">
-										<i class="ri-user-star-line"></i>&nbsp;교육자
+										<i class="ri-user-star-line"></i>&nbsp;[[${vo.korn_flnm}]]
 									</h4>
 								</div>
 								<div class="sinfo-wrap-m">
 									<p>강의명</p>
 									<h4 class="name-m">
-										<i class="ri-file-user-line"></i>&nbsp;JAVA개발
+										<i class="ri-file-user-line"></i>&nbsp;[[${vo.gname}]]
 									</h4>
 								</div>
 								<div class="sinfo-wrap-m">
 									<p>그룹명</p>
 									<h4 class="name-m">
-										<i class="ri-file-user-line"></i>&nbsp;GROUP-A
+										<i class="ri-file-user-line"></i>&nbsp;[[${vo.group_nm}]]
 									</h4>
 								</div>
 							</div>
@@ -48,23 +52,24 @@
 						<div class="reg-title-wrap">
 							<div class="group-naming-wrap-m">
 								<div class="group-name">
-									<label>학습자료명</label> <input class="inp-reg-m" type="text" name="GFILENAME" th:value="${vo.GFILENAME}">
+								<input type="hidden" name="gnumber" th:value="${vo.gnumber}">
+									<label>학습자료명</label> <input class="inp-reg-m" type="text" name="gfilename" th:value="${vo.gfilename}">
 								</div>
 								<div class="group-name">
 									<label>학습자료내용</label>
-									<textarea class="wj-textarea" name="GFILECON">[[${vo.GFILECON}]]</textarea>
+									<textarea class="wj-textarea" name="gfilecon">[[${vo.gfilecon}]]</textarea>
 								</div>
 								<div class="group-name">
 									<label>첨부파일</label>
 									<div class="date-wrap-m">
 										<label for="fileInput">첨부파일선택:</label>
-										<input type="file" id="fileInput" name="file">
+										<input type="file" id="fileInput" name="file" multiple="multiple">
 									</div>
 								</div>
 							</div>
 						</div>
 						<div class="reg-btn-wrap">
-							<button type="button" id="updateBtn" style="margin-right:10px">수정등록</button>
+							<button type="button" id="updateBtn" style="margin-right:10px">수정</button>
 							<button type="button" id="deleteBtn">삭제</button>
 						</div>
 					</form>

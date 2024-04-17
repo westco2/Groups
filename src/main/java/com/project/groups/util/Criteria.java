@@ -12,6 +12,7 @@ public class Criteria {
 	private String searchKorn_flnm;
 	private String searchQtitle;
 	private String title;
+	private Integer group_no;
 
 	public Criteria() {
 		this.page = 1;

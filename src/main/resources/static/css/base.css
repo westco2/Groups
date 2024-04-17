@@ -181,7 +181,7 @@ body {
 .table-wrap { width: 100%; }
 
 .table-content { width: 100%; text-align: center; }
-#modalfour .table-content{min-height: 300px;}
+#modalfour .table-content, #modalone .table-content {min-height: 300px;}
 table{border-collapse: collapse; border: 1px solid #e7e7e7; white-space: nowrap; }
 
 .co-flex { display: flex; justify-content: space-between; }
@@ -190,10 +190,10 @@ table{border-collapse: collapse; border: 1px solid #e7e7e7; white-space: nowrap;
 
 .co-body { font-weight: 600;}
 table tbody{}
-#modalfour table tbody{display: block; overflow-y: scroll; max-height: 322px; -ms-overflow-style: none; /* 인터넷 익스플로러 */
+#modalfour table tbody, #modalone table tbody{display: block; overflow-y: scroll; max-height: 322px; -ms-overflow-style: none; /* 인터넷 익스플로러 */
     scrollbar-width: none; /* 파이어폭스 */ border-bottom: #5d5f63;}
 
-.coco { padding: 10px 5px; font-size: 13px; margin: 0; display: flex; justify-content: center; align-items: center;}
+.coco { padding: 10px 5px; font-size: 12px; margin: 0; display: flex; justify-content: center; align-items: center;}
 
 
 
@@ -270,7 +270,7 @@ input[type="checkbox"] {width: 15px; height: 15px; background-color: #afaeae; cu
 .like-table-wrap{display: flex; justify-content: start; gap: 100px;}
 .sinfo-wrap-m{display: flex; flex-direction: column; gap: 7px;}
 .sinfo-wrap-m p{font-size: 14px; margin: 0; font-weight: 500;}
-.sinfo-wrap-m h4{font-size: 16px; margin-left: 5px;}
+.sinfo-wrap-m h4{font-size: 14px; margin-left: 5px;}
 
 
 .date-wrap-m{margin-bottom: 15px; display: flex; align-items: center; gap: 10px;}
@@ -292,6 +292,13 @@ input[type="checkbox"] {width: 15px; height: 15px; background-color: #afaeae; cu
 #modalfour{width: 100%; height: 100%; position: fixed; top: 0; left: 0; display: flex; justify-content: center; align-items: center; background-color: rgb(0,0,0,0.5); }
 #modalfour.hidden{display: none;}
 #modalcontentt{position: absolute; background-color: #ffffff; width: 750px; max-height: 620px; padding: 15px;}
+
+
+#modalone{width: 100%; height: 100%; position: fixed; top: 0; left: 0; display: flex; justify-content: center; align-items: center; background-color: rgb(0,0,0,0.5); }
+#modalone.hidden{display: none;}
+#modalcontent{position: absolute; background-color: #ffffff; width: 750px; max-height: 620px; padding: 15px;}
+
+
 .wr-m p{font-size: 13px; margin: 3px;}
 #join-m{background-color: #ffffff; color: #30336b; border: 1px solid #474a8f;}
 
@@ -344,10 +351,11 @@ input[type="checkbox"] {width: 15px; height: 15px; background-color: #afaeae; cu
 .pagination a {
     color: black;
     float: left;
-    padding: 5px 12px;
+    padding: 4px 11px;
     text-decoration: none;
     transition: background-color .3s;
     border: 1px solid #ddd;
+    cursor: pointer;
 }
 
 .pagination a.act {

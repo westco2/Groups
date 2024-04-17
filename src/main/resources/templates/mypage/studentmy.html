@@ -1,0 +1,292 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+<!-- content -->
+<th:block th:replace="~{./include/baselayout :: setContent( ~{ :: .bon-wrap } )}">
+    <div class="bon-wrap">
+        <div class="bon-content-wrap" style="margin-bottom: 0;">
+            <div class="small-title-m">
+                <i class="ri-circle-fill"></i><h5>정보</h5>
+            </div>
+            <div class="content-box">
+                <h3 style="margin-bottom: 10px;">기본 정보</h3>
+                <div class="reg-title-wrap" style="margin-bottom: 15px;">
+                    <div class="like-table-wrap">
+                        <div class="sinfo-wrap-m">
+                            <p>이름</p>
+                            <h4 class="name-m"><i class="ri-user-star-line"></i>&nbsp;[[${membervo.korn_flnm}]]</h4>
+                        </div>
+
+                        <div class="sinfo-wrap-m">
+                            <p>e-mail</p>
+                            <h4 class="name-m"><i class="ri-file-user-line"></i> &nbsp;[[${membervo.adm_eml_addr}]]</h4>
+                        </div>
+                        <div class="sinfo-wrap-m">
+                            <p>연락처</p>
+                            <h4 class="name-m"><i class="ri-file-user-line"></i> &nbsp;[[${membervo.idfr_telno}]]</h4>
+                        </div>
+                        <div class="sinfo-wrap-m">
+                            <p>생년월일</p>
+                            <h4 class="name-m"><i class="ri-file-user-line"></i> &nbsp;[[${membervo.date_birth}]]</h4>
+                        </div>
+                        <div class="sinfo-wrap-m">
+                            <p>가입일</p>
+                            <h4 class="name-m"><i class="ri-file-user-line"></i> &nbsp;[[${ #temporals.format(membervo.date_subscription, 'yyyy.MM.dd')}]]</h4>
+                        </div>
+                    </div>
+
+                </div>
+
+                <h3 style="margin-bottom: 10px;">내그룹 정보</h3>
+                <div class="reg-title-wrap" style="margin-bottom: 15px;">
+                    <div class="like-table-wrap flfl-mmm">
+                        <div class="sinfo-wrap-m">
+                            <p>소속그룹</p>
+                            <h4 class="name-m"><i class="ri-file-user-line"></i> &nbsp;[[${group.group_nm}]]</h4>
+                        </div>
+                        <div class="sinfo-wrap-m">
+                            <p>교육자</p>
+                            <h4 class="name-m"><i class="ri-user-star-line"></i>&nbsp;[[${group.korn_flnm}]]</h4>
+                        </div>
+                        <div class="sinfo-wrap-m">
+                            <p>기간</p>
+                            <h4 class="name-m"><i class="ri-calendar-check-line"></i> &nbsp;[[${#dates.format(group.group_start, 'yyyy.MM.dd')}]]~[[${#dates.format(group.group_end, 'yyyy.MM.dd')}]]</h4>
+                        </div>
+                        <div class="sinfo-wrap-m">
+                            <p>그룹원</p>
+                            <h4 class="name-m"><i class="ri-group-line"></i> &nbsp;[[${group.student_count}]]</h4>
+                        </div>
+                        <div class="sinfo-wrap-m">
+                            <p>질문</p>
+                            <h4 class="name-m"><i class="ri-questionnaire-line"></i> &nbsp;[[${group.std_q}]]</h4>
+                        </div>
+                        <div class="sinfo-wrap-m">
+                            <p>수업자료</p>
+                            <h4 class="name-m"><i class="ri-file-line"></i> &nbsp;[[${group.group_mt}]]</h4>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 style="margin-bottom: 10px;">학습 정보</h3>
+                <div class="reg-title-wrap" style="margin-bottom: 15px;">
+                    <div class="like-table-wrap flfl-mmm">
+                        <div class="sinfo-wrap-m">
+                            <p>내숙제점수</p>
+                            <h4 class="name-m"><i class="ri-user-star-line"></i>&nbsp;[[${membervo.score}]]</h4>
+                        </div>
+                        <div class="sinfo-wrap-m">
+                            <p>해결한 문제수</p>
+                            <h4 class="name-m"><i class="ri-file-user-line"></i> &nbsp;[[${sol != 0 ? sol : 0}]]문제</h4>
+                        </div>
+                        <div class="sinfo-wrap-m">
+                            <p>내질문 수</p>
+                            <h4 class="name-m"><i class="ri-file-user-line"></i> &nbsp;0개</h4>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="devi-wrap-m">
+            <div class="devi-f-wrap-m">
+                <div class="bon-content-wrap">
+                    <div class="small-title-m">
+                        <i class="ri-circle-fill"></i><h5>이력</h5>
+                    </div>
+                    <div class="content-box">
+                        <form class="search-wrap-m" style="margin-bottom: 0; padding-bottom: 0; padding-left: 0;" action="/mypage/stdmypage" method="get">
+                            <div class="top-line-btn-wrap" style="margin-bottom: 15px">
+                                <input type="text" placeholder="제목을 검색해주세요" name="title" th:value="${pageVO.cri.title}" style="width: 300px">
+                                <i class="ri-search-line"></i>
+
+                            </div>
+                            <div class="ssd-mm">
+                                <input type="submit" class="sub-des" value="조회하기">
+                            </div>
+
+                        </form>
+                        <div class="table-wrap">
+                            <table class="table-content" >
+                                <thead class="co-head">
+                                <tr class="co-flex">
+                                    <th class="coco crcr-0">No</th>
+                                    <th class="coco work-mmm1 lis-left desc-tr">제목</th>
+                                    <th class="coco work-mmm2 lis-left desc-tr">언어</th>
+                                    <th class="coco work-mmm3 lis-left desc-tr">레벨</th>
+                                    <th class="coco work-mmm4 lis-left desc-tr">유형</th>
+                                    <th class="coco work-mmm5 lis-left desc-tr">점수</th>
+                                    <th class="coco work-mmm6 lis-left desc-tr">일자</th>
+                                    <th class="coco work-mmm7 lis-left desc-tr">코드</th>
+                                </tr>
+                                </thead>
+                                <tbody class="co-body">
+                                <th:block th:each="i, status : ${work} ">
+                                <tr class="co-flex">
+                                    <td class="coco crcr-0 center-flex">[[${status.index + 1}]]</td>
+                                    <td class="coco work-mmm1 lis-left"><strong>[[${i.homework_title}]]</strong></td>
+                                    <td class="coco work-mmm2 lis-left">[[${i.homework_language}]]</td>
+                                    <td class="coco work-mmm3 lis-left">[[${i.homework_level}]]</td>
+                                    <td class="coco work-mmm4 lis-left">[[${i.category}]]</td>
+                                    <td class="coco work-mmm5 lis-left">[[${i.record_score}]]</td>
+                                    <td class="coco work-mmm6 lis-left">[[${#temporals.format(i.record_date, 'yyyy.MM.dd HH:mm:ss')}]]</td>
+                                    <td class="coco work-mmm7 lis-left"><input type="button" class="sub-des ck-code-m" th:data-code="${i.record_code}" value="보기"></td>
+                                </tr>
+                                </th:block>
+
+
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="page-wrap right-p">
+                            <div class="pagination">
+                                <a th:href="@{stdmypage(page=1,
+                      title = ${pageVO.cri.title})}">&laquo;</a>
+                                <th:block th:each="page : ${pageVO.pageList}">
+                                    <a th:class="${pageVO.page == page ? 'act':''}" th:href="@{stdmypage(page = ${page}, title = ${pageVO.cri.title})}">[[${page}]]</a>
+                                </th:block>
+                                <a th:href="@{stdmypage(page = ${pageVO.realEnd}, title = ${pageVO.cri.title})}"> &raquo;</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="devi-s-wrap-m">
+                <div class="bon-content-wrap" style="margin-left: 0;">
+                    <div class="small-title-m">
+                        <i class="ri-circle-fill"></i><h5>미제출 숙제</h5>
+                    </div>
+                    <div class="content-box re-padding-m">
+                        <div class="yet-wrap-m">
+                            <th:block th:if="${np.size() == 0}">
+                                <p style="font-size: 14px; font-weight: 600">미제출 숙제가 없습니다</p>
+                            </th:block>
+                            <th:block th:if="${np.size() != 0}">
+                                <th:block th:each="i : ${np}">
+                                    <div class="yet-content-m">
+                                        <h5>[[${i.homework_title}]]</h5>
+                                        <p>마감기한<span>[[${#dates.format(i.homework_enddate, 'yyyy.MM.dd')}]]</span></p>
+                                    </div>
+                                </th:block>
+                            </th:block>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="modalfour" class="hidden">
+                <div id="modalcontentt">
+                    <div class="modal-wrap-m">
+                        <div class="join-wrap-mm">
+                            <div class="top-inp">
+                                <h3><i class="ri-checkbox-circle-line"></i>코드보기</h3>
+                            </div>
+                        </div>
+                        <div class="show-code-wrap-m">
+                            <pre id="myPreTag" class="show-code-m"></pre>
+                        </div>
+
+                        <div class="bot-sub-m">
+                            <button id="close-m" type="button">닫기</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+
+    </div>
+
+</th:block>
+
+
+<script>
+    var wordsToHighlight = ["public", "return" ,"class", "static", "new", "int", "if", "else", "import", "for"];
+    var mainColorWords = ["main"];
+    var popularWords = ["out", "in", "length"];
+    var numberWords = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
+
+    $(".co-body").on('click', '.ck-code-m', function (e) {
+        console.log($(this).attr("data-code"));
+
+        var code = $(this).attr("data-code");
+
+        // pre 태그 내의 텍스트에 대해 색상을 변경합니다.
+        var highlightedCode = highlightWords(code, wordsToHighlight, mainColorWords, popularWords, numberWords);
+
+        // 변환된 코드를 출력합니다.
+        $(".show-code-m").html(highlightedCode);
+
+        $("#modalfour").removeClass('hidden');
+    });
+
+    function highlightWords(code, wordsToHighlight, mainColorWords, popularWords, numberWords) {
+        var text = code;
+        var regex;
+
+        //큰따옴표 안에 있는 문자열을 추출하여 처리합니다.
+        var stringsInDoubleQuotes = text.match(/"([^"\\]*(\\.[^"\\]*)*)"|'([^'\\]*(\\.[^'\\]*)*)'/g);
+        if (stringsInDoubleQuotes !== null) {
+            stringsInDoubleQuotes.forEach(function (str) {
+                // 큰따옴표 안에 있는 문자열에 대해 색상을 설정합니다.
+                text = text.replace(str, function (match) {
+                    return applySpan(match, "", "#54966c"); // 큰따옴표 안에 있는 문자열 색상 설정 (예시로 보라색 사용)
+                });
+            });
+        }
+
+        // wordsToHighlight 처리
+        wordsToHighlight.forEach(function (word) {
+            regex = new RegExp("\\b" + word + "\\b", "gi");
+            text = text.replace(regex, function (match) {
+                return applySpan(match, word);
+            });
+        });
+
+        // mainColorWords 처리
+        mainColorWords.forEach(function (word) {
+            regex = new RegExp("\\b" + word + "\\b", "gi");
+            text = text.replace(regex, function (match) {
+                return applySpan(match, word, "#52a1e9"); // 메인 색상 설정
+            });
+        });
+
+        // popularWords 처리
+        popularWords.forEach(function (word) {
+            regex = new RegExp("\\b" + word + "\\b", "gi");
+            text = text.replace(regex, function (match) {
+                return applySpan(match, word, "#e588d6"); // 인기 색상 설정
+            });
+        });
+
+        // numberWords 처리
+        numberWords.forEach(function (word) {
+            regex = new RegExp("\\b" + word + "\\b", "gi");
+            text = text.replace(regex, function (match) {
+                return applySpan(match, word, "rgb(92 197 173)"); // 숫자 색상 설정 (예시로 초록색 사용)
+            });
+        });
+
+        return text;
+    }
+
+    function applySpan(match, word, color = "#e78e62") {
+        var span = document.createElement("span");
+        span.textContent = match;
+        span.style.color = color; // 색상 설정
+        return span.outerHTML;
+    }
+
+    document.getElementById("close-m").addEventListener('click', () => {
+        $(".show-code-m").empty();
+        $("#modalfour").addClass('hidden');
+    });
+</script>
+
+</body>
+</html>
