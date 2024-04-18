@@ -1,17 +1,21 @@
 package com.project.groups.controller;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import com.project.groups.s3.S3Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -35,6 +39,7 @@ import com.project.groups.dataW.service.DataWService;
 import com.project.groups.membersZ.service.CustomUserDetails;
 import com.project.groups.util.Criteria;
 import com.project.groups.util.PageVO;
+import org.springframework.web.util.UriUtils;
 
 @Controller
 @RequestMapping("/dataW")
@@ -60,6 +65,9 @@ public class DataWController {
 	@Autowired
 	@Qualifier("DataWService")
 	private DataWService dataWService;
+
+	@Autowired
+	private S3Service s3Service;
 	
 	//////////////////////////////////////////////////
 	
@@ -132,13 +140,32 @@ public class DataWController {
 							  UploadVO uploadvo,
 							  RedirectAttributes re,
 							  MultipartHttpServletRequest part
-							  ) {
+							  ) throws IOException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String login_idid = authentication.getName();
         System.out.println("login_idid" + login_idid);
 		List<MultipartFile> list = part.getFiles("file");
 		vo.setLogin_id(login_idid);
-		int result = dataWService.regist(vo,list);
+		List<UploadVO> volist = new ArrayList<>();
+		list.forEach(file -> {
+			String filename = file.getOriginalFilename(); //파일명
+			filename = filename.substring(filename.lastIndexOf("\\") + 1);
+
+			String uuid = UUID.randomUUID().toString();
+			String objectKey =  uuid + "_" + filename;
+			//중복으로 올라오는 파일을 피하고싶으면, UUID객체로 랜덤값
+			byte[] filedata = new byte[0];//파일데이터
+			try {
+				filedata = file.getBytes();
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+			 volist.add(UploadVO.builder().fileurl(objectKey).filename(filename).uuid(uuid).login_id(vo.getLogin_id()).build());
+
+			s3Service.putS3Object(objectKey,filedata);
+		});
+
+		int result = dataWService.regist(vo,volist);
 		if(result == 1) {
 			re.addFlashAttribute("msg", "등록완료");
 		}
@@ -150,22 +177,30 @@ public class DataWController {
 		return "redirect:/dataW/dataWBoardT";
 	}
 	@ResponseBody
-	@GetMapping("/download/{filepath}/{uuid}/{filename}")
-	public ResponseEntity<byte[]> download(@PathVariable("filepath") String filepath,
-										   @PathVariable("uuid") String uuid,
-										   @PathVariable("filename") String filename){
-		ResponseEntity<byte[]> entity = null;
+	@GetMapping("/download/{uuid}/{filename}")
+	public ResponseEntity<byte[]> download(@PathVariable("uuid") String uuid,
+										   @PathVariable("filename") String filename) {
+		System.out.println(uuid);
+		System.out.println(filename);
+		String key = uuid + "_" + filename;
 		try {
-			String savePath = uploadPath + "/" + filepath + "/" + uuid + "_" + filename;
-			File file = new File(savePath);
-			byte[] arr = FileCopyUtils.copyToByteArray(file);
-			HttpHeaders header = new HttpHeaders();
-			header.add("Content-Disposition", "attachment; filename=" + filename );
-			entity = new ResponseEntity<>(arr, header, HttpStatus.OK);
-		}catch (Exception e) {
+			// 파일 다운로드를 위한 작업 수행
+			byte[] fileBytes = s3Service.getObjectBytes(key, filename);
+
+			// 파일명 URL 인코딩
+			String encodedFilename = UriUtils.encode(filename, StandardCharsets.UTF_8);
+
+			// 파일 다운로드 응답 생성
+			HttpHeaders headers = new HttpHeaders();
+			headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+			headers.setContentDispositionFormData("attachment", encodedFilename); // 다운로드할 파일의 인코딩된 이름 설정
+			headers.setContentLength(fileBytes.length);
+
+			return new ResponseEntity<>(fileBytes, headers, HttpStatus.OK);
+		} catch (Exception e) {
 			e.printStackTrace();
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		return entity;
 	}
 	
 	//////////////////////////////////////////////////

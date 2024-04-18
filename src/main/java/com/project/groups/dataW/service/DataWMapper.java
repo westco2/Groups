@@ -22,6 +22,6 @@ public interface DataWMapper {
 	public int getTotal(@Param("login_id")String login_id ,@Param("cri")Criteria cri);
 	public void upload(UploadVO uploadvo);
 	public void registFile(UploadVO vo);
-	public GroupVO getgroupname(String login_id);
+	public List<GroupVO> getgroupname(String login_id);
 	public List<UploadVO> getfile(Integer gnumber);
 }

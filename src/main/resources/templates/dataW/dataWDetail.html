@@ -59,10 +59,10 @@
 							<div class="group-name">
 								<label>첨부파일 다운로드</label>
 								<th:block th:each="vo : ${list}">
-								<div class="reg-btn-wrap-w" style="justify-content: start;display: flex;align-items: center; gap: 10px;">
-								<p>[[${vo.filename}]]</p>
-									<button style="background-color : #b1b1b1;" type="button"><a style="color:#ffffff; text-decoration:none;font-weight:600; " th:href="@{download/{a}/{b}/{c}(a=${vo.filepath},b=${vo.uuid},c=${vo.filename})}">다운로드</a></button>
-								</div> 
+									<div class="reg-btn-wrap-w" style="justify-content: start; display: flex; align-items: center; gap: 10px;">
+										<p>[[${vo.filename}]]</p>
+										<button style="background-color : #b1b1b1;" type="button" class="dl-btn-mm" ><a style="text-decoration: none;font-size: 12px; color: #ffffff; font-weight: 600;" th:href="@{/dataW/download/{a}/{b}(a=${vo.uuid},b=${vo.filename})}">다운로드</a></button>
+									</div>
 								</th:block>
 							</div>
 						</div>
@@ -80,6 +80,33 @@
 function goback(){
 	window.location.href="/dataW/dataWBoardS";
 }
+
+/*$(document).ready(function() {
+	// 다운로드 버튼 클릭 이벤트 처리
+	$(".dl-btn-mm").click(function() {
+		// 데이터 속성에서 UUID와 파일명 가져오기
+		var uuid = $(this).data("uuid");
+		var nn = $(this).data("filename");
+		var filename = decodeURIComponent(nn.replace(/\+/g, " "));
+		console.log(filename);
+		// AJAX 요청 보내기
+		$.ajax({
+			type: "GET",
+			url: `/dataW/download/${uuid}/${filename}`,
+			success: function(response) {
+				// 성공적으로 다운로드 요청을 보낸 경우의 처리
+				console.log("다운로드 요청 성공:", response);
+				// 추가적인 로직을 여기에 작성
+			},
+			error: function(xhr, status, error) {
+				// 오류가 발생한 경우의 처리
+				console.error("다운로드 요청 오류:", error);
+			}
+		});
+	});
+});*/
+
+
 </script>
 	
 </body>
