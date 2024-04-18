@@ -204,8 +204,13 @@
                 <div class="reg-title-wrap">
                     <div class="content-box">
                         <div class="top-line-btn-wrap">
-                            <input type="text" placeholder="제목을 검색해주세요">
-                            <i class="ri-search-line"></i>
+                            <div div style="display: flex; gap: 10px; align-items: start">
+                                <input type="text" class="search-m2" placeholder="제목을 검색해주세요">
+                                <i class="ri-search-line"></i>
+                                <div class="ssd-mm2" style="margin: 0">
+                                    <input type="button" class="sub-des" id="sc-btn-m2" style="padding: 4px 15px; font-size: 13px;" value="조회하기">
+                                </div>
+                            </div>
                         </div>
                         <div class="wr-m">
                             <p><i class="ri-error-warning-line"></i>수업자료 페이지에서 수업자료를 업로드 할 수 있습니다.</p>
@@ -214,64 +219,34 @@
                             <table class="table-content">
                                 <thead class="co-head">
                                 <tr class="co-flex">
-                                    <th class="coco crcr-0">#</th>
-                                    <th class="coco mrmr-1 lis-left desc-tr">제목<i class="ri-arrow-down-s-fill i-col"></i></th>
-                                    <th class="coco mrmr-2 lis-left desc-tr">등록일시<i class="ri-arrow-down-s-fill"></i></th>
-                                    <th class="coco mrmr-3 lis-left desc-tr">조회수<i class="ri-arrow-down-s-fill"></i></th>
+                                    <th class="coco crcr-0">No</th>
+                                    <th class="coco mrmr-1m lis-left desc-tr">제목<i class="ri-arrow-down-s-fill i-col"></i></th>
+                                    <th class="coco mrmr-2m lis-left desc-tr">강의유형<i class="ri-arrow-down-s-fill"></i></th>
+                                    <th class="coco mrmr-3m lis-left desc-tr">등록일시<i class="ri-arrow-down-s-fill"></i></th>
                                 </tr>
                                 </thead>
-                                <tbody class="co-body">
+                                <tbody class="co-body sms-m2">
+                                <th:block th:each="i,status : ${data}">
                                 <tr class="co-flex">
-                                    <td class="coco crcr-0 center-flex">1</td>
-                                    <td class="coco mrmr-1 lis-left">10월 2주차 학습자료</td>
-                                    <td class="coco mrmr-2 lis-left">2023.10.01</td>
-                                    <td class="coco mrmr-3 lis-left">2</td>
+                                    <td class="coco crcr-0 center-flex">[[${status.index + 1}]]</td>
+                                    <td class="coco mrmr-1m lis-left">[[${i.gfilename}]]</td>
+                                    <td class="coco mrmr-2m lis-left">[[${i.gname}]]</td>
+                                    <td class="coco mrmr-3m lis-left">[[${#temporals.format(i.gregdate, 'yyyy.MM.dd')}]]</td>
                                 </tr>
-                                <tr class="co-flex">
-                                    <td class="coco crcr-0 center-flex">2</td>
-                                    <td class="coco mrmr-1 lis-left">for문 정리자료</td>
-                                    <td class="coco mrmr-2 lis-left">2023.10.01</td>
-                                    <td class="coco mrmr-3 lis-left">3</td>
-                                </tr>
-                                <tr class="co-flex">
-                                    <td class="coco crcr-0 center-flex">3</td>
-                                    <td class="coco mrmr-1 lis-left">for문 정리자료2</td>
-                                    <td class="coco mrmr-2 lis-left">2023.10.01</td>
-                                    <td class="coco mrmr-3 lis-left">10</td>
-                                </tr>
-                                <tr class="co-flex">
-                                    <td class="coco crcr-0 center-flex">4</td>
-                                    <td class="coco mrmr-1 lis-left">이순신</td>
-                                    <td class="coco mrmr-2 lis-left">2023.10.01</td>
-                                    <td class="coco mrmr-3 lis-left">0</td>
-                                </tr>
-                                <tr class="co-flex">
-                                    <td class="coco crcr-0 center-flex">5</td>
-                                    <td class="coco mrmr-1 lis-left">이순신</td>
-                                    <td class="coco mrmr-2 lis-left">2023.10.01</td>
-                                    <td class="coco mrmr-3 lis-left">1</td>
-                                </tr>
-                                <tr class="co-flex">
-                                    <td class="coco crcr-0 center-flex">6</td>
-                                    <td class="coco mrmr-1 lis-left">이순신</td>
-                                    <td class="coco mrmr-2 lis-left">2023.10.01</td>
-                                    <td class="coco mrmr-3 lis-left">5</td>
-                                </tr>
+
+                                </th:block>
 
 
 
                                 </tbody>
                             </table>
                         </div>
-                        <div class="page-wrap right-p">
+                        <div class="page-wrap right-p sms-mdd2">
                             <div class="pagination">
                                 <a href="#">&laquo;</a>
-                                <a href="#">1</a>
-                                <a href="#" class="act">2</a>
-                                <a href="#">3</a>
-                                <a href="#">4</a>
-                                <a href="#">5</a>
-                                <a href="#">6</a>
+                                <th:block th:each="page : ${pageVO2.pageList}">
+                                    <a th:class="${pageVO2.page == page ? 'act':''}" th:data-page="${page}">[[${page}]]</a>
+                                </th:block>
                                 <a href="#">&raquo;</a>
                             </div>
                         </div>
@@ -638,6 +613,41 @@
         });
     }
 
+    function getdatainfo(searchKorn_flnm, page, group_no) {
+        $.ajax({
+            type: "GET",
+            url: "/getgroupdataInfo",
+            dataType: "json",
+            data: {
+                searchKorn_flnm: searchKorn_flnm,
+                page: page,
+                amount: 5,
+                group_no: group_no
+            },
+            success: function (data) {
+                console.log(data);
+                $(".sms-m2").empty();
+                for (let i in data) {
+                    var tr = document.createElement("tr");
+                    tr.classList.add("co-flex");
+                    var joinDate = new Date(data[i].gregdate);
+
+                    // 원하는 포맷으로 날짜 및 시간 출력
+                    var formattedJoinDate = joinDate.toLocaleString();
+                    tr.innerHTML = `<td class="coco crcr-0 center-flex">${parseInt(i) + 1}</td>
+                                    <td class="coco mrmr-1m lis-left">${data[i].gfilename}</td>
+                                    <td class="coco mrmr-2m lis-left">${data[i].gname}</td>
+                                    <td class="coco mrmr-3m lis-left">${formattedJoinDate}</td>`;
+                    $(".sms-m2").append(tr);
+                }
+            },
+            error: function (xhr, status, error) {
+                console.log(xhr.responseText);
+                alert("정보를 불러올 수 없습니다.");
+            }
+        });
+    }
+
 
     function getstdinfopage(searchKorn_flnm, page, group_no) {
         $.ajax({
@@ -670,6 +680,44 @@
                 a2.innerHTML = "&raquo;"
                 div.append(a2);
                 $(".sms-mdd").append(div);
+            },
+            error: function (xhr, status, error) {
+                console.log(xhr.responseText);
+                alert("정보를 불러올 수 없습니다.");
+            }
+        });
+    }
+    function getdatainfopage(searchKorn_flnm, page, group_no) {
+        $.ajax({
+            type: "GET",
+            url: "/getgroupdataInfopage",
+            dataType: "json",
+            data: {
+                searchKorn_flnm: searchKorn_flnm,
+                page: page,
+                amount: 5,
+                group_no: group_no
+            },
+            success: function (data) {
+                console.log(data);
+                $(".sms-mdd2").empty();
+                var div = document.createElement("div");
+                var a1 = document.createElement("a");
+                a1.innerHTML = "&laquo;"
+                div.append(a1);
+
+                div.classList.add("pagination");
+                for (let i of data.pageList) {
+                    var a = document.createElement("a");
+                    if(data.page == i) a.classList.add("act");
+                    a.setAttribute("data-page", i); // 데이터 속성 설정
+                    a.innerHTML = i;
+                    div.append(a);
+                }
+                var a2 = document.createElement("a");
+                a2.innerHTML = "&raquo;"
+                div.append(a2);
+                $(".sms-mdd2").append(div);
             },
             error: function (xhr, status, error) {
                 console.log(xhr.responseText);
@@ -723,6 +771,7 @@
 
 
     $("#del-std").click(function(){
+        confirm("정말 퇴장처리 하시겠습니까?");
         // 선택된 학생들의 login_id를 담을 배열
         var selectedStudents = [];
 
@@ -737,6 +786,7 @@
             type: 'GET', // GET 방식
             data: {login_ids: selectedStudents.join(','), group_no: group_no }, // 선택된 학생들의 login_id 전달
             success: function(response){
+                alert("퇴장처리하였습니다");
                 // 서버에서의 처리가 성공했을 때의 동작
                 // 예를 들어, 퇴장 처리 후 화면 갱신 등의 동작을 수행할 수 있음
                 location.reload(); // 페이지 새로고침
@@ -756,11 +806,25 @@
         getstdinfopage(searchname, $(this).data("page"), group_no);
     })
 
+    $(".sms-mdd2").on("click", 'a',function (e){
+        console.log($(this).data("page"));
+        var searchname2 = $(".search-m2").val();
+        $(".sms-m2").empty();
+        getdatainfo(searchname2, $(this).data("page"), group_no);
+        getdatainfopage(searchname2, $(this).data("page"), group_no);
+    })
+
     $("#sc-btn-m").on('click', function (e){
         var searchname = $(".search-m").val();
         $(".sms-m").empty();
         getstdinfo(searchname, $(this).data("page"), group_no);
         getstdinfopage(searchname, $(this).data("page"), group_no);
+    })
+    $("#sc-btn-m2").on('click', function (e){
+        var searchname = $(".search-m2").val();
+        $(".sms-m2").empty();
+        getdatainfo(searchname, $(this).data("page"), group_no);
+        getdatainfopage(searchname, $(this).data("page"), group_no);
     })
 
 

@@ -553,3 +553,8 @@ input[type="text"]:focus, textarea:focus {outline: none; border-color:#1A8EF9;}
          opacity: 1;
      }
 }
+
+
+.mrmr-1m{flex-basis: 40%}
+.mrmr-2m{flex-basis: 30%}
+.mrmr-3m{flex-basis: 25%}

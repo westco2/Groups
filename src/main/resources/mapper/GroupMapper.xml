@@ -123,8 +123,8 @@
     <!-- 그룹 가입 신청 -->
 
     <insert id="groupjoin">
-        insert into GROUP_JOIN (login_id, group_no, aprv_yn)
-        values (#{login_id}, #{group_no}, "N")
+        insert into GROUP_JOIN (login_id, group_no, aprv_yn, join_date)
+        values (#{login_id}, #{group_no}, "N", now())
     </insert>
 
     <!-- 그룹 승인처리 -->
@@ -229,6 +229,21 @@
                 </if>
             </where>
             limit #{cri.pageStart}, #{cri.amount};
+    </select>
+
+    <select id="getdatainfo" resultType="DataVO">
+        select * from GROUPFILE where group_no = #{group_no}
+            <if test="cri.searchKorn_flnm != '' and cri.searchKorn_flnm != null">
+                and gfilename like concat('%',#{cri.searchKorn_flnm},'%')
+            </if>
+        order by gregdate desc
+        limit #{cri.pageStart}, #{cri.amount};
+    </select>
+    <select id="getdatainfototal" resultType="int">
+        select count(*) from GROUPFILE where group_no = #{group_no}
+        <if test="cri.searchKorn_flnm != '' and cri.searchKorn_flnm != null">
+            and gfilename like concat('%',#{cri.searchKorn_flnm},'%')
+        </if>
     </select>
 
     <!-- 그룹에서 학생 퇴장 -->

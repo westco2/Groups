@@ -34,7 +34,9 @@ public class GroupController {
     @PostMapping("/groupdetail")
     public String groupdetail(@RequestParam("group_no") Integer group_no, Model model){
         Criteria cri = new Criteria(1,5);
+
         PageVO vo = new PageVO(cri, groupService.getstdtotal(cri,group_no));
+        PageVO vo2 = new PageVO(cri, groupService.getdatainfototal(group_no,cri));
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication.getPrincipal() instanceof CustomUserDetails) {
@@ -45,10 +47,11 @@ public class GroupController {
             model.addAttribute("list",groupService.getdashboardt(group_no, memberVO.getLogin_id()) );
         }
 
-
+        model.addAttribute("data",groupService.getdatainfo(group_no,cri));
         model.addAttribute("group", groupService.getgroupdetail(group_no));
         model.addAttribute("std", groupService.getgroupstdinfo(cri, group_no));
         model.addAttribute("pageVO",vo);
+        model.addAttribute("pageVO2",vo);
         return "group/groupdetail";
     }
 
