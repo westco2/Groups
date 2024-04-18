@@ -43,8 +43,12 @@ dependencies {
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
 //시큐리티 테스트
     testImplementation 'org.springframework.security:spring-security-test'
-
-
+//aws
+//    implementation 'software.amazon.awssdk:aws-sdk-java:2.20.43'
+//    implementation("software.amazon.awssdk:s3")
+    implementation platform("software.amazon.awssdk:bom:2.25.31")
+    implementation "software.amazon.awssdk:s3"
+    implementation "software.amazon.awssdk:lambda"
 }
 
 

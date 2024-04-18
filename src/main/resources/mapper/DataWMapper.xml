@@ -26,7 +26,7 @@
 
 	select g.*,
            gl.group_nm
-    from (select * from GROUPFILE where group_no = (select group_no from group_join where login_id = #{login_id} and APRV_YN = "Y") ) g
+    from (select * from GROUPFILE where group_no = (select group_no from GROUP_JOIN where login_id = #{login_id} and APRV_YN = "Y") ) g
     left join GROUP_LIST gl on g.group_no = gl.group_no
      <where>
     <if test="cri.title != '' and cri.title != null">
@@ -113,7 +113,7 @@
 	</insert>
 	
 	<select id="getgroupname" resultType="GroupVO">
-        select group_nm, group_no from group_list where login_id = #{login_id};
+        select group_nm, group_no from GROUP_LIST where login_id = #{login_id};
     </select>
 
 </mapper>
