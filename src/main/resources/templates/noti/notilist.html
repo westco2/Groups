@@ -1,0 +1,241 @@
+<!DOCTYPE HTML>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+
+
+<body>
+
+
+
+<!-- content -->
+
+<th:block th:replace="~{./include/baselayout :: setContent( ~{ :: .bon-wrap } )}">
+
+    <div class="bon-wrap">
+
+        <div class="page-title">
+
+            <p>회원관리</p>
+
+        </div>
+
+        <div class="route-wrap">
+
+            <a href="#">회원관리</a><p>/</p><a href="#">회원조회</a>
+
+        </div>
+
+        <div class="bon-content-wrap">
+
+            <div class="box-title-wrap">
+
+                <h3>회원조회</h3>
+
+            </div>
+
+            <div class="content-box">
+
+                <div class="top-inp">
+
+                    <p>group(5)</p>
+
+                    
+
+                </div>
+
+                <div class="search-wrap-m">
+
+                    <div class="inp-wrap">
+
+                        <label>구분</label>
+
+                        <select class="sel-des">
+
+                            <option>전체</option>
+
+                            <option>교육자</option>
+
+                            <option>학습자</option>
+
+                        </select>
+
+                        <input type="submit" class="sub-des" value="조회하기">
+
+                    </div>
+
+
+
+                </div>
+
+                <div class="table-wrap">
+
+                    <table class="table-content">
+
+                        <thead class="co-head">
+
+                        <tr class="co-flex">
+
+                            <th class="coco crcry-0">No</th>
+
+                            <th class="coco crcry-1">구분</th>
+
+                            <th class="coco crcry-2">성명</th>
+
+                            <th class="coco crcry-3">아이디</th>
+
+                            <th class="coco crcry-4">연락처</th>
+
+                            <th class="coco crcry-5">자격</th>
+
+                            <th class="coco crcry-6">가입일자</th>
+
+                            
+
+                        </tr>
+
+                        </thead>
+
+                        <tbody class="co-body">
+
+                        
+
+                        <tr class="co-flex">
+
+                            <td class="coco crcry-0 center-flex">1</td>
+
+                            <td class="coco crcry-1">교육자</td>
+
+                            <td class="coco crcry-2" id="medbtn-m">홍길동</td>
+
+                            <td class="coco crcry-3">aaa123</td>
+
+                            <td class="coco crcry-4">010-1234-5678</td>
+
+                            <td class="coco crcry-5">베이직회원</td>
+
+                            <td class="coco crcry-6">2023.10.17</td>
+
+                        </tr>
+
+
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+
+
+            </div>
+
+            <div id="modalfour" class="hidden">
+
+                <div id="modalcontentt">
+
+                    <div class="modal-wrap-m">
+
+                        <div class="join-wrap-mm">
+
+                            <div class="top-inp">
+
+                                <h3><i class="ri-checkbox-circle-line"></i>회원 세부정보</h3>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <div class="content-box">
+
+                            <div class="wr-m">
+
+                                <p></p>
+
+                            </div>
+
+                            <div class="table-wrap">
+
+                                <table class="table-content">
+
+                                    <thead class="co-head">
+
+                                    <tr class="co-flex">
+
+                                       
+
+                                        <th class="coco y-1">성명</th>
+
+                                        <th class="coco y-2">생년원일</th>
+
+                                        <th class="coco y-3">주소</th>
+
+                                        <th class="coco y-4">이메일</th>
+
+                                        
+
+                                    </tr>
+
+                                    </thead>
+
+                                    <tbody class="co-body">
+
+                                    <tr class="co-flex">
+
+                                      
+
+                                        <td class="coco y-1">홍길동</td>
+
+                                        <td class="coco y-2">951030</td>
+
+                                        <td class="coco y-3">서울시강남구</td>
+
+                                        <td class="coco y-4">aaa123@naver.com</td>
+
+                                        
+
+                                    </tr>
+
+                                    
+
+
+
+                                    </tbody>
+
+                                </table>
+
+                            </div>
+
+                            <div class="bot-sub-m">
+
+                               
+
+                                <button id="close-m" type="button">닫기</button>
+
+                            </div>
+
+                        </div>
+
+
+
+                    </div> 
+
+
+
+        </div>
+
+    </div>
+
+
+
+</th:block>
+
+
+
+
+
+</body>
+
+</html>

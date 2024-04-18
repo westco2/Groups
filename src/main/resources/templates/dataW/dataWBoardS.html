@@ -62,18 +62,16 @@
 							</tbody>
 						</table>
 					</div>
-					
 					<div class="page-wrap right-p">
-                    <div class="pagination">
-                        <a th:href="@{dataWBoardS(page=1,
-                      title = ${pageVO.cri.title})}">&laquo;</a>
-                        <th:block th:each="page : ${pageVO.pageList}">
-                            <a th:class="${pageVO.page == page ? 'act':''}" th:href="@{dataWBoardS(page = ${page}, title = ${pageVO.cri.title})}">[[${page}]]</a>
-                        </th:block>
-                        <a th:href="@{dataWBoardS(page = ${pageVO.realEnd}, title = ${pageVO.cri.title})}"> &raquo;</a>
-                    </div>
-                </div>
-
+	                    <div class="pagination">
+	                        <a th:href="@{dataWBoardS(page=1,
+	                      title = ${pageVO.cri.title})}">&laquo;</a>
+	                        <th:block th:each="page : ${pageVO.pageList}">
+	                            <a th:class="${pageVO.page == page ? 'act':''}" th:href="@{dataWBoardS(page = ${page}, title = ${pageVO.cri.title})}">[[${page}]]</a>
+	                        </th:block>
+	                        <a th:href="@{dataWBoardS(page = ${pageVO.realEnd}, title = ${pageVO.cri.title})}"> &raquo;</a>
+	                    </div>
+                	</div>
 				</div>
 
 			</form>

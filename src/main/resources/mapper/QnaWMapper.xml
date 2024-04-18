@@ -19,7 +19,7 @@
 	
 	<select id="getList2" resultType="QnaVO">
 	select a.*, b.group_nm from 
-    (select t.*, m.KORN_FLNM from (select qq.*, cc.ccontent from (select * from QNABOARD  where login_id = #{login_id}) qq left join COMMENT cc on qq.qnumber = cc.qnumber  ) t left join members m on t.login_id = m.login_id) a 
+    (select t.*, m.korn_flnm from (select qq.*, cc.ccontent from (select * from QNABOARD  where login_id = #{login_id}) qq left join COMMENT cc on qq.qnumber = cc.qnumber  ) t left join MEMBERS m on t.login_id = m.login_id) a 
     left join  GROUP_LIST b
     on a.group_no = b.group_no
     <where>
@@ -29,19 +29,6 @@
     </where>
 	</select>
 	
-	<!-- 1:N 테이블 관계형성[MEMBER, QNABOARD] -->
-<!-- 	<resultMap type="com.project.groups.command.QnaWVO" id="VO"> -->
-<!-- 		<result property="LOGIN_ID" column="LOGIN_ID"/> -->
-<!-- 		<result property="KORN_FLNM" column="KORN_FLNM"/> -->
-<!--         <result property="GROUP_NM" column="GROUP_NM"/> -->
-<!--         <result property="CCONTENT" column="CCONTENT"/> -->
-<!-- 		<collection property="list" ofType="com.project.groups.command.QnaVO"> -->
-<!-- 			<result property="QNUMBER" column="QNUMBER"/> -->
-<!-- 			<result property="QTITLE" column="QTITLE"/> -->
-<!-- 			<result property="QREGDATE" column="QREGDATE"/> -->
-<!-- 			<result property="QCONTENT" column="QCONTENT"/> -->
-<!-- 		</collection> -->
-<!-- 	</resultMap> -->
 	<select id="getgroupinfo" resultType="GroupVO">
 		select a.*, b.group_nm, b.korn_flnm from
 		(select * from GROUP_JOIN where login_id = #{login_id} and aprv_yn = "Y") a
@@ -60,7 +47,6 @@
 			   #{login_id}
 			   )
 	</insert>
-	
 	
 	<select id="getDetail" resultType="QnaVO">
 		select c.*, d.korn_flnm from
@@ -82,7 +68,6 @@
 		values(#{ccontent},
 				#{qnumber},
 				#{login_id})
-		
 	</insert>
 	
 	<delete id="delete">
