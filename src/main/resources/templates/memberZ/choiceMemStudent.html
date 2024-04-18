@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/jy.css">
+</head>
+<body>
+
+<!-- content -->
+<th:block th:replace="~{./include/homelayout :: homeContent( ~{ :: .main-wrap } )}">
+
+
+    <div class="main-wrap">
+        <div class="container-j">
+            <h2 class="name1">학생 회원가입</h2>
+            <form action="/memberreg" method="post">
+                <label for="login_id">아이디</label><br>
+                <input type="text" id="login_id" name="login_id" placeholder="아이디는 4글자 이상입니다" minlength="4" required>
+                <button type="button" id="checkDuplicateBtn">중복확인</button><br>
+
+                <label for="password">비밀번호</label><br>
+                <input type="password" id="password" name="pswd" required><br>
+
+                <label for="name">이름</label><br>
+                <input type="text" id="name" name="korn_flnm" required><br>
+
+                <label for="user_nick">닉네임</label><br>
+                <input type="text" id="user_nick" name="user_nickname" required>
+                <button type="button" id="namebtn">중복확인</button><br>
+
+                <label>생년월일</label>
+                <div class="info" id="info__birth">
+                    <select class="box" id="birth-year">
+                        <option disabled selected>출생 연도</option>
+                    </select>
+                    <select class="box" id="birth-month">
+                        <option disabled selected>월</option>
+                    </select>
+                    <select class="box" id="birth-day">
+                        <option disabled selected>일</option>
+                    </select>
+                    <input type="hidden" name="date_birth" id="datebirth_input">
+                </div>
+
+                <label for="phone">연락처</label><br>
+                <input type="tel" id="phone" name="idfr_telno" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" placeholder="000-0000-0000" required><br>
+
+                <label for="postalCode">우편번호</label><br>
+                <input type="text" id="postalCode" name="postalCode" required>
+                <button type="button" id="findZipCodeBtn" onclick="findZipCode()">우편번호 찾기</button><br>
+
+                <label for="address">주소</label><br>
+                <input type="text" id="address" name="lotno_daddr" required><br>
+
+                <label for="email">이메일</label><br>
+                <input type="text" id="email" name="emailheader" required>
+                <span>@</span>
+                <select class="box" id="domain-list" name="domain">
+                    <option value="type">이메일 선택</option>
+                    <option value="naver.com">naver.com</option>
+                    <option value="google.com">google.com</option>
+                    <option value="hanmail.net">hanmail.net</option>
+                    <option value="nate.com">nate.com</option>
+                    <option value="kakao.com">kakao.com</option>
+                </select>
+                <input type="hidden" name="adm_eml_addr" id="email_adr" value="">
+
+                <input type="hidden" name="role" value="ROLE_STUDENT">
+                <input type="submit" id="teacher" value="가입하기">
+
+            </form>
+        </div>
+    </div>
+</th:block>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    // 우편번호 찾기 함수
+    function findZipCode() {
+        daum.postcode.load(function(){
+            new daum.Postcode({
+                oncomplete: function(data) {
+                    document.getElementById('postalCode').value = data.zonecode;
+                    document.getElementById('address').value = data.address;
+                }
+            }).open();
+        });
+    }
+    /*]]>*/
+</script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    // 인증번호를 요청하는 함수
+    function sendVerificationCode() {
+        const phoneNumber = document.getElementById('phone').value;
+        const carrier = document.getElementById('carrier').value;
+
+        console.log('전화번호:', phoneNumber);
+        console.log('통신사:', carrier);
+    }
+
+    // 인증번호 확인 함수
+    function verifyCode() {
+        const verificationCode = document.getElementById('verifi').value;
+        console.log('인증번호:', verificationCode);
+    }
+    /*]]>*/
+</script>
+<script>
+    // '출생 연도' 셀렉트 박스 option 목록 동적 생성
+    const birthYearEl = document.querySelector('#birth-year')
+    // option 목록 생성 여부 확인
+    isYearOptionExisted = false;
+    birthYearEl.addEventListener('focus', function () {
+        // year 목록 생성되지 않았을 때 (최초 클릭 시)
+        if(!isYearOptionExisted) {
+            isYearOptionExisted = true
+            for(var i = 1960; i <= 2024; i++) {
+                // option element 생성
+                const YearOption = document.createElement('option')
+                YearOption.setAttribute('value', i)
+                YearOption.innerText = i
+                // birthYearEl의 자식 요소로 추가
+                this.appendChild(YearOption);
+            }
+        }
+    });
+    // '출생 월' 셀렉트 박스 option 목록 동적 생성
+    const birthMonthEl = document.querySelector('#birth-month');
+    let isMonthOptionExisted = false;
+    birthMonthEl.addEventListener('focus', function () {
+        if (!isMonthOptionExisted) {
+            isMonthOptionExisted = true;
+            for (let i = 1; i <= 12; i++) {
+                const monthOption = document.createElement('option');
+                monthOption.setAttribute('value', i);
+                monthOption.innerText = i;
+                this.appendChild(monthOption);
+            }
+        }
+    });
+
+    // '출생 일' 셀렉트 박스 option 목록 동적 생성
+    const birthDayEl = document.querySelector('#birth-day');
+    let isDayOptionExisted = false;
+    birthDayEl.addEventListener('focus', function () {
+        if (!isDayOptionExisted) {
+            isDayOptionExisted = true;
+            for (let i = 1; i <= 31; i++) {
+                const dayOption = document.createElement('option');
+                dayOption.setAttribute('value', i);
+                dayOption.innerText = i;
+                this.appendChild(dayOption);
+            }
+        }
+    });
+
+    //
+    // "출생 연도" 선택 시
+    document.getElementById("birth-year").addEventListener("change", function() {
+        updateDateOfBirth();
+    });
+
+    // "월" 선택 시
+    document.getElementById("birth-month").addEventListener("change", function() {
+        updateDateOfBirth();
+    });
+
+    // "일" 선택 시
+    document.getElementById("birth-day").addEventListener("change", function() {
+        updateDateOfBirth();
+    });
+
+    // 날짜를 업데이트하여 숨은 입력 필드에 추가하는 함수
+    function updateDateOfBirth() {
+        var year = document.getElementById("birth-year").value;
+        var month = document.getElementById("birth-month").value;
+        var day = document.getElementById("birth-day").value;
+
+        // 숨은 입력 필드에 선택한 값들을 합쳐서 넣음
+        var dateOfBirth = year + "-" + month + "-" + day;
+        document.getElementById("datebirth_input").value = dateOfBirth;
+    }
+
+    document.getElementById("domain-list").addEventListener("change", function (){
+        makingemailadr();
+    })
+
+    function makingemailadr() {
+        var emailhead = document.getElementById("email").value;
+        var emailend = document.getElementById("domain-list").value;
+        var emailadr = emailhead + "@" + emailend;
+        document.getElementById("email_adr").value = emailadr;
+    }
+
+    // 아이디 중복 확인 버튼 이벤트 리스너 등록
+    document.getElementById('checkDuplicateBtn').addEventListener('click', function() {
+        // 아이디 입력값 가져오기
+        const username = document.getElementById('login_id').value;
+        console.log(username)
+        // 아이디 입력값이 비어 있는지 확인
+        if (username.trim() === '') {
+            alert('아이디를 입력해주세요.');
+            return; // 입력값이 없으면 중복 확인 로직을 실행하지 않고 함수 종료
+        }
+
+        // const isDuplicate = true; // 여기에 실제 중복 확인 로직을 구현하면 됩니다.
+
+        $.ajax({
+            type: "post",
+            async: false,
+            url: "http://localhost:8989/memberidcheck",
+            data: {id: username},
+            success: function (data){
+                if(data > 0){
+                    alert('중복된 아이디입니다. 다시 입력하세요.')
+                } else{
+                    alert('가입이 가능한 아이디입니다.')
+                }
+            }
+        })
+    });
+
+    // 닉네임 중복 확인 버튼 이벤트 리스너 등록
+    document.getElementById('namebtn').addEventListener('click', function() {
+        // 닉네임 입력값 가져오기
+        const nickname = document.getElementById('user_nick').value;
+        console.log(nickname);
+        // 닉네임 입력값이 비어 있는지 확인
+        if (nickname.trim() === '') {
+            alert('닉네임을 입력해주세요.');
+            return; // 입력값이 없으면 중복 확인 로직을 실행하지 않고 함수 종료
+        }
+        $.ajax({
+            type: "post",
+            async: false,
+            url: "http://localhost:8989/membernickcheck",
+            data: {nick: nickname},
+            success: function (data) {
+                if(data > 0) {
+                    alert('중복된 닉네임입니다')
+                }else {
+                    alert('가입이 가능한 닉네임입니다')
+                }
+            }
+        })
+    });
+</script>
+</body>
+</html>

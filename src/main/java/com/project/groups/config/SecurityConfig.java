@@ -8,9 +8,18 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.Collection;
 
 
 @Configuration
@@ -33,9 +42,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter { //시큐리�
         httpSecurity.csrf().disable()
                 .authorizeRequests()
                     .antMatchers("/css/**", "/js/**", "/img/**", "/fonts/**", "/homepageimg/**").permitAll() //css등 import를 위해
-                    .antMatchers("/main","/login", "/joinFormHJ" ).permitAll() //기본 3대장 페이지
+                    .antMatchers("/main","/login", "/joinFormHJ", "/memberZ/choice*" ).permitAll() //기본 3대장 페이지
                     .antMatchers("/member*").permitAll() //회원가입페이지에서ㅠㅠ
-                    .antMatchers("/memberZ/applymember").hasRole("ADMIN")
+                    .antMatchers("/memberZ/tierchoiceZ*")
+                            .hasAnyRole("TEACHER", "ADMIN")
+                    .antMatchers("/memberZ/applymember*")
+                            .hasRole("ADMIN")
+                    .antMatchers("/dataW/dataWRegist*", "/dataW/dataWUpdate*",
+                            "/group/groupreg*", "/group/groupList*",
+                            "/homework/homeworkreg*","/homework/homeworklist*")
+                            .hasAnyRole("TEACHER", "ADMIN")
+                    .antMatchers("/dataW/dataWBoardS*", "/dataW/dataWDetail*")
+                            .hasAnyRole("STUDENT", "ADMIN")
+                    .antMatchers("/mypage/stdmypage*", "/qnaW/qnaWRegist*", "/qnaW/qnaWBoard*",
+                            "/group/userGroupList*", "/dataW/dataWBoardS*", "/dataW/dataWDetail*",
+                            "/homework/myhomework*")
+                            .hasAnyRole("STUDENT", "ADMIN")
                     .anyRequest().authenticated()
                     .and()
                 .exceptionHandling()
@@ -43,7 +65,29 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter { //시큐리�
                     .and()
                 .formLogin()
                     .loginPage("/login") //이를 통해서 강제로 로그인페이지를 설정함
-                    .defaultSuccessUrl("/main")
+                .successHandler(new AuthenticationSuccessHandler() {
+                    @Override
+                    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+                        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+                        for (GrantedAuthority authority : authorities) {
+                            if (authority.getAuthority().equals("ROLE_STUDENT")) {
+                                response.sendRedirect("/mypage/stdmypage");
+                                return;
+                            } else if (authority.getAuthority().equals("ROLE_TEACHER")) {
+                                response.sendRedirect("/mypage/tchmypage");
+                                return;
+                            } else if (authority.getAuthority().equals("ROLE_FREE")) {
+                                response.sendRedirect("/main");
+                                return;
+                            } else if (authority.getAuthority().equals("ROLE_ADMIN")) {
+                                response.sendRedirect("/mypage/admmypage");
+                                return;
+                            }
+                        }
+                        // 기본적으로는 /main 페이지로 이동
+                        response.sendRedirect("/main");
+                    }
+                })
                     .permitAll()
                     .and()
                 .logout()
