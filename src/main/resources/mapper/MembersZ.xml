@@ -24,4 +24,9 @@
     <select id="memberinf" resultType="com.project.groups.command.MemberVO">
         SELECT * FROM MEMBERS WHERE LOGIN_ID = #{login_id};
     </select>
+
+    <insert id="approvalfile">
+        INSERT INTO APPROVALFILE (FILENAME, FILEURL, LOGIN_ID, UPLOAD_DIR)
+        VALUES (#{filename}, #{filepath}, #{login_id}, #{upload_dir});
+    </insert>
 </mapper>
