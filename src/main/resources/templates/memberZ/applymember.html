@@ -239,7 +239,7 @@
         console.log(loginId);
         $.ajax({
             type: 'POST',  // 요청 방식은 POST
-            url: 'approvemember',
+            url: '/memberZ/approvemember',
             data: { loginId: loginId },  // 요청에 포함될 데이터
             success: function(response) {
                 console.log('승인이 성공적으로 처리되었습니다.');

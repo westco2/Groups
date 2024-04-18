@@ -12,7 +12,7 @@
 
 
     <update id="approveteacher">
-        UPDATE MEMBERS SET ROLE = 'ROLE_TEACHER', TIER = 'FREETIER' WHERE LOGIN_IN = #{loginId}
+        UPDATE MEMBERS SET ROLE = 'ROLE_TEACHER', TIER = 'FREETIER' WHERE LOGIN_ID = #{loginId}
     </update>
 
 

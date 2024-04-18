@@ -15,7 +15,7 @@
             select max(homework_no) from HOMEWORK
             where login_id = #{login_id}
         </selectKey>
-        insert into ex(
+        insert into EX(
         input,
         output,
         ex_ct,
@@ -34,7 +34,7 @@
             select max(homework_no) from HOMEWORK
             where login_id = #{login_id}
         </selectKey>
-        insert into test(
+        insert into TEST(
         test_input,
         test_output,
         homework_no

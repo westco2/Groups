@@ -71,7 +71,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter { //시큐리�
                         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
                         for (GrantedAuthority authority : authorities) {
                             if (authority.getAuthority().equals("ROLE_STUDENT")) {
-                                response.sendRedirect("/mypage/stdmypage");
+                                response.sendRedirect("/group/userGroupList");
                                 return;
                             } else if (authority.getAuthority().equals("ROLE_TEACHER")) {
                                 response.sendRedirect("/mypage/tchmypage");

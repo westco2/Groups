@@ -151,6 +151,7 @@ public class GroupController {
             System.out.println(memberVO);
             login_id =  memberVO.getLogin_id();
         }
+        System.out.println(groupService.aprv_yn(login_id));
         if(groupService.aprv_yn(login_id) != 0) return "redirect:/mypage/stdmypage";
         System.out.println(login_id);
         GroupVO vo = groupService.groupwait(login_id);
