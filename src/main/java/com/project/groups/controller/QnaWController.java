@@ -53,8 +53,6 @@ public class QnaWController {
             
         	model.addAttribute("membervo",memberVO);
         	System.out.println(memberVO);
-            
-            
         }
 		
 		return "qnaW/qnaWBoard";
@@ -100,9 +98,6 @@ public class QnaWController {
             System.out.println(memberVO.getRole());
             
         	model.addAttribute("membervo",memberVO);
-        	
-            
-            
         }
 		QnaVO vo = qnaWService.getDetail(qnumber);
 		model.addAttribute("vo", vo);
@@ -130,24 +125,5 @@ public class QnaWController {
 		return "redirect:/qnaW/qnaWBoard";
 	}
 	
-	//////////////////////////////////////////////////
-	
-	@PostMapping("/ReplyWForm")
-	public String ReplyWForm(QnaVO vo, RedirectAttributes re) {
-//		int result = qnaWService.reply(vo);
-//		if(result == 1) {
-//			re.addFlashAttribute("msg", "등록완료");
-//		}
-//		else {
-//			re.addFlashAttribute("msg", "등록실패");
-//		}
-		return "redirect:/qnaWDetail";
-	}
-	
 	////////////////////////////////////////////////
-	
-
-
-
-
 }
