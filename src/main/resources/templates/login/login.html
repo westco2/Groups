@@ -8,6 +8,7 @@
     <title>Document</title>
 
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.0.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/wj.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/css/login.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/css/base.css}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -25,26 +26,31 @@
         <div class="login-logo-wrap">
             <i class="ri-group-2-fill"></i><span class="logo-name">Groups</span>
         </div>
-        <form class="login-form-wrap" action="/login" method="post">
-            <h3>로그인</h3>
-            <p>Groups에 로그인하세요</p>
-            <div class="login-inp-wrap">
-                <input type="text" name="username" placeholder="아이디를 입력하세요">
-                <input type="password" name="password" placeholder="비밀번호를 입력하세요">
-            </div>
-            <input class="login-btn" type="submit" value="로그인">
-
-            <div class="remember-wrap">
-                <div class="id-remember">
-                    <input type="checkbox"><label>아이디 저장</label>
-                </div>
-                <div class="find-id">
-                    <a href="#">아이디/비밀번호 찾기</a>
-                </div>
-
-            </div>
-        </form>
+        <div class="login-form-wrap-w1">
+	        <form class="login-form-wrap" action="/login" method="post">
+		            <h3>로그인</h3>
+		            <p>Groups에 로그인하세요</p>
+		            <div class="login-inp-wrap">
+		                <input type="text" name="username" placeholder="아이디를 입력하세요">
+		                <input type="password" name="password" placeholder="비밀번호를 입력하세요">
+		            </div>
+		            <input class="login-btn" type="submit" value="로그인">
+		
+		            <div class="remember-wrap">
+		                <div class="id-remember">
+		                    <input type="checkbox"><label>아이디 저장</label>
+		                </div>
+		                <div class="find-id">
+		                    <a href="#">아이디/비밀번호 찾기</a>
+		                </div>
+		            </div>
+	        </form>
+	        <div class="login-form-wrap-w2">
+		    		<span>계정이 없으신가요?  <a href="/memberZ/choiceMember">가입하기</a></span>
+	    	</div>
+    	</div>
     </div>
+
 
 </body>
 </html>

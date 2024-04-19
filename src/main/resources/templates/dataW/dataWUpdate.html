@@ -58,9 +58,13 @@
 								</div>
 								<div class="group-name">
 									<label>첨부파일</label>
-									<div class="date-wrap-m">
-										<label for="fileInput">첨부파일선택:</label>
-										<input type="file" id="fileInput" name="file" multiple="multiple">
+									<div th:each="vo : ${list}">
+										<div class="date-wrap-m">
+											<label for="fileInput">첨부파일선택:</label>
+											<p>[[${vo.filename}]]</p>
+											<input type="file" id="fileInput" name="file" multiple="multiple">
+											
+										</div>
 									</div>
 								</div>
 							</div>

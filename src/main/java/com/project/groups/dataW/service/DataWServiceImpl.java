@@ -44,11 +44,14 @@ public class DataWServiceImpl implements DataWService{
 	}
 	
 	@Override
+	public ArrayList<DataVO> getList2(String login_id, Criteria cri) {
+		return dataWMapper.getList2(login_id, cri);
+	}
+	
+	@Override
 	public int regist(DataVO vo, List<UploadVO> list) {
 		int result = dataWMapper.regist(vo);
 		list.forEach(a->dataWMapper.upload(a));
-
-
 		return result;
 		
 	} 
@@ -79,11 +82,6 @@ public class DataWServiceImpl implements DataWService{
 		return dataWMapper.getgroupname(login_id);
 	}
 	
-	
-	@Override
-	public ArrayList<DataVO> getList2(String login_id, Criteria cri) {
-		return dataWMapper.getList2(login_id, cri);
-	}
 	@Override
 	public List<UploadVO> getfile(Integer gnumber) {
 		return dataWMapper.getfile(gnumber);
