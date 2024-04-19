@@ -114,10 +114,17 @@ public class MIrestController {
         vo.setLogin_id(sessionId);
         Integer score = homeworkService.getscore(vo);
         System.out.println(score);
-        if(score != 100){
-            homeworkService.updatepoint(vo);
-            if(vo.getScore() > score) homeworkService.updatesubmit(vo);
+        if(vo.getScore() == 100){
+            if(score != 100){
+                homeworkService.updatepoint(vo);
+                if(vo.getScore() > score) homeworkService.updatesubmit(vo);
+            }
+        }else{
+            if(score != 100) {
+                if (vo.getScore() > score) homeworkService.updatesubmit(vo);
+            }
         }
+
 
 
         homeworkService.homeworkrecord(vo);
@@ -167,6 +174,12 @@ public class MIrestController {
 
         homeworkService.regcategory(vo);
 
+        return "success";
+    }
+
+    @PostMapping("/deljoins")
+    public String deljoin(@RequestBody GroupVO vo){
+        groupService.waitdel(vo.getLogin_id());
         return "success";
     }
 

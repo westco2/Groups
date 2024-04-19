@@ -51,7 +51,7 @@ public class GroupController {
         model.addAttribute("group", groupService.getgroupdetail(group_no));
         model.addAttribute("std", groupService.getgroupstdinfo(cri, group_no));
         model.addAttribute("pageVO",vo);
-        model.addAttribute("pageVO2",vo);
+        model.addAttribute("pageVO2",vo2);
         return "group/groupdetail";
     }
 
@@ -66,7 +66,14 @@ public class GroupController {
     }
 
     @GetMapping("/groupreg")
-    public String groupreg(){
+    public String groupreg(Model model){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication.getPrincipal() instanceof CustomUserDetails) {
+            CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+            MemberVO memberVO = userDetails.getMemberVO();
+            System.out.println(memberVO);
+            model.addAttribute("membervo", memberVO);
+        }
 
         return "group/groupreg";
     }
@@ -170,7 +177,11 @@ public class GroupController {
             CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
             MemberVO memberVO = userDetails.getMemberVO();
             vo.setLogin_id(memberVO.getLogin_id());
+            if(groupService.aprv_null(memberVO.getLogin_id()) != 0){
+                return "redirect:/group/wait";
+            }
         }
+
         groupService.groupjoin(vo);
 
         return "redirect:/group/wait";

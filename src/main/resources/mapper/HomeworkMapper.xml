@@ -116,9 +116,11 @@
         select count(*) from (select * from HOMEWORKSUBMIT where login_id = #{login_id}) s
             left join HOMEWORK h
                 on h.homework_no= s.homework_no
+       <where>
         <if test="cri.title != '' and cri.title != null">
             and homework_title like concat('%',#{cri.title},'%')
         </if>
+       </where>
     </select>
 
     <!-- 교육자가 내숙제 조회 -->

@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,10 +33,27 @@ public class HomeworkController {
 
     @GetMapping("/homeworklist")
     public String hoemworklist(Model model, Criteria cri){
+
+        String sessionId =null;
+        String tier = null;
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String sessionId = authentication.getName();
+        if (authentication.getPrincipal() instanceof CustomUserDetails) {
+            CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+            MemberVO memberVO = userDetails.getMemberVO();
+            tier = memberVO.getTier();
+            sessionId = memberVO.getLogin_id();
+
+        }
+        System.out.println(tier);
+        if (tier.equals("FREETIER")) {
+            String warningMessage = "FREETIER 회원입니다. 구독등급을 업그레이드 하세요";
+            model.addAttribute("warningMessage", warningMessage);
+            // /homeworklist로 리다이렉트
+        }
         model.addAttribute("cat", homeworkService.getcategory(sessionId));
-        PageVO vo = new PageVO(cri,homeworkService.gethomeworktotal(sessionId, cri));
+        int total = homeworkService.gethomeworktotal(sessionId, cri);
+        PageVO vo = new PageVO(cri,total);
+        model.addAttribute("total", total);
         model.addAttribute("names", homeworkService.getgroupnames(sessionId));
         model.addAttribute("home",homeworkService.gethomeworklist(sessionId, cri));
         model.addAttribute("pageVO",vo);
