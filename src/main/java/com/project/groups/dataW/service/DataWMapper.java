@@ -13,8 +13,8 @@ import com.project.groups.command.UploadVO;
 import com.project.groups.util.Criteria;
 @Mapper
 public interface DataWMapper {
-	public ArrayList<DataVO> getList(@Param("login_id") String login_id,@Param("cri")Criteria cri);
-	public ArrayList<DataVO> getList2(@Param("login_id") String login_id,@Param("cri")Criteria cri);
+	public ArrayList<DataVO> getList(@Param("login_id") String login_id, @Param("cri")Criteria cri);
+	public ArrayList<DataVO> getList2(@Param("login_id") String login_id, @Param("cri")Criteria cri);
 	public int regist(DataVO vo);
 	public DataVO getDetail(Integer gnumber);
 	public int update(DataVO vo);
