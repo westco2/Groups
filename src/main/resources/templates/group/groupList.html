@@ -191,11 +191,11 @@
 
                     // 원하는 포맷으로 날짜 및 시간 출력
                     var formattedJoinDate = joinDate.toLocaleString();
-                    tr.innerHTML = `<td class="coco crcr-0 center-flex">${parseInt(i)+1}<input type="hidden" name="group_no" value="${group_no}"></td>
+                    tr.innerHTML = `<td class="coco crcr-0 center-flex">${parseInt(i)+1}<input type="hidden" class="dmk-m" name="group_no" value="${group_no}"></td>
                                         <td class="coco crc-1">${data[i].korn_flnm}</td>
                                         <td class="coco crc-2">${data[i].idfr_telno}</td>
                                         <td class="coco crc-3">${formattedJoinDate}</td>
-                                        <td class="coco crc-4"><input type="checkbox" class="ckbox-m" name="login_id" value="${data[i].login_id}"><button type="button">거절</button></td>`;
+                                        <td class="coco crc-4"><input type="checkbox" class="ckbox-m" name="login_id" value="${data[i].login_id}"><button type="button" class="deldel-m">거절</button></td>`;
                     $(".sms-m").append(tr);
 
                 }
@@ -204,6 +204,32 @@
                 console.log(err, status);
                 alert("정보를 불러올 수 없습니다.");
             }
+        });
+
+        $(".sms-m").on("click", ".deldel-m", function() {
+
+            var $clickedButton = $(this);
+            var loginId = $(this).closest(".crc-4").find(".ckbox-m").val();
+            console.log(loginId);
+
+            // 서버로 POST 요청 보내기
+            $.ajax({
+                url: "/deljoins", // 요청을 보낼 서버의 URL
+                method: "POST", // HTTP 메서드
+                data: JSON.stringify({ login_id: loginId }), // 서버에 전송할 데이터
+                contentType: "application/json",
+                success: function(response) {
+                    // 성공적으로 응답을 받았을 때 실행할 코드
+                    $clickedButton.closest(".co-flex").remove();
+                    // 필요한 추가 작업 수행 가능
+                },
+                error: function(xhr, status, error) {
+                    // 요청이 실패했을 때 실행할 코드
+                    console.error("삭제 요청 전송 중 오류가 발생했습니다.");
+                    console.error("상태 코드:", status);
+                    console.error("에러:", error);
+                }
+            });
         });
 
     }

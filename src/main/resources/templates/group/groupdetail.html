@@ -307,37 +307,47 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
 <script th:inline="javascript">
     var list =JSON.parse(`[[${list}]]`);
+    console.log(list);
 
-
-    var label=[]
-    var dataweek = []
+    var label = [];
+    var dataweek = [];
     const labels = [];
     const mydata = [];
     const alldata = [];
-    const lvlabels =[];
+    const lvlabels = [];
     const lvdata = [];
-    for(let i = 0 ; i < list.length;i++){
-        if(list[i].query_type == "query1"){
-            label.push(list[i].korn_flnm);
-            if(list[i].num != null) dataweek.push(list[i].num);
-            else dataweek.push(0);
-        }else if(list[i].query_type == "query2"){
+    const query1Data = [];
+
+    for (let i = 0; i < list.length; i++) {
+        if (list[i].query_type == "query1") {
+            query1Data.push(list[i]); // query1 데이터만 따로 배열에 저장
+        } else if (list[i].query_type == "query2") {
             labels.push(list[i].korn_flnm);
             mydata.push(list[i].num);
-        }else if(list[i].query_type =="query3"){
+        } else if (list[i].query_type == "query3") {
             alldata.push(list[i].num);
-        }else if(list[i].query_type == "query4"){
+        } else if (list[i].query_type == "query4") {
             lvlabels.push(list[i].korn_flnm);
             lvdata.push(list[i].num);
-        }else if(list[i].query_type == "query5") {
+        } else if (list[i].query_type == "query5") {
             $(".bb-m-m").html(`${list[i].korn_flnm}<span>(${list[i].num}회)</span>`)
-        }else if(list[i].query_type == "query6") {
+        } else if (list[i].query_type == "query6") {
             $(".bp-m-m").html(`${list[i].korn_flnm}<span>(${list[i].num}회)</span>`)
-        }else if(list[i].query_type == "query7") {
+        } else if (list[i].query_type == "query7") {
             $(".bb-w-m").html(`${list[i].korn_flnm}<span>(${list[i].num}점)</span>`)
-        }else if(list[i].query_type == "query8") {
+        } else if (list[i].query_type == "query8") {
             $(".bp-w-m").html(`${list[i].korn_flnm}<span>(${list[i].num}점)</span>`)
         }
+    }
+
+    // query1 데이터를 num 기준으로 정렬
+    query1Data.sort((a, b) => a.num - b.num);
+
+    // 정렬된 query1 데이터로 label과 dataweek 배열 재구성
+    for (let i = 0; i < query1Data.length; i++) {
+        label.push(query1Data[i].korn_flnm);
+        if (query1Data[i].num != null) dataweek.push(query1Data[i].num);
+        else dataweek.push(0);
     }
     var nowdata = mydata[0];
     $(".per-m-m").html(`${nowdata}\%`);
@@ -748,7 +758,7 @@
                                     <td class="coco hm-mm-1">${data[i].homework_title}</td>
                                     <td class="coco hm-mm-2">${data[i].homework_language}</td>
                                     <td class="coco hm-mm-22">${data[i].homework_level}</td>
-                                    <td class="coco hm-mm-3">${data[i].homework_recieve}</td>
+                                    <td class="coco hm-mm-3">${data[i].homework_recieve == null ? '':data[i].homework_recieve}</td>
                                     <td class="coco hm-mm-4">${data[i].homework_enddate}</td>
                                     <td class="coco hm-mm-5">${data[i].homework_score}</td>
                                     <td class="coco hm-mm-6">${data[i].homework_st}</td>`;
@@ -771,7 +781,7 @@
 
 
     $("#del-std").click(function(){
-        confirm("정말 퇴장처리 하시겠습니까?");
+        if(!confirm("정말 퇴장처리 하시겠습니까?")) return
         // 선택된 학생들의 login_id를 담을 배열
         var selectedStudents = [];
 

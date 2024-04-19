@@ -19,7 +19,7 @@
             </div>
             <div class="content-box">
                 <div class="top-inp">
-                    <p>숙제()</p>
+                    <p>숙제([[${total}]])</p>
                     <div class="inp-wrap fle-center" style="margin-right: 10px; justify-content: end; ">
                         <div class="select-box">
                             <div class="select-box__current" tabindex="1">
@@ -258,6 +258,14 @@
             </div>
         </div>
 
+        <div th:if="${warningMessage}">
+            <script th:inline="javascript">
+                /* 경고 메시지가 존재하는 경우에만 이전 페이지로 이동 */
+                var warningMessage = /*[[${warningMessage}]]*/ '';
+                alert(warningMessage);
+                window.location.href = '/memberZ/tierchoiceZ'; // 이전 페이지로 이동
+            </script>
+        </div>
     </div>
 
 </th:block>
@@ -268,10 +276,11 @@
     if(msg !== null) {
         alert(msg);
     }
-
 </script>
 
+
 <script>
+
 
     var tog = document.querySelector('.toggle-m');
     var prei = '#tog-m1';
@@ -675,7 +684,7 @@
     });
 
     $(".f-t2").on('click', function (e){
-        confirm("정말 해당숙제를 삭제하시겠습니까? 숙제배포 이력이 있으면 삭제가 불가능합니다");
+        if(!confirm("정말 해당숙제를 삭제하시겠습니까? 숙제배포 이력이 있으면 삭제가 불가능합니다")) return
         var form = $("form[name='hoho-m']");
         form.attr("action", "homeworkdelete");
         form.submit();
