@@ -6,27 +6,27 @@
 <mapper namespace="com.project.groups.qnaW.service.QnaWMapper">
 	
 	<select id="getList" resultType="QnaVO">
-    select * from 
-    (select * from GROUP_LIST where login_id = #{login_id}) a
-    left join (select q.*, m.korn_flnm from (select qq.*, cc.ccontent from QNABOARD qq left join COMMENT cc on qq.qnumber = cc.qnumber ) q left join MEMBERS m on q.login_id = m.login_id) b
-    on a.group_no = b.group_no
-    <where>
-    <if test="cri.title != '' and cri.title != null">
-            and qtitle like concat('%',#{cri.title},'%')
-        </if>
-        </where>
+	    select * from 
+	    (select * from GROUP_LIST where login_id = #{login_id}) a
+	    left join (select q.*, m.korn_flnm from (select qq.*, cc.ccontent from QNABOARD qq left join COMMENT cc on qq.qnumber = cc.qnumber ) q left join MEMBERS m on q.login_id = m.login_id) b
+	    on a.group_no = b.group_no
+	    	<where>
+		    	<if test="cri.title != '' and cri.title != null">
+		            and qtitle like concat('%',#{cri.title},'%')
+		        </if>
+	       </where>
 	</select>
 	
 	<select id="getList2" resultType="QnaVO">
-	select a.*, b.group_nm from 
-    (select t.*, m.korn_flnm from (select qq.*, cc.ccontent from (select * from QNABOARD  where login_id = #{login_id}) qq left join COMMENT cc on qq.qnumber = cc.qnumber  ) t left join MEMBERS m on t.login_id = m.login_id) a 
-    left join  GROUP_LIST b
-    on a.group_no = b.group_no
-    <where>
-    <if test="cri.title != '' and cri.title != null">
-            and qtitle like concat('%',#{cri.title},'%')
-    </if>
-    </where>
+		select a.*, b.group_nm from 
+	    (select t.*, m.korn_flnm from (select qq.*, cc.ccontent from (select * from QNABOARD  where login_id = #{login_id}) qq left join COMMENT cc on qq.qnumber = cc.qnumber) t left join MEMBERS m on t.login_id = m.login_id) a 
+	    left join  GROUP_LIST b
+	    on a.group_no = b.group_no
+		    <where>
+			    <if test="cri.title != '' and cri.title != null">
+		            and qtitle like concat('%',#{cri.title},'%')
+			    </if>
+		    </where>
 	</select>
 	
 	<select id="getgroupinfo" resultType="GroupVO">
@@ -35,13 +35,14 @@
 		left join (select g.group_nm, m.korn_flnm, g.group_no from GROUP_LIST g left join MEMBERS m on g.login_id = m.login_id )b
 		on a.group_no = b.group_no;
 	</select>
+	
 	<insert id="regist">
 		insert into QNABOARD(qtitle,
 							 qcontent,
 							 group_no,
 							 login_id
 							 )
-		VALUES(#{qtitle},
+		values(#{qtitle},
 			   #{qcontent},
 			   #{group_no},
 			   #{login_id}
@@ -51,12 +52,10 @@
 	<select id="getDetail" resultType="QnaVO">
 		select c.*, d.korn_flnm from
 		(select a.*, b.tname, b.group_nm from
-		(select q.group_no,q.login_id, q.qnumber, q.qtitle, q.qcontent,
-					   c.ccontent
-				from QNABOARD as q
+		(select q.group_no,q.login_id, q.qnumber, q.qtitle, q.qcontent, c.ccontent from QNABOARD as q
 				left join (select * from COMMENT where qnumber = #{qnumber}) as c on q.login_id = c.login_id
 				where q.qnumber = #{qnumber})a 
-		left join (select g.group_no,g.group_nm, m.korn_flnm as tname from GROUP_LIST g left join MEMBERS m on g.login_id = m.login_id) b
+		left join(select g.group_no, g.group_nm, m.korn_flnm as tname from GROUP_LIST g left join MEMBERS m on g.login_id = m.login_id) b
 		on a.group_no = b.group_no) c
 		left join MEMBERS d
 		on c.login_id = d.login_id;
@@ -64,7 +63,7 @@
 	
 	<insert id="update">
 		insert into COMMENT
-		(ccontent,qnumber,login_id)
+		(ccontent, qnumber, login_id)
 		values(#{ccontent},
 				#{qnumber},
 				#{login_id})

@@ -69,7 +69,7 @@ public class QnaWController {
             model.addAttribute("membervo",memberVO);
             model.addAttribute("group", qnaWService.getgroupinfo(memberVO.getLogin_id())); 
         }
-		return "/qnaW/qnaWRegist";
+		return "qnaW/qnaWRegist";
 	}
 	
 	@PostMapping("/InsertWForm")
