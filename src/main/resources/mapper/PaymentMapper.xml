@@ -6,7 +6,7 @@
 
 
     <update id="tier_updatemap">
-        UPDATE MEMBERS SET TIER = #{name} WHERE LOGIN_ID = #{buyer_name}
+        UPDATE MEMBERS SET TIER = #{name}, ROLE = #{Rolename} WHERE LOGIN_ID = #{buyer_name}
     </update>
 
     <insert id="payment_content">
