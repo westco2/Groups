@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface PaymentMapper {
 
-    void tier_updatemap(String buyer_name, String name);
+    void tier_updatemap(String buyer_name, String name, String Rolename);
 
     int payment_content(PaymentVO paymentVO);
 }

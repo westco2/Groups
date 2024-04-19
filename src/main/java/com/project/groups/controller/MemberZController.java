@@ -52,21 +52,6 @@ public class MemberZController {
         this.userDetailsService = userDetailsService;
     }
 
-//    @GetMapping("/joinFormHJ") //회원가입하는 페이지
-//    public String joinForm(){
-//        return "memberZ/joinFormHJ";
-//    }
-
-//    @PostMapping("/joinFormHJ")
-//    public void joinForm(@RequestParam("name") String name,
-//                         @RequestParam("phone") String phone,
-//                         Model model){
-//        System.out.println("name = " + name);
-//        System.out.println("phone = " + phone);
-//        model.addAttribute("name", name);
-//        model.addAttribute("phone", phone);
-//
-//    }
 
     @PostMapping("/memberreg") //회원가입에서 입력된 값을 받음
     public String memberreg(MemberVO memberVO){
