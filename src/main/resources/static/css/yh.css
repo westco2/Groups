@@ -1,3 +1,9 @@
+.content-displayy{
+	
+border-top: 1px solid #ececec;
+margin-bottom: 10px;
+	}
+.list-button {margin-left: 10px;}
 .list-buttony {
 			
   background-color: #6c757d !important;
@@ -10,13 +16,10 @@ margin-right: 10px;
 
 
 /*notidetail*/
-.mrmry-1{flex-basis: 50%;}
+.mrmry-1{flex-basis: 80%;}
 
-.mrmry-2{flex-basis: 20%;}
+.mrmry-2{flex-basis: 15%;}
 
-.mrmry-3{flex-basis: 20%;}
-
-.mrmry-4{flex-basis: 5%;}
 
 /*notilist  notidetail*/
 
