@@ -150,10 +150,10 @@ public class MemberZController {
 
     }
 
-    @GetMapping("/memberIdentification")
-    public String memberIdentification(){
-        return ("memberZ/memberIdentification");
-    }
+//    @GetMapping("/memberZ/memberIdentification")
+//    public String memberIdentification(){
+//        return ("memberZ/memberIdentification");
+//    }
 
     @GetMapping("/memberZ/choiceMember")
     public String choiceMember(){

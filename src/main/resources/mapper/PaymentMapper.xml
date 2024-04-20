@@ -16,5 +16,12 @@
                 #{name}, #{amount}, #{using_term}, 'Y')
     </insert>
 
+    <select id="paymentlistcheck" resultType="PaymentListVO">
+        SELECT TIERPAYMENT.LOGIN_ID, MEMBERS.KORN_FLNM, TIERPAYMENT.PAY_DATE,
+               TIERPAYMENT.END_DATE, TIERPAYMENT.PAY_PRODUCT, TIERPAYMENT.USING_TERM, TIERPAYMENT.PAY_MONEY
+        from TIERPAYMENT LEFT JOIN MEMBERS ON TIERPAYMENT.LOGIN_ID = MEMBERS.LOGIN_ID;
+    </select>
+
+
 
 </mapper>
