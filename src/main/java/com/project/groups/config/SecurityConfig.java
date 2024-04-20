@@ -48,14 +48,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter { //시큐리�
                     .antMatchers("/member*").permitAll() //회원가입페이지에서ㅠㅠ
                     .antMatchers("/memberZ/applymember*","/mypage/admmypage*" )
                             .hasRole("ADMIN")
-                    .antMatchers("/dataW/dataWRegist*", "/dataW/dataWUpdate*",
+                    .antMatchers("/dataW/dataWRegist*", "/dataW/dataWUpdate*", "/dataW/dataWBoardT",
                             "/group/groupreg*", "/group/groupList*",
                             "/mypage/tchmypage*","/memberZ/tierchoiceZ*")
                             .hasAnyRole("TEACHER", "TEACHER_BASICTIER", "TEACHER_MASTERTIER", "ADMIN")
-                    .antMatchers("/mypage/stdmypage*", "/qnaW/qnaWRegist*", "/qnaW/qnaWBoard*",
+                    .antMatchers("/mypage/stdmypage*", "/qnaW/qnaWRegist*",
                             "/group/userGroupList*", "/dataW/dataWBoardS*", "/dataW/dataWDetail*",
                             "/homework/myhomework*")
                             .hasAnyRole("STUDENT", "ADMIN")
+                    .antMatchers("/qnaW/qnaWBoard*")
+                			.hasAnyRole("STUDENT", "ADMIN", "TEACHER", "TEACHER_BASICTIER", "TEACHER_MASTERTIER")
                     .anyRequest().authenticated()
                     .and()
                 .exceptionHandling()

@@ -1,12 +1,6 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<!-- 
-※페이지 상세내용
-1. dataWBoardT 에서 강의명 클릭시 해당페이지로 이동합니다.
-2. 권한 선생이 등록한 자료 및 내용을 조회하고 내용 및 첨부파일을 수정 및 삭제할 수 있습니다.
--->
-
 <body>
 	<th:block th:replace="~{./include/baselayout :: setContent( ~{ :: .bon-wrap } )}">
 		<div class="bon-wrap">
@@ -58,13 +52,16 @@
 								</div>
 								<div class="group-name">
 									<label>첨부파일</label>
-									<div th:each="vo : ${list}">
-										<div class="date-wrap-m">
-											<label for="fileInput">첨부파일선택:</label>
-											<p>[[${vo.filename}]]</p>
-											<input type="file" id="fileInput" name="file" multiple="multiple">
-											
-										</div>
+									<th:block th:each="vo : ${list}">
+									<div class="reg-btn-wrap-w2" style="justify-content: start; display: flex; align-items: center; gap: 10px;">
+										<p>[[${vo.filename}]]</p>
+										<button type="button" onclick="deleteuploadfile(this)"><i class="ri-close-line"></i></button>
+									</div>
+									</th:block>
+									<div class="date-wrap-m">
+										<label for="fileInput">첨부파일선택:</label>
+										<input type="file" id="fileInput" name="file" multiple="multiple">
+									</div>
 									</div>
 								</div>
 							</div>
@@ -78,32 +75,44 @@
 			</div>
 		</div>
 	</th:block>
-
 	<script th:inline="javascript">
-    // 파일 선택 이벤트 감지
-    document.getElementById('fileInput').addEventListener('change', function(event) {
-        // 선택된 파일 가져오기
-        var file = event.target.files[0];
-
-        // FormData 생성
-        var formData = new FormData();
-        formData.append('file', file);
-
-        // 서버로 파일 전송 (AJAX 사용)
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', 'upload', true); // 업로드 URL 설정
-        xhr.onload = function() {
-            if (xhr.status === 200) {
-                console.log('파일 업로드 성공');
-            } else {
-                console.error('파일 업로드 실패');
-            }
-        };
-        xhr.send(formData);
-    });
+	    // 파일 선택 이벤트 감지
+	    document.getElementById('fileInput').addEventListener('change', function(event) {
+	        var file = event.target.files[0]; // 선택된 파일 가져오기
+	        var formData = new FormData(); // FormData 생성
+	        formData.append('file', file);
+	        var xhr = new XMLHttpRequest(); // 서버로 파일 전송 (AJAX 사용)
+	        xhr.open('POST', 'upload', true); // 업로드 URL 설정
+	        xhr.onload = function() {
+	            if (xhr.status === 200) {
+	                console.log('파일 업로드 성공');
+	            } else {
+	                console.error('파일 업로드 실패');
+	            }
+	        };
+	        xhr.send(formData);
+	    });
 	</script>
-	
 	<script>
+		function deleteuploadfile(button){
+			var filename = button.parentNode.querySelector('p').innerText; //삭제할파일이름(p태그)
+			var xhr = new XMLHttpRequest();
+			xhr.open('POST', '/deleteFile', true) //파일 삭제를 처리하는 서버의 엔드포인트
+			xhr.setRequestHeader('Content-Type', 'application/json');
+			xhr.onload = function(){
+				if(xhr.status === 200){
+					var response = JSON.parse(xhr.responseText);
+					if(response.success){
+						button.closest('.reg-btn-wrap-w2').remove();
+						console.log('삭제성공');
+					} else {
+						console.error('삭제실패');
+					}
+				}
+			};
+			xhr.send(JSON.stringify({filename: filename})); //삭제할 파일이름전송(서버)
+		}
+	
 		var updateBtn = document.getElementById("updateBtn");
 		updateBtn.addEventListener('click', function(){
 			event.preventDefault();
@@ -122,8 +131,7 @@
 			}
 			document.actionForm.action = "deleteForm";
 			document.actionForm.submit();
-		}
+		} 
 	</script>
-
 </body>
 </html>

@@ -1,5 +1,4 @@
 package com.project.groups.dataW.service;
-
 import java.io.File;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -24,7 +23,6 @@ public class DataWServiceImpl implements DataWService{
 	
 	@Autowired
 	private DataWMapper dataWMapper;
-
 
 	@Value("${project.upload.path}")
 	private String uploadPath;
@@ -53,7 +51,6 @@ public class DataWServiceImpl implements DataWService{
 		int result = dataWMapper.regist(vo);
 		list.forEach(a->dataWMapper.upload(a));
 		return result;
-		
 	} 
 	
 	@Override
@@ -72,6 +69,16 @@ public class DataWServiceImpl implements DataWService{
 	}
 	
 	@Override
+	public void deletefileupload(Integer gnumber) {
+		dataWMapper.deletefileupload(gnumber);
+	}
+	
+	@Override
+	public void deleteFile(String filename) {
+		dataWMapper.deleteFile(filename);		
+	}
+	
+	@Override
 	public int getTotal(String login_id, Criteria cri) {
 		return dataWMapper.getTotal(login_id, cri);
 	}
@@ -86,5 +93,4 @@ public class DataWServiceImpl implements DataWService{
 	public List<UploadVO> getfile(Integer gnumber) {
 		return dataWMapper.getfile(gnumber);
 	}
-	
 }

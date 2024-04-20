@@ -1,14 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<!-- 
-※페이지 상세내용
-1. dataWBoardT에서 "자료등록" 버튼 클릭시 해당페이지로 이동합니다.
-2. 그룹명, 학습자료명, 학습자료내용 및 첨부파일을 업로드하고 "자료등록"버튼을 통해 업로드합니다.
- -->
-
 <body>
-
 	<th:block th:replace="~{./include/baselayout :: setContent( ~{ :: .bon-wrap } )}">
 		<div class="bon-wrap">
 			<div class="page-title">
@@ -77,37 +70,26 @@
 			</div>
 		</div>
 	</th:block>
-
 	<script th:inline="javascript">
-    // 파일 선택 이벤트 감지
-    document.getElementById('fileInput').addEventListener('change', function(event) {
-        // 선택된 파일 가져오기
-        var file = event.target.files[0];
-
-        // FormData 생성
-        var formData = new FormData();
-        formData.append('file', file);
-
-        // 서버로 파일 전송 (AJAX 사용)
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', 'upload', true); // 업로드 URL 설정
-        xhr.onload = function() {
-            if (xhr.status === 200) {
-                console.log('업로드 성공');
-            } else {
-                console.error('업로드 실패');
-            }
-        };
-        xhr.send(formData);
-    });
+	    // 파일 선택 이벤트 감지
+	    document.getElementById('fileInput').addEventListener('change', function(event) {
+	        // 선택된 파일 가져오기
+	        var file = event.target.files[0];
+	        // FormData 생성
+	        var formData = new FormData();
+	        formData.append('file', file);
+	        // 서버로 파일 전송 (AJAX 사용)
+	        var xhr = new XMLHttpRequest();
+	        xhr.open('POST', 'upload', true); // 업로드 URL 설정
+	        xhr.onload = function() {
+	            if (xhr.status === 200) {
+	                console.log('업로드 성공');
+	            } else {
+	                console.error('업로드 실패');
+	            }
+	        };
+	        xhr.send(formData);
+	    });
 	</script>
-
-<script>
-
-
-
-
-</script>
-
 </body>
 </html>

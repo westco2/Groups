@@ -19,6 +19,8 @@ public interface DataWMapper {
 	public DataVO getDetail(Integer gnumber);
 	public int update(DataVO vo);
 	public void delete(Integer gnumber);
+	public void deletefileupload(Integer gnumber);
+	public void deleteFile(String filename);
 	public int getTotal(@Param("login_id")String login_id ,@Param("cri")Criteria cri);
 	public void upload(UploadVO uploadvo);
 	public void registFile(UploadVO vo);

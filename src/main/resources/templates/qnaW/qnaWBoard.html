@@ -1,12 +1,6 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<!-- 
-※페이지 상세내용
-1. 권한 상관없이 접근가능한 페이지입니다.
-	: 단 질문등록 버튼은 권한학생만 접근가능합니다.
- -->
-
 <body>
 	<th:block
 		th:replace="~{./include/baselayout :: setContent( ~{ :: .bon-wrap } )}">
@@ -33,7 +27,6 @@
 						<div class="top-line-btn-wrap" style="margin-bottom: 15px">
 							<input type="text" placeholder="검색해주세요" style="width: 300px" name="title">
 							<i class="ri-search-line"></i>
-							
 							<button type="submit" class="wj-button">검색</button>
 						</div>
 					</div>
@@ -71,25 +64,23 @@
 							</tbody>
 						</table>
 					</div>
-<!-- 					<div class="page-wrap right-p">-->
-<!--	                    <div class="pagination">-->
-<!--	                        <a th:href="@{qnaWBoard(page=1,-->
-<!--	                      title = ${pageVO.cri.title})}">&laquo;</a>-->
-<!--	                        <th:block th:each="page : ${pageVO.pageList}">-->
-<!--	                            <a th:class="${pageVO.page == page ? 'act':''}" th:href="@{qnaWBoard(page = ${page}, title = ${pageVO.cri.title})}">[[${page}]]</a>-->
-<!--	                        </th:block>-->
-<!--	                        <a th:href="@{qnaWBoard(page = ${pageVO.realEnd}, title = ${pageVO.cri.title})}"> &raquo;</a>-->
-<!--	                    </div>-->
-<!--	                </div>-->
-				 </form>
+<!-- 						<div class="page-wrap right-p"> -->
+<!-- 							<div class="pagination"> -->
+<!-- 								<a th:href="@{qnaWBoard(page=1, title = ${pageVO.cri.title})}">&laquo;</a> -->
+<!-- 								<th:block th:each="page : ${pageVO.pageList}"> -->
+<!-- 									<a th:class="${pageVO.page == page ? 'act':''}" -->
+<!-- 										th:href="@{qnaWBoard(page = ${page}, title = ${pageVO.cri.title})}">[[${page}]]</a> -->
+<!-- 								</th:block> -->
+<!-- 								<a -->
+<!-- 									th:href="@{qnaWBoard(page = ${pageVO.realEnd}, title = ${pageVO.cri.title})}"> -->
+<!-- 									&raquo;</a> -->
+<!-- 							</div> -->
+<!-- 						</div> -->
+					</form>
 				</div>
-
 			</div>
 		</div>
-
 	</th:block>
-	
-	// 등록완료여부 메시지
 	<script th:inline="javascript">
 		var msg = '[[${msg}]]';
 		msg = JSON.parse(msg);
@@ -98,18 +89,15 @@
 			alert(msg);
 		}
 	
-	// 질문등록 클릭시 경로이동
-	function qnaWRegist(){
-		window.location.href="/qnaW/qnaWRegist";
-	}
-	
-    // 검색 옵션 값이 변경될 때마다 파라미터 값을 설정
-    function setSearchOption() {
-        var searchOption = document.getElementById("searchOption").value;
-        document.getElementById("searchType").value = searchOption;
-    }
-	
+		function qnaWRegist(){
+			window.location.href="/qnaW/qnaWRegist";
+		}
+		
+	    // 검색 옵션 값이 변경될 때마다 파라미터 값을 설정
+	    function setSearchOption() {
+	        var searchOption = document.getElementById("searchOption").value;
+	        document.getElementById("searchType").value = searchOption;
+	    }
 	</script>
-
 </body>
 </html>

@@ -18,7 +18,6 @@
 					and g.group_no = #{cri.group_no}
 				</if>
 	        </where>
-	    order by g.gregdate desc
 	    limit #{cri.pageStart}, #{cri.amount}
 	</select>
 
@@ -73,6 +72,16 @@
 	<delete id="delete">
 		delete from GROUPFILE
 		where gnumber = #{gnumber}
+	</delete>
+	
+	<delete id="deletefileupload">
+		delete from FILEUPLOAD
+		where gnumber = #{gnumber}
+	</delete>
+	
+	<delete id="deleteFile">
+		delete from FILEUPLOAD
+		where filename = #{filename}
 	</delete>
 	
 	<select id="getTotal" resultType="int">

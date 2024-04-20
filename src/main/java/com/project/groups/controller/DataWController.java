@@ -1,12 +1,13 @@
 package com.project.groups.controller;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import com.project.groups.s3.S3Service;
@@ -24,6 +25,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -43,9 +45,6 @@ import org.springframework.web.util.UriUtils;
 @Controller
 @RequestMapping("/dataW")
 public class DataWController {
-
-	//////////////////////////////////////////////////
-	//파일 업로드에 필요한 값들
 	
 	@Value("${project.upload.path}")
 	private String uploadPath;
@@ -59,16 +58,12 @@ public class DataWController {
 		return filepath;
 	}
 	
-	//////////////////////////////////////////////////
-	
 	@Autowired
 	@Qualifier("DataWService")
 	private DataWService dataWService;
 
 	@Autowired
 	private S3Service s3Service;
-	
-	//////////////////////////////////////////////////
 	
 	@GetMapping("/dataWBoardT")
 	public String dataWBoardT(Model model, Criteria cri) {
@@ -79,8 +74,7 @@ public class DataWController {
             MemberVO memberVO = userDetails.getMemberVO();
             System.out.println("MemberVO: " + memberVO);
             model.addAttribute("membervo",memberVO);
-            
-           login = memberVO.getLogin_id();
+            login = memberVO.getLogin_id();
         }
 		model.addAttribute("names",dataWService.getgroupname(login));
 		
@@ -95,8 +89,6 @@ public class DataWController {
 	
 	@GetMapping("/dataWBoardS")
 	public String dataWBoardS(Model model, Criteria cri) {
-		
-		
 		String login= null;
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication.getPrincipal() instanceof CustomUserDetails) {
@@ -104,8 +96,7 @@ public class DataWController {
             MemberVO memberVO = userDetails.getMemberVO();
             System.out.println("MemberVO: " + memberVO);
             model.addAttribute("membervo",memberVO);
-            
-           login = memberVO.getLogin_id();
+            login = memberVO.getLogin_id();
         }
 		model.addAttribute("names",dataWService.getgroupname(login));
 		
@@ -118,8 +109,6 @@ public class DataWController {
 		return "dataW/dataWBoardS";
 	}
 	
-	//////////////////////////////////////////////////
-	
 	@GetMapping("/dataWRegist")
 	public String dataWRegist(Model model) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -129,7 +118,6 @@ public class DataWController {
             System.out.println("MemberVO: " + memberVO);
             model.addAttribute("membervo",memberVO);
             model.addAttribute("names", dataWService.getgroupname(memberVO.getLogin_id()));
-           
         }
 		return "dataW/dataWRegist";
 	}
@@ -159,22 +147,21 @@ public class DataWController {
 			} catch (IOException e) {
 				throw new RuntimeException(e);
 			}
-			 volist.add(UploadVO.builder().fileurl(objectKey).filename(filename).uuid(uuid).login_id(vo.getLogin_id()).build());
+			volist.add(UploadVO.builder().fileurl(objectKey).filename(filename).uuid(uuid).login_id(vo.getLogin_id()).build());
 
-			s3Service.putS3Object(objectKey,filedata);
+			s3Service.putS3Object(objectKey, filedata);
 		});
 
-		int result = dataWService.regist(vo,volist);
+		int result = dataWService.regist(vo, volist);
 		if(result == 1) {
 			re.addFlashAttribute("msg", "등록완료");
 		}
 		else {
 			re.addFlashAttribute("msg", "등록실패");
 		}
-		
-		
 		return "redirect:/dataW/dataWBoardT";
 	}
+	
 	@ResponseBody
 	@GetMapping("/download/{uuid}/{filename}")
 	public ResponseEntity<byte[]> download(@PathVariable("uuid") String uuid,
@@ -202,8 +189,6 @@ public class DataWController {
 		}
 	}
 	
-	//////////////////////////////////////////////////
-	
 	@GetMapping("/dataWDetail")
 	public String dataWDetail(@RequestParam("gnumber") Integer gnumber,
 							  Model model) {
@@ -212,8 +197,6 @@ public class DataWController {
 		model.addAttribute("vo", vo);
 		return "dataW/dataWDetail";
 	}
-	
-	//////////////////////////////////////////////////
 	
 	@GetMapping("/dataWUpdate")
 	public String dataWUpdate(@RequestParam("gnumber") Integer gnumber,
@@ -224,9 +207,9 @@ public class DataWController {
             MemberVO memberVO = userDetails.getMemberVO();
             System.out.println("MemberVO: " + memberVO);
             model.addAttribute("membervo",memberVO);
-           
         }
 		DataVO vo = dataWService.getDetail(gnumber);
+		model.addAttribute("list", dataWService.getfile(gnumber));
 		model.addAttribute("vo", vo);
 		return "dataW/dataWUpdate";
 	}
@@ -252,13 +235,11 @@ public class DataWController {
 			String filepath = makeFolder();
 			String fileurl = uploadPath + "/" + filepath + "/" + uuid + "_" + filename;
 			filename = filename.substring(filename.lastIndexOf("\\") + 1);
-			//long size = file.getSize();
 			
 			System.out.println("파일명:" + filename);
 			System.out.println("폴더명:" + filepath);
 			System.out.println("업로드할경로:" + fileurl);
 			System.out.println("랜덤이름:" + uuid);
-			//System.out.println("파일사이즈:" + size);
 		
 			uploadvo.setFilename(filename);
 			uploadvo.setFilepath(filepath);
@@ -268,8 +249,6 @@ public class DataWController {
 			try {
 				File saveFile = new File(fileurl);
 				file.transferTo(saveFile);
-				
-				//dataWService.upload(uploadvo);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -277,13 +256,25 @@ public class DataWController {
 		return "redirect:/dataW/dataWBoardT";
 	}
 	
-	//////////////////////////////////////////////////
-	
 	@PostMapping("/deleteForm")
 	public String deleteForm(@RequestParam("gnumber") Integer gnumber) {
-		dataWService.delete(gnumber);
-		return "redirect:/dataW/dataWBoard";
+		dataWService.delete(gnumber); //수업자료 게시글 삭제
+		dataWService.deletefileupload(gnumber); //수업자료 게시글과 연동된 첨부파일들 삭제
+		return "redirect:/dataW/dataWBoardT";
 	}
 	
-	//////////////////////////////////////////////////
+	@PostMapping("/deleteFile")
+	@ResponseBody
+	public Map<String, Object> deleteFile(@RequestBody Map<String, String> requestData){
+		Map<String, Object> resultMap = new HashMap<>();
+		String filename = requestData.get("filename");
+		try {
+			dataWService.deleteFile(filename);
+			resultMap.put("success",  true);
+		} catch (Exception e) {
+			resultMap.put("success", false);
+			e.printStackTrace();
+		}
+		return resultMap;
+	}
 }
