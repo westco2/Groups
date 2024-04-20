@@ -116,12 +116,16 @@ public class MIrestController {
         System.out.println(score);
         if(vo.getScore() == 100){
             if(score != 100){
+                System.out.println("실행1");
                 homeworkService.updatepoint(vo);
-                if(vo.getScore() > score) homeworkService.updatesubmit(vo);
+                if(vo.getScore() >= score) homeworkService.updatesubmit(vo);
             }
         }else{
             if(score != 100) {
-                if (vo.getScore() > score) homeworkService.updatesubmit(vo);
+                System.out.println("실행");
+                System.out.println(vo.getScore());
+                System.out.println(score);
+                if (vo.getScore() >= score) homeworkService.updatesubmit(vo);
             }
         }
 

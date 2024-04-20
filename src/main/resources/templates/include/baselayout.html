@@ -56,67 +56,105 @@
             </div>
         </div>
         <div class="cont-wrap">
-            <aside class="sidebar">
-                <div id="leftside-navigation" class="nano">
-                    <ul class="nano-content">
-                        <li class="home-btn-wrap">
-                            <a href="index.html"><i class="ri-home-3-fill icon-mar"></i></i><span>홈</span></a>
-                        </li>
-                        <li class="sub-menu">
-                            <a href="#"><i class="ri-group-fill icon-mar"></i><i class="fa fa-cogs"></i><span>그룹</span><i class="arrow fa fa-angle-right pull-right"></i></a>
-                            <ul class="row-bar-wrap">
+            <nav id="navbar">
+                <ul class="navbar-items flexbox-col">
+                    <li class="navbar-item flexbox-left nono-m" >
 
-                                <li><a href="#">내 학습그룹</a>
-                                </li>
-                                <li><a href="#">Panels</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="sub-menu">
-                            <a href="javascript:void(0);"><i class="ri-book-2-fill icon-mar"></i><span>숙제</span><i class="arrow fa fa-angle-right pull-right"></i></a>
-                            <ul>
-                                <li><a href="#">숙제 리스트</a>
-                                </li>
+                        <div class="navbar-item-inner-icon-wrapper flexbox">
+                            <i class="ri-menu-fill barbar-xx" style="color: #fff"></i>
+                        </div>
+                        <div class="navbar-item-inner-icon-wrapper flexbox vlvl-xx"   style="padding-right: 6px; display: none; font-size: 26px; color: #fff">
+                            <i class="ri-close-line "></i>
+                        </div>
 
-                                <li><a href="#">숙제 평가</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="sub-menu">
-                            <a href="javascript:void(0);"><i class="ri-draft-fill icon-mar"></i><span>수업자료</span><i class="arrow fa fa-angle-right pull-right"></i></a>
-                        </li>
-                        <li class="sub-menu solo-cont">
-                            <a href="javascript:void(0);"><i class="ri-question-answer-fill icon-mar"></i><span>질문</span><i class="arrow fa fa-angle-right pull-right"></i></a>
-                        </li>
-                        <li class="sub-menu">
-                            <a href="javascript:void(0);"><i class="fa fa-bar-chart-o"></i><span>Charts</span><i class="arrow fa fa-angle-right pull-right"></i></a>
-                            <ul>
-                                <li><a href="charts-chartjs.html">Chartjs</a>
-                                </li>
-                                <li><a href="charts-morris.html">Morris</a>
-                                </li>
-                                <li><a href="charts-c3.html">C3 Charts</a></li>
-                            </ul>
-                        </li>
-                        <li class="sub-menu" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
-                            <a href="/memberZ/applymember"><i class="ri-question-answer-fill icon-mar"></i><span>승인</span><i class="arrow fa fa-angle-right pull-right"></i></a>
-                        </li>
 
-                    </ul>
-                </div>
-            </aside>
+                    </li>
+
+                    <li class="navbar-item flexbox-left">
+                        <a href="#" class="navbar-item-inner flexbox-left">
+                            <div class="navbar-item-inner-icon-wrapper flexbox">
+                                <i class="ri-home-3-fill"></i>
+                            </div>
+                            <span class="link-text">마이페이지</span>
+                        </a>
+                    </li>
+                    <li class="navbar-item flexbox-left">
+                        <a href="#" class="navbar-item-inner flexbox-left">
+                            <div class="navbar-item-inner-icon-wrapper flexbox">
+                                <i class="ri-group-fill"></i>
+                            </div>
+                            <span class="link-text">그룹</span>
+                        </a>
+                    </li>
+                    <li class="navbar-item flexbox-left">
+                        <a href="#" class="navbar-item-inner flexbox-left">
+                            <div class="navbar-item-inner-icon-wrapper flexbox">
+                                <i class="ri-book-marked-fill"></i>
+                            </div>
+                            <span class="link-text">숙제</span>
+                        </a>
+                    </li>
+                    <li class="navbar-item flexbox-left">
+                        <a href="#" class="navbar-item-inner flexbox-left">
+                            <div class="navbar-item-inner-icon-wrapper flexbox">
+                                <i class="ri-file-text-fill"></i>
+                            </div>
+                            <span class="link-text">수업자료</span>
+                        </a>
+                    </li>
+                    <li class="navbar-item flexbox-left">
+                        <a href="#" class="navbar-item-inner flexbox-left" style="gap: 0">
+                            <div class="navbar-item-inner-icon-wrapper flexbox" style="padding-left: 10px;">
+                                <i class="ri-question-answer-fill icon-mar"></i>
+                            </div>
+                            <span class="link-text">질문</span>
+                        </a>
+                    </li>
+                    <li href="#" class="navbar-item flexbox-left">
+                        <a class="navbar-item-inner flexbox-left">
+                            <div class="navbar-item-inner-icon-wrapper flexbox" >
+                                <i class="ri-megaphone-fill"></i>
+                            </div>
+                            <span class="link-text">공지사항</span>
+                        </a>
+                    </li>
+                    <li class="navbar-item flexbox-left">
+                        <a href="#" class="navbar-item-inner flexbox-left">
+                            <div class="navbar-item-inner-icon-wrapper flexbox">
+                                <i class="ri-bookmark-fill"></i>
+                            </div>
+                            <span class="link-text">구독</span>
+                        </a>
+                    </li>
+                    <li class="navbar-item flexbox-left"  th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
+                        <a href="#" class="navbar-item-inner flexbox-left">
+                            <div class="navbar-item-inner-icon-wrapper flexbox">
+                                <i class="ri-file-user-fill"></i>
+                            </div>
+                            <span class="link-text">회원조회</span>
+                        </a>
+                    </li>
+                    <li class="navbar-item flexbox-left" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
+                        <a href="/memberZ/applymember" class="navbar-item-inner flexbox-left">
+                            <div class="navbar-item-inner-icon-wrapper flexbox">
+                                <i class="ri-checkbox-circle-fill"></i>
+                            </div>
+                            <span class="link-text">승인</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+
 
                 <th:block th:replace="${content}">
 
                 </th:block>
-            </div>
         </div>
 
 
-
-
-
     </body>
+
     <script th:src="@{/js/base-js.js}"></script>
 </th:block>
 </html>

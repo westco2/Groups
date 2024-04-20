@@ -5,7 +5,7 @@
 
 <!-- content -->
 <th:block th:replace="~{./include/baselayout :: setContent( ~{ :: .bon-wrap } )}">
-    <div class="bon-wrap">
+    <div class="bon-wrap" style="flex-basis: 89%">
         <div class="page-title">
             <p>그룹</p>
         </div>
@@ -830,12 +830,23 @@
         getstdinfo(searchname, $(this).data("page"), group_no);
         getstdinfopage(searchname, $(this).data("page"), group_no);
     })
+
     $("#sc-btn-m2").on('click', function (e){
         var searchname = $(".search-m2").val();
         $(".sms-m2").empty();
         getdatainfo(searchname, $(this).data("page"), group_no);
         getdatainfopage(searchname, $(this).data("page"), group_no);
     })
+    $(".search-m").keypress(function(event) {
+        if (event.which === 13) {
+            $("#sc-btn-m").click();
+        }
+    });
+    $(".search-m2").keypress(function(event) {
+        if (event.which === 13) {
+            $("#sc-btn-m2").click();
+        }
+    });
 
 
 

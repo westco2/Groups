@@ -117,11 +117,12 @@
 
         <div class="content-line-m">
             <div class="left-h-m">
-                <div class="ul-wrap-m">
+                <div class="ul-wrap-m" style="align-items: center; gap: 10px">
                     <ul class="toggle-m">
                         <li data-id="#tog-m1" class="acts-m">정보</li>
                         <li data-id="#tog-m2" class="">이력</li>
                     </ul>
+                    <i class="ri-refresh-line" style="margin-top: 10px; font-size: 25px; cursor: pointer; margin-right: 20px;" id="refle-mct"></i>
                 </div>
                 <div class="bon-content-wrap sms-mm toggle-menu-m active-m" id="tog-m1">
 
@@ -576,6 +577,20 @@
         gethomedetail(currenthomework);
         getrecorddetail(currenthomework);
 
+    })
+    $("#refle-mct").on('click',function (e){
+        $(".content-line-m").css("display","flex");
+        // 선택된 라디오 버튼 요소를 찾습니다.
+        var selectedRadio = document.querySelector('input[name="homework_no"]:checked');
+
+        // 선택된 라디오 버튼의 값을 가져옵니다.
+        var currenthomework = selectedRadio ? selectedRadio.value : null;
+
+        $("#hw-no").val(currenthomework);
+        $(".sms-m").empty();
+        getstdlist(my_id, selgroupnm, currenthomework);
+        gethomedetail(currenthomework);
+        getrecorddetail(currenthomework);
     })
 
     $(".sel-des-2m").on('change',function (e){
