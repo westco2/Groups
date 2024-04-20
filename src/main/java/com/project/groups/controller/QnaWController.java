@@ -39,25 +39,24 @@ public class QnaWController {
 	
 	@GetMapping("/qnaWBoard") //로그인한 id와 같은 작성 질문만 올라오게 만들어져있음
 	public String qnaWBoard(Model model, Criteria cri) {
-
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication.getPrincipal() instanceof CustomUserDetails) {
             CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
             MemberVO memberVO = userDetails.getMemberVO();
             System.out.println("MemberVO: " + memberVO);
             System.out.println(memberVO.getRole());
-            if(memberVO.getRole().equals("ROLE_TEACHER")) {
+            if(memberVO.getRole().equals("ROLE_TEACHER")||
+               memberVO.getRole().equals("ROLE_TEACHER_BASICTIER")||
+               memberVO.getRole().equals("ROLE_TEACHER_MASTERTIER")) {
             	System.out.println("실행");
             	model.addAttribute("qnavo", qnaWService.getList(cri, memberVO.getLogin_id()));
             }else if(memberVO.getRole().equals("ROLE_STUDENT")) model.addAttribute("qnavo", qnaWService.getList2(cri, memberVO.getLogin_id()));
-            
         	model.addAttribute("membervo",memberVO);
         	System.out.println(memberVO);
         }
 		
 		return "qnaW/qnaWBoard";
 	}
-	//////////////////////////////////////////////////
 	
 	@GetMapping("/qnaWRegist")
 	public String qnaWRegist(Model model) {
@@ -84,8 +83,6 @@ public class QnaWController {
 		return "redirect:/qnaW/qnaWBoard";
 	}	
 	
-	//////////////////////////////////////////////////
-	
 	@GetMapping("/qnaWDetail")
 	public String getDetail(@RequestParam("qnumber") int qnumber,
 			  				 Model model) {
@@ -104,8 +101,6 @@ public class QnaWController {
 		return "qnaW/qnaWDetail";
 	}
 	
-	//////////////////////////////////////////////////
-	
 	@PostMapping("/updateForm")
 	public String updateForm(QnaVO vo, RedirectAttributes re) {
 		int result = qnaWService.update(vo);
@@ -117,13 +112,9 @@ public class QnaWController {
 		return "redirect:/qnaW/qnaWBoard";
 	}
 	
-	//////////////////////////////////////////////////
-	
 	@PostMapping("/deleteForm")
 	public String deleteForm(@RequestParam("qnumber") int qnumber) {
 		qnaWService.delete(qnumber);
 		return "redirect:/qnaW/qnaWBoard";
 	}
-	
-	////////////////////////////////////////////////
 }

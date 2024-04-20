@@ -1,12 +1,6 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<!-- 
-※페이지 상세내용
-1. 권한 상관없이 접근가능한 페이지입니다.
-  : 단, 답변내용작성 및 답변등록은 권한 선생만 가능합니다.
- -->
-
 <body>
 	<th:block th:replace="~{./include/baselayout :: setContent( ~{ :: .bon-wrap } )}">
 		<div class="bon-wrap">
@@ -64,19 +58,23 @@
 							</div>
 						</div>
 					</div>
-					
-					<div class="reg-btn-wrap" th:if="${#authorization.expression('hasRole(''ROLE_TEACHER'')')}">
+					<div class="reg-btn-wrap" th:if="${#authorization.expression('hasRole(''ROLE_TEACHER'') or hasRole(''ROLE_TEACHER_BASICTIER'') or hasRole(''ROLE_TEACHER_MASTERTIER'')')}">
 					    <button type="button" id="updateBtn" style="margin-right: 10px;"
 					        th:disabled="${vo.ccontent != null}">답변등록</button>
-					    <button type="button" id="deleteBtn"
-					        th:disabled="${vo.ccontent == null}">삭제</button>
+					    <button type="button" id="deleteBtn">삭제</button>
+					</div>
+					<div class="reg-btn-wrap" th:if="${#authorization.expression('hasRole(''ROLE_STUDENT'')')}">
+					    <button type="button" onclick="goback()">뒤로가기</button>
 					</div>
 				</form>
 			</div>
 		</div>
-
 	</th:block>
 	<script>
+		function goback(){
+			window.location.href="/qnaW/qnaWBoard";
+		}
+	
 		var updateBtn = document.getElementById("updateBtn");
 		updateBtn.addEventListener('click', function(){
 			event.preventDefault();

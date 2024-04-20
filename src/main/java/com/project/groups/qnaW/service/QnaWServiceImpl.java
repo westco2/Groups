@@ -59,7 +59,6 @@ public class QnaWServiceImpl implements QnaWService{
 	
 	@Override
 	public GroupVO getgroupinfo(String login_id) {
-		// TODO Auto-generated method stub
 		return qnaWMapper.getgroupinfo(login_id);
 	}
 }

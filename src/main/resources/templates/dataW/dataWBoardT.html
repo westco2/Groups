@@ -1,12 +1,6 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<!-- 
-※페이지 상세내용
-1. 레이아웃 수업자료 클릭시 권한 선생은 해당페이지로 이동합니다.
-2. 강의명 클릭시 Update페이지로 이동합니다.
- -->
-
 <body>
 	<th:block th:replace="~{./include/baselayout :: setContent( ~{ :: .bon-wrap } )}">
 		<div class="bon-wrap">
@@ -62,7 +56,6 @@
 								    </td>
 									<td class="coco w2-2" th:text="${datavo.gname}"></td>
 									<td class="coco w2-3" th:text="${datavo.group_nm}"></td>
-									
 									<td class="coco w2-4" th:text="${datavo.gregdate}"></td>
 								</tr>
 								</th:block>
@@ -71,8 +64,7 @@
 					</div>
 					<div class="page-wrap right-p">
 	                    <div class="pagination">
-	                        <a th:href="@{dataWBoardT(page=1,
-	                      title = ${pageVO.cri.title})}">&laquo;</a>
+	                        <a th:href="@{dataWBoardT(page=1, title = ${pageVO.cri.title})}">&laquo;</a>
 	                        <th:block th:each="page : ${pageVO.pageList}">
 	                            <a th:class="${pageVO.page == page ? 'act':''}" th:href="@{dataWBoardT(page = ${page}, title = ${pageVO.cri.title})}">[[${page}]]</a>
 	                        </th:block>
@@ -80,18 +72,13 @@
 	                    </div>
 	                </div>
 				</div>
-
 			</form>
 		</div>
-
 	</th:block>
-
-<script>
-function dataWRegist(){
-	window.location.href="/dataW/dataWRegist";
-}
-
-</script>
-
+	<script>
+		function dataWRegist(){
+			window.location.href="/dataW/dataWRegist";
+		}
+	</script>
 </body>
 </html>

@@ -15,6 +15,8 @@ public interface DataWService {
 	public DataVO getDetail(Integer gnumber);
 	public int update(DataVO vo);
 	public void delete(Integer gnumber);
+	public void deletefileupload(Integer gnumber);
+	public void deleteFile(String filename);
 	public int getTotal(String login_id, Criteria cri);
 	public List<GroupVO> getgroupname(String login_id);
 	public List<UploadVO> getfile(Integer gnumber);
