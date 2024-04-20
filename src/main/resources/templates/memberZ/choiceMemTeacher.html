@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="/css/jy.css">
 </head>
 <body>
-
+<script src="https://cdn.iamport.kr/v1/iamport.js"></script>
 <!-- content -->
 <th:block th:replace="~{./include/homelayout :: homeContent( ~{ :: .main-wrap } )}">
 
@@ -44,7 +44,8 @@
                 </div>
 
                 <label for="phone">연락처</label><br>
-                <input type="tel" id="phone" name="idfr_telno" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" placeholder="000-0000-0000" required><br>
+                <input type="tel" id="phone" name="idfr_telno" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" placeholder="000-0000-0000" required>
+                <button type="button" id="identificationName" onclick="requestCert()">본인 인증 하기</button><br>
 
                 <label for="postalCode">우편번호</label><br>
                 <input type="text" id="postalCode" name="postalCode" required>
@@ -213,7 +214,7 @@
         $.ajax({
             type: "post",
             async: false,
-            url: "http://localhost:8989/memberidcheck",
+            url: "/memberidcheck",
             data: {id: username},
             success: function (data){
                 if(data > 0){
@@ -238,7 +239,7 @@
         $.ajax({
             type: "post",
             async: false,
-            url: "http://localhost:8989/membernickcheck",
+            url: "/membernickcheck",
             data: {nick: nickname},
             success: function (data) {
                 if(data > 0) {
@@ -288,6 +289,46 @@
         });
 
     });
+
+</script>
+
+<!--본인인증-->
+<script>
+    IMP.init("imp04137027");
+    let randomNumber = Math.floor(Math.random() * 9000) + 1000;
+    function requestCert() {
+        IMP.certification(
+            {
+                pg: "inicis_unified",
+                merchant_uid: "test_luwj0w36" + randomNumber,
+                name: "",
+                popup: true,
+            },
+            rsp => {
+                if(rsp.success){
+                    onCertificationSuccess();
+                    console.log("본인인증 성공!");
+
+                    console.log("고유인증번호: " + rsp.imp_uid)
+                    console.log(rsp.name)
+                    console.log(rsp.merchant_uid)
+                }else{
+                    console.log(rsp.error_code);
+                }
+            }
+        );
+    }
+    function onCertificationSuccess() {
+        // 버튼 요소 찾기
+        var button = document.getElementById('identificationName');
+        // 버튼의 텍스트 변경
+        button.innerText = "본인 인증 완료";
+        // 버튼의 클릭 이벤트 제거
+        button.removeAttribute('onclick');
+    }
+
+
+
 
 </script>
 

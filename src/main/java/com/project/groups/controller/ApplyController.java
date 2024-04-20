@@ -1,8 +1,10 @@
 package com.project.groups.controller;
 
 import com.project.groups.command.MemberVO;
+import com.project.groups.command.PaymentListVO;
 import com.project.groups.membersZ.service.ApplyService;
 import com.project.groups.membersZ.service.CustomUserDetails;
+import com.project.groups.payment.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -31,6 +33,8 @@ public class ApplyController {
 
     @Autowired
     private ApplyService applyService;
+    @Autowired
+    private PaymentService paymentService;
     @GetMapping("/applymember")
     public String applymember(Model model){
         List<MemberVO> applymemberlist = applyService.applymemberlist();
@@ -61,36 +65,20 @@ public class ApplyController {
         return "memberZ/tierchoiceZ";
     }
 
-    // 파일이 저장된 디렉토리 경로 설정
-    private static final String UPLOAD_DIR = "C:\\Users\\hyunj\\Desktop\\upload";
-    @GetMapping("/download/{filename}")
-    public ResponseEntity<Resource> downloadFile(@PathVariable String filename) {
-        // 파일 경로 생성
-        Path filePath = Paths.get(UPLOAD_DIR, filename);
-        Resource resource = null;
-        try {
-            // 파일을 Resource로 읽어들임
-            resource = new UrlResource(filePath.toUri());
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
+    @GetMapping("/paymentList") //결제내역조회
+    public String paymentList(Model model){
+        List<PaymentListVO> paymentListVOList = paymentService.paymentlistcheck();
+        System.out.println("paymentListVOList = " + paymentListVOList);
+        model.addAttribute("paymentList", paymentListVOList);
+        System.out.println("model = " + model);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication.getPrincipal() instanceof CustomUserDetails) {
+            CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+            MemberVO memberVO = userDetails.getMemberVO();
+            System.out.println("MemberVO: " + memberVO);
+            model.addAttribute("loginingId", memberVO.getLogin_id());
         }
-
-        // 다운로드할 파일의 MIME 타입 설정
-        String contentType = null;
-        try {
-            contentType = Files.probeContentType(filePath);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        // Content-Disposition 헤더 설정
-        HttpHeaders headers = new HttpHeaders();
-        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename);
-
-        return ResponseEntity.ok()
-                .headers(headers)
-                .contentType(MediaType.parseMediaType(contentType))
-                .body(resource);
+        System.out.println("model222 = " + model);
+        return "memberZ/paymentList";
     }
-
 }

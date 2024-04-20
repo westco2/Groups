@@ -1,6 +1,8 @@
 package com.project.groups.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.project.groups.command.MemberVO;
+import com.project.groups.command.PaymentListVO;
 import com.project.groups.command.PaymentVO;
 import com.project.groups.payment.PaymentRequest;
 import com.project.groups.payment.PaymentService;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.List;
 
 
 @Controller
@@ -23,11 +26,6 @@ public class PaymentZController {
         this.paymentService = paymentService;
         this.objectMapper = objectMapper;
     }
-
-//    @GetMapping("/topaymentpageZ")
-//    public String showPaymentPage() {
-//        return "paymentpageZ/topaymentpageZ";
-//    }
 
 
     @PostMapping("/topaymentpageZ")
@@ -74,5 +72,8 @@ public class PaymentZController {
             System.out.println("실패!");
         };
     }
+
+
+
 
 }

@@ -99,6 +99,17 @@
   display: inline-block;
   margin-bottom: 5px;
 }
+#identificationName{
+  width: 120px; /* Adjusted width */
+  margin-left: 10px; /* Added margin */
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  background-color: #2f4050;
+  color: #ffffff;
+  border-radius: 5px;
+}
+
 
 #findZipCodeBtn {
   width: 120px; /* Adjusted width */
@@ -151,7 +162,7 @@
 }
 
 #phone {
-  width: 100%;
+  width: 68%;
   padding: 10px;
   margin: 5px 0;
   box-sizing: border-box;
