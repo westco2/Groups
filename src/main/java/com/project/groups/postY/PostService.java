@@ -1,4 +1,4 @@
-package com.project.groups.postY.service;
+package com.project.groups.postY;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

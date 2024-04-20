@@ -9,7 +9,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Document</title>
         <!-- 리믹스 아이콘 아이콘 사용하고싶으면 google에 리믹스 아이콘검색해서 사용하세요 -->
-        <link href="https://cdn.jsdelivr.net/npm/remixicon@3.0.0/fonts/remixicon.css" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
 
         <link rel="stylesheet" type="text/css" th:href="@{/css/base.css}">
         <link rel="stylesheet" type="text/css" th:href="@{/css/wj.css}">
@@ -113,6 +113,12 @@
                         </a>
                     </li>
                     <li class="navbar-item flexbox-left">
+                        <a sec:authorize="hasRole('ROLE_STUDENT')" href="/homework/myhomework" class="navbar-item-inner flexbox-left">
+                            <div class="navbar-item-inner-icon-wrapper flexbox">
+                                <i class="ri-book-marked-fill"></i>
+                            </div>
+                            <span class="link-text">숙제</span>
+                        </a>
                         <a sec:authorize="hasRole('ROLE_TEACHER')" href="/homework/homeworklist" class="navbar-item-inner flexbox-left">
                             <div class="navbar-item-inner-icon-wrapper flexbox">
                                 <i class="ri-book-marked-fill"></i>

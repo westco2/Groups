@@ -1,4 +1,4 @@
-package com.project.groups.domain;
+package com.project.groups.domains;
 
 import java.time.LocalDateTime;
 

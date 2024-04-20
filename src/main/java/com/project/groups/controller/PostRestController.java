@@ -2,6 +2,8 @@ package com.project.groups.controller;
 
 import java.util.List;
 
+
+import com.project.groups.postY.PostService;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,7 +12,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.project.groups.postY.service.PostService;
+
 import com.project.groups.domaindto.*;
 import lombok.RequiredArgsConstructor;
 

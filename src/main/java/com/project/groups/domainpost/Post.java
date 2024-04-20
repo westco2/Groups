@@ -7,7 +7,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-import com.project.groups.domain.Timestamped;
+
+import com.project.groups.domains.Timestamped;
 import com.project.groups.domaindto.PostRequestDto;
 
 import lombok.Getter;
