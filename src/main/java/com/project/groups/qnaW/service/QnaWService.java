@@ -12,6 +12,6 @@ public interface QnaWService {
 	public int update(QnaVO vo);
 	public void delete(int qnumber);
 	public int reply(QnaVO vo);
-	public int getTotal();
+	public int getTotal(String login_id, Criteria cri);
 	public GroupVO getgroupinfo(String login_id);
 }

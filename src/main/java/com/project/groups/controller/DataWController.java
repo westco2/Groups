@@ -81,6 +81,7 @@ public class DataWController {
 		ArrayList<DataVO> datavo = dataWService.getList(login, cri);
 		int total = dataWService.getTotal(login, cri);
 		PageVO pageVO = new PageVO(cri, total);
+		model.addAttribute("total", total);
 		model.addAttribute("datavo", datavo);
 		model.addAttribute("pageVO", pageVO);
 		System.out.println(datavo);
@@ -103,6 +104,7 @@ public class DataWController {
 		ArrayList<DataVO> datavo = dataWService.getList2(login, cri);
 		int total = dataWService.getTotal(login, cri);
 		PageVO pageVO = new PageVO(cri, total);
+		model.addAttribute("total", total);
 		model.addAttribute("datavo", datavo);
 		model.addAttribute("pageVO", pageVO);
 		System.out.println(datavo);

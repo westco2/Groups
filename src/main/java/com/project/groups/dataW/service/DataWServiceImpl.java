@@ -83,7 +83,6 @@ public class DataWServiceImpl implements DataWService{
 		return dataWMapper.getTotal(login_id, cri);
 	}
 	
-	
 	@Override
 	public List<GroupVO> getgroupname(String login_id) {
 		return dataWMapper.getgroupname(login_id);
