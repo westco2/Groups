@@ -201,7 +201,7 @@
     <!-- 해당 숙제를 푼 이력정보들 조회  -->
 
     <select id="getrecord" resultType="HomeworkVO">
-        select * from HOMEWORKRECORD where homework_no = #{homework_no}
+        select * from HOMEWORKRECORD where homework_no = #{homework_no} order by record_date desc
     </select>
 
     <!-- 학생의 숙제정보 조회 -->

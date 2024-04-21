@@ -176,7 +176,7 @@
                                     <td class="coco srsc-2 lis-left">[[${list.idfr_telno}]]</td>
                                     <td class="coco srsc-3 lis-left">[[${list.adm_eml_addr}]]</td>
                                     <td class="coco srsc-4 lis-left">[[${list.score}]]</td>
-                                    <td class="coco srsc-5 lis-left detail-btw"><span>[[${list.submitted_count + list.not_submitted_count}]]/[[${list.submitted_count}]]</span><button class="join-btn rp-m" type="button">자세히</button></td>
+                                    <td class="coco srsc-5 lis-left detail-btw"><span>[[${list.submitted_count}]]/[[${list.submitted_count + list.not_submitted_count}]]</span><button class="join-btn rp-m" type="button">자세히</button></td>
                                 </tr>
                                 </th:block>
 
@@ -612,7 +612,7 @@
                                     <td class="coco srsc-2 lis-left">${i.idfr_telno}</td>
                                     <td class="coco srsc-3 lis-left">${i.adm_eml_addr}</td>
                                     <td class="coco srsc-4 lis-left">${i.score}</td>
-                                    <td class="coco srsc-5 lis-left detail-btw"><span>${i.submitted_count + i.not_submitted_count}/${i.submitted_count}</span><button class="join-btn rp-m" type="button">자세히</button></td>`;
+                                    <td class="coco srsc-5 lis-left detail-btw"><span>${i.submitted_count}/${i.submitted_count + i.not_submitted_count}</span><button class="join-btn rp-m" type="button">자세히</button></td>`;
                     $(".sms-m").append(tr);
                 }
             },

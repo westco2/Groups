@@ -20,7 +20,7 @@
 		<if test="cri.title != '' and cri.title != null">
 			and qtitle like concat('%',#{cri.title},'%')
 		</if>
-
+		order by qregdate desc
 		limit #{cri.pageStart}, #{cri.amount}
 	</select>
 	
@@ -34,6 +34,7 @@
 		            and qtitle like concat('%',#{cri.title},'%')
 			    </if>
 		    </where>
+		order by qregdate desc
 		limit #{cri.pageStart}, #{cri.amount}
 	</select>
 	
@@ -97,7 +98,33 @@
 		<if test="cri.searchQtitle != '' and cri.searchQtitle != null">
 			and q.qtitle like concat('%', #{cri.searchQtitle}, '%')
 		</if>
-		limit 0, 10
+
+	</select>
+
+	<select id="getTotalT" resultType="int">
+		SELECT COUNT(*)
+		FROM GROUP_LIST a
+		INNER JOIN (SELECT q.*, m.korn_flnm FROM (SELECT qq.*, cc.ccontent
+		FROM QNABOARD qq
+		LEFT JOIN COMMENT cc
+		ON qq.qnumber = cc.qnumber) q
+		LEFT JOIN MEMBERS m
+		ON q.login_id = m.login_id) b
+		ON a.group_no = b.group_no
+		WHERE a.login_id = #{login_id}
+		<if test="cri.searchLogin_id != '' and cri.searchLogin_id != null">
+			and m.login_id like concat('%', #{cri.searchLogin_id}, '%')
+		</if>
+
+		<if test="cri.searchKorn_flnm != '' and cri.searchKorn_flnm != null">
+			and m.korn_flnm like concat('%', #{cri.searchKorn_flnm}, '%')
+		</if>
+
+		<if test="cri.searchQtitle != '' and cri.searchQtitle != null">
+			and q.qtitle like concat('%', #{cri.searchQtitle}, '%')
+		</if>
+
+
 	</select>
 
 </mapper>

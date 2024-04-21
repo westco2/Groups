@@ -68,13 +68,25 @@ public class GroupController {
     }
 
     @GetMapping("/groupreg")
-    public String groupreg(Model model){
+    public String groupreg(Model model, RedirectAttributes ra){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication.getPrincipal() instanceof CustomUserDetails) {
             CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
             MemberVO memberVO = userDetails.getMemberVO();
             System.out.println(memberVO);
             model.addAttribute("membervo", memberVO);
+            if(memberVO.getRole().equals("ROLE_TEACHER_BASICTIER") && groupService.groupcount(memberVO.getLogin_id()) > 2){
+                ra.addFlashAttribute("msg","더이상 그룹을 생성할수 없습니다.");
+                return "redirect:/group/groupList";
+            } else if(memberVO.getRole().equals("ROLE_TEACHER_MASTERTIER") && groupService.groupcount(memberVO.getLogin_id()) > 4){
+                ra.addFlashAttribute("msg","더이상 그룹을 생성할수 없습니다.");
+                return "redirect:/group/groupList";
+            } else if(memberVO.getRole().equals("ROLE_TEACHER") && groupService.groupcount(memberVO.getLogin_id()) > 0){
+                ra.addFlashAttribute("msg","더이상 그룹을 생성할수 없습니다.");
+                return "redirect:/group/groupList";
+            }
+
+
         }
 
         return "group/groupreg";

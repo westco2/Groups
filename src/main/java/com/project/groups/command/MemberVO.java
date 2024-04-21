@@ -28,4 +28,5 @@ public class MemberVO { //회원 테이블 정보
     private Integer score; //학생 점수
     private String tier; //선생님결제 티어
     private MultipartFile file;
+    private String youtube_id;
 }

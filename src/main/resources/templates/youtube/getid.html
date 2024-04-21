@@ -1,0 +1,48 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+<!-- content -->
+<th:block th:replace="~{./include/baselayout :: setContent( ~{ :: .bon-wrap } )}">
+    <div class="bon-wrap">
+        <div class="page-title">
+            <p>youtube</p>
+        </div>
+        <div class="bon-content-wrap">
+            <div class="box-title-wrap">
+                <h3>youtube</h3>
+            </div>
+            <div class="content-box">
+                <h3 style="margin-bottom: 10px;">기본 정보</h3>
+                <div class="reg-title-wrap" style="margin-bottom: 15px;">
+                    <div class="like-table-wrap">
+                        <div class="sinfo-wrap-m">
+                            <p>교육자명</p>
+                            <h4 class="name-m"><i class="ri-user-star-line"></i>&nbsp;[[${membervo.korn_flnm}]]</h4>
+                            <input type="hidden" name="login_id" th:value="${#authentication.principal.Username}">
+                        </div>
+                        <div class="sinfo-wrap-m">
+                            <p>구독등급</p>
+                            <h4 class="name-m"><i class="ri-file-user-line"></i> &nbsp;[[${membervo.tier}]]</h4>
+                        </div>
+                    </div>
+                </div>
+                <h3 style="margin-bottom: 10px;">채널아이디 등록</h3>
+                <form class="search-wrap-m sts-m" action="/apps/updateForm" method="get" style="margin-bottom: 0; padding-bottom: 0; padding-left: 0;">
+                    <div class="top-line-btn-wrap" style="margin-bottom: 15px">
+                        <input type="text" placeholder="등록하실 아이디를 입력해주세요" name="youtube_id" required style="width: 300px">
+                        <i class="ri-add-circle-line" style="top: 5px"></i>
+
+                    </div>
+                    <div class="ssd-mm">
+                        <input type="submit" class="sub-des" value="등록하기">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</th:block>
+</body>
+</html>
