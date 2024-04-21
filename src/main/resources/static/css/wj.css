@@ -35,7 +35,7 @@
 .reg-btn-wrap-w2{margin:20px; display: flex; justify-content: left;}
 .reg-btn-wrap-w2 button{background-color: #ffffff; border: none; font-size: 15px; font-weight:bold;}
 
-.login-form-wrap-w1{border-radius: 10px; display: flex; flex-direction: column; justify-content: start; align-items: center; padding: 40px 40% 60px; gap: 18px;}
+.login-form-wrap-w1{border-radius: 10px; display: flex; flex-direction: column; justify-content: start; align-items: center; padding: 0 40% 60px; gap: 18px;}
 .login-form-wrap-w2{border-radius: 10px; display: flex; flex-direction: column; justify-content: start; align-items: center; width: 100%; padding: 25px 40%; background-color: #ffffff;}
 .login-form-wrap-w a{text-decoration: none;}
 
@@ -104,6 +104,7 @@ body {
 }
 
 .bon-wrap{
+    overflow: auto;
     flex-basis: 100%;
     display: flex; flex-direction: column; justify-content: start;
 }

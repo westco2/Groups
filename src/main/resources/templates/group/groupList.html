@@ -10,7 +10,7 @@
             <p>그룹</p>
         </div>
         <div class="route-wrap">
-            <a href="#">my groups </a><p>/</p><a href="#">학습그룹조회</a>
+            <a style="color: black; font-weight: 600">그룹 </a><p>/</p><a style="color: black; font-weight: 600">학습그룹조회</a>
         </div>
         <div class="bon-content-wrap">
             <div class="box-title-wrap">
@@ -18,7 +18,7 @@
             </div>
             <div class="content-box">
                 <div class="top-inp">
-                    <p>group(5)</p>
+                    <p>group([[${total}]])</p>
                     <div class="inp-wrap" style="margin-right: 10px; justify-content: end; ">
                         <div class="select-box">
                             <div class="select-box__current" tabindex="1">
@@ -92,7 +92,7 @@
                                <td class="coco crcr-2">국비</td>
                                <td class="coco crcr-3">[[${i.group_start}]]</td>
                                <td class="coco crcr-4">[[${i.group_end}]]</td>
-                               <td class="coco crcr-5">[[${i.group_pp}]]/[[${i.student_count}]]</td>
+                               <td class="coco crcr-5">[[${i.student_count}]]/[[${i.group_pp}]]</td>
                                <td class="coco crcr-6">
                                    <button type="button" id="medbtn-m" class="join-btn" th:if="${i.group_st == '활성화'}">신청자 확인</button>
                                    <span th:unless="${i.group_st == '활성화'}">비활성화</span>

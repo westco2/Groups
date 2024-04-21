@@ -6,9 +6,154 @@
 <!-- content -->
 <th:block th:replace="~{./include/baselayout :: setContent( ~{ :: .bon-wrap } )}">
     <div class="bon-wrap">
-        <h3>관리자 메인페이지</h3>
-        <p>관리자 대시보드 들어갈거임</p>
+        <div class="div-m">
+            <div class="admin-top-wrap-m">
+                <div class="chart-wrap-mm mnm-mm" >
+                    <div class="fl-mk">
+                        <h4 class="main-num-m">12</h4>
+                        <p>총 회원</p>
+                    </div>
+                    <div style="font-size: 25px; color: #98b9a4">
+                        <i class="ri-group-line"></i>
+                    </div>
+                </div>
+                <div class="chart-wrap-mm mnm-mm" >
+                    <div class="fl-mk">
+                        <h4 class="main-num-m">12</h4>
+                        <p>교육자수</p>
+                    </div>
+                    <div style="font-size: 25px; color: #98b9a4">
+                        <i class="ri-add-circle-line"></i>
+                    </div>
+                </div>
+                <div class="chart-wrap-mm mnm-mm" >
+                    <div class="fl-mk">
+                        <h4 class="main-num-m">12</h4>
+                        <p>학생수</p>
+                    </div>
+                    <div style="font-size: 25px; color: #98b9a4">
+                        <i class="ri-indeterminate-circle-line"></i>
+                    </div>
+                </div>
+                <div class="chart-wrap-mm mnm-mm" >
+                    <div class="fl-mk">
+                        <h4 class="main-num-m" style="font-size: 20px">12</h4>
+                        <p></p>
+                    </div>
+                    <div style="font-size: 25px; color: #98b9a4">
+                        <i class="ri-surgical-mask-line"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="admin-main-wrap-m">
+                <div class="ad-wrap-mm chart-wrap-mm" style="width: 522px">
+                    <div class="small-title-m">
+                        <i class="ri-circle-fill"></i><h5>일일 가입자 수</h5>
+                    </div>
+                    <div class="ch-mm">
+                        <canvas id="myChart"></canvas>
+                    </div>
+                </div>
+                <div class="ad-wrap-mm chart-wrap-mm">
+                    <div class="small-title-m">
+                        <i class="ri-circle-fill"></i><h5>정보</h5>
+                    </div>
+                    <div class="ch-mm">
+                        <canvas id="myChartt"></canvas>
+                    </div>
+                </div>
+            </div>
+
+        </div>
     </div>
 </th:block>
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+<script th:inline="javascript">
+    const ctx = document.getElementById('myChart');
+    const ctxtwo =document.getElementById('myChartt');
+    var week = JSON.parse(`[[${week}]]`);
+    console.log(week);
+    var mdcns =JSON.parse(`[[${mdcns}]]`);
+
+    const weekdayMap = {
+        'Monday': 0,
+        'Tuesday': 1,
+        'Wednesday': 2,
+        'Thursday': 3,
+        'Friday': 4
+    };
+
+    // dataweek 배열 초기화
+    const dataweek = [0, 0, 0, 0, 0]; // 월요일부터 금요일까지
+
+    // 각 요일의 count 값을 dataweek 배열에 할당
+    week.forEach(item => {
+        const day = item.vals;
+        const count = item.count;
+        const index = weekdayMap[day];
+        dataweek[index] = count;
+    });
+
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['월요일', '화요일', '수요일', '목요일', '금요일'],
+            datasets: [{
+                label: '진료인원',
+                data: dataweek,
+                backgroundColor: ['rgba(54, 162, 235, 1)', // 빨간색
+                    'rgba(54, 162, 235, 1)', // 파란색
+                    'rgba(54, 162, 235, 1)', // 노란색
+                    'rgba(54, 162, 235, 1)', // 초록색
+                    'rgba(54, 162, 235, 1)', // 보라색
+                ],
+                borderColor: ['rgba(54, 162, 235, 1)', // 빨간색
+                    'rgba(54, 162, 235, 1)', // 파란색
+                    'rgba(54, 162, 235, 1)', // 노란색
+                    'rgba(54, 162, 235, 1)', // 초록색
+                    'rgba(54, 162, 235, 1)', // 보라색
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true, // false로 설정하여 차트 크기를 조절
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+    new Chart(ctxtwo,{
+        type: 'doughnut',
+        data: {
+            labels: [
+                mdcns[0].vals,
+                mdcns[1].vals,
+                mdcns[2].vals
+            ],
+            datasets: [{
+                label: 'My First Dataset',
+                data: [mdcns[0].count, mdcns[1].count, mdcns[2].count],
+                backgroundColor: [
+                    'rgb(255, 99, 132)',
+                    'rgb(54, 162, 235)',
+                    'rgb(255, 205, 86)'
+                ],
+                hoverOffset: 4
+            }]
+
+        }
+
+
+    });
+
+
+
+</script>
 </body>
 </html>

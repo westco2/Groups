@@ -59,9 +59,11 @@ public class GroupController {
     public String groupList(Criteria cri,Model model){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String sessionId = authentication.getName();
-        PageVO vo = new PageVO(cri,groupService.getgrouplisttotal(sessionId, cri));
+        int total = groupService.getgrouplisttotal(sessionId, cri);
+        PageVO vo = new PageVO(cri,total);
         model.addAttribute("list",groupService.getgrouplist(sessionId, cri));
         model.addAttribute("pageVO",vo);
+        model.addAttribute("total",total);
         return "group/groupList";
     }
 
