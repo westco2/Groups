@@ -63,7 +63,6 @@ public class QnaWController {
 			}
 				model.addAttribute("membervo", memberVO);
 				System.out.println(memberVO);
-
         }
 		
 		return "qnaW/qnaWBoard";

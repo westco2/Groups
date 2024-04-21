@@ -42,9 +42,7 @@
 					<h3 style="margin-bottom: 10px;">질문 내용</h3>
 					<div class="reg-title-wrap">
 						<div class="group-naming-wrap-w">
-							<div class="group-name">
-								<label>No</label> <input type=text class="inp-reg-w" name="qnumber" th:value="${vo.qnumber}" readonly>
-							</div>
+							<input type="hidden" class="inp-reg-w" name="qnumber" th:value="${vo.qnumber}" readonly>
 							<div class="group-name">
 								<label>제목</label> <input class="inp-reg-w" type="text" th:value="${vo.qtitle}" readonly>
 							</div>

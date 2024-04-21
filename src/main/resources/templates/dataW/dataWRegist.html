@@ -36,7 +36,7 @@
 							<div class="group-naming-wrap-m">
 								<div class="group-name">
 									<label>그룹선택</label> 
-									 <select class="sel-des sel-des-2m" name="group_no">
+									 <select class="sel-des sel-des-2m" name="group_no" required>
 			                            <option value="">선택</option>
 			                            <th:block th:each="i : ${names}">
 			                                <option th:value="${i.group_no}">[[${i.group_nm}]]</option>
