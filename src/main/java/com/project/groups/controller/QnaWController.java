@@ -39,6 +39,7 @@ public class QnaWController {
 	
 	@GetMapping("/qnaWBoard") //로그인한 id와 같은 작성 질문만 올라오게 만들어져있음
 	public String qnaWBoard(Model model, Criteria cri) {
+		String login = null;
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication.getPrincipal() instanceof CustomUserDetails) {
             CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
@@ -51,7 +52,10 @@ public class QnaWController {
             	System.out.println("실행");
             	model.addAttribute("qnavo", qnaWService.getList(cri, memberVO.getLogin_id()));
             }else if(memberVO.getRole().equals("ROLE_STUDENT")) model.addAttribute("qnavo", qnaWService.getList2(cri, memberVO.getLogin_id()));
-        	model.addAttribute("membervo",memberVO);
+            int total = qnaWService.getTotal(login, cri);
+    		PageVO pageVO = new PageVO(cri, total);
+    		model.addAttribute("total", total);
+            model.addAttribute("membervo",memberVO);
         	System.out.println(memberVO);
         }
 		

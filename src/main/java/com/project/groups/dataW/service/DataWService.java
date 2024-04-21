@@ -6,6 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.project.groups.command.DataVO;
 import com.project.groups.command.GroupVO;
+import com.project.groups.command.HomeWorkVO;
 import com.project.groups.command.UploadVO;
 import com.project.groups.util.Criteria;
 public interface DataWService {

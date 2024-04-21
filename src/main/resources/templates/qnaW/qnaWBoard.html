@@ -18,7 +18,7 @@
 				<div class="content-box">
 				<form action="qnaWBoard" method="get">
 					<div class="top-inp">
-						<p>질문 내용 조회</p>
+						<p>질문 내용 조회([[${total}]])</p>
 							<div class="inp-wrap" style="margin-right: 10px; justify-content: end;" th:if="${#authorization.expression('hasRole(''ROLE_STUDENT'')')}">
 							    <button type="button" class="regbtn-des" style="margin-right: 10px;" onclick="qnaWRegist()">질문등록</button>
 							</div>
