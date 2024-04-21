@@ -262,6 +262,7 @@
             },
             rsp => {
                 if(rsp.success){
+                    onCertificationSuccess();
                     console.log("본인인증 성공!");
                     console.log("고유인증번호: " + rsp.imp_uid)
                     console.log(rsp.name)
@@ -274,6 +275,14 @@
         );
     }
 
+    function onCertificationSuccess() {
+        // 버튼 요소 찾기
+        var button = document.getElementById('identificationName');
+        // 버튼의 텍스트 변경
+        button.innerText = "본인 인증 완료";
+        // 버튼의 클릭 이벤트 제거
+        button.removeAttribute('onclick');
+    }
 </script>
 </body>
 </html>
