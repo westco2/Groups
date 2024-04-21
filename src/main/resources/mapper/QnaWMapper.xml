@@ -79,16 +79,17 @@
 	<select id="getTotal" resultType="int">
 		select count(*) as total
 		from QNABOARD
-		<if test="searchLogin_id != '' and searchLogin_id != null">
-			and m.login_id like concat('%', #{searchLogin_id}, '%')
+		where login_id = #{login_id}
+		<if test="cri.searchLogin_id != '' and cri.searchLogin_id != null">
+			and m.login_id like concat('%', #{cri.searchLogin_id}, '%')
 		</if>
 		
-		<if test="searchKorn_flnm != '' and searchKorn_flnm != null">
-			and m.korn_flnm like concat('%', #{searchKorn_flnm}, '%')
+		<if test="cri.searchKorn_flnm != '' and cri.searchKorn_flnm != null">
+			and m.korn_flnm like concat('%', #{cri.searchKorn_flnm}, '%')
 		</if>
 		
-		<if test="searchQtitle != '' and searchQtitle != null">
-			and q.qtitle like concat('%', #{searchQtitle}, '%')
+		<if test="cri.searchQtitle != '' and cri.searchQtitle != null">
+			and q.qtitle like concat('%', #{cri.searchQtitle}, '%')
 		</if>
 		limit 0, 10
 	</select>

@@ -46,17 +46,24 @@ public class QnaWController {
             MemberVO memberVO = userDetails.getMemberVO();
             System.out.println("MemberVO: " + memberVO);
             System.out.println(memberVO.getRole());
+			login = memberVO.getLogin_id();
             if(memberVO.getRole().equals("ROLE_TEACHER")||
                memberVO.getRole().equals("ROLE_TEACHER_BASICTIER")||
                memberVO.getRole().equals("ROLE_TEACHER_MASTERTIER")) {
             	System.out.println("실행");
+				int total = qnaWService.getTotal(login, cri);
             	model.addAttribute("qnavo", qnaWService.getList(cri, memberVO.getLogin_id()));
-            }else if(memberVO.getRole().equals("ROLE_STUDENT")) model.addAttribute("qnavo", qnaWService.getList2(cri, memberVO.getLogin_id()));
-            int total = qnaWService.getTotal(login, cri);
-    		PageVO pageVO = new PageVO(cri, total);
-    		model.addAttribute("total", total);
-            model.addAttribute("membervo",memberVO);
-        	System.out.println(memberVO);
+				model.addAttribute("total", total);
+            }else if(memberVO.getRole().equals("ROLE_STUDENT")) {
+				model.addAttribute("qnavo", qnaWService.getList2(cri, memberVO.getLogin_id()));
+				int total = qnaWService.getTotal(login, cri);
+				PageVO pageVO = new PageVO(cri, total);
+				model.addAttribute("pageVO", pageVO);
+				model.addAttribute("total", total);
+			}
+				model.addAttribute("membervo", memberVO);
+				System.out.println(memberVO);
+
         }
 		
 		return "qnaW/qnaWBoard";
