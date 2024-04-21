@@ -11,8 +11,39 @@
                 <i class="ri-circle-fill"></i><h5>정보</h5>
             </div>
 
-            <h3> 선생님 메인 페이지 </h3>
-            <p> 기본정보 가져올거임</p>
+            <div class="content-box">
+                <h3 style="margin-bottom: 10px;">기본 정보</h3>
+                <div class="reg-title-wrap" style="margin-bottom: 15px;">
+                    <div class="like-table-wrap">
+                        <div class="sinfo-wrap-m">
+                            <p>이름</p>
+                            <h4 class="name-m"><i class="ri-user-star-line"></i>&nbsp;[[${membervo.korn_flnm}]]</h4>
+                        </div>
+                        <div class="sinfo-wrap-m">
+                            <p>e-mail</p>
+                            <h4 class="name-m"><i class="ri-file-user-line"></i> &nbsp;[[${membervo.tier}]]</h4>
+                        </div>
+
+                        <div class="sinfo-wrap-m">
+                            <p>e-mail</p>
+                            <h4 class="name-m"><i class="ri-file-user-line"></i> &nbsp;[[${membervo.adm_eml_addr}]]</h4>
+                        </div>
+                        <div class="sinfo-wrap-m">
+                            <p>연락처</p>
+                            <h4 class="name-m"><i class="ri-file-user-line"></i> &nbsp;[[${membervo.idfr_telno}]]</h4>
+                        </div>
+                        <div class="sinfo-wrap-m">
+                            <p>생년월일</p>
+                            <h4 class="name-m"><i class="ri-file-user-line"></i> &nbsp;[[${membervo.date_birth}]]</h4>
+                        </div>
+                        <div class="sinfo-wrap-m">
+                            <p>가입일</p>
+                            <h4 class="name-m"><i class="ri-file-user-line"></i> &nbsp;[[${ #temporals.format(membervo.date_subscription, 'yyyy.MM.dd')}]]</h4>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
         </div>
     </div>
 </th:block>

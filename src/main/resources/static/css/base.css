@@ -52,6 +52,7 @@ body {
 }
 
 .bon-wrap{
+    overflow: auto;
     flex-basis: 100%;
     display: flex; flex-direction: column; justify-content: start;
 }
@@ -631,8 +632,7 @@ tbody .sub-tr{border-bottom: 1px solid rgb(237, 239, 242);}
     position: relative;
     background-color: #1b2531;
     transition: width .35s cubic-bezier(var(--transition-main), 1);
-    overflow-y: auto;
-    overflow-x: hidden;
+
     padding-top: 15px;
     min-height: 900px;
     height: auto;
@@ -653,10 +653,18 @@ tbody .sub-tr{border-bottom: 1px solid rgb(237, 239, 242);}
 #navbar::-webkit-scrollbar-thumb {
     background-color: hsl(var(--primary));
 }
+.nono-m{
+    padding: 0 0 10px 0;
+    min-height: 32px;
+    max-height: 32px;
+}
 .navbar-items {
     margin: 0;
     padding: 0;
     list-style-type: none;
+    top: 15px;
+    position: sticky;
+    overflow: hidden;
 }
 /* Navbar Logo */
 .navbar-logo {
@@ -699,12 +707,12 @@ tbody .sub-tr{border-bottom: 1px solid rgb(237, 239, 242);}
 .navck-m{
     background: #191a2e;
     color: #989bf5;
-    border-left: 3px solid #8eb1ff;
+    border-left: 5px solid #8eb1ff;
 }
 .navbar-item-inner-icon-wrapper {
     width: calc(5rem - 1em - 8px);
     position: relative;
-    font-size: 26px;
+    font-size: 25px;
     padding-left: 5px;
 }
 .navbar-item-inner-icon-wrapper ion-icon {
@@ -720,6 +728,7 @@ tbody .sub-tr{border-bottom: 1px solid rgb(237, 239, 242);}
     overflow: hidden;
     opacity: 0;
     font-size: 15px;
+    font-weight: 600;
 }
 .link-textdel {
     width: calc(100% - calc(5rem - 8px));
@@ -827,9 +836,4 @@ tbody .sub-tr{border-bottom: 1px solid rgb(237, 239, 242);}
 }
 @media only screen and (max-width: 496px) {
 
-}
-.navbar-times {
-    position: sticky;
-    top: 0;
-    z-index: 999; /* 다른 요소 위에 고정되도록 z-index 설정 */
 }
