@@ -68,7 +68,7 @@
                 <input type="hidden" name="adm_eml_addr" id="email_adr" value="">
 
                 <div class="left-a">
-                    <span>첨부파일</span>
+                    <span>강사 증명을 위한 첨부파일</span>
                     <input type="file" name="file" id="main_file" class="upload-hidden">
                 </div>
 
@@ -79,6 +79,35 @@
         </div>
     </div>
 </th:block>
+
+<script>
+    document.getElementById("teacher").addEventListener("click", function(event) {
+        var button = document.getElementById('identificationName');
+        var useridSuc = document.getElementById('checkDuplicateBtn');
+        var nicknameSuc = document.getElementById('namebtn');
+        if(useridSuc.innerText != '확인완료'){
+            alert("아이디 중복여부를 확인해주세요")
+            event.preventDefault();
+            return;
+        }else if(nicknameSuc.innerText != '확인완료'){
+            alert("닉네임 중복여부를 확인해주세요")
+            event.preventDefault();
+            return;
+        }else if(button.innerText != '본인 인증 완료'){
+            event.preventDefault();
+            alert("본인 인증을 완료해주세요")
+            return;
+        }else if ($('#main_file')[0].files.length === 0) {
+            alert("첨부파일을 업로드하세요");
+            event.preventDefault();
+            return;
+        }
+        else{
+            alert("가입이 성공적으로 처리되었습니다");
+        }
+    });
+</script>
+
 <script th:inline="javascript">
     // 우편번호 찾기 함수
     function findZipCode() {
@@ -202,6 +231,7 @@
     document.getElementById('checkDuplicateBtn').addEventListener('click', function() {
         // 아이디 입력값 가져오기
         const username = document.getElementById('login_id').value;
+        const useridSuc = document.getElementById('checkDuplicateBtn');
         console.log(username)
         // 아이디 입력값이 비어 있는지 확인
         if (username.trim() === '') {
@@ -219,8 +249,10 @@
             success: function (data){
                 if(data > 0){
                     alert('중복된 아이디입니다. 다시 입력하세요.')
+                    useridSuc.innerText = '중복확인'
                 } else{
                     alert('가입이 가능한 아이디입니다.')
+                    useridSuc.innerText = '확인완료'
                 }
             }
         })
@@ -230,6 +262,7 @@
     document.getElementById('namebtn').addEventListener('click', function() {
         // 닉네임 입력값 가져오기
         const nickname = document.getElementById('user_nick').value;
+        var nicknameSuc = document.getElementById('namebtn');
         console.log(nickname);
         // 닉네임 입력값이 비어 있는지 확인
         if (nickname.trim() === '') {
@@ -244,8 +277,10 @@
             success: function (data) {
                 if(data > 0) {
                     alert('중복된 닉네임입니다')
+                    nicknameSuc.innerText = "중복확인"
                 }else {
                     alert('가입이 가능한 닉네임입니다')
+                    nicknameSuc.innerText = "확인완료"
                 }
             }
         })
@@ -287,7 +322,6 @@
                 img[0].style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(enable='true',sizingMethod='scale',src=\""+imgSrc+"\")";
             }
         });
-
     });
 
 </script>
