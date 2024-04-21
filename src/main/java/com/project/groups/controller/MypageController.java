@@ -4,6 +4,7 @@ import com.project.groups.command.MemberVO;
 import com.project.groups.group.GroupService;
 import com.project.groups.homework.HomeworkService;
 import com.project.groups.membersZ.service.CustomUserDetails;
+import com.project.groups.qnaW.service.QnaWService;
 import com.project.groups.util.Criteria;
 import com.project.groups.util.PageVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,9 @@ public class MypageController {
     @Autowired
     @Qualifier("groupService")
     private GroupService groupService;
+    @Autowired
+    @Qualifier("QnaWService")
+    private QnaWService qnaWService;
 
     @Autowired
     @Qualifier("homeworkService")
@@ -48,14 +52,17 @@ public class MypageController {
     }
     @RequestMapping("/tchmypage")
     public String tchmypage(Model model){
-
+        Criteria cri = new Criteria(1, 5);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication.getPrincipal() instanceof CustomUserDetails) {
             CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
             MemberVO memberVO = userDetails.getMemberVO();
             model.addAttribute("membervo", memberVO);
-
+            model.addAttribute("list",groupService.getgrouplist(memberVO.getLogin_id(), cri));
+            System.out.println(qnaWService.getList(cri, memberVO.getLogin_id()));
+            model.addAttribute("qnavo", qnaWService.getList(cri, memberVO.getLogin_id()));
         }
+
 
 
 

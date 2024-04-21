@@ -599,3 +599,9 @@ tbody tr:hover{background-color: #f9f9f9;
 .fl-mk{display: flex; flex-direction: column; justify-content: center}
 
 .main-num-m{font-size: 24px; font-weight: 600; margin: 0}
+
+
+
+.mww-1{flex-basis: 60%}
+.mww-2{flex-basis: 15%}
+.mww-3{flex-basis: 20%}

@@ -6,15 +6,21 @@
 <mapper namespace="com.project.groups.qnaW.service.QnaWMapper">
 	
 	<select id="getList" resultType="QnaVO">
-	    select * from 
-	    (select * from GROUP_LIST where login_id = #{login_id}) a
-	    left join (select q.*, m.korn_flnm from (select qq.*, cc.ccontent from QNABOARD qq left join COMMENT cc on qq.qnumber = cc.qnumber ) q left join MEMBERS m on q.login_id = m.login_id) b
-	    on a.group_no = b.group_no
-	    	<where>
-		    	<if test="cri.title != '' and cri.title != null">
-		            and qtitle like concat('%',#{cri.title},'%')
-		        </if>
-	       </where>
+		SELECT *
+		FROM GROUP_LIST a
+		INNER JOIN (SELECT q.*, m.korn_flnm FROM (SELECT qq.*, cc.ccontent
+		FROM QNABOARD qq
+		LEFT JOIN COMMENT cc
+		ON qq.qnumber = cc.qnumber) q
+		LEFT JOIN MEMBERS m
+		ON q.login_id = m.login_id) b
+		ON a.group_no = b.group_no
+		WHERE a.login_id = #{login_id}
+
+		<if test="cri.title != '' and cri.title != null">
+			and qtitle like concat('%',#{cri.title},'%')
+		</if>
+
 		limit #{cri.pageStart}, #{cri.amount}
 	</select>
 	

@@ -170,6 +170,17 @@ public class GroupController {
         model.addAttribute("vo",vo);
         return "wait/wait";
     }
+    @GetMapping("/teacherwait")
+    public String teacherwait(Model model){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication.getPrincipal() instanceof CustomUserDetails) {
+            CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+            MemberVO memberVO = userDetails.getMemberVO();
+            model.addAttribute("membervo", memberVO);
+
+        }
+        return "wait/teacherwait";
+    }
 
     @PostMapping("groupjoiner")
     public String groupjoiner(GroupVO vo){

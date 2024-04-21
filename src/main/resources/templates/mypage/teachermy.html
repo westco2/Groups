@@ -20,7 +20,7 @@
                             <h4 class="name-m"><i class="ri-user-star-line"></i>&nbsp;[[${membervo.korn_flnm}]]</h4>
                         </div>
                         <div class="sinfo-wrap-m">
-                            <p>e-mail</p>
+                            <p>tier</p>
                             <h4 class="name-m"><i class="ri-file-user-line"></i> &nbsp;[[${membervo.tier}]]</h4>
                         </div>
 
@@ -45,11 +45,118 @@
                 </div>
             </div>
         </div>
+        <div class="devi-wrap-m">
+            <div class="devi-f-wrap-m" style="flex-basis: 50%">
+                <div class="bon-content-wrap">
+                    <div class="small-title-m">
+                        <i class="ri-circle-fill"></i><h5>운영중인 그룹</h5>
+                    </div>
+                    <div class="content-box">
+
+                        <form class="table-wrap" action="#" name="grouplistForm" method="post">
+                            <table class="table-content">
+                                <thead class="co-head">
+                                <tr class="co-flex">
+                                    <th class="coco crcr-0">#</th>
+                                    <th class="coco crcr-1">그룹이름</th>
+                                    <th class="coco crcr-2">유형</th>
+                                    <th class="coco crcr-3">교육시작일</th>
+                                    <th class="coco crcr-4">교육종료일</th>
+                                    <th class="coco crcr-5">인원</th>
+                                    <th class="coco crcr-6">상태</th>
+                                </tr>
+                                </thead>
+                                <tbody class="co-body">
+                                <th:block th:each="i, iterStat : ${list}">
+                                    <tr class="co-flex">
+                                        <td class="coco crcr-0 center-flex"><input type="checkbox" name="group_non" th:value="${i.group_no}"><input type="hidden"  class="hi-mmm" th:value="${i.group_no}"></td>
+                                        <td class="coco crcr-1">
+
+                                            <input type="hidden" name="group_no" th:value="${i.group_no}">
+                                            <a href="#">[[${i.group_nm}]]</a>
+
+                                        </td>
+                                        <td class="coco crcr-2">국비</td>
+                                        <td class="coco crcr-3">[[${i.group_start}]]</td>
+                                        <td class="coco crcr-4">[[${i.group_end}]]</td>
+                                        <td class="coco crcr-5">[[${i.student_count}]]/[[${i.group_pp}]]</td>
+                                        <td class="coco crcr-6">
+                                            <span th:if="${i.group_st == '활성화'}">활성화</span>
+                                            <span th:unless="${i.group_st == '활성화'}">비활성화</span>
+                                        </td>
+                                    </tr>
+                                </th:block>
+
+
+                                </tbody>
+                            </table>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+            <div class="devi-s-wrap-m" style="flex-basis: 50%; overflow: auto">
+                <div class="bon-content-wrap" style="margin-left: 0;">
+                    <div class="small-title-m">
+                        <i class="ri-circle-fill"></i><h5>새로운 질문</h5>
+                    </div>
+                    <div class="table-wrap" style="padding: 5px">
+                        <table class="table-content">
+                            <thead class="co-head">
+                            <tr class="co-flex">
+                                <th class="coco crcr-0">No</th>
+                                <th class="coco mww-1">제목</th>
+
+                                <th class="coco mww-2">이름</th>
+                                <th class="coco mww-3">등록일자</th>
+
+                            </tr>
+                            </thead>
+                            <tbody class="co-body">
+                            <th:block th:each="qnavo, status : ${qnavo}" th:if="${qnavo.ccontent == null}">
+                                <tr class="co-flex" >
+                                    <td class="coco crcr-0 center-flex">[[${status.count}]]</td>
+                                    <td class="coco mww-1">
+                                        <a th:href="@{'/qnaW/qnaWDetail?qnumber=' + ${qnavo.qnumber}}">
+                                            <span th:text="${qnavo.qtitle}"></span>
+                                        </a>
+                                    </td>
+
+                                    <td class="coco mww-2" th:text="${qnavo.korn_flnm}"></td>
+                                    <td class="coco mww-3">[[${#temporals.format(qnavo.qregdate, 'yyyy.MM.dd')}]]</td>
+
+                                </tr>
+                            </th:block>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </th:block>
 
 <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var groupLinks = document.querySelectorAll(".crcr-1 a");
+        groupLinks.forEach(function(link) {
+            link.addEventListener("click", function(event) {
+                event.preventDefault(); // 기본 동작 방지
 
+                var groupNo = this.previousElementSibling.value; // 해당 그룹의 group_no 가져오기
+                var form = document.createElement("form"); // 폼 동적 생성
+                form.action = "groupdetail"; // 액션 설정
+                form.method = "POST"; // 메소드 설정
+                var input = document.createElement("input"); // input 동적 생성
+                input.type = "hidden"; // hidden 타입 설정
+                input.name = "group_no"; // 이름 설정
+                input.value = groupNo; // 값 설정
+                form.appendChild(input); // 폼에 input 추가
+                document.body.appendChild(form); // body에 폼 추가
+                form.submit(); // 폼 제출
+            });
+        });
+    });
 </script>
 
 </body>
