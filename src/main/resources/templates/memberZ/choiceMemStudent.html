@@ -54,6 +54,9 @@
                 <label for="address">주소</label><br>
                 <input type="text" id="address" name="lotno_daddr" required><br>
 
+                <label for="address">상세 주소</label><br>
+                <input type="text" id="addressDetail"><br>
+
                 <label for="email">이메일</label><br>
                 <input type="text" id="email" name="emailheader" required>
                 <span>@</span>
@@ -101,6 +104,10 @@
 <script th:inline="javascript">
     /*<![CDATA[*/
     // 우편번호 찾기 함수
+    var postZ = document.getElementById('postalCode')
+    var detailPostZ = document.getElementById('address')
+    postZ.addEventListener('click', findZipCode)
+    detailPostZ.addEventListener('click', findZipCode)
     function findZipCode() {
         daum.postcode.load(function(){
             new daum.Postcode({
