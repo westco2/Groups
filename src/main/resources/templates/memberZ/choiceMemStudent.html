@@ -22,6 +22,9 @@
                 <label for="password">비밀번호</label><br>
                 <input type="password" id="password" name="pswd" required><br>
 
+                <label for="password">비밀번호 확인</label><br>
+                <input type="password" id="password1" required><br>
+
                 <label for="name">이름</label><br>
                 <input type="text" id="name" name="korn_flnm" required><br>
 
@@ -83,8 +86,20 @@
         var button = document.getElementById('identificationName');
         var useridSuc = document.getElementById('checkDuplicateBtn');
         var nicknameSuc = document.getElementById('namebtn');
+        var pass1 = document.getElementById("password").value;
+        var pass2 = document.getElementById("password1").value;
+        var isValid = false;
+
+        if (pass1 === pass2) {
+            isValid = true;
+        }
+
         if(useridSuc.innerText != '확인완료'){
             alert("아이디 중복여부를 확인해주세요")
+            event.preventDefault();
+            return;
+        }else if(!isValid) {
+            alert("비밀번호 입력을 확인해주세요")
             event.preventDefault();
             return;
         }else if(nicknameSuc.innerText != '확인완료'){
