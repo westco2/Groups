@@ -134,5 +134,20 @@ public class GroupServiceImpl implements GroupService{
         return groupMapper.getdatainfo(group_no, cri);
     }
 
+    @Override
+    public int groupcount(String login_id) {
+        return groupMapper.groupcount(login_id);
+    }
+
+    @Override
+    public MemberVO ckyou(String login_id) {
+        return groupMapper.ckyou(login_id);
+    }
+
+    @Override
+    public void youupdate(MemberVO vo) {
+        groupMapper.youupdate(vo);
+    }
+
 
 }

@@ -477,5 +477,21 @@ UNION all
     LIMIT 1
 );
     </select>
+
+
+
+
+    <select id="groupcount" resultType="int">
+        select COUNT(*) from GROUP_LIST where login_id = #{login_id} and not group_st = "종료"
+    </select>
+
+
+    <select id="ckyou" resultType="MemberVO">
+        select youtube_id from MEMBERS where login_id =#{login_id}
+    </select>
+
+    <update id="youupdate">
+        update MEMBERS set youtube_id = #{youtube_id} where login_id = #{login_id}
+    </update>
 </mapper>
 

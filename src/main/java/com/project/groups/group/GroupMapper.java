@@ -53,4 +53,7 @@ public interface GroupMapper {
 
     int getdatainfototal(@Param("group_no") Integer group_no, @Param("cri")Criteria cri);
     List<DataVO> getdatainfo(@Param("group_no") Integer group_no, @Param("cri")Criteria cri);
+    int groupcount (String login_id);
+    MemberVO ckyou(String login_id);
+    void youupdate(MemberVO vo);
 }

@@ -50,4 +50,7 @@ public interface GroupService {
     List<QueryVO> getdashboardt(Integer group_no, String login_id);
     int getdatainfototal(Integer group_no, Criteria cri);
     List<DataVO> getdatainfo(Integer group_no, Criteria cri);
+    int groupcount(String login_id);
+    MemberVO ckyou(String login_id);
+    void youupdate (MemberVO vo);
 }

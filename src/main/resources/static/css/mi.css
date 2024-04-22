@@ -436,7 +436,14 @@ input[type="text"]:focus, textarea:focus {outline: none; border-color:#1A8EF9;}
 #clch{padding: 5px 14px; font-size: 12px; font-weight: 600; background-color: #ffffff;  border: 1px solid #bbbbbb; cursor: pointer}
 #clsf{padding: 5px 14px; font-size: 12px; font-weight: 600; border: none; color: #ffffff; background-color: #18232f; cursor: pointer;}
 
-
+.bb-tm{    font-size: 12px;
+    padding: 7px 15px;
+    background-color: #278dd1;
+    color: #fff;
+    cursor: pointer;
+    border: none;
+    border-radius: 3px;
+    font-weight: 600;}
 .work-mmm1{flex-basis: 20%}
 .work-mmm2{flex-basis: 8%}
 .work-mmm3{flex-basis: 8%}
@@ -605,3 +612,13 @@ tbody tr:hover{background-color: #f9f9f9;
 .mww-1{flex-basis: 60%}
 .mww-2{flex-basis: 15%}
 .mww-3{flex-basis: 20%}
+
+
+.wow-m{display: flex; justify-content: center; align-items: start; gap: 100px}
+.text-m{display: flex; flex-direction: column; align-items: center; gap: 10px}
+.shadow-lg{width: 500px; border: 1px solid #dddddd; font-weight: 600; border-radius: 5px;
+    list-style: none; display: flex; flex-direction: column;}
+.shadow-lg li{padding: 14px}
+.pad-m{padding: 20px}
+.pad-m iframe{height: 220px}
+.my-5{display: flex; overflow: auto}

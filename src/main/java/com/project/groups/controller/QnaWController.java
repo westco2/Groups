@@ -51,9 +51,11 @@ public class QnaWController {
                memberVO.getRole().equals("ROLE_TEACHER_BASICTIER")||
                memberVO.getRole().equals("ROLE_TEACHER_MASTERTIER")) {
             	System.out.println("실행");
-				int total = qnaWService.getTotal(login, cri);
+				int total = qnaWService.getTotalT(login, cri);
             	model.addAttribute("qnavo", qnaWService.getList(cri, memberVO.getLogin_id()));
 				model.addAttribute("total", total);
+				PageVO pageVO = new PageVO(cri, total);
+				model.addAttribute("pageVO", pageVO);
             }else if(memberVO.getRole().equals("ROLE_STUDENT")) {
 				model.addAttribute("qnavo", qnaWService.getList2(cri, memberVO.getLogin_id()));
 				int total = qnaWService.getTotal(login, cri);

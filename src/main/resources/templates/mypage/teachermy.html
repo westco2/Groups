@@ -20,7 +20,7 @@
                             <h4 class="name-m"><i class="ri-user-star-line"></i>&nbsp;[[${membervo.korn_flnm}]]</h4>
                         </div>
                         <div class="sinfo-wrap-m">
-                            <p>tier</p>
+                            <p>구독등급</p>
                             <h4 class="name-m"><i class="ri-file-user-line"></i> &nbsp;[[${membervo.tier}]]</h4>
                         </div>
 
@@ -100,6 +100,7 @@
                     <div class="small-title-m">
                         <i class="ri-circle-fill"></i><h5>새로운 질문</h5>
                     </div>
+                    <div class="content-box">
                     <div class="table-wrap" style="padding: 5px">
                         <table class="table-content">
                             <thead class="co-head">
@@ -130,6 +131,7 @@
                             </tbody>
                         </table>
                     </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -144,8 +146,9 @@
                 event.preventDefault(); // 기본 동작 방지
 
                 var groupNo = this.previousElementSibling.value; // 해당 그룹의 group_no 가져오기
+                console.log(groupNo);
                 var form = document.createElement("form"); // 폼 동적 생성
-                form.action = "groupdetail"; // 액션 설정
+                form.action = "/group/groupdetail"; // 액션 설정
                 form.method = "POST"; // 메소드 설정
                 var input = document.createElement("input"); // input 동적 생성
                 input.type = "hidden"; // hidden 타입 설정
