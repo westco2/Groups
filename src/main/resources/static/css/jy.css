@@ -210,6 +210,15 @@
   border: 1px solid #ccc;
   border-radius: 5px;
 }
+#addressDetail {
+  width: 500px;
+  padding: 10px;
+  margin: 5px 0;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
 
 #login_id {
   width: 75%;

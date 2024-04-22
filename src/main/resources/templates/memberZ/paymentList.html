@@ -44,16 +44,16 @@
                                 <input type="checkbox">
                             </td>
                             <td class="coco work-1 lis-left" th:style="'flex-basis: 10%'">
-                                <a href="#" th:text="${paymentListVO.login_id}"></a>
+                                <span th:text="${paymentListVO.login_id}"></span>
                             </td>
                             <td class="coco work-2 lis-left" th:style="'flex-basis: 10%'">
                                 <span th:text="${paymentListVO.korn_flnm}"></span>
                             </td>
                             <td class="coco work-3 lis-left" th:style="'flex-basis: 20%'">
-                                <span th:text="${paymentListVO.pay_date}"></span>
+                                <span th:text="${#temporals.format(paymentListVO.pay_date, 'yyyy-MM-dd')}"></span>
                             </td>
                             <td class="coco work-4 lis-left" th:style="'flex-basis: 20%'">
-                                <span th:text="${paymentListVO.end_date}"></span>
+                                <span th:text="${#temporals.format(paymentListVO.end_date, 'yyyy-MM-dd')}"></span>
                             </td>
                             <td class="coco work-5 lis-left" th:style="'flex-basis: 15%'">
                                 <span th:text="${paymentListVO.pay_product}"></span>
