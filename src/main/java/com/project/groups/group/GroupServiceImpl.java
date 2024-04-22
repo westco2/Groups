@@ -154,5 +154,10 @@ public class GroupServiceImpl implements GroupService{
         return groupMapper.myteacheryou(login_id);
     }
 
+    @Override
+    public List<QueryVO> getadmin() {
+        return groupMapper.getadmin();
+    }
+
 
 }

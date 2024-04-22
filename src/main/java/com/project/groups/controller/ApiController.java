@@ -56,4 +56,8 @@ public class ApiController {
         }
         return "redirect:/apps/mych";
     }
+    @GetMapping("/book")
+    public String book(){
+        return "book/books";
+    }
 }

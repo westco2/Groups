@@ -497,5 +497,47 @@ UNION all
     <select id="myteacheryou" resultType="MemberVO">
         select g.youtube_id, j.* from (select l.group_no,m.youtube_id from GROUP_LIST l left join MEMBERS m on l.login_id = m.login_id) g right join (select * from GROUP_JOIN  where login_id = #{login_id})j on g.group_no = j.group_no ;
     </select>
+
+
+    <select id="getadmin" resultType="QueryVO">
+        <![CDATA[
+        (
+            select 'k' as k, count(*) as num from MEMBERS
+        )
+
+    union all
+    (
+        select pay_product as k, count(*) as num from TIERPAYMENT group by pay_product order by num desc limit 0 ,1
+    )
+    union all
+    (
+        WITH RECURSIVE dates AS (
+            SELECT CURDATE() - INTERVAL 9 DAY AS date
+        UNION ALL
+        SELECT date + INTERVAL 1 DAY
+        FROM dates
+        WHERE date + INTERVAL 1 DAY <= CURDATE()
+    )
+    SELECT d.date AS k,
+           COALESCE(COUNT(m.DATE_SUBSCRIPTION), 0) AS num
+    FROM dates d
+             LEFT JOIN MEMBERS m
+                       ON DATE(m.DATE_SUBSCRIPTION) = d.date
+    GROUP BY d.date
+    ORDER BY d.date
+
+        )
+    union all
+    (
+    SELECT 'k' AS k ,SUM(PAY_MONEY) AS num
+    FROM TIERPAYMENT
+    WHERE MONTH(PAY_DATE) = MONTH(CURRENT_DATE())
+      AND YEAR(PAY_DATE) = YEAR(CURRENT_DATE())
+        )
+    union all
+    (
+    select tier as k ,count(*) as num from MEMBERS group by tier
+        );]]>
+    </select>
 </mapper>
 

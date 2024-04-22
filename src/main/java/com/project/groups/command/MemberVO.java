@@ -29,4 +29,6 @@ public class MemberVO { //회원 테이블 정보
     private String tier; //선생님결제 티어
     private MultipartFile file;
     private String youtube_id;
+    private String filename;
+    private String upload_dir;
 }

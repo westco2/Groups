@@ -70,21 +70,11 @@ public class MypageController {
     }
 
     @RequestMapping("/admmypage")
-    public String admmypage(Model model, Criteria cri){
+    public String admmypage(Model model){
 
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        if (authentication.getPrincipal() instanceof CustomUserDetails) {
-//            CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-//            MemberVO memberVO = userDetails.getMemberVO();
-//            model.addAttribute("membervo", memberVO);
-//            model.addAttribute("group",groupService.getgroupdetail(groupService.getmygroupno(memberVO.getLogin_id())));
-//            model.addAttribute("sol",homeworkService.solutionp(memberVO.getLogin_id()));
-//            model.addAttribute("np", homeworkService.notsolutionp(memberVO.getLogin_id()));
-//            PageVO vo = new PageVO(cri, homeworkService.myrecordtotal(memberVO.getLogin_id(), cri));
-//            model.addAttribute("work", homeworkService.myrecord(memberVO.getLogin_id(), cri));
-//            model.addAttribute("pageVO", vo);
-//        }
 
+        System.out.println(groupService.getadmin());
+        model.addAttribute("list", groupService.getadmin());
         return "mypage/adminmy";
     }
 

@@ -79,7 +79,7 @@
                         </thead>
                         <tbody class="co-body">
                         <th:block th:each="i, status : ${home}">
-                        <tr class="co-flex">
+                        <tr class="co-flex"  onclick="selectRadio(this)">
                             <td class="coco crcr-0 center-flex"><input type="radio" class="ra-no-m" name="homework_no" th:value="${i.homework_no}"><input type="hidden" th:value="${i.homework_no}"></td>
                             <td class="coco work-t1">[[${status.index+1}]]</td>
                             <td class="coco work-t2 lis-left"><a style="color: #191a2e">[[${i.homework_title}]]</a></td>
@@ -176,7 +176,7 @@
                                 <tr class="co-flex">
                                     <th class="coco crcr-0"><input id="selectAll" type="checkbox"></th>
                                     <th class="coco crc-m1">이름</th>
-                                    <th class="coco crc-m2">e-mail</th>
+                                    <th class="coco crc-m2">닉네임</th>
                                     <th class="coco crc-m3">점수</th>
                                     <th class="coco crc-m4">소속 그룹</th>
                                 </tr>
@@ -283,6 +283,7 @@
 <script>
 
 
+
     var tog = document.querySelector('.toggle-m');
     var prei = '#tog-m1';
     tog.addEventListener('click', (e)=>{
@@ -329,7 +330,7 @@
                     sum += i.score;
                     tr.innerHTML = ` <td class="coco crcr-0 center-flex"><input type="checkbox" name="login_id" class="ckbox-m" value="${i.login_id}"></td>
                                         <td class="coco crc-m1">${i.korn_flnm}</td>
-                                        <td class="coco crc-m2">${i.adm_eml_addr}</td>
+                                        <td class="coco crc-m2">${i.user_nickname}</td>
                                         <td class="coco crc-m3">${i.score}</td>
                                         <td class="coco crc-m4">${i.group_nm}</td>`;
                     $(".sms-m").append(tr);
@@ -566,14 +567,26 @@
         $("#modalone").addClass('hidden');
     });
 
+    function selectRadio(row) {
+        // 해당 행에서 라디오 버튼을 찾아 선택
+        const radio = row.querySelector("input[type='radio']");
+        if (radio) {
+            radio.checked = true; // 라디오 버튼 선택
+            radio.click(); // 클릭 이벤트를 트리거
+        }
+    }
+    var currethomework = 0;
 
 
     $(".ra-no-m").on('click',function (e){
-        $(".content-line-m").css("display","flex");
+        $(".content-line-m").css("display", "flex");
+
+        // 라디오 버튼 다음에 숨겨진 값 가져오기
         currenthomework = $(this).next().val();
-        $("#hw-no").val(currenthomework);
-        $(".sms-m").empty();
-        getstdlist(my_id, selgroupnm, currenthomework);
+        $("#hw-no").val(currenthomework); // 선택된 값 설정
+
+        $(".sms-m").empty(); // 이전 내용 지우기
+        getstdlist(my_id, selgroupnm, currenthomework); // 추가 작업 실행
         gethomedetail(currenthomework);
         getrecorddetail(currenthomework);
 
@@ -584,7 +597,7 @@
         var selectedRadio = document.querySelector('input[name="homework_no"]:checked');
 
         // 선택된 라디오 버튼의 값을 가져옵니다.
-        var currenthomework = selectedRadio ? selectedRadio.value : null;
+        currenthomework = selectedRadio ? selectedRadio.value : null;
 
         $("#hw-no").val(currenthomework);
         $(".sms-m").empty();
@@ -597,6 +610,7 @@
         selgroupnm = $(".sel-des-2m").val();
         $(".sms-m").empty();
         $("#selectAll").prop('checked', false);
+        console.log(currenthomework);
         getstdlist(my_id, selgroupnm, currenthomework);
     })
 

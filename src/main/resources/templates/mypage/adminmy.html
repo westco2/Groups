@@ -7,59 +7,71 @@
 <th:block th:replace="~{./include/baselayout :: setContent( ~{ :: .bon-wrap } )}">
     <div class="bon-wrap">
         <div class="div-m">
-            <div class="admin-top-wrap-m">
-                <div class="chart-wrap-mm mnm-mm" >
-                    <div class="fl-mk">
-                        <h4 class="main-num-m">12</h4>
-                        <p>총 회원</p>
+            <div class="susu-wrap-m">
+                <div class="admin-top-wrap-m">
+                    <div class="chart-wrap-mm mnm-mm" >
+                        <div class="fl-mk">
+                            <h4 class="main-num-m">[[${list[0].num}]]</h4>
+                            <p style="font-size: 15px">총 회원</p>
+                        </div>
+                        <div style="font-size: 25px; color: #668dca">
+                            <i class="ri-group-line"></i>
+                        </div>
                     </div>
-                    <div style="font-size: 25px; color: #98b9a4">
-                        <i class="ri-group-line"></i>
+                    <div class="chart-wrap-mm mnm-mm" >
+                        <div class="fl-mk">
+                            <h4 class="main-num-m tata-m"></h4>
+                            <p style="font-size: 15px">교육자수</p>
+                        </div>
+                        <div style="font-size: 25px; color: #668dca">
+                            <i class="ri-graduation-cap-line"></i>
+                        </div>
+                    </div>
+                    <div class="chart-wrap-mm mnm-mm" >
+                        <div class="fl-mk">
+                            <h4 class="main-num-m stsm"></h4>
+                            <p style="font-size: 15px">학생수</p>
+                        </div>
+                        <div style="font-size: 25px; color: #668dca">
+                            <i class="ri-account-circle-line"></i>
+                        </div>
+                    </div>
+                    <div class="chart-wrap-mm mnm-mm" >
+                        <div class="fl-mk">
+                            <h4 class="main-num-m" style="font-size: 17px">인기상품</h4>
+                            <p style="color:  blueviolet;">[[${list[1].k}]]</p>
+                        </div>
+                        <div style="font-size: 25px; color: #668dca">
+                            <i class="ri-shining-line"></i>
+                        </div>
+                    </div>
+                    <div class="chart-wrap-mm mnm-mm" >
+                        <div class="fl-mk">
+                            <h4 class="main-num-m" style="font-size: 17px">이번달 매출</h4>
+                            <p>[[${list[12].num}]] <span style="font-size: 15px">원</span></p>
+                        </div>
+                        <div style="font-size: 25px; color: #668dca">
+                            <i class="ri-hand-coin-line"></i>
+                        </div>
                     </div>
                 </div>
-                <div class="chart-wrap-mm mnm-mm" >
-                    <div class="fl-mk">
-                        <h4 class="main-num-m">12</h4>
-                        <p>교육자수</p>
+
+                <div class="admin-main-wrap-m">
+                    <div class="ad-wrap-mm chart-wrap-mm" style="width: 700px">
+                        <div class="small-title-m">
+                            <i class="ri-circle-fill"></i><h5>일일 가입자 수</h5>
+                        </div>
+                        <div class="ch-mm">
+                            <canvas id="myChart"></canvas>
+                        </div>
                     </div>
-                    <div style="font-size: 25px; color: #98b9a4">
-                        <i class="ri-add-circle-line"></i>
-                    </div>
-                </div>
-                <div class="chart-wrap-mm mnm-mm" >
-                    <div class="fl-mk">
-                        <h4 class="main-num-m">12</h4>
-                        <p>학생수</p>
-                    </div>
-                    <div style="font-size: 25px; color: #98b9a4">
-                        <i class="ri-indeterminate-circle-line"></i>
-                    </div>
-                </div>
-                <div class="chart-wrap-mm mnm-mm" >
-                    <div class="fl-mk">
-                        <h4 class="main-num-m" style="font-size: 20px">12</h4>
-                        <p></p>
-                    </div>
-                    <div style="font-size: 25px; color: #98b9a4">
-                        <i class="ri-surgical-mask-line"></i>
-                    </div>
-                </div>
-            </div>
-            <div class="admin-main-wrap-m">
-                <div class="ad-wrap-mm chart-wrap-mm" style="width: 522px">
-                    <div class="small-title-m">
-                        <i class="ri-circle-fill"></i><h5>일일 가입자 수</h5>
-                    </div>
-                    <div class="ch-mm">
-                        <canvas id="myChart"></canvas>
-                    </div>
-                </div>
-                <div class="ad-wrap-mm chart-wrap-mm">
-                    <div class="small-title-m">
-                        <i class="ri-circle-fill"></i><h5>정보</h5>
-                    </div>
-                    <div class="ch-mm">
-                        <canvas id="myChartt"></canvas>
+                    <div class="ad-wrap-mm chart-wrap-mm" style="width: 350px">
+                        <div class="small-title-m">
+                            <i class="ri-circle-fill"></i><h5>회원 구독비율</h5>
+                        </div>
+                        <div class="ch-mm">
+                            <canvas id="myChartt"></canvas>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -73,35 +85,27 @@
 <script th:inline="javascript">
     const ctx = document.getElementById('myChart');
     const ctxtwo =document.getElementById('myChartt');
-    var week = JSON.parse(`[[${week}]]`);
-    console.log(week);
-    var mdcns =JSON.parse(`[[${mdcns}]]`);
+    var list = JSON.parse(`[[${list}]]`);
 
-    const weekdayMap = {
-        'Monday': 0,
-        'Tuesday': 1,
-        'Wednesday': 2,
-        'Thursday': 3,
-        'Friday': 4
-    };
+    
+
+
 
     // dataweek 배열 초기화
-    const dataweek = [0, 0, 0, 0, 0]; // 월요일부터 금요일까지
+    const dataweek = [];
 
-    // 각 요일의 count 값을 dataweek 배열에 할당
-    week.forEach(item => {
-        const day = item.vals;
-        const count = item.count;
-        const index = weekdayMap[day];
-        dataweek[index] = count;
-    });
-
+    const lb = [];
+    for (let j = 2; j <= 11; j++) {
+        lb.push(list[j].k);
+        dataweek.push(list[j].num);
+    }
+    
     new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: ['월요일', '화요일', '수요일', '목요일', '금요일'],
+            labels: lb,
             datasets: [{
-                label: '진료인원',
+                label: '이용자',
                 data: dataweek,
                 backgroundColor: ['rgba(54, 162, 235, 1)', // 빨간색
                     'rgba(54, 162, 235, 1)', // 파란색
@@ -122,23 +126,52 @@
             responsive: true,
             maintainAspectRatio: true, // false로 설정하여 차트 크기를 조절
             scales: {
+                x: {
+                    grid: {
+                        display: false // x축의 그리드 선 숨기기
+                    }
+                },
                 y: {
-                    beginAtZero: true
+                    beginAtZero: true,
+
+                    grid: {
+                        display: false // y축의 그리드 선 숨기기
+                    },
+
                 }
+
             }
         }
     });
+    var teach = 0;
+
+    const tier = [];
+    for (let i = 13; i <= list.length -1; i++) {
+        const item = list[i]; // 배열의 i번째 아이템을 가져옴
+
+        if (item.k === null) {
+            $(".stsm").html(item.num);
+
+        } else {
+            // 요소가 null이 아닌 경우, 해당 값을 tier에 추가
+            tier.push({ k: item.k, num: item.num });
+            teach += item.num;
+        }
+    }
+    var lbs =[];
+    var datas = [];
+    for (let k = 0; k <= tier.length -1 ; k++) {
+        lbs.push(tier[k].k);
+        datas.push(tier[k].num);
+    }
+    $(".tata-m").html(teach);
     new Chart(ctxtwo,{
         type: 'doughnut',
         data: {
-            labels: [
-                mdcns[0].vals,
-                mdcns[1].vals,
-                mdcns[2].vals
-            ],
+            labels:lbs,
             datasets: [{
                 label: 'My First Dataset',
-                data: [mdcns[0].count, mdcns[1].count, mdcns[2].count],
+                data: datas,
                 backgroundColor: [
                     'rgb(255, 99, 132)',
                     'rgb(54, 162, 235)',

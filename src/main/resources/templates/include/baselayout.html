@@ -48,8 +48,8 @@
     <body>
 
         <div class="main-bar">
-            <div class="logo-wrap">
-                <i class="ri-group-2-fill"  onclick="location.href='/main'"></i><span class="logo-name">Groups</span>
+            <div class="logo-wrap" onclick="location.href='/'" style="cursor: pointer">
+                <i class="ri-group-2-fill"  ></i><span class="logo-name">Groups</span>
             </div>
             <div class="log-wrap">
                 <i class="ri-logout-box-r-line" th:onclick="'window.location.href = \'/logout\''"></i>
@@ -103,7 +103,7 @@
                             <span class="link-text">마이페이지</span>
                         </a>
                     </li>
-                    <li class="navbar-item flexbox-left" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'') or hasRole(''ROLE_TEACHER_BASICTIER'') or hasRole(''ROLE_TEACHER_MASTERTIER'') or hasRole(''ROLE_TEACHER'')')}">
+                    <li class="navbar-item flexbox-left" th:if="${#authorization.expression('hasRole(''ROLE_TEACHER_BASICTIER'') or hasRole(''ROLE_TEACHER_MASTERTIER'') or hasRole(''ROLE_TEACHER'')')}">
 
                         <a  href="/group/groupList" class="navbar-item-inner flexbox-left">
                             <div class="navbar-item-inner-icon-wrapper flexbox">
@@ -165,7 +165,7 @@
                             <span class="link-text">수업자료</span>
                         </a>
                     </li>
-                    <li class="navbar-item flexbox-left">
+                    <li class="navbar-item flexbox-left" th:if="${ not #authorization.expression('hasRole(''ROLE_ADMIN'')')}">
                         <a  href="/qnaW/qnaWBoard" class="navbar-item-inner flexbox-left">
                             <div class="navbar-item-inner-icon-wrapper flexbox" >
                                 <i class="ri-questionnaire-fill"></i>
@@ -213,12 +213,20 @@
                             <span class="link-text">결제내역</span>
                         </a>
                     </li>
-                    <li class="navbar-item flexbox-left" >
+                    <li class="navbar-item flexbox-left" th:if="${not #authorization.expression('hasRole(''ROLE_ADMIN'')')}">
                         <a href="/apps/mych" class="navbar-item-inner flexbox-left">
                             <div class="navbar-item-inner-icon-wrapper flexbox">
                                 <i class="ri-youtube-fill" ></i>
                             </div>
                             <span class="link-text">YOUTUBE</span>
+                        </a>
+                    </li>
+                    <li class="navbar-item flexbox-left" >
+                        <a href="/apps/book" class="navbar-item-inner flexbox-left">
+                            <div class="navbar-item-inner-icon-wrapper flexbox">
+                                <i class="ri-book-open-fill"></i>
+                            </div>
+                            <span class="link-text">교제검색</span>
                         </a>
                     </li>
                 </ul>

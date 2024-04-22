@@ -57,4 +57,5 @@ public interface GroupMapper {
     MemberVO ckyou(String login_id);
     void youupdate(MemberVO vo);
     MemberVO myteacheryou (String login_id);
+    List<QueryVO> getadmin();
 }

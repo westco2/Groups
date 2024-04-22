@@ -559,7 +559,7 @@ input[type="text"]:focus, textarea:focus {outline: none; border-color:#1A8EF9;}
          opacity: 1;
      }
 }
-
+.susu-wrap-m{display: flex; flex-direction: column}
 
 .mrmr-1m{flex-basis: 40%}
 .mrmr-2m{flex-basis: 30%}
@@ -580,9 +580,9 @@ tbody tr:hover{background-color: #f9f9f9;
 
     background-color: #fff;
     margin-top: 30px;
-    box-shadow: 0 0 8px 0px rgb(79, 79, 79, 0.1);
+    box-shadow: 0 0 8px 0 rgb(79, 79, 79, 0.1);
     /*padding: 14px 20px 14px 20px;*/
-    border-radius: 10px;
+
 
     display: flex;
     flex-direction: column;
@@ -592,8 +592,8 @@ tbody tr:hover{background-color: #f9f9f9;
 }
 
 .admin-top-wrap-m{margin-top: 10px; width: 100%; display: flex; justify-content: center; gap: 13px;}
-.mnm-mm{flex-direction: row; display: flex; justify-content: space-between; width: 163px; padding: 19px}
-.mnm-mm p{margin: 5px 0 10px 0; font-size: 10px; opacity: 0.6; font-weight: 800}
+.mnm-mm{flex-direction: row; display: flex; justify-content: space-between; width: 163px; padding: 22px}
+.mnm-mm p{margin: 5px 0 10px 0; font-size: 20px; opacity: 0.8; font-weight: 800}
 .ad-wrap-mm{overflow: hidden; display: flex; flex-direction: column; justify-content: start;}
 #myChart, #myChartt{}
 .admin-min-title {padding: 10px 17px; border: none; width: 100%; background-color: #eaeaea;
@@ -602,7 +602,7 @@ tbody tr:hover{background-color: #f9f9f9;
 .ch-mm{
     padding: 14px 20px 14px 20px;
 }
-.fl-mk{display: flex; flex-direction: column; justify-content: center}
+.fl-mk{display: flex; flex-direction: column; justify-content: space-around}
 
 .main-num-m{font-size: 24px; font-weight: 600; margin: 0}
 
@@ -621,3 +621,25 @@ tbody tr:hover{background-color: #f9f9f9;
 .pad-m{padding: 20px}
 .pad-m iframe{height: 220px}
 .my-5{display: flex; overflow: auto}
+
+.row.mt-4{
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    overflow: auto;
+}
+#search-box{padding: 3px;
+    font-size: 15px;
+    width: 250px;}
+
+#search{
+    padding: 5px 16px;
+    background-color: #282867;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: 600;
+}

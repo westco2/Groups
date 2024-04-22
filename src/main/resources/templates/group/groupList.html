@@ -94,8 +94,13 @@
                                <td class="coco crcr-4">[[${i.group_end}]]</td>
                                <td class="coco crcr-5">[[${i.student_count}]]/[[${i.group_pp}]]</td>
                                <td class="coco crcr-6">
+                                   <th:block th:if="${i.student_count} == ${i.group_pp}">
+                                       <span>마감</span>
+                                   </th:block>
+                                   <th:block th:unless="${i.student_count} == ${i.group_pp}">
                                    <button type="button" id="medbtn-m" class="join-btn" th:if="${i.group_st == '활성화'}">신청자 확인</button>
                                    <span th:unless="${i.group_st == '활성화'}">비활성화</span>
+                                   </th:block>
                                </td>
                            </tr>
                        </th:block>
