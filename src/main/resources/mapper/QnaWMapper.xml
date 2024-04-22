@@ -19,7 +19,9 @@
 
 		<if test="cri.title != '' and cri.title != null">
 			and qtitle like concat('%',#{cri.title},'%')
+			or korn_flnm like concat('%',#{cri.title},'%')
 		</if>
+		
 		order by qregdate desc
 		limit #{cri.pageStart}, #{cri.amount}
 	</select>
