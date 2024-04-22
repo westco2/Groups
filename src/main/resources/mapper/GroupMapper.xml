@@ -493,5 +493,9 @@ UNION all
     <update id="youupdate">
         update MEMBERS set youtube_id = #{youtube_id} where login_id = #{login_id}
     </update>
+
+    <select id="myteacheryou" resultType="MemberVO">
+        select g.youtube_id, j.* from (select l.group_no,m.youtube_id from GROUP_LIST l left join MEMBERS m on l.login_id = m.login_id) g right join (select * from GROUP_JOIN  where login_id = #{login_id})j on g.group_no = j.group_no ;
+    </select>
 </mapper>
 

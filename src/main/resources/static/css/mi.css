@@ -512,8 +512,7 @@ input[type="text"]:focus, textarea:focus {outline: none; border-color:#1A8EF9;}
 .toggle-m2{ border: 1px solid #dddddd; width: 100%;  padding: 1px; background-color: #f4f4f4;  display: flex; justify-content: start;}
 .acts-m{
     background-color: #fbfbfd;
-    border-radius: 5px;
-    color: cornflowerblue;
+    color: cornflowerblue !important;
 }
 
 .active-m { display: block; animation: fadeIn 0.5s ease-in-out}
@@ -521,7 +520,7 @@ input[type="text"]:focus, textarea:focus {outline: none; border-color:#1A8EF9;}
 .toggle-m li {
     list-style: none;
     flex: 1;
-    margin: 2px;
+    color: #fff;
     text-align: center;
     display: block;
     font-size: 14px;
@@ -530,7 +529,7 @@ input[type="text"]:focus, textarea:focus {outline: none; border-color:#1A8EF9;}
     line-height: 16px;
     padding: 7px 0 9px;
     cursor: pointer;
-    list-style: none;
+
     border: none;
 
 

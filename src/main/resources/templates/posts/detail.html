@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <body>
 
@@ -53,8 +53,8 @@
             </div>
 
             <div class="reg-btn-wrap">
-                <button onclick="updatePost()">수정</button>
-                <button onclick="deletePost()" class="list-button">삭제</button>
+                <button onclick="updatePost()" sec:authorize="hasRole('ROLE_ADMIN')">수정</button>
+                <button onclick="deletePost()" class="list-button" sec:authorize="hasRole('ROLE_ADMIN')">삭제</button>
                 <button type="submit" class="list-button" onclick="goToNotilist()">목록</button>
             </div>
 

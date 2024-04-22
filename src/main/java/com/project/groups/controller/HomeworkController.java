@@ -32,7 +32,7 @@ public class HomeworkController {
     private HomeworkService homeworkService;
 
     @GetMapping("/homeworklist")
-    public String hoemworklist(Model model, Criteria cri){
+    public String hoemworklist(Model model, Criteria cri, RedirectAttributes ra){
 
         String sessionId =null;
         String tier = null;
@@ -47,7 +47,8 @@ public class HomeworkController {
         System.out.println(tier);
         if (tier.equals("FREETIER")) {
             String warningMessage = "FREETIER 회원입니다. 구독등급을 업그레이드 하세요";
-            model.addAttribute("warningMessage", warningMessage);
+            ra.addFlashAttribute("msg", warningMessage);
+            return "redirect:/memberZ/tierchoiceZ";
             // /homeworklist로 리다이렉트
         }
         model.addAttribute("cat", homeworkService.getcategory(sessionId));
