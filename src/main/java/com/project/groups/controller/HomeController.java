@@ -10,17 +10,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class HomeController {
+
+
+
+
     @GetMapping("/")
-    public String home(){
-        return "home";
-    }
-
-    @GetMapping("/login")
-    public String login(){
-        return "login/login";
-    }
-
-    @GetMapping("/main")
     public String main(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         System.out.println("authentication = " + authentication);
@@ -33,6 +27,10 @@ public class HomeController {
             System.out.println("MemberVO: " + memberVO);
         }
         return "homepage/main";
+    }
+    @GetMapping("/login")
+    public String login(){
+        return "login/login";
     }
 
     @GetMapping("/main2")
