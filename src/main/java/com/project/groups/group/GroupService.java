@@ -53,4 +53,5 @@ public interface GroupService {
     int groupcount(String login_id);
     MemberVO ckyou(String login_id);
     void youupdate (MemberVO vo);
+    MemberVO myteacheryou(String login_id);
 }

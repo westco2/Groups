@@ -257,6 +257,14 @@
 </script>
 
 <script th:inline="javascript">
+    var msg = `[[${msg}]]`;
+    msg = JSON.parse(msg)
+    if(msg !== null) {
+        alert(msg);
+    }
+</script>
+
+<script th:inline="javascript">
     var rangeInput = document.getElementById('rangeInput');
     // 선택된 개월 수를 표시할 span 요소를 가져옵니다.
     var selectedMonthsSpan = document.getElementById('selectedMonths');

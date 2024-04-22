@@ -149,5 +149,10 @@ public class GroupServiceImpl implements GroupService{
         groupMapper.youupdate(vo);
     }
 
+    @Override
+    public MemberVO myteacheryou(String login_id) {
+        return groupMapper.myteacheryou(login_id);
+    }
+
 
 }
