@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <meta charset="UTF-8">
@@ -86,8 +86,14 @@
             <ion-icon name="menu-outline" aria-hidden="true"></ion-icon>
         </button>
         <div class="btn-wrapper">
-            <a href="/login" class="btn-outline">로그인</a>
-            <a href="/memberZ/choiceMember" class="btn-outline">회원가입</a>
+            <a href="/login" class="btn-outline" sec:authorize="isAnonymous()">로그인</a>
+            <a href="/memberZ/choiceMember" class="btn-outline" sec:authorize="isAnonymous()">회원가입</a>
+            <a class="btn-outline" sec:authorize="hasRole('ROLE_STUDENT')"  href="/mypage/stdmypage">이용하러가기</a>
+            <a class="btn-outline" sec:authorize="hasRole('ROLE_TEACHER')"  href="/mypage/tchmypage">이용하러가기</a>
+            <a class="btn-outline" sec:authorize="hasRole('ROLE_TEACHER_BASICTIER')"  href="/mypage/tchmypage">이용하러가기</a>
+            <a class="btn-outline" sec:authorize="hasRole('ROLE_TEACHER_MASTERTIER')"  href="/mypage/tchmypage">이용하러가기</a>
+            <a class="btn-outline" sec:authorize="hasRole('ROLE_ADMIN')"  href="/mypage/admmypage">이용하러가기</a>
+            <a href="/logout"  class="btn-outline" sec:authorize="!isAnonymous()">로그아웃</a>
         </div>
         <div class="overlay" data-nav-toggler data-overlay></div>
 
