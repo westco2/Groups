@@ -20,6 +20,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Collection;
 
@@ -44,7 +45,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter { //시큐리�
         httpSecurity.csrf().disable()
                 .authorizeRequests()
                     .antMatchers("/css/**", "/js/**", "/img/**", "/fonts/**", "/homepageimg/**").permitAll() //css등 import를 위해
-                    .antMatchers("/main","/login", "/joinFormHJ", "/memberZ/choice*", "/memberZ/memberIdentification*" ).permitAll() //기본 3대장 페이지
+                    .antMatchers("/main", "/login", "/joinFormHJ", "/memberZ/choice*", "/memberZ/memberIdentification*" ).permitAll() //기본 3대장 페이지
                     .antMatchers("/member*").permitAll() //회원가입페이지에서ㅠㅠ
                     .antMatchers("/memberZ/applymember*","/mypage/admmypage*" )
                             .hasRole("ADMIN")
@@ -69,6 +70,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter { //시큐리�
                     .successHandler(new AuthenticationSuccessHandler() {
                     @Override
                     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+
                         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
                         for (GrantedAuthority authority : authorities) {
                             if (authority.getAuthority().equals("ROLE_STUDENT")) {
@@ -80,7 +82,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter { //시큐리�
                                 response.sendRedirect("/mypage/tchmypage");
                                 return;
                             } else if (authority.getAuthority().equals("ROLE_FREE")) {
-                                response.sendRedirect("/main");
+                                response.sendRedirect("/group/teacherwait");
                                 return;
                             } else if (authority.getAuthority().equals("ROLE_ADMIN")) {
                                 response.sendRedirect("/mypage/admmypage");
