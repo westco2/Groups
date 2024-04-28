@@ -37,6 +37,11 @@
 ![홈페이지](https://github.com/westco2/Groups/assets/148563632/ab70c7e1-0f81-4f38-b7fd-b16edc3eabf8)
 #### [회원가입]
 ![회원가입](https://github.com/westco2/Groups/assets/148563632/50914439-d493-455f-a91f-3f531088f4b9)
+#### [마이페이지]
+- 관리자는 매출, 일일 가입자수, 인기상품 등 통계가 나옵니다.
+- 교육자는 기본정보, 내 학습그룹, 새로운 질문이 나옵니다.
+- 학생은 기본정보, 내가 푼 숙재내역, 미제출 숙제들이 나옵니다.
+![마이](https://github.com/westco2/Groups/assets/148563632/ebad5132-640e-41ac-84df-bb5ebaa84802)
 #### [결제]
 ![결제](https://github.com/westco2/Groups/assets/148563632/5fb4913d-e5d1-4847-a561-ec897ad59834)
 #### [그룹]
