@@ -1,5 +1,7 @@
-#SpringBoot-Project
-스프링 부트 코딩 학습관리 솔루션
+# SpringBoot-Project 코딩 학습관리 솔루션
+- 배포 URL : (http://www.groupsone.site/)
+- Test ID : coding808
+- Test PW : 1234
 
 ## 프로젝트 소개 
 교육자의 수강생 개별 관리의 어려움때문에 강사와 수강생 질문 게시판
