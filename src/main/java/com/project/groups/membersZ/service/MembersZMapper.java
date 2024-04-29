@@ -4,6 +4,8 @@ import com.project.groups.command.ApprovalFileVO;
 import com.project.groups.command.MemberVO;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 @Mapper
 public interface MembersZMapper {
     public boolean memberreg(MemberVO memberVO);
@@ -15,4 +17,5 @@ public interface MembersZMapper {
     public MemberVO memberinf(String login_id);
 
     public boolean approvalfile(ApprovalFileVO approvalFileVO);
+    public List<MemberVO> getuserlist();
 }
