@@ -24,20 +24,26 @@ $(".co-flex").on('click',".desc-tr" ,function(e) {
     $(e.currentTarget).find("i").addClass("i-col");
 });
 
+$(".barbar-xx").on("click", function (e) {
+    var navbar = $("#navbar");
+    $(this).closest(".nono-m").addClass("lld-m");
+    navbar.addClass("hovertime");
+    $(".link-text").addClass("link-textdel");
+    $(this).css("visibility", "hidden");
+    $(".vlvl-xx").css("display", "block");
+});
 
+$(".vlvl-xx").on("click", function (e) {
+    var navbar = $("#navbar");
+    $(this).closest(".nono-m").removeClass("lld-m");
+    navbar.removeClass("hovertime");
+    $(".link-text").removeClass("link-textdel");
+    $(".barbar-xx").css("visibility", "visible");
+    $(this).css("display", "none");
+});
 
-/*
-var swiper = new Swiper(".mySwiper", {
-    slidesPerView: 4,
-    spaceBetween: 30,
-    centeredSlides: true,
+$(".navbar-items").on('click', "a", function (){
+    $(this).closest(".navbar-items").find(".navck-m").removeClass("navck-m");
+    $(this).addClass("navck-m");
+});
 
-    autoplay: {
-        delay: 4500,
-        disableOnInteraction: false,
-    },
-    pagination: {
-        el: ".swiper-pagination",
-        clickable: true,
-    }
-});*/

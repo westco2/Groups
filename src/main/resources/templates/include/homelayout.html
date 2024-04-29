@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+
+<th:block th:fragment="homeContent(content)">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <!-- 리믹스 아이콘 아이콘 사용하고싶으면 google에 리믹스 아이콘검색해서 사용하세요 -->
+        <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
+
+        <link rel="stylesheet" type="text/css" th:href="@{/css/base.css}">
+        <link rel="stylesheet" type="text/css" th:href="@{/css/jy.css}">
+
+
+        <!-- 구글폰트 -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+        <link
+                rel="stylesheet"
+                href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+        />
+        <!-- 제이쿼리 -->
+        <script th:src="@{/js/jquery-3.7.1.min.js}"></script>
+        <script src="https://spi.maps.daum.net/imap/map_js_init/postcode.v2.js"></script>
+    </head>
+    <body style="background-color: #ffffff; position: relative;">
+    <div class="main-bar homepage-main">
+        <div class="logo-wrap" style="cursor: pointer" th:onclick="|javascript:location.href='/'|">
+            <i class="ri-group-2-fill"></i><span  class="logo-name">Groups</span>
+        </div>
+        <div class="main-title-wrap">
+
+        </div>
+        <div class="log-wrap">
+
+        </div>
+    </div>
+
+    <th:block th:replace="${content}">
+
+    </th:block>
+
+
+
+
+
+    </body>
+    <script th:src="@{/js/base-js.js}"></script>
+</th:block>
+</html>

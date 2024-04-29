@@ -6,15 +6,22 @@
 
 
     <update id="tier_updatemap">
-        update members set TIER = #{name} where login_id = #{buyer_name}
+        UPDATE MEMBERS SET TIER = #{name}, ROLE = #{Rolename} WHERE LOGIN_ID = #{buyer_name}
     </update>
 
     <insert id="payment_content">
-        insert into TIERPAYMENT (PAY_NUM, LOGIN_ID, PAY_DATE, END_DATE, PAY_PRODUCT, PAY_MONEY, USING_TERM, TIERSTATE)
-        values (#{merchant_uid}, #{buyer_name}, #{payment_time},
+        INSERT INTO TIERPAYMENT (PAY_NUM, LOGIN_ID, PAY_DATE, END_DATE, PAY_PRODUCT, PAY_MONEY, USING_TERM, TIERSTATE)
+        VALUES (#{merchant_uid}, #{buyer_name}, #{payment_time},
                 DATE_ADD(#{payment_time}, INTERVAL #{using_term} MONTH),
-                #{name}, #{amount}, #{using_term}, 'N')
+                #{name}, #{amount}, #{using_term}, 'Y')
     </insert>
+
+    <select id="paymentlistcheck" resultType="PaymentListVO">
+        SELECT TIERPAYMENT.LOGIN_ID, MEMBERS.KORN_FLNM, TIERPAYMENT.PAY_DATE,
+               TIERPAYMENT.END_DATE, TIERPAYMENT.PAY_PRODUCT, TIERPAYMENT.USING_TERM, TIERPAYMENT.PAY_MONEY
+        from TIERPAYMENT LEFT JOIN MEMBERS ON TIERPAYMENT.LOGIN_ID = MEMBERS.LOGIN_ID;
+    </select>
+
 
 
 </mapper>

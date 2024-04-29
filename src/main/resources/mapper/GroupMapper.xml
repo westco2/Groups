@@ -17,9 +17,9 @@
             a1.*,
             COUNT(a2.login_id) AS student_count
         FROM
-                (select * from group_list where login_id = #{login_id}) a1
+                (select * from GROUP_LIST where login_id = #{login_id}) a1
                     LEFT JOIN
-                (select * from group_join where APRV_YN = "Y" )a2
+                (select * from GROUP_JOIN where APRV_YN = "Y" )a2
                 ON
                     a1.group_no = a2.group_no
 
@@ -48,8 +48,8 @@
 
     <!-- 신청자 조회 -->
     <select id="getstdInfo" resultType="GroupVO">
-        select m1.*,a1.join_date from (select * from group_join where group_no = #{group_no} and aprv_yn = "N") a1
-        left join members m1
+        select m1.*,a1.join_date from (select * from GROUP_JOIN where group_no = #{group_no} and aprv_yn = "N") a1
+        left join MEMBERS m1
         on a1.login_id = m1.login_id;
     </select>
 
@@ -71,7 +71,7 @@
 
     <select id="getgroupstdTotal" resultType="int">
         select count(*) as total
-        from (select m.*,g.group_no from (select * from group_join where APRV_YN = "Y") g left join members m on g.login_id = m.login_id ) a
+        from (select m.*,g.group_no from (select * from GROUP_JOIN where APRV_YN = "Y") g left join MEMBERS m on g.login_id = m.login_id ) a
         where group_no = #{group_no}
         <if test="cri.searchKorn_flnm != '' and cri.searchKorn_flnm != null">
             and korn_flnm like concat('%',#{cri.searchKorn_flnm},'%')
@@ -82,15 +82,15 @@
 
     <select id="getallgrouplist" resultType="GroupVO">
         select * from (select a.*, m1.KORN_FLNM from
-                (select * from group_list where group_st = "활성화") a
-                    left join members m1
+                (select * from GROUP_LIST where group_st = "활성화") a
+                    left join MEMBERS m1
                               on a.login_id = m1.login_id) t
                           left join  (select a1.group_no,
                                              COUNT(a2.login_id) AS student_count
                                       FROM
-                                              (select * from group_list) a1
+                                              (select * from GROUP_LIST) a1
                                                   LEFT JOIN
-                                              (select * from group_join where APRV_YN = "Y" )a2
+                                              (select * from GROUP_JOIN where APRV_YN = "Y" )a2
                                               ON
                                                   a1.group_no = a2.group_no
                                       GROUP BY
@@ -123,8 +123,8 @@
     <!-- 그룹 가입 신청 -->
 
     <insert id="groupjoin">
-        insert into GROUP_JOIN (login_id, group_no, aprv_yn)
-        values (#{login_id}, #{group_no}, "N")
+        insert into GROUP_JOIN (login_id, group_no, aprv_yn, join_date)
+        values (#{login_id}, #{group_no}, "N", now())
     </insert>
 
     <!-- 그룹 승인처리 -->
@@ -136,20 +136,20 @@
     <select id="getgroupdetail" resultType="GroupVO">
         SELECT
             a.*,
-            COALESCE(b.group_join_count, 0) AS student_count,
+            COALESCE(b.GROUP_JOIN_count, 0) AS student_count,
             COALESCE(c.qnaboard_count, 0) AS std_q,
             COALESCE(d.groupfile_count, 0) AS group_mt
         FROM
             (select g1.*,m1.KORN_FLNM, m1.tier
-            from group_list g1
-            left join members m1
+            from GROUP_LIST g1
+            left join MEMBERS m1
             on g1.LOGIN_ID = m1.LOGIN_ID) a
                 LEFT JOIN (
                 SELECT
                     group_no,
-                    COUNT(*) AS group_join_count
+                    COUNT(*) AS GROUP_JOIN_count
                 FROM
-                    group_join
+                    GROUP_JOIN
                 WHERE
                     group_no = #{group_no}
                   AND
@@ -162,7 +162,7 @@
                     group_no,
                     COUNT(*) AS qnaboard_count
                 FROM
-                    qnaboard
+                    QNABOARD
                 WHERE
                     group_no = #{group_no}
                 GROUP BY
@@ -173,7 +173,7 @@
                     group_no,
                     COUNT(*) AS groupfile_count
                 FROM
-                    groupfile
+                    GROUPFILE
                 WHERE
                     group_no = #{group_no}
                 GROUP BY
@@ -231,6 +231,21 @@
             limit #{cri.pageStart}, #{cri.amount};
     </select>
 
+    <select id="getdatainfo" resultType="DataVO">
+        select * from GROUPFILE where group_no = #{group_no}
+            <if test="cri.searchKorn_flnm != '' and cri.searchKorn_flnm != null">
+                and gfilename like concat('%',#{cri.searchKorn_flnm},'%')
+            </if>
+        order by gregdate desc
+        limit #{cri.pageStart}, #{cri.amount};
+    </select>
+    <select id="getdatainfototal" resultType="int">
+        select count(*) from GROUPFILE where group_no = #{group_no}
+        <if test="cri.searchKorn_flnm != '' and cri.searchKorn_flnm != null">
+            and gfilename like concat('%',#{cri.searchKorn_flnm},'%')
+        </if>
+    </select>
+
     <!-- 그룹에서 학생 퇴장 -->
 
     <delete id="groupstddel">
@@ -273,11 +288,11 @@
         (
             select  c.korn_flnm, d.percentage as num, 'query1' AS query_type from
                 (select g.group_no, l.login_id , l.korn_flnm
-                 from (select * from group_list where group_no = #{group_no} ) g
+                 from (select * from GROUP_LIST where group_no = #{group_no} ) g
                           left join
                       (select b.*, a.group_no from (
                                                        select *
-                                                       from group_join
+                                                       from GROUP_JOIN
                                                        where aprv_yn = "Y") a
                                                        left join MEMBERS b
                                                                  on a.login_id = b.login_id) l
@@ -288,10 +303,11 @@
                                    COUNT(*) AS total_count,
                                    ROUND(100 * COUNT(CASE WHEN homework_st = '제출' THEN 1 END) / COUNT(*)) AS percentage
                                FROM
-                                   homeworksubmit
+                                   HOMEWORKSUBMIT
                                GROUP BY
                                    login_id) d
                               on c.login_id = d.login_id
+                             order by d.percentage
         )
 
         union all
@@ -310,13 +326,13 @@
                               l.login_id,
                               l.korn_flnm
                           FROM
-                              group_list g
+                              GROUP_LIST g
                                   LEFT JOIN
                               (SELECT
                                    b.*,
                                    a.group_no
                                FROM
-                                   group_join a
+                                   GROUP_JOIN a
                                        LEFT JOIN
                                    MEMBERS b ON a.login_id = b.login_id
                                WHERE
@@ -325,7 +341,7 @@
                               g.group_no = #{group_no}
                          ) k
                              LEFT JOIN
-                         homeworksubmit ht ON k.login_id = ht.login_id
+                         HOMEWORKSUBMIT ht ON k.login_id = ht.login_id
                  ) AS jk
                      RIGHT JOIN (
                 SELECT DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL n DAY), '%Y-%m-%d') AS date_range
@@ -350,7 +366,7 @@
                 (
                     SELECT DATE_FORMAT(submit_date, '%Y-%m-%d') AS submit_date,
                            homework_st
-                    FROM homeworksubmit
+                    FROM HOMEWORKSUBMIT
                     WHERE submit_date >= DATE_SUB(CURDATE(), INTERVAL 6 DAY)
                 ) AS hs
                     RIGHT JOIN
@@ -460,6 +476,68 @@ UNION all
         m.score ASC
     LIMIT 1
 );
+    </select>
+
+
+
+
+    <select id="groupcount" resultType="int">
+        select COUNT(*) from GROUP_LIST where login_id = #{login_id} and not group_st = "종료"
+    </select>
+
+
+    <select id="ckyou" resultType="MemberVO">
+        select youtube_id from MEMBERS where login_id =#{login_id}
+    </select>
+
+    <update id="youupdate">
+        update MEMBERS set youtube_id = #{youtube_id} where login_id = #{login_id}
+    </update>
+
+    <select id="myteacheryou" resultType="MemberVO">
+        select g.youtube_id, j.* from (select l.group_no,m.youtube_id from GROUP_LIST l left join MEMBERS m on l.login_id = m.login_id) g right join (select * from GROUP_JOIN  where login_id = #{login_id})j on g.group_no = j.group_no ;
+    </select>
+
+
+    <select id="getadmin" resultType="QueryVO">
+        <![CDATA[
+        (
+            select 'k' as k, count(*) as num from MEMBERS
+        )
+
+    union all
+    (
+        select pay_product as k, count(*) as num from TIERPAYMENT group by pay_product order by num desc limit 0 ,1
+    )
+    union all
+    (
+        WITH RECURSIVE dates AS (
+            SELECT CURDATE() - INTERVAL 9 DAY AS date
+        UNION ALL
+        SELECT date + INTERVAL 1 DAY
+        FROM dates
+        WHERE date + INTERVAL 1 DAY <= CURDATE()
+    )
+    SELECT d.date AS k,
+           COALESCE(COUNT(m.DATE_SUBSCRIPTION), 0) AS num
+    FROM dates d
+             LEFT JOIN MEMBERS m
+                       ON DATE(m.DATE_SUBSCRIPTION) = d.date
+    GROUP BY d.date
+    ORDER BY d.date
+
+        )
+    union all
+    (
+    SELECT 'k' AS k ,SUM(PAY_MONEY) AS num
+    FROM TIERPAYMENT
+    WHERE MONTH(PAY_DATE) = MONTH(CURRENT_DATE())
+      AND YEAR(PAY_DATE) = YEAR(CURRENT_DATE())
+        )
+    union all
+    (
+    select tier as k ,count(*) as num from MEMBERS group by tier
+        );]]>
     </select>
 </mapper>
 

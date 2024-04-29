@@ -13,4 +13,5 @@ public class QueryVO {
     private String korn_flnm;
     private Integer num;
     private String query_type;
+    private String k;
 }

@@ -1,5 +1,6 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
 
 <body>
 
@@ -18,7 +19,7 @@
             </div>
             <div class="content-box">
             
-             <div class="top-line-btn-wrap">
+             <div class="top-line-btn-wrap" sec:authorize="hasRole('ROLE_ADMIN')">
 
                             
 

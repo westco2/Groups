@@ -5,12 +5,17 @@
 <mapper namespace="com.project.groups.membersZ.service.ApplyMapper">
 
     <select id="applymemberlist" resultType="MemberVO">
-        select * from members where ROLE = 'ROLE_FREE'
+        SELECT * FROM MEMBERS LEFT JOIN APPROVALFILE
+            ON MEMBERS.LOGIN_ID = APPROVALFILE.LOGIN_ID where ROLE = 'ROLE_FREE'
     </select>
 
+
+
     <update id="approveteacher">
-        update members set ROLE = 'ROLE_TEACHER', TIER = 'FREETIER' where login_id = #{loginId}
+        UPDATE MEMBERS SET ROLE = 'ROLE_TEACHER', TIER = 'FREETIER' WHERE LOGIN_ID = #{loginId}
     </update>
+
+
 
 
 </mapper>

@@ -15,7 +15,7 @@
             select max(homework_no) from HOMEWORK
             where login_id = #{login_id}
         </selectKey>
-        insert into ex(
+        insert into EX(
         input,
         output,
         ex_ct,
@@ -34,7 +34,7 @@
             select max(homework_no) from HOMEWORK
             where login_id = #{login_id}
         </selectKey>
-        insert into test(
+        insert into TEST(
         test_input,
         test_output,
         homework_no
@@ -77,16 +77,18 @@
     <select id="gethomeworklist" resultType="HomeworkVO">
         select a.*, b.average_score , b.percentage
         from
-        (select * from homework
+        (select * from HOMEWORK
         where login_id = #{login_id}) a
         left join
         (SELECT homework_no, ROUND(AVG(RECORD_SCORE)) AS average_score,  Round(SUM(CASE WHEN RECORD_SCORE = 100 THEN 1 ELSE 0 END)/count(*)*100) AS percentage
         FROM HOMEWORKRECORD
         GROUP BY homework_no) b
         on a.homework_no = b.homework_no
+               <where>
         <if test="cri.title != '' and cri.title != null">
             and homework_title like concat('%',#{cri.title},'%')
         </if>
+               </where>
                  order by homework_register desc
         limit #{cri.pageStart}, #{cri.amount}
     </select>
@@ -111,20 +113,22 @@
 
     <!-- 학생 숙제 조회 -->
     <select id="getmyhomeworktotal" resultType="int">
-        select count(*) from (select * from homeworksubmit where login_id = #{login_id}) s
-            left join homework h
+        select count(*) from (select * from HOMEWORKSUBMIT where login_id = #{login_id}) s
+            left join HOMEWORK h
                 on h.homework_no= s.homework_no
+       <where>
         <if test="cri.title != '' and cri.title != null">
             and homework_title like concat('%',#{cri.title},'%')
         </if>
+       </where>
     </select>
 
     <!-- 교육자가 내숙제 조회 -->
 
     <select id="getmyhomeworklist" resultType="HomeworkVO">
         select s.*, h.homework_title, h.homework_language, h.HOMEWORK_LEVEL, h.category
-        from (select * from homeworksubmit where login_id = #{login_id}) s
-            left join homework h
+        from (select * from HOMEWORKSUBMIT where login_id = #{login_id}) s
+            left join HOMEWORK h
                 on h.homework_no= s.homework_no
         <where>
         <if test="cri.title != '' and cri.title != null">
@@ -141,13 +145,13 @@
         select a.*, b.group_nm
         from (
         select m.*, j.group_no
-        from group_join j
-        left join members m on j.login_id = m.login_id
+        from GROUP_JOIN j
+        left join MEMBERS m on j.login_id = m.login_id
         where APRV_YN = "Y"
         ) a
         join (
         select group_no, group_nm
-        from group_list
+        from GROUP_LIST
         where login_id = #{login_id}
         <if test="group_nm != null and group_nm != ''">
             and group_nm = #{group_nm}
@@ -156,7 +160,7 @@
         on a.group_no = b.group_no
         where not exists (
         select 1
-        from homeworksubmit
+        from HOMEWORKSUBMIT
         where homework_no = #{homework_no}
         and login_id = a.login_id
         );
@@ -165,7 +169,7 @@
     <!-- 교육자의 그룹 이름들 조회 -->
 
     <select id="getgroupnames" resultType="GroupVO">
-        select group_nm from group_list where login_id = #{login_id};
+        select group_nm from GROUP_LIST where login_id = #{login_id};
     </select>
 
     <!-- 교육자가 내준 숙제를 풀었을경우 숙제 제출 업데이트 -->
@@ -197,14 +201,14 @@
     <!-- 해당 숙제를 푼 이력정보들 조회  -->
 
     <select id="getrecord" resultType="HomeworkVO">
-        select * from HOMEWORKRECORD where homework_no = #{homework_no}
+        select * from HOMEWORKRECORD where homework_no = #{homework_no} order by record_date desc
     </select>
 
     <!-- 학생의 숙제정보 조회 -->
 
     <select id="stdhomeworkinfo" resultType="HomeworkVO">
         select a.*,b.HOMEWORK_LANGUAGE, b.HOMEWORK_LEVEL, b.HOMEWORK_TITLE,b.category from (select * from HOMEWORKSUBMIT where login_id = #{login_id}) a
-                                                                                    left join homework b
+                                                                                    left join HOMEWORK b
                                                                                               on a.homework_no = b.homework_no;
     </select>
 
@@ -226,7 +230,7 @@
     <!-- -->
 
     <select id="solutionp" resultType="int">
-        select count(*) from homeworksubmit where login_id = #{login_id} and HOMEWORK_ST = "제출";
+        select count(*) from HOMEWORKSUBMIT where login_id = #{login_id} and HOMEWORK_ST = "제출";
     </select>
 
     <select id="notsolutionp" resultType="HomeworkVO">
@@ -238,8 +242,8 @@
     <!-- 학생 메인페이지 숙제 이력정보 -->
     <select id="myrecord" resultType="HomeworkVO">
         select b.*,a.record_code, a.record_score, a.record_date from
-                (select * from homeworkrecord where login_id = #{login_id} ) a
-                    left join homework b
+                (select * from HOMEWORKRECORD where login_id = #{login_id} ) a
+                    left join HOMEWORK b
                               on a.homework_no = b.homework_no
         <where>
             <if test="cri.title != '' and cri.title != null">
@@ -252,8 +256,8 @@
 
     <select id="myrecordtotal" resultType="int">
         select count(*) from
-                (select * from homeworkrecord where login_id = #{login_id} ) a
-                    left join homework b
+                (select * from HOMEWORKRECORD where login_id = #{login_id} ) a
+                    left join HOMEWORK b
                               on a.homework_no = b.homework_no
         <where>
             <if test="cri.title != '' and cri.title != null">

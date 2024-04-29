@@ -1,10 +1,13 @@
 package com.project.groups.controller;
 
+import com.project.groups.command.ApprovalFileVO;
 import com.project.groups.command.MemberVO;
 
+import com.project.groups.command.UploadVO;
 import com.project.groups.membersZ.service.CustomUserDetails;
 import com.project.groups.membersZ.service.MembersZService;
 import com.project.groups.membersZ.service.UserDetailsServiceImpl;
+import com.project.groups.s3.S3Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,10 +22,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.UUID;
 
 
 @Controller //로그인, 회원가입에 관한 컨트롤러들
 public class MemberZController {
+
+    @Autowired
+    private S3Service s3Service;
 
     @Autowired
     @Qualifier("MembersZService")
@@ -41,30 +52,63 @@ public class MemberZController {
         this.userDetailsService = userDetailsService;
     }
 
-    @GetMapping("/joinFormHJ") //회원가입하는 페이지
-    public String joinForm(){
-        return "memberZ/joinFormHJ";
-    }
-
-    @PostMapping("/joinFormHJ")
-    public void joinForm(@RequestParam("name") String name,
-                         @RequestParam("phone") String phone,
-                         Model model){
-        System.out.println("name = " + name);
-        System.out.println("phone = " + phone);
-        model.addAttribute("name", name);
-        model.addAttribute("phone", phone);
-
-    }
 
     @PostMapping("/memberreg") //회원가입에서 입력된 값을 받음
     public String memberreg(MemberVO memberVO){
         String pswd = passwordEncoder.encode(memberVO.getPswd());
         memberVO.setPswd(pswd);
-        System.out.println("memberVO = " + memberVO);
-        boolean checking = membersZService.memberreg(memberVO); //boolean 으로 회원가입 성공 확인
-        System.out.println("checking = " + checking);
-        return "redirect:/login";
+        if(memberVO.getRole().equals("ROLE_STUDENT")){
+            membersZService.memberreg(memberVO);
+            return "redirect:/login";
+        }else {
+            MultipartFile file = memberVO.getFile();
+            try {
+                //파일 업로드
+                ApprovalFileVO approvalFileVO = uploadFile(file);
+                approvalFileVO.setLogin_id(memberVO.getLogin_id());
+                if (membersZService.memberreg(memberVO)) {//boolean 으로 회원가입 성공 확인
+                    if (membersZService.approvalfile(approvalFileVO)) {
+                        System.out.println("회원가입 신청 완료!");
+                        return "redirect:/login";
+                    }
+                }
+
+                return "redirect:/memberZ/choiceMemTeacher"; //실패시 다시 회원가입 페이지
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                return "redirect:/error"; //파일 업로드중 오류 발생했을때 처리
+            }
+        }
+    }
+
+    private ApprovalFileVO uploadFile(MultipartFile file) throws IOException{
+        if(file.isEmpty()){
+            throw new IllegalArgumentException("업로드할 파일이 비어있습니다.");
+        }
+        String uploadDir = UUID.randomUUID().toString() ; //uuid
+        String fileName =  file.getOriginalFilename(); //파일이름
+        String filePath = uploadDir + File.separator + fileName; //파일경로
+
+        String objectKey = uploadDir + "_" + fileName;
+
+        byte[] filedata = new byte[0];//파일데이터
+        try {
+            filedata = file.getBytes();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+
+        s3Service.putS3Object(objectKey,filedata);
+
+        ApprovalFileVO approvalFileVO = ApprovalFileVO.builder()
+                .filename(fileName)
+                .filepath(filePath)
+                .upload_dir(uploadDir)
+                .build();
+
+        return approvalFileVO;
     }
 
     @ResponseBody
@@ -106,11 +150,22 @@ public class MemberZController {
 
     }
 
-    @GetMapping("/memberIdentification")
-    public String memberIdentification(){
-        return ("memberZ/memberIdentification");
+//    @GetMapping("/memberZ/memberIdentification")
+//    public String memberIdentification(){
+//        return ("memberZ/memberIdentification");
+//    }
+
+    @GetMapping("/memberZ/choiceMember")
+    public String choiceMember(){
+        return ("memberZ/choiceMember");
+    }
+    @GetMapping("/memberZ/choiceMemTeacher")
+    public String choiceMemTeacher(){
+        return ("memberZ/choiceMemTeacher");
     }
 
-
-
+    @GetMapping("/memberZ/choiceMemStudent")
+    public String choiceMemStudent(){
+        return ("memberZ/choiceMemStudent");
+    }
 }

@@ -1,11 +1,6 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<!-- 
-※페이지 상세내용
-1. 권한 학생만 접근가능한 페이지입니다.(qnaWBoard의 "질문등록" 버튼을 통해 접근합니다)
- -->
-
 <body>
 	<th:block th:replace="~{./include/baselayout :: setContent( ~{ :: .bon-wrap } )}">
 		<div class="bon-wrap">
@@ -51,15 +46,20 @@
 									<textarea class="wj-textarea" name="qcontent"></textarea>
 								</div>
 							</div>
-
 						</div>
 						<div class="reg-btn-wrap">
-							<button type="submit">질문등록</button>
+							<button type="submit" th:style="'margin-right: 10px;'">질문등록</button>
+							<button type="button" onclick="goback()">뒤로가기</button>
 						</div>
 					</form>
 				</div>
 			</div>
 		</div>
 	</th:block>
+	<script>
+		function goback(){
+			window.location.href="/qnaW/qnaWBoard";
+		}	
+	</script>
 </body>
 </html>

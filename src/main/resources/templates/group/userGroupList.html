@@ -1,16 +1,37 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
 
+    <link rel="stylesheet" type="text/css" th:href="@{/css/mi.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/base.css}">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
+
+    <script src="https://code.jquery.com/jquery-3.5.0.min.js"></script>
+</head>
 <body>
-
-<!-- content -->
-<th:block th:replace="~{./include/baselayout :: setContent( ~{ :: .bon-wrap } )}">
+<div class="main-bar">
+    <div class="logo-wrap" th:onclick="'window.location.href = \'/main\''">
+        <i class="ri-group-2-fill"></i><span class="logo-name">Groups</span>
+    </div>
+    <div class="log-wrap">
+        <i class="ri-logout-box-r-line" th:onclick="'window.location.href = \'/logout\''"></i>
+    </div>
+</div>
+<div class="cont-wrap">
     <div class="bon-wrap">
         <div class="page-title">
             <p>학습그룹조회</p>
         </div>
         <div class="route-wrap">
-            <a href="#">my groups </a><p>/</p><a href="#">학습그룹조회</a>
+            <p style="font-weight: 600">나의 강의실을 찾아 신청하세요</p>
         </div>
         <div class="bon-content-wrap">
             <div class="box-title-wrap">
@@ -23,7 +44,7 @@
                         <i class="ri-search-line"></i>
                     </div>
                     <div class="search-btn-wrap">
-                        <button type="submit" class="sksk-m">조회하기</button>
+                        <button type="submit" class="sksk-m">검색하기</button>
                     </div>
 
                 </form>
@@ -49,7 +70,7 @@
                                 <td class="coco crcr-2">[[${g.korn_flnm}]]<input type="hidden" name="korn_flnm" th:value="${g.korn_flnm}"></td>
                                 <td class="coco crcr-3">[[${#dates.format(g.group_start, 'yyyy.MM.dd')}]]</td>
                                 <td class="coco crcr-4">[[${#dates.format(g.group_end, 'yyyy.MM.dd')}]]</td>
-                                <td class="coco crcr-5">[[${g.group_pp}]]/[[${g.student_count}]]</td>
+                                <td class="coco crcr-5">[[${g.student_count}]]/[[${g.group_pp}]]</td>
                                 <td class="coco crcr-6"><button  class="join-btn" type="submit">신청하기</button></td>
                             </tr>
                            </form>
@@ -74,7 +95,8 @@
     </div>
 
 
-</th:block>
+</div>
+</body>
 
 <script th:inline="javascript">
     var msg = `[[${msg}]]`;
@@ -85,5 +107,5 @@
 
 </script>
 
-</body>
+
 </html>

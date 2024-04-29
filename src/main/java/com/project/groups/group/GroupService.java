@@ -1,5 +1,6 @@
 package com.project.groups.group;
 
+import com.project.groups.command.DataVO;
 import com.project.groups.command.GroupVO;
 import com.project.groups.command.MemberVO;
 import com.project.groups.command.QueryVO;
@@ -47,4 +48,12 @@ public interface GroupService {
     int getmygroupno(String login_id);
 
     List<QueryVO> getdashboardt(Integer group_no, String login_id);
+    int getdatainfototal(Integer group_no, Criteria cri);
+    List<DataVO> getdatainfo(Integer group_no, Criteria cri);
+    int groupcount(String login_id);
+    MemberVO ckyou(String login_id);
+    void youupdate (MemberVO vo);
+    MemberVO myteacheryou(String login_id);
+
+    List<QueryVO> getadmin();
 }

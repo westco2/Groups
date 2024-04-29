@@ -1,8 +1,11 @@
 package com.project.groups.membersZ.service;
 
+import com.project.groups.command.ApprovalFileVO;
 import com.project.groups.command.MemberVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service(value = "MembersZService")
 public class MembersZServiceImpl implements MembersZService {
@@ -34,5 +37,15 @@ public class MembersZServiceImpl implements MembersZService {
     @Override
     public MemberVO memberinf(String login_id) {
         return membersZMapper.memberinf(login_id);
+    }
+
+    @Override
+    public boolean approvalfile(ApprovalFileVO approvalFileVO){
+        return membersZMapper.approvalfile(approvalFileVO);
+    }
+
+    @Override
+    public List<MemberVO> getuserlist() {
+        return membersZMapper.getuserlist();
     }
 }

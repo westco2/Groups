@@ -35,6 +35,7 @@ public class GroupVO {
     private Integer score; //학생 점수
     private Integer homework_no;
     private String tier; //구독등급
+    private String user_nickname; //닉네임
 
     private Integer submitted_count; //숙제 제출카운트
     private Integer not_submitted_count;// 숙제 미제출카운트

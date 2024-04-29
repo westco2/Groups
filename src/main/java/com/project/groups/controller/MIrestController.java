@@ -45,19 +45,35 @@ public class MIrestController {
     }
 
     @GetMapping("/getgroupstdInfo")
-    public ResponseEntity<List<GroupVO>> getstdInfo(Criteria cri, @RequestParam Integer group_no) {
+    public ResponseEntity<List<GroupVO>> getgroupstdInfo(Criteria cri, @RequestParam Integer group_no) {
         PageVO vo = new PageVO(cri, groupService.getstdtotal(cri, group_no));
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json");
         return new ResponseEntity<>(groupService.getgroupstdinfo(cri, group_no), headers, HttpStatus.OK);
     }
     @GetMapping("/getgroupstdInfopage")
-    public ResponseEntity<PageVO> getstdInfopage(Criteria cri, @RequestParam Integer group_no) {
+    public ResponseEntity<PageVO> getgroupstdInfopage(Criteria cri, @RequestParam Integer group_no) {
         PageVO vo = new PageVO(cri, groupService.getstdtotal(cri, group_no));
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json");
         return new ResponseEntity<>(vo, headers, HttpStatus.OK);
     }
+
+    @GetMapping("/getgroupdataInfo")
+    public ResponseEntity<List<DataVO>> getgroupdataInfo(Criteria cri, @RequestParam Integer group_no) {
+        PageVO vo = new PageVO(cri, groupService.getdatainfototal( group_no,cri));
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json");
+        return new ResponseEntity<>(groupService.getdatainfo(group_no, cri), headers, HttpStatus.OK);
+    }
+    @GetMapping("/getgroupdataInfopage")
+    public ResponseEntity<PageVO> getgroupdataInfopage(Criteria cri, @RequestParam Integer group_no) {
+        PageVO vo = new PageVO(cri, groupService.getdatainfototal(group_no, cri));
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json");
+        return new ResponseEntity<>(vo, headers, HttpStatus.OK);
+    }
+
 
     //내숙제 세부정보
     @PostMapping("/gethomedetail")
@@ -98,10 +114,21 @@ public class MIrestController {
         vo.setLogin_id(sessionId);
         Integer score = homeworkService.getscore(vo);
         System.out.println(score);
-        if(score != 100){
-            homeworkService.updatepoint(vo);
-            if(vo.getScore() > score) homeworkService.updatesubmit(vo);
+        if(vo.getScore() == 100){
+            if(score != 100){
+                System.out.println("실행1");
+                homeworkService.updatepoint(vo);
+                if(vo.getScore() >= score) homeworkService.updatesubmit(vo);
+            }
+        }else{
+            if(score != 100) {
+                System.out.println("실행");
+                System.out.println(vo.getScore());
+                System.out.println(score);
+                if (vo.getScore() >= score) homeworkService.updatesubmit(vo);
+            }
         }
+
 
 
         homeworkService.homeworkrecord(vo);
@@ -151,6 +178,12 @@ public class MIrestController {
 
         homeworkService.regcategory(vo);
 
+        return "success";
+    }
+
+    @PostMapping("/deljoins")
+    public String deljoin(@RequestBody GroupVO vo){
+        groupService.waitdel(vo.getLogin_id());
         return "success";
     }
 

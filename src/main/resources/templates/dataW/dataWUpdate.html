@@ -1,15 +1,6 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<!-- 
-※페이지 상세내용
-1. dataWBoardT 에서 강의명 클릭시 해당페이지로 이동합니다.
-2. 권한 선생이 등록한 자료 및 내용을 조회하고 내용 및 첨부파일을 수정 및 삭제할 수 있습니다.
-
-※수정필요
-4. "수정" 클릭시 최종적으로 DB에 정상반영되는지 확인합니다.
--->
-
 <body>
 	<th:block th:replace="~{./include/baselayout :: setContent( ~{ :: .bon-wrap } )}">
 		<div class="bon-wrap">
@@ -23,86 +14,102 @@
 				<div class="box-title-wrap">
 					<h3>수업자료수정</h3>
 				</div>
-				<div class="content-box">
-					<form name="actionForm" action="#" method="post" enctype="multipart/form-data">
-						<h3 style="margin-bottom: 10px;">기본 정보</h3>
-						<div class="reg-title-wrap" style="margin-bottom: 15px;">
-							<div class="like-table-wrap">
-								<div class="sinfo-wrap-m">
-									<p>교육자명</p>
-									<h4 class="name-m">
-										<i class="ri-user-star-line"></i>&nbsp;[[${vo.korn_flnm}]]
-									</h4>
-								</div>
-								<div class="sinfo-wrap-m">
-									<p>강의명</p>
-									<h4 class="name-m">
-										<i class="ri-file-user-line"></i>&nbsp;[[${vo.gname}]]
-									</h4>
-								</div>
-								<div class="sinfo-wrap-m">
-									<p>그룹명</p>
-									<h4 class="name-m">
-										<i class="ri-file-user-line"></i>&nbsp;[[${vo.group_nm}]]
-									</h4>
-								</div>
+				<form name="actionForm" action="#" method="post" enctype="multipart/form-data">
+					<h3 style="margin-bottom: 10px;">기본 정보</h3>
+					<div class="reg-title-wrap" style="margin-bottom: 15px;">
+						<div class="like-table-wrap">
+							<div class="sinfo-wrap-m">
+								<p>교육자명</p>
+								<h4 class="name-m">
+									<i class="ri-user-star-line"></i>&nbsp;[[${vo.korn_flnm}]]
+								</h4>
+							</div>
+							<div class="sinfo-wrap-m">
+								<p>강의명</p>
+								<h4 class="name-m">
+									<i class="ri-file-user-line"></i>&nbsp;[[${vo.gname}]]
+								</h4>
+							</div>
+							<div class="sinfo-wrap-m">
+								<p>그룹명</p>
+								<h4 class="name-m">
+									<i class="ri-file-user-line"></i>&nbsp;[[${vo.group_nm}]]
+								</h4>
 							</div>
 						</div>
-						<h3 style="margin-bottom: 10px;">학습자료등록</h3>
-						<div class="reg-title-wrap">
-							<div class="group-naming-wrap-m">
-								<div class="group-name">
+					</div>
+					<h3 style="margin-bottom: 10px;">학습자료등록</h3>
+					<div class="reg-title-wrap">
+						<div class="group-naming-wrap-m">
+							<div class="group-name">
 								<input type="hidden" name="gnumber" th:value="${vo.gnumber}">
-									<label>학습자료명</label> <input class="inp-reg-m" type="text" name="gfilename" th:value="${vo.gfilename}">
-								</div>
-								<div class="group-name">
-									<label>학습자료내용</label>
-									<textarea class="wj-textarea" name="gfilecon">[[${vo.gfilecon}]]</textarea>
-								</div>
-								<div class="group-name">
-									<label>첨부파일</label>
-									<div class="date-wrap-m">
-										<label for="fileInput">첨부파일선택:</label>
-										<input type="file" id="fileInput" name="file" multiple="multiple">
+								<label>학습자료명</label> <input class="inp-reg-m" type="text" name="gfilename" th:value="${vo.gfilename}">
+							</div>
+							<div class="group-name">
+								<label>학습자료내용</label>
+								<textarea class="wj-textarea" name="gfilecon">[[${vo.gfilecon}]]</textarea>
+							</div>
+							<div class="group-name">
+								<label>첨부파일</label>
+								<th:block th:each="vo : ${list}">
+									<div class="reg-btn-wrap-w2" style="justify-content: start; display: flex; align-items: center; gap: 10px;">
+										<p>[[${vo.filename}]]</p>
+										<button type="button" onclick="deleteuploadfile(this)"><i class="ri-close-line"></i></button>
 									</div>
+								</th:block>
+								<div class="date-wrap-m">
+									<label for="fileInput">첨부파일선택:</label>
+									<input type="file" id="fileInput" name="file" multiple="multiple">
 								</div>
 							</div>
 						</div>
-						<div class="reg-btn-wrap">
+					</div>
+					<div class="reg-btn-wrap">
 							<button type="button" id="updateBtn" style="margin-right:10px">수정</button>
 							<button type="button" id="deleteBtn">삭제</button>
-						</div>
-					</form>
-				</div>
+					</div>
+				</form>
 			</div>
 		</div>
 	</th:block>
-
 	<script th:inline="javascript">
-    // 파일 선택 이벤트 감지
-    document.getElementById('fileInput').addEventListener('change', function(event) {
-        // 선택된 파일 가져오기
-        var file = event.target.files[0];
-
-        // FormData 생성
-        var formData = new FormData();
-        formData.append('file', file);
-
-        // 서버로 파일 전송 (AJAX 사용)
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', 'upload', true); // 업로드 URL 설정
-        xhr.onload = function() {
-            if (xhr.status === 200) {
-                console.log('파일 업로드 성공');
-            } else {
-                console.error('파일 업로드 실패');
-            }
-        };
-        xhr.send(formData);
-    });
+	    // 파일 선택 이벤트 감지
+	    document.getElementById('fileInput').addEventListener('change', function(event) {
+	        var file = event.target.files[0]; // 선택된 파일 가져오기
+	        var formData = new FormData(); // FormData 생성
+	        formData.append('file', file);
+	        var xhr = new XMLHttpRequest(); // 서버로 파일 전송 (AJAX 사용)
+	        xhr.open('POST', 'upload', true); // 업로드 URL 설정
+	        xhr.onload = function() {
+	            if (xhr.status === 200) {
+	                console.log('파일 업로드 성공');
+	            } else {
+	                console.error('파일 업로드 실패');
+	            }
+	        };
+	        xhr.send(formData);
+	    });
 	</script>
-	
 	<script>
+		function deleteuploadfile(button){
+			var filename = button.parentNode.querySelector('p').innerText; //삭제할파일이름(p태그)
+			var xhr = new XMLHttpRequest();
+			xhr.open('POST', '/deleteFile', true) //파일 삭제를 처리하는 서버의 엔드포인트
+			xhr.setRequestHeader('Content-Type', 'application/json');
+			xhr.onload = function(){
+				if(xhr.status === 200){
+					var response = JSON.parse(xhr.responseText);
+					if(response.success){
+						button.closest('.reg-btn-wrap-w2').remove();
+						console.log('삭제성공');
+					} else {
+						console.error('삭제실패');
+					}
+				}
+			};
+			xhr.send(JSON.stringify({filename: filename})); //삭제할 파일이름전송(서버)
+		}
+	
 		var updateBtn = document.getElementById("updateBtn");
 		updateBtn.addEventListener('click', function(){
 			event.preventDefault();
@@ -121,8 +128,7 @@
 			}
 			document.actionForm.action = "deleteForm";
 			document.actionForm.submit();
-		}
+		} 
 	</script>
-
 </body>
 </html>

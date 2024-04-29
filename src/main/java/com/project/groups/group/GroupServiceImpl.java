@@ -1,5 +1,6 @@
 package com.project.groups.group;
 
+import com.project.groups.command.DataVO;
 import com.project.groups.command.GroupVO;
 import com.project.groups.command.MemberVO;
 import com.project.groups.command.QueryVO;
@@ -121,6 +122,41 @@ public class GroupServiceImpl implements GroupService{
     @Override
     public List<QueryVO> getdashboardt(Integer group_no, String login_id) {
         return groupMapper.getdashboardt(group_no, login_id);
+    }
+
+    @Override
+    public int getdatainfototal(Integer group_no, Criteria cri) {
+        return groupMapper.getdatainfototal(group_no,cri);
+    }
+
+    @Override
+    public List<DataVO> getdatainfo(Integer group_no, Criteria cri) {
+        return groupMapper.getdatainfo(group_no, cri);
+    }
+
+    @Override
+    public int groupcount(String login_id) {
+        return groupMapper.groupcount(login_id);
+    }
+
+    @Override
+    public MemberVO ckyou(String login_id) {
+        return groupMapper.ckyou(login_id);
+    }
+
+    @Override
+    public void youupdate(MemberVO vo) {
+        groupMapper.youupdate(vo);
+    }
+
+    @Override
+    public MemberVO myteacheryou(String login_id) {
+        return groupMapper.myteacheryou(login_id);
+    }
+
+    @Override
+    public List<QueryVO> getadmin() {
+        return groupMapper.getadmin();
     }
 
 

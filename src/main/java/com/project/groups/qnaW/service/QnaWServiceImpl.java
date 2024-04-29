@@ -53,13 +53,15 @@ public class QnaWServiceImpl implements QnaWService{
 	}
 	
 	@Override
-	public int getTotal() {
-		return qnaWMapper.getTotal();
+	public int getTotal(String login_id, Criteria cri) {
+		return qnaWMapper.getTotal(login_id, cri);
 	}
-	
+	public int getTotalT(String login_id, Criteria cri) {
+		return qnaWMapper.getTotalT(login_id, cri);
+	}
+
 	@Override
 	public GroupVO getgroupinfo(String login_id) {
-		// TODO Auto-generated method stub
 		return qnaWMapper.getgroupinfo(login_id);
 	}
 }

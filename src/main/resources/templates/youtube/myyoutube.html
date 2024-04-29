@@ -1,0 +1,126 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+<!-- content -->
+<th:block th:replace="~{./include/baselayout :: setContent( ~{ :: .bon-wrap } )}">
+    <div class="bon-wrap">
+        <div class="page-title">
+            <p>youtube</p>
+        </div>
+        <div class="bon-content-wrap">
+            <div class="box-title-wrap">
+                <h3>youtube</h3>
+            </div>
+            <div class="content-box">
+                <div class="container">
+
+                    <h3 class="display-4 text-center">강의 다시보기</h3>
+                    <div class="wow-m" id="video-channel"></div>
+
+                    <br>
+                    <hr>
+                    <br>
+                    <h3 class="display-4 text-center" style="margin-bottom: 23px">최근 업데이트 강의</h3>
+                    <div class="row my-5" id="video-container"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</th:block>
+
+<script th:inline="javascript">
+    const apiKey = '';
+    const videoChannel = document.querySelector('#video-channel');
+    const videoContainer = document.querySelector('#video-container');
+    const channelId =JSON.parse(`[[${you}]]`); // 이곳에 채널 ID를 입력하세요.
+
+    // Channel
+    const channelEndpoint = `https://www.googleapis.com/youtube/v3/channels?key=${apiKey}&id=${channelId}&part=snippet,contentDetails,statistics`;
+
+    // const ytPromise = fetch(channelEndpoint);
+    // ytPromise.then(res => res.json()).then(data => console.log(data));
+
+    fetch(channelEndpoint)
+        .then(res => res.json())
+        .then(data => {
+            // console.log(data);
+            showChannel(data);
+
+            const playlistId = data.items[0].contentDetails.relatedPlaylists.uploads;
+            requestPlaylist(playlistId);
+        });
+
+    function showChannel(data) {
+        const myId = data.items[0].id;
+        const title = data.items[0].snippet.title;
+        const desc = data.items[0].snippet.description;
+        const videos = data.items[0].statistics.videoCount;
+        const subscribers = data.items[0].statistics.subscriberCount;
+        const views = data.items[0].statistics.viewCount;
+        const imageLink = data.items[0].snippet.thumbnails.medium.url;
+
+        let output = `
+    <div class="col-md-6 mb-4 text-m">
+        <img src="${imageLink}" alt="" class="img-fluid" />
+
+        <a href="https://www.youtube.com/channel/${myId}" target="_blank" class="btn btn-danger btn-sm">유튜브 채널로 이동하기</a>
+    </div>
+    <div class="ul-m">
+        <ul class="list-group shadow-lg">
+            <li class="list-group-item bg-danger" style=" background-color: #da3544; color: #fff;"><strong class="text-white">채널명 : ${title}</strong></li>
+            <li class="list-group-item" style="border-bottom: 1px solid #dddddd"><strong>채널세부정보</strong>: ${desc}</li>
+            <li class="list-group-item" style="border-bottom: 1px solid #dddddd"><strong>동영상</strong>: ${numberWithCommas(videos)}</li>
+            <li class="list-group-item" style="border-bottom: 1px solid #dddddd"><strong>구독자수</strong>: ${numberWithCommas(subscribers)}</li>
+            <li class="list-group-item"><strong>조회수</strong>: ${numberWithCommas(views)}</li>
+        </ul>
+    </div>
+    `;
+        videoChannel.innerHTML = output;
+    }
+
+    // Add commas to number
+    function numberWithCommas(x) {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    }
+
+    // Request play list items
+    function requestPlaylist(playlistId) {
+        const maxResults = 12;
+        const playlistURL = `https://www.googleapis.com/youtube/v3/playlistItems?key=${apiKey}&playlistId=${playlistId}&part=snippet&maxResults=${maxResults}`;
+
+        fetch(playlistURL)
+            .then(res => res.json())
+            .then(data => loadVideo(data));
+    }
+
+    // Display Videos
+    function loadVideo(data) {
+        const playListItems = data.items;
+        // console.log(playListItems);
+
+        if(playListItems) {
+            let output = '';
+
+            playListItems.forEach(item => {
+                const videoId = item.snippet.resourceId.videoId;
+
+                output += `
+				<div class="pad-m">
+					<div class="card card-body p-0 shadow embed-responsive embed-responsive-16by9">
+						<iframe height="auto" src="https://www.youtube.com/embed/${videoId}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+					</div>
+				</div>
+			`;
+            });
+
+            videoContainer.innerHTML = output;
+        } else {
+            videoContainer.innerHTML = 'Sorry, No videos uploaded!';
+        }
+    }
+</script>
+</body>
+</html>

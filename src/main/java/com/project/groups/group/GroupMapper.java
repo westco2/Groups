@@ -1,5 +1,6 @@
 package com.project.groups.group;
 
+import com.project.groups.command.DataVO;
 import com.project.groups.command.GroupVO;
 import com.project.groups.command.MemberVO;
 import com.project.groups.command.QueryVO;
@@ -49,4 +50,12 @@ public interface GroupMapper {
     int getmygroupno(String login_id);
 
     List<QueryVO> getdashboardt(@Param("group_no") Integer group_no, @Param("login_id")String login_id);
+
+    int getdatainfototal(@Param("group_no") Integer group_no, @Param("cri")Criteria cri);
+    List<DataVO> getdatainfo(@Param("group_no") Integer group_no, @Param("cri")Criteria cri);
+    int groupcount (String login_id);
+    MemberVO ckyou(String login_id);
+    void youupdate(MemberVO vo);
+    MemberVO myteacheryou (String login_id);
+    List<QueryVO> getadmin();
 }

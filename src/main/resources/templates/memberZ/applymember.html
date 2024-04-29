@@ -95,7 +95,7 @@
                                 <th class="coco work-2 lis-left desc-tr" th:style="'flex-basis: 10%'">이름<i class="ri-arrow-down-s-fill"></i></th>
                                 <th class="coco work-3 lis-left desc-tr" th:style="'flex-basis: 20%'">이메일<i class="ri-arrow-down-s-fill"></i></th>
                                 <th class="coco work-4 lis-left desc-tr" th:style="'flex-basis: 15%'">연락처<i class="ri-arrow-down-s-fill"></i></th>
-                                <th class="coco work-5 lis-left desc-tr" th:style="'flex-basis: 10%'">닉네임<i class="ri-arrow-down-s-fill"></i></th>
+                                <th class="coco work-5 lis-left desc-tr" th:style="'flex-basis: 10%'">첨부파일<i class="ri-arrow-down-s-fill"></i></th>
                                 <th class="coco work-6 lis-left desc-tr" th:style="'flex-basis: 10%'">생년월일<i class="ri-arrow-down-s-fill"></i></th>
                                 <th class="coco work-7 lis-left desc-tr" th:style="'flex-basis: 15%'">가입일자<i class="ri-arrow-down-s-fill i-col"></i></th>
                                 <th class="coco work-8 lis-left desc-tr" th:style="'flex-basis: 5%'">승인<i class="ri-arrow-down-s-fill i-col"></i></th>
@@ -107,7 +107,7 @@
                                 <input type="checkbox">
                             </td>
                             <td class="coco work-1 lis-left" th:style="'flex-basis: 10%'">
-                                <a href="#" th:text="${member.login_id}"></a>
+                                <span th:text="${member.login_id}"></span>
                             </td>
                             <td class="coco work-2 lis-left" th:style="'flex-basis: 10%'">
                                 <span th:text="${member.korn_flnm}"></span>
@@ -119,13 +119,13 @@
                             <span th:text="${member.idfr_telno}"></span>
                             </td>
                             <td class="coco work-5 lis-left" th:style="'flex-basis: 10%'">
-                                <span th:text="${member.user_nickname}"></span>
+                                <span><button style="background-color : #b1b1b1;border: none; padding: 4px 9px; border-radius: 3px;" type="button" class="dl-btn-mm" ><a style="text-decoration: none; font-size: 12px; color: #ffffff; font-weight: 600;" th:href="@{/dataW/download/{a}/{b}(a=${member.upload_dir},b=${member.filename})}">확인하기</a></button></span>
                             </td>
                             <td class="coco work-6 lis-left" th:style="'flex-basis: 10%'">
                                 <span th:text="${member.date_birth}"></span>
                             </td>
                             <td class="coco work-7 lis-left" th:style="'flex-basis: 15%'">
-                                <span th:text="${#dates.format(member.date_subscription, 'yyyy-MM-dd')}"></span>
+                                <span th:text="${#temporals.format(member.date_subscription, 'yyyy-MM-dd')}"></span>
                             </td>
                             <td class="coco work-8 lis-left" th:style="'flex-basis: 5%'">
                                 <input class="applyButton" type="button" value="승인" th:data-login-id="${member.login_id}">
@@ -185,7 +185,7 @@
 <script th:inline="javascript">
     // 페이지네이션 생성
     document.addEventListener('DOMContentLoaded', function() {
-        const amlistLength = [[${amlist.size()}]]; // amlist 배열의 길이
+        const amlistLength = [[${#lists.size(amlist)}]]; // amlist 배열의 길이
         console.log("amlistLength :::  " + amlistLength);
         const itemsPerPage = 10; // 한 페이지에 보여줄 아이템 수
         const totalPages = Math.ceil(amlistLength / itemsPerPage); // 전체 페이지 수
@@ -239,7 +239,7 @@
         console.log(loginId);
         $.ajax({
             type: 'POST',  // 요청 방식은 POST
-            url: 'approvemember',
+            url: '/memberZ/approvemember',
             data: { loginId: loginId },  // 요청에 포함될 데이터
             success: function(response) {
                 console.log('승인이 성공적으로 처리되었습니다.');

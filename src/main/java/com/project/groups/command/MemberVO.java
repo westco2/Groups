@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -26,4 +27,8 @@ public class MemberVO { //회원 테이블 정보
     private String user_nickname; //닉네임
     private Integer score; //학생 점수
     private String tier; //선생님결제 티어
+    private MultipartFile file;
+    private String youtube_id;
+    private String filename;
+    private String upload_dir;
 }

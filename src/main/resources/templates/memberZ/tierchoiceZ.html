@@ -187,7 +187,7 @@
         <h3>요금을 확인해 보세요</h3>
         <div class="pay-info-wrap-m">
             <div class="pay-name-m">
-                <h5>선택된 상품</h5> <p>basic tier</p>
+                <h5>선택된 상품</h5> <p id="choiceTierName"></p>
             </div>
             <div class="flex-c-m">
                 <h5>기간선택</h5>
@@ -257,6 +257,14 @@
 </script>
 
 <script th:inline="javascript">
+    var msg = `[[${msg}]]`;
+    msg = JSON.parse(msg)
+    if(msg !== null) {
+        alert(msg);
+    }
+</script>
+
+<script th:inline="javascript">
     var rangeInput = document.getElementById('rangeInput');
     // 선택된 개월 수를 표시할 span 요소를 가져옵니다.
     var selectedMonthsSpan = document.getElementById('selectedMonths');
@@ -289,6 +297,7 @@
     let payment_time = new Date().toLocaleString(); //결제 시간
     function requestPayfor(tier, price){ //price를 (결제 티어 이름 * 구독 기간)
         tierZ = tier;
+        document.getElementById('choiceTierName').innerText = tier;
         amountZ = price * using_term;
         amountSpan.textContent = amountZ;
         console.log("amountZ 출력:" + amountZ)
@@ -334,7 +343,7 @@
                         }),
                         success: function (data) {
                             console.log("요청 성공!");
-                            window.location.href = '/main'; //결제 완료시 어디로 갈것인가
+                            window.location.href = '/mypage/tchmypage'; //결제 완료시 어디로 갈것인가
                         },
                         error: function (xhr, status, error) {
                             console.error("요청 실패:", error);

@@ -1,20 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<!-- 
-※페이지 상세내용
-1. dataWBoardT에서 "자료등록" 버튼 클릭시 해당페이지로 이동합니다.
-2. 그룹명, 학습자료명, 학습자료내용 및 첨부파일을 업로드하고 "자료등록"버튼을 통해 업로드합니다.
-
-※수정필요
-1. 로그인한 ID에만 등록되어 있는 그룹들을 조회하여 select할 수 있게 합니다.
-2. 올바른 기본정보들을 출력합니다.
-3. 첨부파일 업로드시 DB까지 도달하여 저장할 수 있게 합니다.
-4. "자료등록" 클릭시 최종적으로 DB에 정상반영되는지 확인합니다.
- -->
-
 <body>
-
 	<th:block th:replace="~{./include/baselayout :: setContent( ~{ :: .bon-wrap } )}">
 		<div class="bon-wrap">
 			<div class="page-title">
@@ -49,7 +36,7 @@
 							<div class="group-naming-wrap-m">
 								<div class="group-name">
 									<label>그룹선택</label> 
-									 <select class="sel-des sel-des-2m" name="group_no">
+									 <select class="sel-des sel-des-2m" name="group_no" required>
 			                            <option value="">선택</option>
 			                            <th:block th:each="i : ${names}">
 			                                <option th:value="${i.group_no}">[[${i.group_nm}]]</option>
@@ -83,30 +70,26 @@
 			</div>
 		</div>
 	</th:block>
-
 	<script th:inline="javascript">
-    // 파일 선택 이벤트 감지
-    document.getElementById('fileInput').addEventListener('change', function(event) {
-        // 선택된 파일 가져오기
-        var file = event.target.files[0];
-
-        // FormData 생성
-        var formData = new FormData();
-        formData.append('file', file);
-
-        // 서버로 파일 전송 (AJAX 사용)
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', 'upload', true); // 업로드 URL 설정
-        xhr.onload = function() {
-            if (xhr.status === 200) {
-                console.log('업로드 성공');
-            } else {
-                console.error('업로드 실패');
-            }
-        };
-        xhr.send(formData);
-    });
+	    // 파일 선택 이벤트 감지
+	    document.getElementById('fileInput').addEventListener('change', function(event) {
+	        // 선택된 파일 가져오기
+	        var file = event.target.files[0];
+	        // FormData 생성
+	        var formData = new FormData();
+	        formData.append('file', file);
+	        // 서버로 파일 전송 (AJAX 사용)
+	        var xhr = new XMLHttpRequest();
+	        xhr.open('POST', 'upload', true); // 업로드 URL 설정
+	        xhr.onload = function() {
+	            if (xhr.status === 200) {
+	                console.log('업로드 성공');
+	            } else {
+	                console.error('업로드 실패');
+	            }
+	        };
+	        xhr.send(formData);
+	    });
 	</script>
-
 </body>
 </html>

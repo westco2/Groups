@@ -1,6 +1,6 @@
-.login-wrap{display: flex; justify-content: start; align-items: center; flex-direction: column; margin-top: 100px; gap: 30px;}
+.login-wrap{display: flex; justify-content: start; align-items: center; flex-direction: column; margin-top: 50px; gap: 30px;}
 .login-logo-wrap{ font-size: 50px; color: #2f4050;}
-.login-form-wrap{border-radius: 10px; display: flex; flex-direction: column; justify-content: start; align-items: center; padding: 40px 6% 60px; background-color: #ffffff; gap: 18px;}
+.login-form-wrap{border-radius: 10px; display: flex; flex-direction: column; justify-content: start; align-items: center; padding: 40px 40% 60px; background-color: #ffffff; gap: 18px;}
 
 .login-inp-wrap{border-radius: 5px;display: flex; flex-direction: column; gap: 10px;}
 .login-inp-wrap input{padding: 10px; font-size: 15px; width: 250px;}

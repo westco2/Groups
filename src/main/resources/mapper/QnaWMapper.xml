@@ -6,71 +6,67 @@
 <mapper namespace="com.project.groups.qnaW.service.QnaWMapper">
 	
 	<select id="getList" resultType="QnaVO">
-    select * from 
-    (select * from GROUP_LIST where login_id = #{login_id}) a
-    left join (select q.*, m.korn_flnm from (select qq.*, cc.ccontent from QNABOARD qq left join COMMENT cc on qq.qnumber = cc.qnumber ) q left join MEMBERS m on q.login_id = m.login_id) b
-    on a.group_no = b.group_no
-    <where>
-    <if test="cri.title != '' and cri.title != null">
-            and qtitle like concat('%',#{cri.title},'%')
-        </if>
-        </where>
+		SELECT *
+		FROM GROUP_LIST a
+		INNER JOIN (SELECT q.*, m.korn_flnm FROM (SELECT qq.*, cc.ccontent
+		FROM QNABOARD qq
+		LEFT JOIN COMMENT cc
+		ON qq.qnumber = cc.qnumber) q
+		LEFT JOIN MEMBERS m
+		ON q.login_id = m.login_id) b
+		ON a.group_no = b.group_no
+		WHERE a.login_id = #{login_id}
+
+		<if test="cri.title != '' and cri.title != null">
+			and qtitle like concat('%',#{cri.title},'%')
+			or korn_flnm like concat('%',#{cri.title},'%')
+		</if>
+		
+		order by qregdate desc
+		limit #{cri.pageStart}, #{cri.amount}
 	</select>
 	
 	<select id="getList2" resultType="QnaVO">
-	select a.*, b.group_nm from 
-    (select t.*, m.KORN_FLNM from (select qq.*, cc.ccontent from (select * from QNABOARD  where login_id = #{login_id}) qq left join COMMENT cc on qq.qnumber = cc.qnumber  ) t left join members m on t.login_id = m.login_id) a 
-    left join  GROUP_LIST b
-    on a.group_no = b.group_no
-    <where>
-    <if test="cri.title != '' and cri.title != null">
-            and qtitle like concat('%',#{cri.title},'%')
-    </if>
-    </where>
+		select a.*, b.group_nm from 
+	    (select t.*, m.korn_flnm from (select qq.*, cc.ccontent from (select * from QNABOARD  where login_id = #{login_id}) qq left join COMMENT cc on qq.qnumber = cc.qnumber) t left join MEMBERS m on t.login_id = m.login_id) a 
+	    left join  GROUP_LIST b
+	    on a.group_no = b.group_no
+		    <where>
+			    <if test="cri.title != '' and cri.title != null">
+		            and qtitle like concat('%',#{cri.title},'%')
+			    </if>
+		    </where>
+		order by qregdate desc
+		limit #{cri.pageStart}, #{cri.amount}
 	</select>
 	
-	<!-- 1:N 테이블 관계형성[MEMBER, QNABOARD] -->
-<!-- 	<resultMap type="com.project.groups.command.QnaWVO" id="VO"> -->
-<!-- 		<result property="LOGIN_ID" column="LOGIN_ID"/> -->
-<!-- 		<result property="KORN_FLNM" column="KORN_FLNM"/> -->
-<!--         <result property="GROUP_NM" column="GROUP_NM"/> -->
-<!--         <result property="CCONTENT" column="CCONTENT"/> -->
-<!-- 		<collection property="list" ofType="com.project.groups.command.QnaVO"> -->
-<!-- 			<result property="QNUMBER" column="QNUMBER"/> -->
-<!-- 			<result property="QTITLE" column="QTITLE"/> -->
-<!-- 			<result property="QREGDATE" column="QREGDATE"/> -->
-<!-- 			<result property="QCONTENT" column="QCONTENT"/> -->
-<!-- 		</collection> -->
-<!-- 	</resultMap> -->
 	<select id="getgroupinfo" resultType="GroupVO">
 		select a.*, b.group_nm, b.korn_flnm from
 		(select * from GROUP_JOIN where login_id = #{login_id} and aprv_yn = "Y") a
 		left join (select g.group_nm, m.korn_flnm, g.group_no from GROUP_LIST g left join MEMBERS m on g.login_id = m.login_id )b
 		on a.group_no = b.group_no;
 	</select>
+	
 	<insert id="regist">
 		insert into QNABOARD(qtitle,
 							 qcontent,
 							 group_no,
 							 login_id
 							 )
-		VALUES(#{qtitle},
+		values(#{qtitle},
 			   #{qcontent},
 			   #{group_no},
 			   #{login_id}
 			   )
 	</insert>
 	
-	
 	<select id="getDetail" resultType="QnaVO">
 		select c.*, d.korn_flnm from
 		(select a.*, b.tname, b.group_nm from
-		(select q.group_no,q.login_id, q.qnumber, q.qtitle, q.qcontent,
-					   c.ccontent
-				from QNABOARD as q
+		(select q.group_no,q.login_id, q.qnumber, q.qtitle, q.qcontent, c.ccontent from QNABOARD as q
 				left join (select * from COMMENT where qnumber = #{qnumber}) as c on q.login_id = c.login_id
 				where q.qnumber = #{qnumber})a 
-		left join (select g.group_no,g.group_nm, m.korn_flnm as tname from GROUP_LIST g left join MEMBERS m on g.login_id = m.login_id) b
+		left join(select g.group_no, g.group_nm, m.korn_flnm as tname from GROUP_LIST g left join MEMBERS m on g.login_id = m.login_id) b
 		on a.group_no = b.group_no) c
 		left join MEMBERS d
 		on c.login_id = d.login_id;
@@ -78,11 +74,10 @@
 	
 	<insert id="update">
 		insert into COMMENT
-		(ccontent,qnumber,login_id)
+		(ccontent, qnumber, login_id)
 		values(#{ccontent},
 				#{qnumber},
 				#{login_id})
-		
 	</insert>
 	
 	<delete id="delete">
@@ -93,18 +88,45 @@
 	<select id="getTotal" resultType="int">
 		select count(*) as total
 		from QNABOARD
-		<if test="searchLogin_id != '' and searchLogin_id != null">
-			and m.login_id like concat('%', #{searchLogin_id}, '%')
+		where login_id = #{login_id}
+		<if test="cri.searchLogin_id != '' and cri.searchLogin_id != null">
+			and m.login_id like concat('%', #{cri.searchLogin_id}, '%')
 		</if>
 		
-		<if test="searchKorn_flnm != '' and searchKorn_flnm != null">
-			and m.korn_flnm like concat('%', #{searchKorn_flnm}, '%')
+		<if test="cri.searchKorn_flnm != '' and cri.searchKorn_flnm != null">
+			and m.korn_flnm like concat('%', #{cri.searchKorn_flnm}, '%')
 		</if>
 		
-		<if test="searchQtitle != '' and searchQtitle != null">
-			and q.qtitle like concat('%', #{searchQtitle}, '%')
+		<if test="cri.searchQtitle != '' and cri.searchQtitle != null">
+			and q.qtitle like concat('%', #{cri.searchQtitle}, '%')
 		</if>
-		limit 0, 10
+
+	</select>
+
+	<select id="getTotalT" resultType="int">
+		SELECT COUNT(*)
+		FROM GROUP_LIST a
+		INNER JOIN (SELECT q.*, m.korn_flnm FROM (SELECT qq.*, cc.ccontent
+		FROM QNABOARD qq
+		LEFT JOIN COMMENT cc
+		ON qq.qnumber = cc.qnumber) q
+		LEFT JOIN MEMBERS m
+		ON q.login_id = m.login_id) b
+		ON a.group_no = b.group_no
+		WHERE a.login_id = #{login_id}
+		<if test="cri.searchLogin_id != '' and cri.searchLogin_id != null">
+			and m.login_id like concat('%', #{cri.searchLogin_id}, '%')
+		</if>
+
+		<if test="cri.searchKorn_flnm != '' and cri.searchKorn_flnm != null">
+			and m.korn_flnm like concat('%', #{cri.searchKorn_flnm}, '%')
+		</if>
+
+		<if test="cri.searchQtitle != '' and cri.searchQtitle != null">
+			and q.qtitle like concat('%', #{cri.searchQtitle}, '%')
+		</if>
+
+
 	</select>
 
 </mapper>

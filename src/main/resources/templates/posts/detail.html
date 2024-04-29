@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <body>
 
@@ -42,9 +42,9 @@
                     </div>
 
                     <div>
+                        <!-- 수정된 부분: 게시물 내용을 편집할 수 있도록 textarea 추가 -->
                         <label>내용</label>
-                        <!-- 여기에서 textarea를 사용하지 않고, TinyMCE 에디터를 사용합니다. -->
-                        <div id="editor"></div>
+                        <textarea id="contentTextarea" class="content-display"></textarea>
                         <span id="writer">작성자명</span> <span class="create-date" id="create-date">2021-06-30</span>
                     </div>
 
@@ -53,8 +53,8 @@
             </div>
 
             <div class="reg-btn-wrap">
-                <button onclick="updatePost()">수정</button>
-                <button onclick="deletePost()" class="list-button">삭제</button>
+                <button onclick="updatePost()" sec:authorize="hasRole('ROLE_ADMIN')">수정</button>
+                <button onclick="deletePost()" class="list-button" sec:authorize="hasRole('ROLE_ADMIN')">삭제</button>
                 <button type="submit" class="list-button" onclick="goToNotilist()">목록</button>
             </div>
 
@@ -65,7 +65,7 @@
 </th:block>
 
 <script>
-    // 게시물 목록
+    //게시물 목록
     function goToNotilist() {
         window.location.href = "/posts/notilist"; // 이동할 URL 설정
     }
@@ -78,10 +78,15 @@
             url: `/api/posts/${current_id}`,
             success: function (response) {
                 $('#title').text(response.title);
-                // TinyMCE 에디터를 통해 내용을 설정합니다.
-                tinymce.get('editor').setContent(response.content);
+                // 수정된 부분: 게시물 내용을 textarea에 설정
+                $('#contentTextarea').val(response.content);
                 $('#writer').text(response.writer);
                 $('#create-date').text(response.createdAt);
+                
+                // TinyMCE 에디터 초기화
+                tinymce.init({
+                    selector: '#contentTextarea'
+                });
             },
             error: function (e) {
                 alert("게시글을 조회할 수 없습니다.");
@@ -112,11 +117,6 @@
     function updatePost() {
         window.location.href = `/posts/update?id=${current_id}`;
     }
-
-    // TinyMCE 에디터 초기화
-    tinymce.init({
-        selector: '#editor'
-    });
 </script>
 
 </body>

@@ -29,11 +29,11 @@ public class PageVO {
 
 		//끝페이지 계산 - 현재조회하는 페이지에 따라 변화
 		//ex) page 11아면, 끝페이지 20
-		this.end = (int)(Math.ceil(this.page/5.0))*5;
+		this.end = (int)(Math.ceil(this.page/10.0))*10;
 
 		//시작페이지 계산
 		//끝페이지 - 페이지네이션 개수 + 1
-		this.start = this.end - 5 + 1;
+		this.start = this.end - 10 + 1;
 		
 
 		

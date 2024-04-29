@@ -1,0 +1,48 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+<!-- content -->
+<th:block th:replace="~{./include/baselayout :: setContent( ~{ :: .bon-wrap } )}">
+
+  <div class="bon-wrap" style=" background-color: aliceblue;">
+    <div class="page-title">
+      <p>교재 검색</p>
+    </div>
+
+
+
+        <div class="container" style=" display: flex; flex-direction: column; align-items: center;">
+          <div id="title" class="center">
+            <h1 id="header" class="text-center mt-5"><br></h1>
+            <div class="row">
+              <div id="input" class="input-group mx-auto col-lg-6 col-md-8 col-sm-12">
+                <input id="search-box" type="text" class="form-control" placeholder="상품명 또는 저자명 입력">
+                <button id="search" class="btn btn-primary" onclick="">검색</button>
+              </div>
+            </div>
+          </div>
+          <div class="book-list" >
+            <h2 class="text-center">도서 검색 결과입니다.</h2>
+            <div id="list-output" class="">
+              <div class="row">
+                <!-- card  -->
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+
+  </div>
+</th:block>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="/css/book.css">
+<script src="/js/index.js"></script>
+</body>
+</html>

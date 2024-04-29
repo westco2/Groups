@@ -6,35 +6,33 @@
 <mapper namespace="com.project.groups.dataW.service.DataWMapper">
 	
 	<select id="getList" resultType="DataVO">
-    select g.*,
-           gl.group_nm
-    from (select * from GROUPFILE where login_id = #{login_id} ) g
-    left join GROUP_LIST gl on g.group_no = gl.group_no
-    <where>
-    <if test="cri.title != '' and cri.title != null">
-            and gfilename like concat('%',#{cri.title},'%')
-       </if>
-       <if test="cri.group_no != '' and cri.group_no != null">
-            and g.group_no = #{cri.group_no}
-        </if>
-        </where>
-    order by g.gregdate desc
-    limit #{cri.pageStart}, #{cri.amount}
-</select>
+	    select g.*,
+	           gl.group_nm
+	    from (select * from GROUPFILE where login_id = #{login_id} ) g
+	    left join GROUP_LIST gl on g.group_no = gl.group_no
+		    <where>
+				<if test="cri.title != '' and cri.title != null">
+					and gfilename like concat('%',#{cri.title},'%')
+				</if>
+				<if test="cri.group_no != '' and cri.group_no != null">
+					and g.group_no = #{cri.group_no}
+				</if>
+	        </where>
+	    limit #{cri.pageStart}, #{cri.amount}
+	</select>
 
-<select id="getList2" resultType="DataVO">
-
-	select g.*,
-           gl.group_nm
-    from (select * from GROUPFILE where group_no = (select group_no from group_join where login_id = #{login_id} and APRV_YN = "Y") ) g
-    left join GROUP_LIST gl on g.group_no = gl.group_no
-     <where>
-    <if test="cri.title != '' and cri.title != null">
-            and gfilename like concat('%',#{cri.title},'%')
-       </if>
-       </where>
-       limit #{cri.pageStart}, #{cri.amount}
-</select>
+	<select id="getList2" resultType="DataVO">
+		select g.*,
+	           gl.group_nm
+	    from (select * from GROUPFILE where group_no = (select group_no from GROUP_JOIN where login_id = #{login_id} and APRV_YN = "Y") ) g
+	    left join GROUP_LIST gl on g.group_no = gl.group_no
+			<where>
+			    <if test="cri.title != '' and cri.title != null">
+					and gfilename like concat('%',#{cri.title},'%')
+				</if>
+			</where>
+		limit #{cri.pageStart}, #{cri.amount}
+	</select>
 	
 	<insert id="regist">
 		insert into GROUPFILE(login_id,
@@ -53,14 +51,11 @@
 	
 	<select id="getDetail" resultType="DataVO">
 		select tt.*,gg.group_nm from
-    (select a.*,m.korn_flnm from (
-    select *
-		from GROUPFILE
+		(select a.*,m.korn_flnm from (
+		select * from GROUPFILE
 		where gnumber = #{gnumber}) a
-        left join MEMBERS m
-        on a.login_id = m.login_id) tt
-        left join GROUP_LIST gg
-        on tt.group_no = gg.group_no;
+		left join MEMBERS m on a.login_id = m.login_id) tt
+		left join GROUP_LIST gg on tt.group_no = gg.group_no;
 	</select>
 	
 	<select id="getfile" resultType="UploadVO">
@@ -79,18 +74,26 @@
 		where gnumber = #{gnumber}
 	</delete>
 	
+	<delete id="deletefileupload">
+		delete from FILEUPLOAD
+		where gnumber = #{gnumber}
+	</delete>
+	
+	<delete id="deleteFile">
+		delete from FILEUPLOAD
+		where filename = #{filename}
+	</delete>
+	
 	<select id="getTotal" resultType="int">
 		select count(*) as total
 		from GROUPFILE
 		where login_id = #{login_id}
-		
-    <if test="cri.title != '' and cri.title != null">
-            and gfilename like concat('%',#{cri.title},'%')
-       </if>
-       <if test="cri.group_no != '' and cri.group_no != null">
-            and group_no = #{cri.group_no}
-        </if>
-       
+	    	<if test="cri.title != '' and cri.title != null">
+				and gfilename like concat('%',#{cri.title},'%')
+			</if>
+			<if test="cri.group_no != '' and cri.group_no != null">
+				and group_no = #{cri.group_no}
+			</if>
 	</select>
 	
 	<insert id="upload">
@@ -113,7 +116,7 @@
 	</insert>
 	
 	<select id="getgroupname" resultType="GroupVO">
-        select group_nm, group_no from group_list where login_id = #{login_id};
+        select group_nm, group_no from GROUP_LIST where login_id = #{login_id};
     </select>
 
 </mapper>

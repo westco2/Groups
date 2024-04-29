@@ -1,6 +1,7 @@
 package com.project.groups.command;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,8 +14,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Getter
-@Setter
 public class QnaVO {
 	
 	//QNABOARD
@@ -23,7 +22,7 @@ public class QnaVO {
 	private Integer group_no; //fk
 	private String qtitle; //글제목
 	private String qcontent; //글내용
-	private Timestamp qregdate; //등록일자
+	private LocalDateTime qregdate; //등록일자
 	private Timestamp qupddate; //수정일자
 	private String qviews; //조회수
 	private String qatta; //첨부파일명

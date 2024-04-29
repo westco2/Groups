@@ -41,30 +41,36 @@
 
                 <h3 style="margin-bottom: 10px;">내그룹 정보</h3>
                 <div class="reg-title-wrap" style="margin-bottom: 15px;">
-                    <div class="like-table-wrap flfl-mmm">
-                        <div class="sinfo-wrap-m">
-                            <p>소속그룹</p>
-                            <h4 class="name-m"><i class="ri-file-user-line"></i> &nbsp;[[${group.group_nm}]]</h4>
+                    <div style="display: flex; justify-content: space-between; align-items: center">
+                        <div class="like-table-wrap flfl-mmm">
+                            <div class="sinfo-wrap-m">
+                                <p>소속그룹</p>
+                                <h4 class="name-m"><i class="ri-file-user-line"></i> &nbsp;[[${group.group_nm}]]</h4>
+                            </div>
+                            <div class="sinfo-wrap-m">
+                                <p>교육자</p>
+                                <h4 class="name-m"><i class="ri-user-star-line"></i>&nbsp;[[${group.korn_flnm}]]</h4>
+                            </div>
+                            <div class="sinfo-wrap-m">
+                                <p>기간</p>
+                                <h4 class="name-m"><i class="ri-calendar-check-line"></i> &nbsp;[[${#dates.format(group.group_start, 'yyyy.MM.dd')}]]~[[${#dates.format(group.group_end, 'yyyy.MM.dd')}]]</h4>
+                            </div>
+                            <div class="sinfo-wrap-m">
+                                <p>그룹원</p>
+                                <h4 class="name-m"><i class="ri-group-line"></i> &nbsp;[[${group.student_count}]]</h4>
+                            </div>
+                            <div class="sinfo-wrap-m">
+                                <p>질문</p>
+                                <h4 class="name-m"><i class="ri-questionnaire-line"></i> &nbsp;[[${group.std_q}]]</h4>
+                            </div>
+                            <div class="sinfo-wrap-m">
+                                <p>수업자료</p>
+                                <h4 class="name-m"><i class="ri-file-line"></i> &nbsp;[[${group.group_mt}]]</h4>
+                            </div>
+
                         </div>
                         <div class="sinfo-wrap-m">
-                            <p>교육자</p>
-                            <h4 class="name-m"><i class="ri-user-star-line"></i>&nbsp;[[${group.korn_flnm}]]</h4>
-                        </div>
-                        <div class="sinfo-wrap-m">
-                            <p>기간</p>
-                            <h4 class="name-m"><i class="ri-calendar-check-line"></i> &nbsp;[[${#dates.format(group.group_start, 'yyyy.MM.dd')}]]~[[${#dates.format(group.group_end, 'yyyy.MM.dd')}]]</h4>
-                        </div>
-                        <div class="sinfo-wrap-m">
-                            <p>그룹원</p>
-                            <h4 class="name-m"><i class="ri-group-line"></i> &nbsp;[[${group.student_count}]]</h4>
-                        </div>
-                        <div class="sinfo-wrap-m">
-                            <p>질문</p>
-                            <h4 class="name-m"><i class="ri-questionnaire-line"></i> &nbsp;[[${group.std_q}]]</h4>
-                        </div>
-                        <div class="sinfo-wrap-m">
-                            <p>수업자료</p>
-                            <h4 class="name-m"><i class="ri-file-line"></i> &nbsp;[[${group.group_mt}]]</h4>
+                            <input type="button" class="regbtn-des" id="re-btn-m" value="설문조사">
                         </div>
                     </div>
                 </div>
@@ -103,7 +109,7 @@
 
                             </div>
                             <div class="ssd-mm">
-                                <input type="submit" class="sub-des" value="조회하기">
+                                <input type="submit" class="sub-des"  value="조회하기">
                             </div>
 
                         </form>
@@ -195,6 +201,20 @@
                     </div>
                 </div>
             </div>
+            <div id="modalone" class="hidden">
+                <div id="modalcontenttt" style="height: auto; width: 300px">
+                    <div class="modal-wrap-m">
+                        <h3>설문조사</h3>
+                        <div class="modal-search-m justy-m" style="display: flex; justify-content: center">
+                            <img src="/img/qr1.png" alt="qrcode" width="200px">
+                        </div>
+
+                        <div class="close-wrap-m">
+                            <button type="button" id="close-mm" class="bb-tm" >닫기</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
         </div>
 
@@ -211,6 +231,13 @@
     var popularWords = ["out", "in", "length"];
     var numberWords = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
 
+    $("#re-btn-m").on('click', function (e){
+        $("#modalone").removeClass('hidden');
+    })
+    document.getElementById("close-mm").addEventListener('click', () => {
+
+        $("#modalone").addClass('hidden');
+    });
     $(".co-body").on('click', '.ck-code-m', function (e) {
         console.log($(this).attr("data-code"));
 

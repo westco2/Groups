@@ -6,24 +6,21 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 @Controller
 public class HomeController {
+
+
+
+
     @GetMapping("/")
-    public String home(){
-        return "home";
-    }
-
-    @GetMapping("/login")
-    public String login(){
-        return "login/login";
-    }
-
-    @GetMapping("/main")
     public String main(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println("authentication = " + authentication);
         System.out.println(authentication.getPrincipal());
         System.out.println(authentication.getAuthorities());
         System.out.println(authentication.getDetails());
@@ -34,6 +31,12 @@ public class HomeController {
         }
         return "homepage/main";
     }
+    @GetMapping("/login")
+    public String login(){
+        return "login/login";
+    }
+
+
 
     @GetMapping("/main2")
     public String main2(){

@@ -1,6 +1,6 @@
-.w-1{flex-basis: 20%;}
-.w-2{flex-basis: 30%;}
-.w-3{flex-basis: 15%;}
+.w-1{flex-basis: 40%;}
+.w-2{flex-basis: 20%;}
+.w-3{flex-basis: 5%;}
 .w-4{flex-basis: 20%;}
 .w-5{flex-basis: 10%;}
 .w-5 i{color: #85cf7c; font-size: 16px;margin-right:5px;}
@@ -32,6 +32,12 @@
 	
 .reg-btn-wrap-w{margin:20px; display: flex; justify-content: left;}
 .reg-btn-wrap-w button{padding: 7px 15px; font-size: 13px; font-weight: 600; cursor: pointer; background-color: #ffa04e; border: none; color: #ffffff; border-radius: 3px;}
+.reg-btn-wrap-w2{margin:20px; display: flex; justify-content: left;}
+.reg-btn-wrap-w2 button{background-color: #ffffff; border: none; font-size: 15px; font-weight:bold;}
+
+.login-form-wrap-w1{border-radius: 10px; display: flex; flex-direction: column; justify-content: start; align-items: center; padding: 0 40% 60px; gap: 18px;}
+.login-form-wrap-w2{border-radius: 10px; display: flex; flex-direction: column; justify-content: start; align-items: center; width: 100%; padding: 25px 40%; background-color: #ffffff;}
+.login-form-wrap-w a{text-decoration: none;}
 
 	
 	
@@ -98,7 +104,8 @@ body {
 }
 
 .bon-wrap{
-    flex-basis: 88%;
+    overflow: auto;
+    flex-basis: 100%;
     display: flex; flex-direction: column; justify-content: start;
 }
 .page-title{

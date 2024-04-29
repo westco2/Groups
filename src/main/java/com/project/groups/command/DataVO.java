@@ -1,6 +1,7 @@
 package com.project.groups.command;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,7 +23,7 @@ public class DataVO {
 	private String gfilename; //학습자료명
 	private String gfilecon; //학습자료내용
 	private String gfileurl; //학습자료주소
-	private Timestamp gregdate; //등록일자
+	private LocalDateTime gregdate; //등록일자
 	
 	//GROUP_LIST
 	private String group_nm;

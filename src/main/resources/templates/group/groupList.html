@@ -10,7 +10,7 @@
             <p>그룹</p>
         </div>
         <div class="route-wrap">
-            <a href="#">my groups </a><p>/</p><a href="#">학습그룹조회</a>
+            <a style="color: black; font-weight: 600">그룹 </a><p>/</p><a style="color: black; font-weight: 600">학습그룹조회</a>
         </div>
         <div class="bon-content-wrap">
             <div class="box-title-wrap">
@@ -18,7 +18,7 @@
             </div>
             <div class="content-box">
                 <div class="top-inp">
-                    <p>group(5)</p>
+                    <p>group([[${total}]])</p>
                     <div class="inp-wrap" style="margin-right: 10px; justify-content: end; ">
                         <div class="select-box">
                             <div class="select-box__current" tabindex="1">
@@ -92,10 +92,15 @@
                                <td class="coco crcr-2">국비</td>
                                <td class="coco crcr-3">[[${i.group_start}]]</td>
                                <td class="coco crcr-4">[[${i.group_end}]]</td>
-                               <td class="coco crcr-5">[[${i.group_pp}]]/[[${i.student_count}]]</td>
+                               <td class="coco crcr-5">[[${i.student_count}]]/[[${i.group_pp}]]</td>
                                <td class="coco crcr-6">
+                                   <th:block th:if="${i.student_count} == ${i.group_pp}">
+                                       <span>마감</span>
+                                   </th:block>
+                                   <th:block th:unless="${i.student_count} == ${i.group_pp}">
                                    <button type="button" id="medbtn-m" class="join-btn" th:if="${i.group_st == '활성화'}">신청자 확인</button>
                                    <span th:unless="${i.group_st == '활성화'}">비활성화</span>
+                                   </th:block>
                                </td>
                            </tr>
                        </th:block>
@@ -191,11 +196,11 @@
 
                     // 원하는 포맷으로 날짜 및 시간 출력
                     var formattedJoinDate = joinDate.toLocaleString();
-                    tr.innerHTML = `<td class="coco crcr-0 center-flex">${parseInt(i)+1}<input type="hidden" name="group_no" value="${group_no}"></td>
+                    tr.innerHTML = `<td class="coco crcr-0 center-flex">${parseInt(i)+1}<input type="hidden" class="dmk-m" name="group_no" value="${group_no}"></td>
                                         <td class="coco crc-1">${data[i].korn_flnm}</td>
                                         <td class="coco crc-2">${data[i].idfr_telno}</td>
                                         <td class="coco crc-3">${formattedJoinDate}</td>
-                                        <td class="coco crc-4"><input type="checkbox" class="ckbox-m" name="login_id" value="${data[i].login_id}"><button type="button">거절</button></td>`;
+                                        <td class="coco crc-4"><input type="checkbox" class="ckbox-m" name="login_id" value="${data[i].login_id}"><button type="button" class="deldel-m">거절</button></td>`;
                     $(".sms-m").append(tr);
 
                 }
@@ -204,6 +209,32 @@
                 console.log(err, status);
                 alert("정보를 불러올 수 없습니다.");
             }
+        });
+
+        $(".sms-m").on("click", ".deldel-m", function() {
+
+            var $clickedButton = $(this);
+            var loginId = $(this).closest(".crc-4").find(".ckbox-m").val();
+            console.log(loginId);
+
+            // 서버로 POST 요청 보내기
+            $.ajax({
+                url: "/deljoins", // 요청을 보낼 서버의 URL
+                method: "POST", // HTTP 메서드
+                data: JSON.stringify({ login_id: loginId }), // 서버에 전송할 데이터
+                contentType: "application/json",
+                success: function(response) {
+                    // 성공적으로 응답을 받았을 때 실행할 코드
+                    $clickedButton.closest(".co-flex").remove();
+                    // 필요한 추가 작업 수행 가능
+                },
+                error: function(xhr, status, error) {
+                    // 요청이 실패했을 때 실행할 코드
+                    console.error("삭제 요청 전송 중 오류가 발생했습니다.");
+                    console.error("상태 코드:", status);
+                    console.error("에러:", error);
+                }
+            });
         });
 
     }

@@ -22,12 +22,12 @@
                     <div class="like-table-wrap">
                         <div class="sinfo-wrap-m">
                             <p>교육자명</p>
-                            <h4 class="name-m"><i class="ri-user-star-line"></i>&nbsp;홍길동</h4>
+                            <h4 class="name-m"><i class="ri-user-star-line"></i>&nbsp;[[${membervo.korn_flnm}]]</h4>
                             <input type="hidden" name="login_id" th:value="${#authentication.principal.Username}">
                         </div>
                         <div class="sinfo-wrap-m">
                             <p>구독등급</p>
-                            <h4 class="name-m"><i class="ri-file-user-line"></i> &nbsp;free tier</h4>
+                            <h4 class="name-m"><i class="ri-file-user-line"></i> &nbsp;[[${membervo.tier}]]</h4>
                         </div>
                     </div>
                 </div>
@@ -41,7 +41,7 @@
                         </div>
                         <div class="group-name">
                             <label>수용인원</label>
-                            <input class="inp-reg-m" style="width: 100px;" name="group_pp" type="number">
+                            <input class="inp-reg-m pp-nm" style="width: 100px;" name="group_pp" type="number">
                             <p><i class="ri-alert-line"></i>수용인원은 최대 30명 까지 입니다.</p>
                         </div>
                         <div class="group-name">
@@ -68,5 +68,12 @@
     </div>
 
 </th:block>
+<script>
+    $(".pp-nm").on("change",function (e){
+        if($(this).val() < 0 || $(this).val() > 30){
+            $(this).val(0);
+        }
+    })
+</script>
 </body>
 </html>

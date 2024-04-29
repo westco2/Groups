@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+
+<th:block th:fragment="setContent(content)">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>No.1 Groups -Service</title>
+        <!-- 리믹스 아이콘 아이콘 사용하고싶으면 google에 리믹스 아이콘검색해서 사용하세요 -->
+        <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
+
+        <link rel="stylesheet" type="text/css" th:href="@{/css/base.css}">
+        <link rel="stylesheet" type="text/css" th:href="@{/css/wj.css}">
+        <link rel="stylesheet" type="text/css" th:href="@{/css/mi.css}">
+        <!--<link rel="stylesheet" type="text/css" th:href="@{/css/jy.css}">-->
+        <link rel="stylesheet" type="text/css" th:href="@{/css/yh.css}">
+        <link rel="stylesheet" type="text/css" th:href="@{/css/hj.css}">
+        <link rel="stylesheet" type="text/css" th:href="@{/css/mi.css}">
+
+        <!-- 구글폰트 -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+        <link
+                rel="stylesheet"
+                href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+        />
+         <!-- tinymce -->
+        <script src="https://cdn.tiny.cloud/1/uqbfwscmd2fxfw6tsaufectkvd9915t84zcq3z9lqnrq5rmq/tinymce/7/tinymce.min.js" referrerpolicy="origin">
+
+        </script>
+
+         <script>
+
+	      tinymce.init({
+
+	        selector: '#mytextarea'
+
+	      });
+
+    	</script>
+        <!-- 제이쿼리 -->
+        <script th:src="@{/js/jquery-3.7.1.min.js}"></script>
+
+    </head>
+    <body>
+
+        <div class="main-bar">
+            <div class="logo-wrap" onclick="location.href='/'" style="cursor: pointer">
+                <i class="ri-group-2-fill"  ></i><span class="logo-name">Groups</span>
+            </div>
+            <div class="log-wrap">
+                <span th:text="${#authentication.principal.Username}"></span>
+                <i class="ri-logout-box-r-line" th:onclick="'window.location.href = \'/logout\''"></i>
+            </div>
+        </div>
+        <div class="cont-wrap">
+
+            <nav id="navbar">
+                <ul class="navbar-items flexbox-col">
+                    <li class="navbar-item flexbox-left nono-m" >
+
+                        <div class="navbar-item-inner-icon-wrapper flexbox" style="padding-left: 2px">
+                            <i class="ri-menu-fill barbar-xx" style="color: #fff"></i>
+                        </div>
+                        <div class="navbar-item-inner-icon-wrapper flexbox vlvl-xx"   style="padding-right: 6px; display: none; font-size: 26px; color: #fff">
+                            <i class="ri-close-line "></i>
+                        </div>
+
+
+                    </li>
+
+                    <li class="navbar-item flexbox-left">
+                        <a sec:authorize="hasRole('ROLE_STUDENT')"  href="/mypage/stdmypage" class="navbar-item-inner flexbox-left">
+                            <div class="navbar-item-inner-icon-wrapper flexbox">
+                                <i class="ri-home-3-fill"></i>
+                            </div>
+                            <span class="link-text">마이페이지</span>
+                        </a>
+                        <a sec:authorize="hasRole('ROLE_TEACHER')"  href="/mypage/tchmypage" class="navbar-item-inner flexbox-left">
+                            <div class="navbar-item-inner-icon-wrapper flexbox">
+                                <i class="ri-home-3-fill"></i>
+                            </div>
+                            <span class="link-text">마이페이지</span>
+                        </a>
+                        <a sec:authorize="hasRole('ROLE_TEACHER_BASICTIER')"  href="/mypage/tchmypage" class="navbar-item-inner flexbox-left">
+                            <div class="navbar-item-inner-icon-wrapper flexbox">
+                                <i class="ri-home-3-fill"></i>
+                            </div>
+                            <span class="link-text">마이페이지</span>
+                        </a>
+                        <a sec:authorize="hasRole('ROLE_TEACHER_MASTERTIER')"  href="/mypage/tchmypage" class="navbar-item-inner flexbox-left">
+                            <div class="navbar-item-inner-icon-wrapper flexbox">
+                                <i class="ri-home-3-fill"></i>
+                            </div>
+                            <span class="link-text">마이페이지</span>
+                        </a>
+                        <a sec:authorize="hasRole('ROLE_ADMIN')"  href="/mypage/admmypage" class="navbar-item-inner flexbox-left">
+                            <div class="navbar-item-inner-icon-wrapper flexbox">
+                                <i class="ri-home-3-fill"></i>
+                            </div>
+                            <span class="link-text">마이페이지</span>
+                        </a>
+                    </li>
+                    <li class="navbar-item flexbox-left" th:if="${#authorization.expression('hasRole(''ROLE_TEACHER_BASICTIER'') or hasRole(''ROLE_TEACHER_MASTERTIER'') or hasRole(''ROLE_TEACHER'')')}">
+
+                        <a  href="/group/groupList" class="navbar-item-inner flexbox-left">
+                            <div class="navbar-item-inner-icon-wrapper flexbox">
+                                <i class="ri-group-fill"></i>
+                            </div>
+                            <span class="link-text">그룹</span>
+                        </a>
+                    </li>
+                    <li class="navbar-item flexbox-left">
+                        <a sec:authorize="hasRole('ROLE_STUDENT')" href="/homework/myhomework" class="navbar-item-inner flexbox-left">
+                            <div class="navbar-item-inner-icon-wrapper flexbox">
+                                <i class="ri-book-marked-fill"></i>
+                            </div>
+                            <span class="link-text">숙제</span>
+                        </a>
+                        <a sec:authorize="hasRole('ROLE_TEACHER')" href="/homework/homeworklist" class="navbar-item-inner flexbox-left">
+                            <div class="navbar-item-inner-icon-wrapper flexbox">
+                                <i class="ri-book-marked-fill"></i>
+                            </div>
+                            <span class="link-text">숙제</span>
+                        </a>
+                        <a sec:authorize="hasRole('ROLE_TEACHER_BASICTIER')" href="/homework/homeworklist" class="navbar-item-inner flexbox-left">
+                            <div class="navbar-item-inner-icon-wrapper flexbox">
+                                <i class="ri-book-marked-fill"></i>
+                            </div>
+                            <span class="link-text">숙제</span>
+                        </a>
+                        <a sec:authorize="hasRole('ROLE_TEACHER_MASTERTIER')" href="/homework/homeworklist" class="navbar-item-inner flexbox-left">
+                            <div class="navbar-item-inner-icon-wrapper flexbox">
+                                <i class="ri-book-marked-fill"></i>
+                            </div>
+                            <span class="link-text">숙제</span>
+                        </a>
+
+                    </li>
+                    <li class="navbar-item flexbox-left">
+                        <a sec:authorize="hasRole('ROLE_TEACHER')" href="/dataW/dataWBoardT" class="navbar-item-inner flexbox-left">
+                            <div class="navbar-item-inner-icon-wrapper flexbox">
+                                <i class="ri-file-text-fill"></i>
+                            </div>
+                            <span class="link-text">수업자료</span>
+                        </a>
+                        <a sec:authorize="hasRole('ROLE_TEACHER_BASICTIER')" href="/dataW/dataWBoardT" class="navbar-item-inner flexbox-left">
+                            <div class="navbar-item-inner-icon-wrapper flexbox">
+                                <i class="ri-file-text-fill"></i>
+                            </div>
+                            <span class="link-text">수업자료</span>
+                        </a>
+                        <a sec:authorize="hasRole('ROLE_TEACHER_MASTERTIER')" href="/dataW/dataWBoardT" class="navbar-item-inner flexbox-left">
+                            <div class="navbar-item-inner-icon-wrapper flexbox">
+                                <i class="ri-file-text-fill"></i>
+                            </div>
+                            <span class="link-text">수업자료</span>
+                        </a>
+                        <a sec:authorize="hasRole('ROLE_STUDENT')" href="/dataW/dataWBoardS" class="navbar-item-inner flexbox-left">
+                            <div class="navbar-item-inner-icon-wrapper flexbox">
+                                <i class="ri-file-text-fill"></i>
+                            </div>
+                            <span class="link-text">수업자료</span>
+                        </a>
+                    </li>
+                    <li class="navbar-item flexbox-left" th:if="${ not #authorization.expression('hasRole(''ROLE_ADMIN'')')}">
+                        <a  href="/qnaW/qnaWBoard" class="navbar-item-inner flexbox-left">
+                            <div class="navbar-item-inner-icon-wrapper flexbox" >
+                                <i class="ri-questionnaire-fill"></i>
+                            </div>
+                            <span class="link-text">질문</span>
+                        </a>
+                    </li>
+                    <li  class="navbar-item flexbox-left">
+                        <a href="/posts/notilist" class="navbar-item-inner flexbox-left">
+                            <div class="navbar-item-inner-icon-wrapper flexbox" >
+                                <i class="ri-megaphone-fill"></i>
+                            </div>
+                            <span class="link-text">공지사항</span>
+                        </a>
+                    </li>
+                    <li class="navbar-item flexbox-left" th:if="${#authorization.expression('hasRole(''ROLE_TEACHER_BASICTIER'') or hasRole(''ROLE_TEACHER_MASTERTIER'') or hasRole(''ROLE_TEACHER'')')}">
+                        <a href="/memberZ/tierchoiceZ" class="navbar-item-inner flexbox-left">
+                            <div class="navbar-item-inner-icon-wrapper flexbox">
+                                <i class="ri-bookmark-fill"></i>
+                            </div>
+                            <span class="link-text">구독</span>
+                        </a>
+                    </li>
+                    <li class="navbar-item flexbox-left"  th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
+                        <a href="/admin/userlist" class="navbar-item-inner flexbox-left">
+                            <div class="navbar-item-inner-icon-wrapper flexbox">
+                                <i class="ri-file-user-fill"></i>
+                            </div>
+                            <span class="link-text">회원조회</span>
+                        </a>
+                    </li>
+                    <li class="navbar-item flexbox-left" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
+                        <a href="/memberZ/applymember" class="navbar-item-inner flexbox-left">
+                            <div class="navbar-item-inner-icon-wrapper flexbox">
+                                <i class="ri-checkbox-circle-fill"></i>
+                            </div>
+                            <span class="link-text">승인</span>
+                        </a>
+                    </li>
+                    <li class="navbar-item flexbox-left" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'') or hasRole(''ROLE_TEACHER_BASICTIER'') or hasRole(''ROLE_TEACHER_MASTERTIER'') or hasRole(''ROLE_TEACHER'')')}">
+                        <a href="/memberZ/paymentList" class="navbar-item-inner flexbox-left">
+                            <div class="navbar-item-inner-icon-wrapper flexbox">
+                                <i class="ri-bank-card-fill"></i>
+                            </div>
+                            <span class="link-text">결제내역</span>
+                        </a>
+                    </li>
+                    <li class="navbar-item flexbox-left" th:if="${not #authorization.expression('hasRole(''ROLE_ADMIN'')')}">
+                        <a href="/apps/mych" class="navbar-item-inner flexbox-left">
+                            <div class="navbar-item-inner-icon-wrapper flexbox">
+                                <i class="ri-youtube-fill" ></i>
+                            </div>
+                            <span class="link-text">YOUTUBE</span>
+                        </a>
+                    </li>
+                    <li class="navbar-item flexbox-left" >
+                        <a href="/apps/book" class="navbar-item-inner flexbox-left">
+                            <div class="navbar-item-inner-icon-wrapper flexbox">
+                                <i class="ri-book-open-fill"></i>
+                            </div>
+                            <span class="link-text">교제검색</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+
+                <th:block th:replace="${content}">
+
+                </th:block>
+            </div>
+        </div>
+
+
+
+
+
+    </body>
+    <script th:src="@{/js/base-js.js}"></script>
+</th:block>
+</html>

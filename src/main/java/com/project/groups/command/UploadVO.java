@@ -1,7 +1,5 @@
 package com.project.groups.command;
-
 import java.sql.Timestamp;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,7 +17,6 @@ public class UploadVO {
 	private String  uuid; //랜덤값
 	private Timestamp fregdate; //등록일자
 	
-	//MEMBERS 테이블 값이지만 조회편의성 높이기위해 VO에 추가
 	private String login_id; //fk 
 	private Integer gnumber; //fk
 }

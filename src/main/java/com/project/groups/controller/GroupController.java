@@ -34,7 +34,9 @@ public class GroupController {
     @PostMapping("/groupdetail")
     public String groupdetail(@RequestParam("group_no") Integer group_no, Model model){
         Criteria cri = new Criteria(1,5);
+
         PageVO vo = new PageVO(cri, groupService.getstdtotal(cri,group_no));
+        PageVO vo2 = new PageVO(cri, groupService.getdatainfototal(group_no,cri));
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication.getPrincipal() instanceof CustomUserDetails) {
@@ -45,10 +47,11 @@ public class GroupController {
             model.addAttribute("list",groupService.getdashboardt(group_no, memberVO.getLogin_id()) );
         }
 
-
+        model.addAttribute("data",groupService.getdatainfo(group_no,cri));
         model.addAttribute("group", groupService.getgroupdetail(group_no));
         model.addAttribute("std", groupService.getgroupstdinfo(cri, group_no));
         model.addAttribute("pageVO",vo);
+        model.addAttribute("pageVO2",vo2);
         return "group/groupdetail";
     }
 
@@ -56,14 +59,35 @@ public class GroupController {
     public String groupList(Criteria cri,Model model){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String sessionId = authentication.getName();
-        PageVO vo = new PageVO(cri,groupService.getgrouplisttotal(sessionId, cri));
+        int total = groupService.getgrouplisttotal(sessionId, cri);
+        PageVO vo = new PageVO(cri,total);
         model.addAttribute("list",groupService.getgrouplist(sessionId, cri));
         model.addAttribute("pageVO",vo);
+        model.addAttribute("total",total);
         return "group/groupList";
     }
 
     @GetMapping("/groupreg")
-    public String groupreg(){
+    public String groupreg(Model model, RedirectAttributes ra){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication.getPrincipal() instanceof CustomUserDetails) {
+            CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+            MemberVO memberVO = userDetails.getMemberVO();
+            System.out.println(memberVO);
+            model.addAttribute("membervo", memberVO);
+            if(memberVO.getRole().equals("ROLE_TEACHER_BASICTIER") && groupService.groupcount(memberVO.getLogin_id()) > 2){
+                ra.addFlashAttribute("msg","더이상 그룹을 생성할수 없습니다.");
+                return "redirect:/group/groupList";
+            } else if(memberVO.getRole().equals("ROLE_TEACHER_MASTERTIER") && groupService.groupcount(memberVO.getLogin_id()) > 4){
+                ra.addFlashAttribute("msg","더이상 그룹을 생성할수 없습니다.");
+                return "redirect:/group/groupList";
+            } else if(memberVO.getRole().equals("ROLE_TEACHER") && groupService.groupcount(memberVO.getLogin_id()) > 0){
+                ra.addFlashAttribute("msg","더이상 그룹을 생성할수 없습니다.");
+                return "redirect:/group/groupList";
+            }
+
+
+        }
 
         return "group/groupreg";
     }
@@ -151,11 +175,23 @@ public class GroupController {
             System.out.println(memberVO);
             login_id =  memberVO.getLogin_id();
         }
+        System.out.println(groupService.aprv_yn(login_id));
         if(groupService.aprv_yn(login_id) != 0) return "redirect:/mypage/stdmypage";
         System.out.println(login_id);
         GroupVO vo = groupService.groupwait(login_id);
         model.addAttribute("vo",vo);
         return "wait/wait";
+    }
+    @GetMapping("/teacherwait")
+    public String teacherwait(Model model){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication.getPrincipal() instanceof CustomUserDetails) {
+            CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+            MemberVO memberVO = userDetails.getMemberVO();
+            model.addAttribute("membervo", memberVO);
+
+        }
+        return "wait/teacherwait";
     }
 
     @PostMapping("groupjoiner")
@@ -166,7 +202,11 @@ public class GroupController {
             CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
             MemberVO memberVO = userDetails.getMemberVO();
             vo.setLogin_id(memberVO.getLogin_id());
+            if(groupService.aprv_null(memberVO.getLogin_id()) != 0){
+                return "redirect:/group/wait";
+            }
         }
+
         groupService.groupjoin(vo);
 
         return "redirect:/group/wait";
