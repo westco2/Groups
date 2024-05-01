@@ -31,7 +31,7 @@
 - **ORM** : Mybatis, JPA
 
 ### 서비스 아키텍쳐
-![서비스png](https://github.com/westco2/Groups/assets/148563632/fcc3a82d-dd9b-4763-84bc-e50c10b184f5)
+![스크린샷 2024-05-01 160741](https://github.com/westco2/Groups/assets/148563632/23d40dd3-00a2-458b-9916-2dae3d82d45c)
 
 
 ### 페이지별 기능
