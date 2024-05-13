@@ -59,4 +59,5 @@ public interface HomeworkMapper {
     int hwdel(HomeWorkVO vo);
 
     int homeworkup(HomeWorkVO vo);
+    int qcnt(String login_id);
 }

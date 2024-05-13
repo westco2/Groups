@@ -38,7 +38,7 @@
                         </div>
                         <div class="sinfo-wrap-m">
                             <p>가입일</p>
-                            <h4 class="name-m"><i class="ri-file-user-line"></i> &nbsp;[[${ #temporals.format(membervo.date_subscription, 'yyyy.MM.dd')}]]</h4>
+                            <h4 class="name-m"><i class="ri-file-user-line"></i> &nbsp;[[${ #temporals.format(membervo.date_subscription, 'yyyy-MM-dd')}]]</h4>
                         </div>
                     </div>
 
@@ -57,7 +57,7 @@
                             <table class="table-content">
                                 <thead class="co-head">
                                 <tr class="co-flex">
-                                    <th class="coco crcr-0">#</th>
+                                    <th class="coco crcr-0">No</th>
                                     <th class="coco crcr-1">그룹이름</th>
                                     <th class="coco crcr-2">유형</th>
                                     <th class="coco crcr-3">교육시작일</th>
@@ -69,7 +69,7 @@
                                 <tbody class="co-body">
                                 <th:block th:each="i, iterStat : ${list}">
                                     <tr class="co-flex">
-                                        <td class="coco crcr-0 center-flex"><input type="checkbox" name="group_non" th:value="${i.group_no}"><input type="hidden"  class="hi-mmm" th:value="${i.group_no}"></td>
+                                        <td class="coco crcr-0 center-flex">[[${iterStat.index + 1}]]<input type="hidden"  class="hi-mmm" th:value="${i.group_no}"></td>
                                         <td class="coco crcr-1">
 
                                             <input type="hidden" name="group_no" th:value="${i.group_no}">

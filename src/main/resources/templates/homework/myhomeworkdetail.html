@@ -96,7 +96,7 @@ public class Solution {
 
                             <th:block th:each="item, status: ${vo3}">
                                 <div class="test-m" th:id="${status.index}" th:data-input="${item.test_input}" th:data-output="${item.test_output}">
-                                    <h4>테스트[[${status.index + 1}]]</h4>
+                                    <h4>case [[${status.index + 1}]]</h4>
                                     <div class="loader" style="display: flex; align-items: center"></div>
                                 </div>
                             </th:block>

@@ -201,7 +201,11 @@
     <!-- 해당 숙제를 푼 이력정보들 조회  -->
 
     <select id="getrecord" resultType="HomeworkVO">
-        select * from HOMEWORKRECORD where homework_no = #{homework_no} order by record_date desc
+        SELECT h.*, m.korn_flnm
+        FROM HOMEWORKRECORD h
+                 LEFT JOIN MEMBERS m ON h.login_id = m.login_id
+        WHERE h.homework_no = #{homework_no}
+        ORDER BY h.record_date DESC;
     </select>
 
     <!-- 학생의 숙제정보 조회 -->
@@ -235,6 +239,10 @@
 
     <select id="notsolutionp" resultType="HomeworkVO">
         select a.*, b.homework_title from ( select * from HOMEWORKSUBMIT where login_id = #{login_id} and HOMEWORK_ST = "미제출") a left join HOMEWORK b on a.homework_no = b.homework_no;
+    </select>
+
+    <select id="qcnt" resultType="int">
+        select count(*) from QNABOARD where login_id = #{login_id};
     </select>
 
 

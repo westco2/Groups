@@ -135,7 +135,7 @@
                             <thead class="co-head">
                             <tr class="co-flex">
                                 <th class="coco crcr-0">No</th>
-                                <th class="coco crc-m1">아이디</th>
+                                <th class="coco crc-m1">이름</th>
                                 <th class="coco crc-m4">제출일자</th>
                                 <th class="coco crc-m3">점수</th>
                                 <th class="coco crc-m2">코드보기</th>
@@ -373,7 +373,7 @@
 
                     tr.innerHTML = `
     <td class="coco crcr-0 center-flex">${index + 1}</td>
-    <td class="coco crc-m1">${item.login_id}</td>
+    <td class="coco crc-m1">${item.korn_flnm}</td>
     <td class="coco crc-m4">${formattedJoinDate}</td>
     <td class="coco crc-m3">${item.record_score}</td>
     <td class="coco crc-m2"><input type="button" class="sub-des ck-code-m" data-code="${recordCode}" value="확인"></td>
@@ -449,17 +449,17 @@
                 }
 
                 html += `</div>
-                <label style="    color: indigo;">테스트 코드</label>
+                <label style="    color: indigo;">정답 입출력</label>
                 <div class="inout-m ex-inp-m">
-                    <div class="h-ex-wrap tt-m tt-title-m" style="margin-bottom: 0; width: 50%">
-                        <label class="t-m1">입력</label>
-                        <label class="t-m2">결과</label>
+                    <div class="h-ex-wrap tt-m tt-title-m" style="margin-bottom: 0; width: 100%">
+                        <label class="t-m1" style="overflow-wrap: anywhere">입력</label>
+                        <label class="t-m2" style="overflow-wrap: anywhere">결과</label>
                     </div>`;
 
                 for (var i of data.list_testvo) {
-                    html += `<div class="h-ex-wrap tt-m bor-m" style="width: 50%">
-                    <label class="t-m1">${i.test_input}</label>
-                    <label class="t-m2">${i.test_output}</label>
+                    html += `<div class="h-ex-wrap tt-m bor-m" style="width: 100%">
+                    <label class="t-m1" style="overflow-wrap: anywhere">${i.test_input}</label>
+                    <label class="t-m2" style="overflow-wrap: anywhere">${i.test_output}</label>
                 </div>`;
                 }
 

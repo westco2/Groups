@@ -53,4 +53,5 @@ public interface HomeworkService {
     int hwidel(HomeWorkVO vo);
 
     int homeworkup(HomeWorkVO vo);
+    int qcnt(String login_id);
 }
