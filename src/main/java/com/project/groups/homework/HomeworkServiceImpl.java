@@ -154,4 +154,9 @@ public class HomeworkServiceImpl implements HomeworkService {
         return homeworkMapper.homeworkup(vo);
     }
 
+    @Override
+    public int qcnt(String login_id) {
+        return homeworkMapper.qcnt(login_id);
+    }
+
 }

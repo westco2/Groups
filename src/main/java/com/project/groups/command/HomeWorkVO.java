@@ -49,4 +49,5 @@ public class HomeWorkVO {
     private LocalDateTime submit_date;
     private String homework_st;
     private Integer homework_score;
+    private String korn_flnm;
 }
